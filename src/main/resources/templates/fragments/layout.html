@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	th:fragment="base (title, template)">
+<head>
+<!-- Required meta tags -->
+<meta http-equiv="Content-Language" content="pt-br">
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
+	crossorigin="anonymous">
+
+<!-- Bootstrap CSS -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
+	crossorigin="anonymous">
+
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+<script src="https://cdn.ckeditor.com/4.16.0/standard-all/ckeditor.js"></script>
+
+<!-- Datatables -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
+
+
+<title
+	th:text="${title} == '' ? 'Fatecando' : ${title} + ' - Fatecando'"></title>
+
+<link rel="icon"
+	href="https://image.winudf.com/v2/image1/Y29tLnR5YWdveS5mYXRlY19pY29uXzE1NzM1NjM0MTRfMDMx/icon.png?w=170&fakeurl=1">
+
+</head>
+<body>
+	<header>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-danger">
+			<div class="container-fluid">
+				<a class="navbar-brand" href="#" th:href="@{/}">
+					<img
+						src="https://image.winudf.com/v2/image1/Y29tLnR5YWdveS5mYXRlY19pY29uXzE1NzM1NjM0MTRfMDMx/icon.png?w=170&fakeurl=1"
+						alt="" width="30" height="24" class="d-inline-block align-top">
+				</a>
+				<button class="navbar-toggler" type="button"
+					data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+					aria-controls="navbarSupportedContent" aria-expanded="false"
+					aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+						<li class="nav-item"><a class="nav-link active"
+								aria-current="page" href="#" th:href="@{/}">Home</a></li>
+						<li class="nav-item"><a class="nav-link" href="#"
+								th:href="@{/disciplines}">Disciplinas</a></li>
+						<li class="nav-item"><a class="nav-link" href="#"
+								th:href="@{/ranking}">Ranking</a></li>
+						<li class="nav-item dropdown"><a
+								class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+								role="button" data-bs-toggle="dropdown" aria-expanded="false">
+								Dropdown </a>
+							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+								<li><a class="dropdown-item" href="#">Action</a></li>
+								<li><a class="dropdown-item" href="#">Another action</a></li>
+								<li>
+									<hr class="dropdown-divider">
+								</li>
+								<li><a class="dropdown-item" href="#">Something else
+										here</a></li>
+							</ul></li>
+					</ul>
+					<form class="d-flex">
+						<input class="form-control me-2" type="search"
+							placeholder="Search" aria-label="Search">
+						<button class="btn btn-outline-dark" type="submit">Search</button>
+					</form>
+				</div>
+			</div>
+		</nav>
+	</header>
+
+	<main role="main" class="container-fluid">
+		<div class="container">
+			<th:block th:replace="${template}" />
+		</div>
+	</main>
+
+	<br>
+	<br>
+	<br>
+	<footer>
+		<div class="container" style="text-align: center;">
+			<hr>
+			<span>Fatecando | RCG, Inc.</span>
+			<br>
+			<small class="text-muted">Copyright 2020 www.fatecando.com,
+				ALL RIGHTS RESERVED. All website content, all photos, images, logos,
+				brands, sayings, sound, software, image set, layout, trade dress,
+				shown here are the exclusive property of NS2.COM Internet S.A. or
+				its partners. Any reproduction, in whole or in part, of any element
+				of identity is prohibited without express authorization. Violation
+				of any of the aforementioned rights will result in civil and
+				criminal liability under the terms of the Law. NS2.Com Internet S /
+				A - CNPJ: 09.339.936 / 0001-16 Rua Vergueiro, 943 - Liberdade -
+				CEP01504-001 - São Paulo - SP.</small>
+		</div>
+	</footer>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+		crossorigin="anonymous"></script>
+</body>
+</html>

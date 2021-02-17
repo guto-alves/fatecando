@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org"
+	th:replace="~{fragments/layout :: base ('Ranking', ~{::body})}">
+<body>
+
+	<div class="card mt-3">
+		<div class="card-body">
+			<h6>Filtros</h6>
+			<hr>
+
+			<label>Filtrar por</label>
+			<input id="inputFilter" class="form-control" type="text"
+				placeholder="Posicao, Nome, Pontuacao">
+		</div>
+	</div>
+
+	<hr>
+
+	<h3>Ranking</h3>
+
+	<table id="rankingTable" class="table table-bordered table-stripped">
+		<thead>
+			<tr>
+				<th>Position</th>
+				<th>Nome</th>
+				<th>Pontos</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="table-warning fw-bolder">
+				<td>1</td>
+				<td>Gustavo Alves</td>
+				<td>91561</td>
+			</tr>
+			<tr class="table-warning fw-bolder">
+				<td>2</td>
+				<td>Larissa Silva</td>
+				<td>91000</td>
+			</tr>
+			<tr class="table-warning fw-bolder">
+				<th scope="row">3</th>
+				<td>Alice Bianca</td>
+				<td>69561</td>
+			</tr>
+			<tr>
+				<td>4</td>
+				<td>Alice Bianca</td>
+				<td>67866</td>
+			</tr>
+			<tr>
+				<td>5</td>
+				<td>Rafael Fernandes</td>
+				<td>464</td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<script type="text/javascript">
+		$('#rankingTable').DataTable({
+			ordering: false,
+			
+		});
+		
+		/*
+		"language": {
+            "emptyTable": "Nenhum dado disponível na tabela",
+            "info": "Mostrando START a END de TOTAL registros",
+            "infoEmpty": "Mostrando 0 a 0 de 0 registros",
+            "lengthMenu": "Exibir MENU registros por página",
+            "loadingRecords": "Carregando...",
+            "processing": "Processando...",
+            "zeroRecords": "Nenhum registro correspondente encontrado",
+            "infoFiltered": "(filtrado do total de MAX entradas)",
+            "search": "Pesquisar:",
+            "paginate": {
+                "first":      "Primeiro",
+                "last":       "Último",
+                "next":       "Próximo",
+                "previous":   "Anterior"
+            },
+        }
+        */
+	</script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org"
+	th:replace="~{fragments/layout :: base('Disciplinas', ~{::body})}">
+<body>
+	<div class="mt-3">
+
+		<div class="row justify-content-md-center">
+			<div class="col-md-8">
+				<label for="inputFilter">Pesquise por</label>
+				<input id="inputFilter" class="form-control" type="text"
+					placeholder="Disciplina, Assunto, Palavra chave">
+			</div>
+
+			<div class="col-6 col-md-4">
+				<label for="semesterSelect">Semestre</label>
+				<select id="semesterSelect" class="form-select">
+					<option value="0">Todos</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+				</select>
+			</div>
+		</div>
+
+		<hr>
+
+		<!-- Discipline cards -->
+		<div class="row row-cols-1 row-cols-md-3 g-4">
+			<div class="col" th:each="discipline : ${disciplines}">
+				<div class="card h-100 shadow-lg"
+					th:onclick="'go(\'' + ${discipline.id} + '\');'">
+					<img src="" class="card-img-top" alt="">
+					<div class="card-body">
+						<h5 class="card-title" th:text="${discipline.name}">Estrutura
+							de Dados</h5>
+						<p class="card-text text-truncate"
+							th:text="${discipline.description}">This is a wider card with
+							supporting text below as a natural lead-in to additional content.
+							This content is a little bit longer.</p>
+					</div>
+					<div class="card-footer">
+						<small class="text-muted">Last seen 3 mins ago</small>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<script type="text/javascript">		
+		$('#inputFilter').keyup(function () {
+			let text = $(this).val();
+			// TODO: select a card that contains a text filter
+			console.log(text);
+		});
+		
+		$('#semesterSelect').change(function () {
+			let value = $(this).val();
+			console.log(value);
+		});
+		
+		function go(disciplineId) {
+			location.href = '/disciplines/' + disciplineId;
+		}
+	</script>
+</body>
+</html>

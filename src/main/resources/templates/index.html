@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org"
+	th:replace="~{fragments/layout :: base('', ~{::body})}">
+<body>
+	<h3 class="fw-bolder text-center mt-3">Vantagens de ser Um
+		Fatecando</h3>
+
+	<div class="row row-cols-1 row-cols-md-2 g-2 mt-3">
+		<div class="col">
+			<div class="card bg-primary text-white shadow-lg">
+				<div class="card-body">
+					<h4 class="card-title">Comece do Zero, Comece Agora</h4>
+					<p class="card-text">Siga o cronograma, e chegue la!</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="col">
+			<div class="card bg-danger text-white shadow-lg">
+				<div class="card-body">
+					<h4 class="card-title">Estudar = aula + treino</h4>
+					<p class="card-text">Metodologia focada na pratica com
+						exercicios e simulados.</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="col">
+			<div class="card bg-info text-black shadow-lg">
+				<div class="card-body">
+					<h4 class="card-title">O Material Certo</h4>
+					<p class="card-text">Material constantemente atualizado e
+						revisado pelos professores e pela Comunidade do Fatecando.</p>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="col">
+			<div class="card bg-warning text-black shadow-lg">
+				<div class="card-body">
+					<h4 class="card-title">Suas DP's acabaram</h4>
+					<p class="card-text">Fatecando nao fica de DP! Materiais certos
+						e organizados, Quizes, Simulados e auxilio dos Fatecandos fica
+						muito facil passar!</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="col">
+			<div class="card bg-dark text-white shadow-lg">
+				<div class="card-body">
+					<h4 class="card-title">Estude de graca</h4>
+					<p class="card-text">Voce nao paga nada para fazer os estudar.
+						Eh so se inscrever e comecar a estudar de qualquer lugar que tenha
+						conexao com a Internet.</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="col">
+			<div class="card bg-success text-white shadow-lg">
+				<div class="card-body">
+					<h4 class="card-title">Mais que juntos, together</h4>
+					<p class="card-text">Estude com alunos que estao no mesmo barco
+						que voce.</p>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<br>
+	<hr>
+	<br>
+
+	<h3 class="fw-bolder text-center">Se liga em algumas de Nossas
+		Disciplinas</h3>
+
+	<div class="row row-cols-1 row-cols-md-2 g-2 mt-3">
+		<div class="col" th:each="discipline : ${disciplines}">
+			<div class="card h-100 bg-danger text-white shadow-lg">
+				<div class="card-body">
+					<h4 class="card-title" th:text="${discipline.name}">Discipline
+						Name</h4>
+					<p class="card-text text-break" th:text="${discipline.description}">Description</p>
+					<a class="btn btn-light" href="#" th:href="@{/join}">Preciso de
+						Muita Ajuda nessa!</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

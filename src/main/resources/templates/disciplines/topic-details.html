@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org"
+	th:replace="~{fragments/layout :: base (${topic.name}, ~{::body})}">
+<body>
+	<div class="card mt-3">
+		<div class="card-body">
+			<h2 class="card-title" th:text="${topic.name}">Topic Name</h2>
+			<p th:text="${topic.description}"></p>
+		</div>
+	</div>
+
+	<div class="card mt-3">
+		<div class="card-body" id="content">
+			<!-- <th:block th:text="${topic.contentHtml}" /> -->
+
+			<textarea cols="80" id="editor1" name="editor1" rows="10"
+				data-sample-short>&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href=&quot;https://ckeditor.com/&quot;&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
+			<script>
+			    CKEDITOR.replace('editor1', {
+			      uiColor: '#CCEAEE'
+			    });
+			 </script>
+		</div>
+	</div>
+
+	<div class="card mt-3 bg-danger">
+		<div class="card-body">
+			<h5 class="card-title text-light" th:text="'Quiz - ' + ${topic.name}">Quiz</h5>
+
+			<div id="questionContainer" class="p-2 bg-white rounded">
+				<span class="fw-bold">- Question 1 de 3</span>
+
+				<h5>Os sistemas de informacao estao evoluindo de acordo com as
+					tendencias de mercado, eles proporcionam ganhos imensuraveis para
+					as organizacoes no que diz respeito a ganho de espaco organizacao
+					dos arquivos e informacoes e com isso a liberdade de acesso,
+					representada pela possibilidade de trabalhar com os dados
+					oferecidos pelo sistema da melhor forma possivel. Assim sendo,
+					podemos concluir que:</h5>
+				<hr>
+
+				<!-- answers -->
+				<div class="form-check mb-3">
+					<input class="form-check-input" type="radio"
+						name="flexRadioDefault" id="flexRadioDefault1" checked>
+					<label class="form-check-label" for="flexRadioDefault1">
+						Resposta 1</label>
+
+					<div class="border border-2 border-success p-2 mt-2 rounded ">
+						<span> <b class="text-success">Correto</b> <br>
+							Correto - (Bem utilizado e adequado, o sistema de informacao eh o
+							instrumento mais poderoso de agregacao de valor ao um negocio ou
+							pessoa)
+						</span>
+					</div>
+				</div>
+
+				<div class="form-check mb-3">
+					<input class="form-check-input" type="radio"
+						name="flexRadioDefault" id="flexRadioDefault2">
+					<label class="form-check-label" for="flexRadioDefault2">
+						Resposta 2</label>
+				</div>
+
+				<div class="form-check mb-3">
+					<input class="form-check-input" type="radio"
+						name="flexRadioDefault" id="flexRadioDefault2">
+					<label class="form-check-label" for="flexRadioDefault2">
+						Resposta 3</label>
+				</div>
+
+				<div class="form-check mb-3">
+					<input class="form-check-input" type="radio"
+						name="flexRadioDefault" id="flexRadioDefault2">
+					<label class="form-check-label" for="flexRadioDefault2">
+						Resposta 4</label>
+				</div>
+
+			</div>
+
+			<div class="row mt-3">
+				<div class="col">
+					<button type="button" class="btn btn-secondary btn-lg form-control"
+						disabled>Previous Question</button>
+				</div>
+				<div class="col">
+					<button type="button"
+						class="btn btn-outline-light btn-lg form-control">Next
+						Question</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript" th:inline="javascript">
+		// let content = /*[[${topic.contentHtml}]]*/ "Test";
+		 
+		// $('#content').html(content);
+	</script>
+</body>
+</html>

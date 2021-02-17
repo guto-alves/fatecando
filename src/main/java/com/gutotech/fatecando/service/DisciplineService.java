@@ -1,0 +1,49 @@
+package com.gutotech.fatecando.service;
+
+import java.util.List;
+
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import com.gutotech.fatecando.model.Discipline;
+import com.gutotech.fatecando.model.ForumTopic;
+import com.gutotech.fatecando.model.Topic;
+
+@Service
+public class DisciplineService {
+	private RestTemplate restTemplate = new RestTemplate();
+
+	private final String URL = "http://localhost:8081/api/disciplines";
+
+	public List<Discipline> findAll() {
+		ResponseEntity<List<Discipline>> responseEntity = restTemplate.exchange(URL, HttpMethod.GET, null,
+				new ParameterizedTypeReference<List<Discipline>>() {
+				});
+
+		return responseEntity.getBody();
+	}
+
+	public Discipline findById(Long id) {
+		return restTemplate.getForObject(URL + "/" + id, Discipline.class);
+	}
+
+	public List<Topic> findAllTopicsByDiscipline(Discipline discipline) {
+		ResponseEntity<List<Topic>> responseEntity = restTemplate.exchange(URL + "/{id}/topics", HttpMethod.GET, null,
+				new ParameterizedTypeReference<List<Topic>>() {
+				}, discipline.getId());
+
+		return responseEntity.getBody();
+	}
+
+	public List<ForumTopic> findAllForumTopicsByDiscipline(Discipline discipline) {
+		ResponseEntity<List<ForumTopic>> responseEntity = restTemplate.exchange(URL + "/{id}/forumtopics",
+				HttpMethod.GET, null, new ParameterizedTypeReference<List<ForumTopic>>() {
+				}, discipline.getId());
+
+		return responseEntity.getBody();
+	}
+
+}

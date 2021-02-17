@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org"
+	th:replace="~{fragments/layout :: base(${discipline.code}, ~{::body})}">
+<body>
+	<div class="card mt-3 p-1">
+		<div class="card-body">
+			<h4 class="card-title"
+				th:text="${discipline.code} + ' - ' +${discipline.name}"></h4>
+
+			<b>Ementa:</b> <span th:text="${discipline.description}"></span>
+
+			<br>
+			<br>
+
+			<b>Objetivo:</b> <span th:text="${discipline.objetive}"></span>
+		</div>
+
+		<div class="progress">
+			<div
+				class="progress-bar progress-bar-striped progress-bar-animated bg-danger"
+				role="progressbar" aria-valuenow="55" aria-valuemin="0"
+				aria-valuemax="100" style="width: 55%">55% ESTUDADO</div>
+		</div>
+	</div>
+
+	<hr>
+
+	<div class="card">
+		<div class="card-header">
+			<ul class="nav nav-tabs fw-bolder">
+				<li class="nav-item"><a class="nav-link text-danger"
+						th:classappend="${page} == 'topics'? 'active'" href="#"
+						th:href="@{/disciplines/{id}(id=${discipline.id}, page='topics')}">Topicos</a>
+				</li>
+				<li class="nav-item"><a class="nav-link text-danger"
+						th:classappend="${page} == 'tests'? 'active'" href="#"
+						th:href="@{/disciplines/{id}(id=${discipline.id}, page='tests')}">Simulados</a>
+				</li>
+				<li class="nav-item"><a class="nav-link text-danger"
+						th:classappend="${page} == 'forum'? 'active'" href="#"
+						th:href="@{/disciplines/{id}(id=${discipline.id}, page='forum')}">Forum</a>
+				</li>
+			</ul>
+		</div>
+		<div class="card-body bg-danger">
+			<!-- Topics -->
+			<div class="list-group"
+				th:if="${#strings.equalsIgnoreCase(page, 'topics')}">
+				<a href="#"
+					class="list-group-item list-group-item-action shadow-lg mb-2"
+					th:each="topic : ${topics}"
+					th:href="@{/topic/{id}(id=${topic.id})}">
+					<div class="d-flex w-100 justify-content-between">
+						<h5 class="mb-1" th:text="${topic.name}">List group item
+							heading</h5>
+						<small class="text-muted">3 days ago</small>
+					</div>
+					<p class="mb-1" th:text="${topic.description}">Some placeholder
+						content in a paragraph.</p>
+					<small class="text-muted">And some muted small print.</small>
+				</a>
+			</div>
+
+			<!-- Tests -->
+			<div class="list-group"
+				th:if="${#strings.equalsIgnoreCase(page, 'tests')}">
+
+				<a href="#"
+					class="list-group-item list-group-item-action shadow-lg mb-2">
+					<div class="d-flex w-100 justify-content-between">
+						<h5 class="mb-1">Simulado - P1</h5>
+						<small class="text-muted">3 days ago</small>
+					</div>
+					<p class="mb-1">Topicos abortados: Topico 1, Topico 2, Topico
+						3, Topico 4</p>
+					<small class="text-muted">And some muted small print.</small>
+				</a>
+			</div>
+
+			<!-- Forums -->
+			<div th:if="${#strings.equalsIgnoreCase(page, 'forum')}">
+				<div class="card bg-white mb-3">
+					<div class="card-body">
+						<label>Precisa de Ajuda?</label>
+
+						<!-- Button trigger modal -->
+						<button type="button" class="btn btn-outline-dark"
+							data-bs-toggle="modal" data-bs-target="#exampleModal">Criar
+							um novo Topico</button>
+
+						<!-- Modal -->
+						<div class="modal fade" id="forumTopicModal" tabindex="-1"
+							aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div
+								class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLabel"
+											th:text="${discipline.code} + ' - Novo Topico para o Forum'">Novo
+											Topico Forum</h5>
+										<button type="button" class="btn-close"
+											data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body">
+										<div>
+											<div class="mb-3">
+												<label>Titulo</label>
+												<input id="title" type="text" class="form-control" required>
+											</div>
+
+											<div class="mb-3">
+												<label for="exampleFormControlTextarea1" class="form-label">Descricao</label>
+												<textarea id="description" class="form-control" rows="3"
+													required></textarea>
+											</div>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary"
+											data-bs-dismiss="modal">Cancelar</button>
+										<button id="createForumTopic" type="button"
+											class="btn btn-primary">Criar</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="list-group" th:unless="${#lists.isEmpty(forumTopics)}">
+					<a href="#" class="list-group-item list-group-item-action"
+						th:each="topic : ${forumTopics}">
+
+						<div class="d-flex w-100 justify-content-between">
+							<h5 class="mb-1" th:text="${topic.title}">List group item
+								heading</h5>
+							<small class="text-muted">3 days ago</small>
+						</div>
+						<p class="mb-1 text-truncate" th:text="${topic.description}">Some
+							placeholder content in a paragraph.</p>
+
+						<small class="text-muted">Postado por Gustavo Alves.</small>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		$('#createForumTopic').click(function () {
+			let title = $('#title').text();
+			let description = $('#description').text();
+			
+			$.post(location.href + '/create-forum-topic', {title: title, description:description}, function() {
+				$('#forumTopicModal').modal('hide');
+			});
+		});
+	</script>
+</body>
+</html>
