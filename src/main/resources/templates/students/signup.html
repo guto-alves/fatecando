@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="www.thymeleaf.org"
 	th:replace="~{fragments/layout :: base('Login', ~{::body})}">
+<head>
+<meta charset="utf-8">
+</head>
 <body>
 	<div class="container-fluid col-md-6">
 		<div class="card mt-3 border border-danger">
@@ -14,13 +17,13 @@
 							<input id="firstName" type="text" class="form-control">
 						</div>
 						<div class="col">
-							<label for="lastName">Ultimo Nome</label>
+							<label for="lastName">√öltimo Nome</label>
 							<input id="lastName" type="text" class="form-control">
 						</div>
 					</div>
 
 					<div class="mb-3">
-						<label for="email">Email</label>
+						<label for="email">E-mail</label>
 						<input id="email" type="email" class="form-control">
 					</div>
 					<div class="mb-3">
@@ -34,7 +37,7 @@
 					</div>
 
 					<div class="mb-3">
-						<label>Esta matriculado em algum curso da Fatec?</label>
+						<label>Est√° matriculado em algum curso da Fatec?</label>
 						<div class="form-check">
 							<input class="form-check-input" type="radio" name="radio"
 								id="flexRadioDefault1" checked value="yes">
@@ -45,7 +48,7 @@
 							<input class="form-check-input" type="radio" name="radio"
 								id="flexRadioDefault2" value="not">
 							<label class="form-check-label" for="flexRadioDefault2">Ainda
-								nao</label>
+								n√£o</label>
 						</div>
 					</div>
 
@@ -57,7 +60,7 @@
 							<label>Fatec</label>
 							<select id="fatecSelect" class="form-select">
 								<option value="1">Fatec Adamantina</option>
-								<option value="2">Fatec AraÁatuba</option>
+								<option value="2">Fatec Ara√ßatuba</option>
 								<option value="3">Fatec Araraquara</option>
 								<option value="4">Fatec Araras</option>
 								<option value="5">Fatec Assis</option>
@@ -65,10 +68,10 @@
 								<option value="7">Fatec Bauru</option>
 								<option value="8">Fatec Bebedouro</option>
 								<option value="9">Fatec Botucatu</option>
-								<option value="10">Fatec BraganÁa Paulista</option>
+								<option value="10">Fatec Bragan√ßa Paulista</option>
 								<option value="11">Fatec Campinas</option>
-								<option value="12">Fatec Cap„o Bonito</option>
-								<option value="13">Fatec CarapicuÌba</option>
+								<option value="12">Fatec Cap√£o Bonito</option>
+								<option value="13">Fatec Carapicu√≠ba</option>
 								<option value="14">Fatec Catanduva</option>
 								<option value="15">Fatec Cotia</option>
 								<option value="16">Fatec Cruzeiro</option>
@@ -76,8 +79,8 @@
 								<option value="18">Fatec Ferraz de Vasconcelos</option>
 								<option value="19">Fatec Franca</option>
 								<option value="20">Fatec Franco da Rocha</option>
-								<option value="21">Fatec GarÁa</option>
-								<option value="22">Fatec Guaratinguet·</option>
+								<option value="21">Fatec Gar√ßa</option>
+								<option value="22">Fatec Guaratinguet√°</option>
 								<option value="23">Fatec Guarulhos</option>
 								<option value="24">Fatec Indaiatuba</option>
 								<option value="25">Fatec Itapetininga</option>
@@ -86,14 +89,14 @@
 								<option value="28">Fatec Itatiba</option>
 								<option value="29">Fatec Itu</option>
 								<option value="30">Fatec Jaboticabal</option>
-								<option value="31">Fatec JacareÌ</option>
+								<option value="31">Fatec Jacare√≠</option>
 								<option value="32">Fatec Jales</option>
 								<option value="33">Fatec Jahu</option>
-								<option value="34">Fatec JundiaÌ</option>
+								<option value="34">Fatec Jundia√≠</option>
 								<option value="35">Fatec Lins</option>
-								<option value="36">Fatec MarÌlia</option>
-								<option value="37">Fatec Mat„o</option>
-								<option value="38">Fatec Mau·</option>
+								<option value="36">Fatec Mar√≠lia</option>
+								<option value="37">Fatec Mat√£o</option>
+								<option value="38">Fatec Mau√°</option>
 								<option value="39">Fatec Mococa</option>
 								<option value="40">Fatec Mogi das Cruzes</option>
 								<option value="41">Fatec Mogi Mirim</option>
@@ -101,40 +104,40 @@
 								<option value="43">Fatec Ourinhos</option>
 								<option value="44">Fatec Pindamonhangaba</option>
 								<option value="45">Fatec Piracicaba</option>
-								<option value="46">Fatec PompÈia</option>
+								<option value="46">Fatec Pomp√©ia</option>
 								<option value="47">Fatec Praia Grande</option>
 								<option value="48">Fatec Presidente Prudente</option>
-								<option value="49">Fatec Ribeir„o Preto</option>
-								<option value="50">Fatec Santana de ParnaÌba</option>
-								<option value="51">Fatec Santo AndrÈ</option>
+								<option value="49">Fatec Ribeir√£o Preto</option>
+								<option value="50">Fatec Santana de Parna√≠ba</option>
+								<option value="51">Fatec Santo Andr√©</option>
 								<option value="52">Fatec Baixada Santista</option>
-								<option value="53">Fatec S„o Bernardo do Campo</option>
-								<option value="54">Fatec S„o Caetano do Sul</option>
-								<option value="55">Fatec S„o Carlos</option>
-								<option value="56">Fatec S„o JosÈ do Rio Preto</option>
-								<option value="57">Fatec S„o JosÈ dos Campos</option>
+								<option value="53">Fatec S√£o Bernardo do Campo</option>
+								<option value="54">Fatec S√£o Caetano do Sul</option>
+								<option value="55">Fatec S√£o Carlos</option>
+								<option value="56">Fatec S√£o Jos√© do Rio Preto</option>
+								<option value="57">Fatec S√£o Jos√© dos Campos</option>
 								<option value="58">Fatec Ipiranga</option>
 								<option value="59">Fatec Itaquera</option>
-								<option value="60">Fatec S„o Paulo</option>
+								<option value="60">Fatec S√£o Paulo</option>
 								<option value="61">Fatec Sebrae</option>
-								<option value="62">Fatec TatuapÈ</option>
+								<option value="62">Fatec Tatuap√©</option>
 								<option value="63">Fatec Zona Leste</option>
 								<option value="64">Fatec Zona Sul</option>
-								<option value="65">Fatec S„o Roque</option>
-								<option value="66">Fatec S„o Sebasti„o</option>
-								<option value="67">Fatec Sert„ozinho</option>
+								<option value="65">Fatec S√£o Roque</option>
+								<option value="66">Fatec S√£o Sebasti√£o</option>
+								<option value="67">Fatec Sert√£ozinho</option>
 								<option value="68">Fatec Sorocaba</option>
-								<option value="69">Fatec SumarÈ (Regi„o de Campinas)</option>
+								<option value="69">Fatec Sumar√© (Regi√£o de Campinas)</option>
 								<option value="70">Fatec Taquaritinga</option>
-								<option value="71">Fatec TatuÌ</option>
-								<option value="72">Fatec TaubatÈ</option>
+								<option value="71">Fatec Tatu√≠</option>
+								<option value="72">Fatec Taubat√©</option>
 							</select>
 						</div>
 
 						<div class="mb-3">
 							<label>Nome</label>
 							<input id="courseName" type="text" class="form-control"
-								placeholder="Exemplo: Analise e Desenvolvimento de Sistemas, Sistemas de InformaÁ„o, ...">
+								placeholder="Exemplo: An√°lise e Desenvolvimento de Sistemas, Sistemas de Informa√ß√£o, ...">
 						</div>
 
 						<div class="row">
@@ -151,7 +154,7 @@
 							</div>
 
 							<div class="col">
-								<label>Periodo</label>
+								<label>Per√≠odo</label>
 								<select class="form-select">
 									<option value="1">Matutino</option>
 									<option value="2">Vespertino</option>
@@ -168,12 +171,12 @@
 					<br>
 					<br>
 
-					<small>Ao criar uma conta, voce concorda com os <a href="#"
-							target="_blank">Termos de Servico</a> . Para obter mais
-						informacoes sobre as praticas de privacidade do Fatecando,
-						consulte a <a href="#" target="_blank">Declaracao de
+					<small class="text-muted">Ao criar uma conta, voc√™ concorda com os <a href="#"
+							target="_blank">Termos de Servi√ßo</a> . Para obter mais
+						informa√ß√µes sobre as pr√°ticas de privacidade do Fatecando,
+						consulte a <a href="#" target="_blank">Declara√ß√£o de
 							Privacidade</a> do <a href="#" target="_blank">Fatecando</a> .
-						Ocasionalmente, enviaremos e-mails relacionados a sua conta.
+						Ocasionalmente, enviaremos e-mails relacionados √† sua conta.
 					</small>
 				</form>
 

@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="www.thymeleaf.org"
 	th:replace="~{fragments/layout :: base ('Ranking', ~{::body})}">
+<head>
+<meta charset="utf-8">
+</head>
 <body>
 
 	<div class="card mt-3">
@@ -10,7 +13,7 @@
 
 			<label>Filtrar por</label>
 			<input id="inputFilter" class="form-control" type="text"
-				placeholder="Posicao, Nome, Pontuacao">
+				placeholder="Posição, Nome ou Pontuação">
 		</div>
 	</div>
 
@@ -21,7 +24,7 @@
 	<table id="rankingTable" class="table table-bordered table-stripped">
 		<thead>
 			<tr>
-				<th>Position</th>
+				<th>Posição</th>
 				<th>Nome</th>
 				<th>Pontos</th>
 			</tr>
@@ -54,7 +57,7 @@
 			</tr>
 		</tbody>
 	</table>
-	
+
 	<script type="text/javascript">
 		$('#rankingTable').DataTable({
 			ordering: false,
@@ -63,10 +66,10 @@
 		
 		/*
 		"language": {
-            "emptyTable": "Nenhum dado dispon�vel na tabela",
+            "emptyTable": "Nenhum dado disponível na tabela",
             "info": "Mostrando START a END de TOTAL registros",
             "infoEmpty": "Mostrando 0 a 0 de 0 registros",
-            "lengthMenu": "Exibir MENU registros por p�gina",
+            "lengthMenu": "Exibir MENU registros por página",
             "loadingRecords": "Carregando...",
             "processing": "Processando...",
             "zeroRecords": "Nenhum registro correspondente encontrado",
@@ -74,8 +77,8 @@
             "search": "Pesquisar:",
             "paginate": {
                 "first":      "Primeiro",
-                "last":       "�ltimo",
-                "next":       "Pr�ximo",
+                "last":       "Último",
+                "next":       "Próximo",
                 "previous":   "Anterior"
             },
         }
