@@ -2,6 +2,7 @@ package com.gutotech.fatecando.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +15,15 @@ import com.gutotech.fatecando.model.Topic;
 
 @Service
 public class DisciplineService {
-	private RestTemplate restTemplate = new RestTemplate();
 
-	private final String URL = "http://localhost:8081/api/disciplines";
+	@Autowired
+	private RestTemplate restTemplate;
+
+	private final String URL = "http://localhost:8081/api/disciplines/";
+
+	public Discipline findById(Long id) {
+		return restTemplate.getForObject(URL + "/" + id, Discipline.class);
+	}
 
 	public List<Discipline> findAll() {
 		ResponseEntity<List<Discipline>> responseEntity = restTemplate.exchange(URL, HttpMethod.GET, null,
@@ -24,10 +31,6 @@ public class DisciplineService {
 				});
 
 		return responseEntity.getBody();
-	}
-
-	public Discipline findById(Long id) {
-		return restTemplate.getForObject(URL + "/" + id, Discipline.class);
 	}
 
 	public List<Topic> findAllTopicsByDiscipline(Discipline discipline) {
@@ -44,6 +47,14 @@ public class DisciplineService {
 				}, discipline.getId());
 
 		return responseEntity.getBody();
+	}
+
+	public Discipline save(Discipline discipline) {
+		return restTemplate.postForObject(URL, discipline, Discipline.class);
+	}
+
+	public void update(Discipline discipline) {
+		restTemplate.put(URL + "{id}", discipline, discipline.getId());
 	}
 
 }

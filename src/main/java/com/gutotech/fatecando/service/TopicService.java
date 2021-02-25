@@ -2,6 +2,7 @@ package com.gutotech.fatecando.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +14,8 @@ import com.gutotech.fatecando.model.Topic;
 @Service
 public class TopicService {
 
-	private RestTemplate restTemplate = new RestTemplate();
+	@Autowired
+	private RestTemplate restTemplate;
 
 	private final String URL = "http://localhost:8081/api/topics";
 

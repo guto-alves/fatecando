@@ -10,7 +10,7 @@ public class ForumTopic {
 	private Date createdAt;
 	private Date updatedAt;
 	private int likes;
-	private Student student;
+	private User user;
 	private Discipline discipline;
 
 	public ForumTopic() {
@@ -71,12 +71,12 @@ public class ForumTopic {
 		this.likes = likes;
 	}
 
-	public Student getStudent() {
-		return student;
+	public User getStudent() {
+		return user;
 	}
 
-	public void setStudent(Student student) {
-		this.student = student;
+	public void setStudent(User user) {
+		this.user = user;
 	}
 
 	public Discipline getDiscipline() {

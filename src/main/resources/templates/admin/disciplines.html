@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	th:replace="~{fragments/layout :: base ('Disciplina', ~{::body})}">
+<head>
+<meta charset="utf-8">
+</head>
+<body>
+	<div class="row mt-3">
+		<div class="col-lg-6">
+			<div class="alert alert-success alert-dismissible fade show"
+				th:if="${!#strings.isEmpty(message)}" role="alert">
+				<th:block th:text="${message}" />
+			</div>
+
+			<div class="card">
+				<div class="card-body">
+					<h4 class="card-title">Nova Disciplina</h4>
+
+					<form action="#" method="post" th:object="${discipline}">
+						<div class="mb-3">
+							<label class="form-label" for="nameInput">Nome</label>
+
+							<input type="text" id="nameInput" class="form-control"
+								placeholder="Nome" th:field="*{name}">
+
+							<span class="text-danger" th:if="${#fields.hasErrors('name')}"
+								th:errors="*{name}">Nome inválido</span>
+						</div>
+
+						<div class="mb-3">
+							<label class="form-label" for="codeInput">Código</label>
+
+							<input type="text" id="codeInput" class="form-control"
+								placeholder="Código" th:field="*{code}">
+
+							<span class="text-danger" th:if="${#fields.hasErrors('code')}"
+								th:errors="*{code}">Código inválido</span>
+						</div>
+
+						<div class="mb-3">
+							<label class="form-label" for="semester">Semestre</label>
+
+							<select class="form-select" id="semester" name="semester">
+								<option th:each="i : ${#numbers.sequence(1, 10)}"
+									th:value="${i}" th:text="${i}" th:selected="${i==1}"></option>
+							</select>
+						</div>
+
+						<div class="mb-3">
+							<label class="form-label" for="description">Ementa</label>
+
+							<textarea id="description" class="form-control"
+								th:field="*{description}" rows="6" maxlength="2500">
+							</textarea>
+
+							<span class="text-danger"
+								th:if="${#fields.hasErrors('description')}"
+								th:errors="*{description}">Descrição inválida</span>
+						</div>
+
+						<div class="mb-3">
+							<label class="form-label" for="objective">Objetivo</label>
+
+							<textarea id="objective" class="form-control"
+								th:field="*{objective}" rows="2" maxlength="255">
+							</textarea>
+
+							<span class="text-danger"
+								th:if="${#fields.hasErrors('objective')}"
+								th:errors="*{objective}">Objetivo inválido</span>
+						</div>
+
+						<button type="submit" class="btn btn-danger form-control">Criar</button>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-lg-6">
+			<h3>Todos as Disciplinas</h3>
+
+			<table id="table"
+				class="table table-sm table-striped table-bordered table-hover">
+				<thead class="thead-dark">
+					<tr>
+						<th>Código</th>
+						<th>Nome</th>
+						<th>Semestre</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr th:each="discipline : ${disciplines}"
+						th:data-id="${discipline.id}" data-bs-toggle="modal"
+						data-bs-target="#disciplineModal">
+						<td id="codeTd" class="align-middle" th:text="${discipline.code}"></td>
+						<td id="nameTd" class="align-middle" th:text="${discipline.name}"></td>
+						<td id="semestersTd" class="align-middle"
+							th:text="${discipline.semester}"></td>
+					</tr>
+				</tbody>
+			</table>
+
+			<!-- Modal -->
+			<div class="modal fade" id="disciplineModal" tabindex="-1"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div
+					class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+					<div class="modal-content">
+
+
+						<div class="modal-header">
+							<h5 class="modal-title" id="modalTitle"
+								th:text="'Atualizar Disciplina'">Atualizar Informações do
+								Disciplina</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<div>
+								<div class="mb-3">
+									<label>Nome</label>
+									<input id="updatedName" type="text" class="form-control"
+										required>
+								</div>
+
+								<div class="mb-3">
+									<label>Código</label>
+									<input id="updatedCode" type="text" class="form-control"
+										required>
+								</div>
+
+								<div class="mb-3">
+									<label class="form-label" for="updatedSemester">Semestre</label>
+
+									<select class="form-select" id="updatedSemester">
+										<option th:each="i : ${#numbers.sequence(1, 10)}"
+											th:value="${i}" th:text="${i}"></option>
+									</select>
+								</div>
+
+								<div class="mb-3">
+									<label for="description" class="form-label">Descrição</label>
+									<textarea id="updatedDescription" class="form-control" rows="4"
+										required></textarea>
+								</div>
+
+								<div class="mb-3">
+									<label for="updatedObjective" class="form-label">Objetivo</label>
+									<textarea id="updatedObjective" class="form-control" rows="2"
+										required></textarea>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-bs-dismiss="modal">Cancelar</button>
+							<button id="updateDiscipline" type="button"
+								class="btn btn-danger">Atualizar</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<script type="text/javascript" th:inline="javascript">
+		$('#table').DataTable({
+			language: {
+				url: '//cdn.datatables.net/plug-ins/1.10.22/i18n/Portuguese-Brasil.json'
+	        }
+		});
+
+		let disciplines = /*[[${disciplines}]]*/null;
+
+		$('#disciplineModal').on('show.bs.modal', function() {
+			var disciplineId = parseInt($(event.target).closest('tr').data('id'));
+
+			for (let i = 0; i < disciplines.length; i++) {
+				let discipline = disciplines[i];
+
+				if (discipline.id == disciplineId) {
+					$('#modalTitle').html('Disciplina <br><b>' + discipline.name + '</b>');
+					$('#updatedName').val(discipline.name);
+					$('#updatedCode').val(discipline.code);
+					$('#updatedSemester').val(discipline.semester);
+					$('#updatedDescription').text(discipline.description);
+					$('#updatedObjective').text(discipline.objective);
+					
+					$('#updateDiscipline').off('click');
+					
+					$('#updateDiscipline').click(() => {
+						let updatedName = $('#updatedName').val();
+						let updatedCode = $('#updatedCode').val();
+						let updatedSemester = $('#updatedSemester').val();
+						let updatedDescription = $('#updatedDescription').val();
+						let updatedObjetive = $('#updatedObjective').val();
+						
+						let updatedDiscipline = {
+							id: discipline.id,
+						    name: updatedName,
+						    code: updatedCode,
+						    semeste: updatedSemester,
+						    description: updatedDescription,
+						    objective: updatedObjetive
+						};
+						
+						$.ajax({
+						    url: location.href + '/update',
+						    type: "POST",
+						    contentType: "application/json; charset=utf-8",
+						    data: JSON.stringify(updatedDiscipline), // Stringified Json Object
+						    cache: false, // This will force requested pages not to be cached by the browser  
+						    processData: false
+						}).done(function () {
+						    let rowSelector = 'tr[data-id="' + discipline.id + '"]';
+						    $(rowSelector).children().first().text(updatedName);
+						    $(rowSelector).children().last().text(updatedSemester);
+						    
+						    discipline = updatedDiscipline;
+						}).fail(function (jqXHR, textStatus ) {
+						    console.log("Erro ao atualizar a disciplina. Status: " + textStatus);
+						}).always(function() {
+							$('#disciplineModal').modal('hide');
+	 					});
+					});
+					break;
+				}
+			}
+		});
+	</script>
+</body>
+</html>

@@ -27,7 +27,7 @@
 		<div id="disciplinesContainer"
 			class="row row-cols-1 row-cols-md-3 g-4">
 			<div class="col" th:each="discipline : ${disciplines}"
-				th:data-semester="${discipline.semestre}">
+				th:data-semester="${discipline.semester}">
 				<div class="card h-100 shadow-lg"
 					th:onclick="'go(\'' + ${discipline.id} + '\');'">
 					<img src="" class="card-img-top" alt="">
@@ -71,6 +71,7 @@
 		    	
 		    	for (let i = 0; i < disciplines.length; i++) {
 					let discipline = disciplines[i];
+					
 		    		if (discipline.name === name && (
 		    				discipline.name.toUpperCase().indexOf(filter) > -1 ||
 		    				discipline.code.toUpperCase().indexOf(filter) > -1 ||

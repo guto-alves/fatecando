@@ -14,12 +14,12 @@
 			<!-- <th:block th:text="${topic.contentHtml}" /> -->
 
 			<textarea cols="80" id="editor1" name="editor1" rows="10"
-				data-sample-short>&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href=&quot;https://ckeditor.com/&quot;&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
+				data-sample-short></textarea>
 			<script>
-			    CKEDITOR.replace('editor1', {
-			      uiColor: '#CCEAEE'
-			    });
-			 </script>
+				CKEDITOR.replace('editor1', {
+					uiColor : '#CCEAEE'
+				});
+			</script>
 		</div>
 	</div>
 
@@ -94,7 +94,7 @@
 
 	<script type="text/javascript" th:inline="javascript">
 		// let content = /*[[${topic.contentHtml}]]*/ "Test";
-		 
+
 		// $('#content').html(content);
 	</script>
 </body>

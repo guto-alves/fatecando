@@ -1,28 +1,42 @@
 package com.gutotech.fatecando.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
+import java.util.Set;
+
+import javax.validation.constraints.NotBlank;
 
 public class Discipline {
 	private Long id;
-	private String name;
-	private String code;
-	private String description;
-	private String objetive;
-	private int semestre;
 
-	private List<Topic> topics = new ArrayList<>();
+	@NotBlank
+	private String name;
+
+	@NotBlank
+	private String code;
+
+	@NotBlank
+	private String description;
+
+	@NotBlank
+	private String objective;
+
+	private int semester;
+
+	private Set<Topic> topics = new HashSet<>();
+
+	private List<ForumTopic> forum = new ArrayList<>();
 
 	public Discipline() {
 	}
 
-	public Discipline(String name, String code, String description, String objetive, int semestre) {
+	public Discipline(String name, String code, String description, String objetive, int semester) {
 		this.name = name;
 		this.code = code;
 		this.description = description;
-		this.objetive = objetive;
-		this.semestre = semestre;
+		this.objective = objetive;
+		this.semester = semester;
 	}
 
 	public Long getId() {
@@ -57,41 +71,28 @@ public class Discipline {
 		this.description = description;
 	}
 
-	public String getObjetive() {
-		return objetive;
+	public String getObjective() {
+		return objective;
 	}
 
-	public void setObjetive(String objetive) {
-		this.objetive = objetive;
+	public void setObjective(String objective) {
+		this.objective = objective;
 	}
 
-	public int getSemestre() {
-		return semestre;
+	public int getSemester() {
+		return semester;
 	}
 
-	public void setSemestre(int semestre) {
-		this.semestre = semestre;
+	public void setSemester(int semester) {
+		this.semester = semester;
 	}
 
-	public List<Topic> getTopics() {
+	public Set<Topic> getTopics() {
 		return topics;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (!(obj instanceof Discipline)) {
-			return false;
-		}
-		Discipline other = (Discipline) obj;
-		return Objects.equals(id, other.id);
+	public List<ForumTopic> getForum() {
+		return forum;
 	}
 
 }

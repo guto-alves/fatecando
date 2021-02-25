@@ -10,39 +10,45 @@
 			<div class="card-body">
 				<h4 class="text-center">Junte-se aos Fatecandos!</h4>
 
-				<form action="#">
+				<form action="#" th:action="@{/join}" method="post"
+					th:object="${user}">
 					<div class="row mb-3">
 						<div class="col">
-							<label for="firstName">Primeiro Nome</label>
-							<input id="firstName" type="text" class="form-control">
+							<label for="firstName">Nome</label>
+							<input id="firstName" type="text" class="form-control"
+								th:field="*{firstName}">
 						</div>
 						<div class="col">
-							<label for="lastName">Último Nome</label>
-							<input id="lastName" type="text" class="form-control">
+							<label for="lastName">Sobrenome</label>
+							<input id="lastName" type="text" class="form-control"
+								th:field="*{lastName}">
 						</div>
 					</div>
 
 					<div class="mb-3">
 						<label for="email">E-mail</label>
-						<input id="email" type="email" class="form-control">
+						<input id="email" type="email" class="form-control"
+							th:field="*{email}">
 					</div>
 					<div class="mb-3">
 						<label for="password">Senha</label>
-						<input id="password" type="password" class="form-control">
+						<input id="password" type="password" class="form-control"
+							th:field="*{password}">
 					</div>
 
 					<div class="mb-3">
 						<label>Data de Nascimento</label>
-						<input id="birthDate" type="date" class="form-control">
+						<input id="birthDate" type="date" class="form-control"
+							th:field="*{birthDate}">
 					</div>
 
 					<div class="mb-3">
-						<label>Está matriculado em algum curso da Fatec?</label>
+						<label>Está fazendo algum curso da Fatec?</label>
 						<div class="form-check">
 							<input class="form-check-input" type="radio" name="radio"
 								id="flexRadioDefault1" checked value="yes">
-							<label class="form-check-label" for="flexRadioDefault1">Simm,
-								estou cursando...</label>
+							<label class="form-check-label" for="flexRadioDefault1">Sim,
+								estou cursando o...</label>
 						</div>
 						<div class="form-check">
 							<input class="form-check-input" type="radio" name="radio"
@@ -55,6 +61,7 @@
 					<div id="courseContainer"
 						class="border border-1 border-dark rounded p-3 mb-3">
 						<label>Sobre seu Curso na Fatec</label>
+						<hr>
 
 						<div class="mb-3">
 							<label>Fatec</label>
@@ -171,11 +178,11 @@
 					<br>
 					<br>
 
-					<small class="text-muted">Ao criar uma conta, você concorda com os <a href="#"
-							target="_blank">Termos de Serviço</a> . Para obter mais
-						informações sobre as práticas de privacidade do Fatecando,
-						consulte a <a href="#" target="_blank">Declaração de
-							Privacidade</a> do <a href="#" target="_blank">Fatecando</a> .
+					<small class="text-muted">Ao criar uma conta, você concorda
+						com os <a href="#" target="_blank">Termos de Serviço</a> . Para
+						obter mais informações sobre as práticas de privacidade do
+						Fatecando, consulte a <a href="#" target="_blank">Declaração
+							de Privacidade</a> do <a href="#" target="_blank">Fatecando</a> .
 						Ocasionalmente, enviaremos e-mails relacionados à sua conta.
 					</small>
 				</form>
@@ -186,7 +193,6 @@
 
 	<script type="text/javascript">
 		$('input[name="radio"]').change(function() {
-			let option = $(this).val();
 			$('#courseContainer').toggle();
 		});
 	</script>

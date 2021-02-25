@@ -10,14 +10,17 @@
 
 		<div class="card border border-danger">
 			<div class="card-body">
-				<form action="#" method="post">
+				<form action="#" method="post" th:action="@{/login}"
+					th:object="${user}">
 					<div class="mb-3">
 						<label>E-mail</label>
-						<input class="form-control" type="email" name="email">
+						<input class="form-control" type="email" name="email"
+							th:field="*{email}">
 					</div>
 					<div class="mb-3">
 						<label>Senha</label>
-						<input class="form-control" type="password" name="password">
+						<input class="form-control" type="password" name="password"
+							th:field="*{password}">
 					</div>
 
 					<button class="btn btn-danger form-control" type="submit">Entrar</button>

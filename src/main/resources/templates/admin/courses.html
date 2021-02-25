@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	th:replace="~{fragments/layout :: base ('Cursos', ~{::body})}">
+<head>
+<meta charset="utf-8">
+</head>
+<body>
+	<div class="row mt-3">
+		<div class="col-md-6">
+			<div class="card">
+				<div class="card-body">
+					<h4 class="card-title">Novo Curso</h4>
+
+					<form action="#" method="post" th:action="@{/admin/courses}"
+						th:object="${course}">
+						<div class="mb-3">
+							<input type="text" id="courseNameInput" class="form-control"
+								placeholder="Nome" th:field="*{name}">
+
+							<span class="text-danger" th:if="${#fields.hasErrors('name')}"
+								th:errors="*{name}">Nome do curso inválido</span>
+						</div>
+
+						<div class="mb-3">
+							<label class="form-label" for="semesters">Total de
+								Semestres</label>
+
+							<select class="form-select" id="semesters" name="semesters">
+								<option th:each="i : ${#numbers.sequence(1, 10)}"
+									th:value="${i}" th:text="${i}" th:selected="${i==6}"></option>
+							</select>
+						</div>
+
+						<div class="mb-3">
+							<label class="form-label" for="description">Descrição</label>
+							<textarea id="description" class="form-control"
+								th:field="*{description}" rows="3">
+							</textarea>
+
+							<span class="text-danger"
+								th:if="${#fields.hasErrors('description')}"
+								th:errors="*{description}">Descrição inválida</span>
+						</div>
+
+						<button type="submit" class="btn btn-danger form-control">Criar</button>
+					</form>
+				</div>
+			</div>
+
+			<div class="alert alert-success mt-3"
+				th:if="${!#strings.isEmpty(message)}" th:text="${message}"
+				role="alert">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+			</div>
+		</div>
+
+		<div class="col-md-6">
+			<h3>Todos os Cursos</h3>
+
+			<table id="table"
+				class="table table-sm table-striped table-bordered table-hover">
+				<thead class="thead-dark">
+					<tr>
+						<th>Nome</th>
+						<th>Nº de Semestres</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr th:each="course : ${courses}" th:data-id="${course.id}"
+						data-bs-toggle="modal" data-bs-target="#courseModal">
+						<td id="nameTd" class="align-middle" th:text="${course.name}"></td>
+						<td id="semestersTd" class="align-middle"
+							th:text="${course.semesters}"></td>
+					</tr>
+				</tbody>
+			</table>
+
+			<!-- Modal -->
+			<div class="modal fade" id="courseModal" tabindex="-1"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div
+					class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+					<div class="modal-content">
+
+
+						<div class="modal-header">
+							<h5 class="modal-title" id="modalTitle"
+								th:text="'Atualizar Curso'">Atualizar Informações do Curso</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<div>
+								<div class="mb-3">
+									<label>Nome</label>
+									<input id="updatedName" type="text" class="form-control"
+										required>
+								</div>
+
+								<div class="mb-3">
+									<label class="form-label" for="updatedSemesters">Total
+										de Semestres</label>
+
+									<select class="form-select" id="updatedSemesters">
+										<option th:each="i : ${#numbers.sequence(1, 10)}"
+											th:value="${i}" th:text="${i}"></option>
+									</select>
+								</div>
+
+								<div class="mb-3">
+									<label for="description" class="form-label">Descrição</label>
+									<textarea id="updatedDescription" class="form-control" rows="3"
+										required></textarea>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-bs-dismiss="modal">Cancelar</button>
+							<button id="updateCourse" type="button" class="btn btn-danger">Atualizar</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<script type="text/javascript" th:inline="javascript">
+		$('#table').DataTable({
+			language: {
+				url: '//cdn.datatables.net/plug-ins/1.10.22/i18n/Portuguese-Brasil.json'
+	        }
+		});
+
+		let courses = /*[[${courses}]]*/null;
+
+		$('#courseModal').on('show.bs.modal', function() {
+			var courseId = parseInt($(event.target).closest('tr').data('id'));
+
+			for (let i = 0; i < courses.length; i++) {
+				let course = courses[i];
+
+				if (course.id == courseId) {
+					$('#modalTitle').html('Curso <br><b>' + course.name + '</b>');
+					$('#updatedName').val(course.name);
+					$('#updatedSemesters').val(course.semesters);
+					$('#updatedDescription').text(course.description);
+					
+					$('#updateCourse').off('click');
+					
+					$('#updateCourse').click(() => {
+						let updatedName = $('#updatedName').val();
+						let updatedSemesters = $('#updatedSemesters').val();
+						let updatedDescription = $('#updatedDescription').val();
+						
+						let data = JSON.stringify({
+							id: course.id,
+						    name: updatedName,
+						    semesters: updatedSemesters,
+						    description: updatedDescription
+						});
+						
+						$.ajax({
+						    url: location.href + '/update',
+						    type: "POST",
+						    contentType: "application/json; charset=utf-8",
+						    data: data, // Stringified Json Object
+						    cache: false, // This will force requested pages not to be cached by the browser  
+						    processData: false
+						}).done(function () {
+						    let rowSelector = 'tr[data-id="' + course.id + '"]';
+						    $(rowSelector).children().first().text(updatedName);
+						    $(rowSelector).children().last().text(updatedSemesters);
+						    
+						    course.name = updatedName;
+						    course.semesters = updatedSemesters;
+						    course.description = updatedDescription;
+						}).fail(function (jqXHR, textStatus ) {
+						    console.log("Erro ao atualizar o curso. Status: " + textStatus);
+						}).always(function() {
+							$('#courseModal').modal('hide');
+	 					});
+					});
+					break;
+				}
+			}
+		});
+	</script>
+</body>
+</html>
