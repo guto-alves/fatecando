@@ -6,7 +6,7 @@
 </head>
 <body>
 	<div class="row mt-3">
-		<div class="col-lg-6">
+		<div class="col-lg-6 mb-3">
 			<div class="alert alert-success alert-dismissible fade show"
 				th:if="${!#strings.isEmpty(message)}" role="alert">
 				<th:block th:text="${message}" />
@@ -74,10 +74,12 @@
 					</form>
 				</div>
 			</div>
+
+			<hr>
 		</div>
 
 		<div class="col-lg-6">
-			<h3>Todos as Disciplinas</h3>
+			<h3>Todas as Disciplinas</h3>
 
 			<table id="table"
 				class="table table-sm table-striped table-bordered table-hover">
@@ -95,7 +97,7 @@
 						data-bs-target="#disciplineModal">
 						<td id="codeTd" class="align-middle" th:text="${discipline.code}"></td>
 						<td id="nameTd" class="align-middle" th:text="${discipline.name}"></td>
-						<td id="semestersTd" class="align-middle"
+						<td id="semesterTd" class="align-middle"
 							th:text="${discipline.semester}"></td>
 					</tr>
 				</tbody>
@@ -201,7 +203,7 @@
 							id: discipline.id,
 						    name: updatedName,
 						    code: updatedCode,
-						    semeste: updatedSemester,
+						    semester: updatedSemester,
 						    description: updatedDescription,
 						    objective: updatedObjetive
 						};
@@ -215,8 +217,10 @@
 						    processData: false
 						}).done(function () {
 						    let rowSelector = 'tr[data-id="' + discipline.id + '"]';
-						    $(rowSelector).children().first().text(updatedName);
-						    $(rowSelector).children().last().text(updatedSemester);
+						
+						    $(rowSelector).find('#codeTd').first().text(updatedCode);
+						    $(rowSelector).find('#nameTd').first().text(updatedName);
+						    $(rowSelector).find('#semesterTd').first().text(updatedSemester);
 						    
 						    discipline = updatedDiscipline;
 						}).fail(function (jqXHR, textStatus ) {
@@ -225,6 +229,7 @@
 							$('#disciplineModal').modal('hide');
 	 					});
 					});
+					
 					break;
 				}
 			}
