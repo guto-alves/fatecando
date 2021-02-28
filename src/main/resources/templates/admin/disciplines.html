@@ -41,8 +41,8 @@
 							<label class="form-label" for="semester">Semestre</label>
 
 							<select class="form-select" id="semester" name="semester">
-								<option th:each="i : ${#numbers.sequence(1, 10)}"
-									th:value="${i}" th:text="${i}" th:selected="${i==1}"></option>
+								<option th:each="i : ${#numbers.sequence(1, 10)}" th:value="${i}"
+									th:text="${i}" th:selected="${i==1}"></option>
 							</select>
 						</div>
 
@@ -58,24 +58,22 @@
 						<div class="mb-3">
 							<label class="form-label" for="description">Ementa</label>
 
-							<textarea id="description" class="form-control"
-								th:field="*{description}" rows="6" maxlength="2500">
+							<textarea id="description" class="form-control" th:field="*{description}"
+								rows="6" maxlength="2500">
 							</textarea>
 
-							<span class="text-danger"
-								th:if="${#fields.hasErrors('description')}"
+							<span class="text-danger" th:if="${#fields.hasErrors('description')}"
 								th:errors="*{description}">Descrição inválida</span>
 						</div>
 
 						<div class="mb-3">
 							<label class="form-label" for="objective">Objetivo</label>
 
-							<textarea id="objective" class="form-control"
-								th:field="*{objective}" rows="2" maxlength="255">
+							<textarea id="objective" class="form-control" th:field="*{objective}"
+								rows="2" maxlength="255">
 							</textarea>
 
-							<span class="text-danger"
-								th:if="${#fields.hasErrors('objective')}"
+							<span class="text-danger" th:if="${#fields.hasErrors('objective')}"
 								th:errors="*{objective}">Objetivo inválido</span>
 						</div>
 
@@ -101,13 +99,11 @@
 				</thead>
 
 				<tbody>
-					<tr th:each="discipline : ${disciplines}"
-						th:data-id="${discipline.id}" data-bs-toggle="modal"
-						data-bs-target="#disciplineModal">
+					<tr th:each="discipline : ${disciplines}" th:data-id="${discipline.id}"
+						data-bs-toggle="modal" data-bs-target="#disciplineModal">
 						<td id="codeTd" class="align-middle" th:text="${discipline.code}"></td>
 						<td id="nameTd" class="align-middle" th:text="${discipline.name}"></td>
-						<td id="semesterTd" class="align-middle"
-							th:text="${discipline.semester}"></td>
+						<td id="semesterTd" class="align-middle" th:text="${discipline.semester}"></td>
 					</tr>
 				</tbody>
 			</table>
@@ -115,15 +111,13 @@
 			<!-- Modal -->
 			<div class="modal fade" id="disciplineModal" tabindex="-1"
 				aria-labelledby="exampleModalLabel" aria-hidden="true">
-				<div
-					class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+				<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 					<div class="modal-content">
 
 
 						<div class="modal-header">
-							<h5 class="modal-title" id="modalTitle"
-								th:text="'Atualizar Disciplina'">Atualizar Informações do
-								Disciplina</h5>
+							<h5 class="modal-title" id="modalTitle" th:text="'Atualizar Disciplina'">Atualizar
+								Informações do Disciplina</h5>
 							<button type="button" class="btn-close" data-bs-dismiss="modal"
 								aria-label="Close"></button>
 						</div>
@@ -131,22 +125,20 @@
 							<div>
 								<div class="mb-3">
 									<label>Nome</label>
-									<input id="updatedName" type="text" class="form-control"
-										required>
+									<input id="updatedName" type="text" class="form-control" required>
 								</div>
 
 								<div class="mb-3">
 									<label>Código</label>
-									<input id="updatedCode" type="text" class="form-control"
-										required>
+									<input id="updatedCode" type="text" class="form-control" required>
 								</div>
 
 								<div class="mb-3">
 									<label class="form-label" for="updatedSemester">Semestre</label>
 
 									<select class="form-select" id="updatedSemester">
-										<option th:each="i : ${#numbers.sequence(1, 10)}"
-											th:value="${i}" th:text="${i}"></option>
+										<option th:each="i : ${#numbers.sequence(1, 10)}" th:value="${i}"
+											th:text="${i}"></option>
 									</select>
 								</div>
 
@@ -166,16 +158,13 @@
 
 								<div class="mb-3">
 									<label for="updatedObjective" class="form-label">Objetivo</label>
-									<textarea id="updatedObjective" class="form-control" rows="2"
-										required></textarea>
+									<textarea id="updatedObjective" class="form-control" rows="2" required></textarea>
 								</div>
 							</div>
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary"
-								data-bs-dismiss="modal">Cancelar</button>
-							<button id="updateDiscipline" type="button"
-								class="btn btn-danger">Atualizar</button>
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+							<button id="updateDiscipline" type="button" class="btn btn-danger">Atualizar</button>
 						</div>
 					</div>
 				</div>

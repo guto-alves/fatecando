@@ -3,26 +3,37 @@ package com.gutotech.fatecando.model;
 import java.util.Objects;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 public class Course {
 	private Long id;
 
-	@NotEmpty(message = "Por favor forneça um nome")
+	@NotBlank(message = "Por favor forneça o Nome do Curso")
 	private String name;
+
+	@NotBlank(message = "Por favor forneça o Código do Curso")
+	private String code;
+
+	private String imageUrl;
+
+	private String description;
 
 	private int semesters;
 
-	@NotBlank(message = "Por favor forneça uma descrição")
-	private String description;
+	@NotNull(message = "Por favor escolha a Instituição do Curso")
+	private Institution institution;
 
 	public Course() {
 	}
 
-	public Course(Long id, String name, int semesters) {
-		this.id = id;
+	public Course(String name, String code, String imageUrl, String description, int semesters,
+			Institution institution) {
 		this.name = name;
+		this.code = code;
+		this.imageUrl = imageUrl;
+		this.description = description;
 		this.semesters = semesters;
+		this.institution = institution;
 	}
 
 	public Long getId() {
@@ -41,12 +52,20 @@ public class Course {
 		this.name = name;
 	}
 
-	public int getSemesters() {
-		return semesters;
+	public String getCode() {
+		return code;
 	}
 
-	public void setSemesters(int semesters) {
-		this.semesters = semesters;
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 
 	public String getDescription() {
@@ -55,6 +74,22 @@ public class Course {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public int getSemesters() {
+		return semesters;
+	}
+
+	public void setSemesters(int semesters) {
+		this.semesters = semesters;
+	}
+
+	public Institution getInstitution() {
+		return institution;
+	}
+
+	public void setInstitution(Institution institution) {
+		this.institution = institution;
 	}
 
 	@Override
@@ -76,7 +111,7 @@ public class Course {
 
 	@Override
 	public String toString() {
-		return "Course [name=" + name + "]";
+		return "Course [id=" + id + ", name=" + name + ", code=" + code + "]";
 	}
 
 }

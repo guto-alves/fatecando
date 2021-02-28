@@ -5,73 +5,124 @@
 <meta charset="utf-8">
 </head>
 <body>
-	<div class="row mt-3">
-		<div class="col-md-6">
-			<div class="card">
-				<div class="card-body">
-					<h4 class="card-title">Novo Curso</h4>
+	<div class="alert alert-success mt-3" th:if="${!#strings.isEmpty(message)}"
+		th:text="${message}" role="alert">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+	</div>
 
-					<form action="#" method="post" th:action="@{/admin/courses}"
-						th:object="${course}">
-						<div class="mb-3">
-							<input type="text" id="courseNameInput" class="form-control"
-								placeholder="Nome" th:field="*{name}">
+	<div class="accordion mt-3" id="courseFormAccordion">
+		<div class="accordion-item">
+			<h2 class="accordion-header text-center" id="headingOne">
+				<button class="accordion-button collapsed" type="button"
+					data-bs-toggle="collapse" data-bs-target="#collapseOne"
+					aria-expanded="false" aria-controls="collapseOne">
+					<h4 class="fw-bold text-center">Cadastro de Curso</h4>
+				</button>
+			</h2>
+			<div id="collapseOne" class="accordion-collapse collapse"
+				aria-labelledby="headingOne" data-bs-parent="#courseFormAccordion">
+				<div class="accordion-body">
+					<div class="card border-secondary">
+						<div class="card-body">
+							<form action="#" method="post" th:action="@{/admin/courses}"
+								th:object="${course}">
+								<div class="mb-3">
+									<label for="name" class="form-label">Nome</label>
 
-							<span class="text-danger" th:if="${#fields.hasErrors('name')}"
-								th:errors="*{name}">Nome do curso inválido</span>
+									<input type="text" class="form-control" id="name" th:field="*{name}"
+										th:errorclass="is-invalid" aria-describedby="nameFeedback">
+
+									<div id="nameFeedback" class="invalid-feedback"
+										th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Mensagem
+										de erro</div>
+								</div>
+
+								<div class="row mb-3">
+									<div class="col">
+										<label for="code" class="form-label">Código</label>
+
+										<input type="text" class="form-control" id="institution"
+											placeholder="Ex.: ADS, COMEX, RH, ..." th:field="*{code}"
+											th:classappend="${#fields.hasErrors('code')}? 'is-invalid'"
+											aria-describedby="codeFeedback">
+
+										<div id="codeFeedback" class="invalid-feedback"
+											th:if="${#fields.hasErrors('code')}" th:errors="*{code}">Mensagem
+											de erro</div>
+									</div>
+
+									<div class="col">
+										<label class="form-label" for="semesters">Total de Semestres</label>
+
+										<select class="form-select" id="semesters" name="semesters">
+											<option th:each="i : ${#numbers.sequence(1, 10)}" th:value="${i}"
+												th:text="${i}" th:selected="${i==course.semesters}"></option>
+										</select>
+									</div>
+								</div>
+
+								<div class="mb-3">
+									<label for="imageUrl" class="form-label">URL da imagem</label>
+									<input type="url" class="form-control" th:field="*{imageUrl}">
+								</div>
+
+								<label class="form-label" for="semesters">Instituição</label>
+								<div class="mb-3 h-100">
+									<select class="form-select select2" th:field="*{institution.id}"
+										style="width: 100%;">
+										<option th:each="institution : ${institutions}"
+											th:value="${institution.id}" th:text="${institution.name}"
+											th:selected="${institution.id == course.institution.id}"></option>
+									</select>
+								</div>
+
+								<div class="mb-3">
+									<label class="form-label" for="description">Descrição</label>
+									<textarea id="description" class="form-control"
+										th:field="*{description}" rows="3"></textarea>
+								</div>
+
+								<br>
+
+								<button type="submit"
+									class="btn btn-secondary btn-lg form-control fw-bold">Cadastrar</button>
+							</form>
 						</div>
-
-						<div class="mb-3">
-							<label class="form-label" for="semesters">Total de
-								Semestres</label>
-
-							<select class="form-select" id="semesters" name="semesters">
-								<option th:each="i : ${#numbers.sequence(1, 10)}"
-									th:value="${i}" th:text="${i}" th:selected="${i==6}"></option>
-							</select>
-						</div>
-
-						<div class="mb-3">
-							<label class="form-label" for="description">Descrição</label>
-							<textarea id="description" class="form-control"
-								th:field="*{description}" rows="3">
-							</textarea>
-
-							<span class="text-danger"
-								th:if="${#fields.hasErrors('description')}"
-								th:errors="*{description}">Descrição inválida</span>
-						</div>
-
-						<button type="submit" class="btn btn-danger form-control">Criar</button>
-					</form>
+					</div>
 				</div>
 			</div>
-
-			<div class="alert alert-success mt-3"
-				th:if="${!#strings.isEmpty(message)}" th:text="${message}"
-				role="alert">
-				<button type="button" class="close" data-dismiss="alert">&times;</button>
-			</div>
 		</div>
+	</div>
 
-		<div class="col-md-6">
-			<h3>Todos os Cursos</h3>
+	<br>
+	<hr>
+	<br>
+
+	<div class="card border-danger mt-3">
+		<div class="card-body">
+			<h3 class="fw-bold text-center">Todos os Cursos</h3>
 
 			<table id="table"
 				class="table table-sm table-striped table-bordered table-hover">
 				<thead class="thead-dark">
 					<tr>
+						<th>ID</th>
+						<th>Código</th>
 						<th>Nome</th>
 						<th>Nº de Semestres</th>
+						<th>Instituição</th>
 					</tr>
 				</thead>
 
 				<tbody>
 					<tr th:each="course : ${courses}" th:data-id="${course.id}"
 						data-bs-toggle="modal" data-bs-target="#courseModal">
+						<td id="idTd" class="align-middle" th:text="${course.id}"></td>
+						<td id="codeTd" class="align-middle" th:text="${course.code}"></td>
 						<td id="nameTd" class="align-middle" th:text="${course.name}"></td>
-						<td id="semestersTd" class="align-middle"
-							th:text="${course.semesters}"></td>
+						<td id="semestersTd" class="align-middle" th:text="${course.semesters}"></td>
+						<td id="institutionTd" class="align-middle"
+							th:text="${course.institution.name}"></td>
 					</tr>
 				</tbody>
 			</table>
@@ -79,14 +130,11 @@
 			<!-- Modal -->
 			<div class="modal fade" id="courseModal" tabindex="-1"
 				aria-labelledby="exampleModalLabel" aria-hidden="true">
-				<div
-					class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+				<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 					<div class="modal-content">
-
-
 						<div class="modal-header">
-							<h5 class="modal-title" id="modalTitle"
-								th:text="'Atualizar Curso'">Atualizar Informações do Curso</h5>
+							<h5 class="modal-title" id="modalTitle" th:text="'Atualizar Curso'">Atualizar
+								Informações do Curso</h5>
 							<button type="button" class="btn-close" data-bs-dismiss="modal"
 								aria-label="Close"></button>
 						</div>
@@ -94,17 +142,35 @@
 							<div>
 								<div class="mb-3">
 									<label>Nome</label>
-									<input id="updatedName" type="text" class="form-control"
-										required>
+									<input id="updatedName" type="text" class="form-control" required>
 								</div>
 
 								<div class="mb-3">
-									<label class="form-label" for="updatedSemesters">Total
-										de Semestres</label>
+									<label>Código</label>
+									<input id="updatedCode" type="text" class="form-control" required>
+								</div>
+
+								<div class="mb-3">
+									<label>URL da Imagem</label>
+									<input id="updatedImageUrl" type="text" class="form-control" required>
+								</div>
+
+								<div class="mb-3">
+									<label class="form-label" for="updatedSemesters">Total de
+										Semestres</label>
 
 									<select class="form-select" id="updatedSemesters">
-										<option th:each="i : ${#numbers.sequence(1, 10)}"
-											th:value="${i}" th:text="${i}"></option>
+										<option th:each="i : ${#numbers.sequence(1, 10)}" th:value="${i}"
+											th:text="${i}"></option>
+									</select>
+								</div>
+
+								<div class="mb-3">
+									<label for="updatedInstitution" class="form-label">Instituição</label>
+
+									<select id="updatedInstitution" class="form-select">
+										<option th:each="institution : ${institutions}"
+											th:value="${institution.id}" th:text="${institution.name}"></option>
 									</select>
 								</div>
 
@@ -116,77 +182,23 @@
 							</div>
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary"
-								data-bs-dismiss="modal">Cancelar</button>
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
 							<button id="updateCourse" type="button" class="btn btn-danger">Atualizar</button>
 						</div>
 					</div>
 				</div>
 			</div>
-
 		</div>
 	</div>
-
 	<script type="text/javascript" th:inline="javascript">
-		$('#table').DataTable({
-			language: {
-				url: '//cdn.datatables.net/plug-ins/1.10.22/i18n/Portuguese-Brasil.json'
-	        }
-		});
+		let errors = /*[[${errors}]]*/false;
+		if (errors) {
+			setTimeout(() => $('button[class*="accordion-button"]').click(), 500);
+		}
 
 		let courses = /*[[${courses}]]*/null;
-
-		$('#courseModal').on('show.bs.modal', function() {
-			var courseId = parseInt($(event.target).closest('tr').data('id'));
-
-			for (let i = 0; i < courses.length; i++) {
-				let course = courses[i];
-
-				if (course.id == courseId) {
-					$('#modalTitle').html('Curso <br><b>' + course.name + '</b>');
-					$('#updatedName').val(course.name);
-					$('#updatedSemesters').val(course.semesters);
-					$('#updatedDescription').text(course.description);
-					
-					$('#updateCourse').off('click');
-					
-					$('#updateCourse').click(() => {
-						let updatedName = $('#updatedName').val();
-						let updatedSemesters = $('#updatedSemesters').val();
-						let updatedDescription = $('#updatedDescription').val();
-						
-						let data = JSON.stringify({
-							id: course.id,
-						    name: updatedName,
-						    semesters: updatedSemesters,
-						    description: updatedDescription
-						});
-						
-						$.ajax({
-						    url: location.href + '/update',
-						    type: "POST",
-						    contentType: "application/json; charset=utf-8",
-						    data: data, // Stringified Json Object
-						    cache: false, // This will force requested pages not to be cached by the browser  
-						    processData: false
-						}).done(function () {
-						    let rowSelector = 'tr[data-id="' + course.id + '"]';
-						    $(rowSelector).children().first().text(updatedName);
-						    $(rowSelector).children().last().text(updatedSemesters);
-						    
-						    course.name = updatedName;
-						    course.semesters = updatedSemesters;
-						    course.description = updatedDescription;
-						}).fail(function (jqXHR, textStatus ) {
-						    console.log("Erro ao atualizar o curso. Status: " + textStatus);
-						}).always(function() {
-							$('#courseModal').modal('hide');
-	 					});
-					});
-					break;
-				}
-			}
-		});
+		let institutions = /*[[${institutions}]]*/null;
 	</script>
+	<script type="text/javascript" th:src="@{/js/courses.js}"></script>
 </body>
 </html>
