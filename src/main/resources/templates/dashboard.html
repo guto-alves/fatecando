@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="www.thymeleaf.org"
 	th:replace="~{fragments/layout :: base ('Dashboard', ~{::body})}">
+
+
 <body>
 	<div class="mt-3">
 		<h3 class="fw-bold">Continue de onde parou</h3>
@@ -9,12 +11,14 @@
 			class="row row-cols-1 row-cols-md-3 g-4">
 			<div class="col" th:each="discipline : ${disciplines}"
 				th:data-semester="${discipline.semester}">
-				<div class="card h-100 shadow-lg"
-					th:onclick="'go(\'' + ${discipline.id} + '\');'">
+				<div class="btn-card card h-100 shadow"
+					th:onclick="'viewDiscipline(\'' + ${discipline.id} + '\');'">
 					<img src="" class="card-img-top" alt="">
-					<div class="card-body">
+					<div class="card-header">
 						<h5 class="card-title" th:text="${discipline.name}">Estrutura
 							de Dados</h5>
+					</div>
+					<div class="card-body">
 						<p class="card-text text-truncate"
 							th:text="${discipline.description}">This is a wider card with
 							supporting text below as a natural lead-in to additional content.
@@ -28,39 +32,17 @@
 		</div>
 
 		<br>
-		<h3 class="fw-bold mt-3">Cursos acessados recentemente</h3>
-
-		<div id="coursesContainer" class="row row-cols-1 row-cols-md-3 g-4">
-			<div class="col" th:each="course : ${courses}">
-				<div class="card h-100 shadow-lg"
-					th:onclick="'go(\'' + ${course.id} + '\');'">
-					<img src="" class="card-img-top" alt="">
-					<div class="card-body">
-						<h5 class="card-title" th:text="${course.name}">Análise e
-							Desenvolvimento de Sistemas</h5>
-						<p class="card-text text-truncate" th:text="${course.description}">This
-							is a wider card with supporting text below as a natural lead-in
-							to additional content. This content is a little bit longer.</p>
-					</div>
-					<div class="card-footer">
-						<small class="text-muted">Last seen 3 mins ago</small>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<br>
 		<h3 class="fw-bold mt-3">Cursos</h3>
 
 		<div class="row justify-content-md-center">
 			<div class="col-md-8">
-				<label for="inputFilter">Pesquise por</label>
-				<input id="inputFilter" class="form-control" type="text"
+				<label for="inputFilter">Pesquise por</label> <input
+					id="inputFilter" class="form-control" type="text"
 					placeholder="Disciplina, Assunto, Palavra-chave">
 			</div>
 			<div class="col-6 col-md-4">
-				<label for="semesterSelect">Semestre</label>
-				<select id="semesterSelect" class="form-select">
+				<label for="semesterSelect">Semestre</label> <select
+					id="semesterSelect" class="form-select">
 					<option value="0">Todos</option>
 					<option value="1">1</option>
 					<option value="2">2</option>
@@ -75,17 +57,17 @@
 		<!-- Courses cards -->
 		<div id="coursesContainer" class="row row-cols-1 row-cols-md-3 g-4">
 			<div class="col" th:each="course : ${courses}">
-				<div class="card h-100 shadow-lg"
-					th:onclick="'go(\'' + ${course.id} + '\');'">
+				<div class="btn-card card h-100 shadow"
+					th:onclick="'viewCourse(\'' + ${course.id} + '\');'">
 					<img src="" class="card-img-top" alt="">
-					<div class="card-body">
+					<div class="card-header">
 						<h5 class="card-title" th:text="${course.name}">Análise e
 							Desenvolvimento de Sistemas</h5>
+					</div>
+					<div class="card-body">
 						<p class="card-text text-truncate" th:text="${course.description}">This
 							is a wider card with supporting text below as a natural lead-in
 							to additional content. This content is a little bit longer.</p>
-						<a href="#" class="stretched-link"
-							th:href="@{/course/{id}(id=${course.id})}"></a>
 					</div>
 					<div class="card-footer">
 						<small class="text-muted">Last seen 3 mins ago</small>
@@ -94,10 +76,16 @@
 			</div>
 		</div>
 	</div>
+	
 	<script type="text/javascript">
-		function go(disciplineId) {
+		function viewDiscipline(disciplineId) {
 			location.href = '/disciplines/' + disciplineId;
 		}
+		
+		function viewCourse(courseId) {
+			location.href = '/course/' + courseId;
+		}
 	</script>
+	
 </body>
 </html>
