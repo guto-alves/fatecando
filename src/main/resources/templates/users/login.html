@@ -6,32 +6,35 @@
 </head>
 <body>
 	<div class="container-fluid col-md-6 mt-3">
-		<h4 class="text-center">Faça login no Fatecando!</h4>
+		<h4 class="text-center fw-bold">Faça login no Fatecando!</h4>
 
 		<div class="card border border-danger">
 			<div class="card-body">
-				<form action="#" method="post" th:action="@{/login}"
-					th:object="${user}">
+				<div class="alert alert-danger" role="alert" th:if="${param.error}">
+					E-mail ou senha inválidos.
+					<br>
+					Por favor, verifique os dados e tente novamente.
+				</div>
+
+				<form action="#" method="post" th:action="@{/perform_login}">
 					<div class="mb-3">
-						<label>E-mail</label>
-						<input class="form-control" type="email" name="email"
-							th:field="*{email}">
+						<label class="form-label">E-mail</label>
+						<input class="form-control" type="email" name="email">
 					</div>
 					<div class="mb-3">
-						<label>Senha</label>
-						<input class="form-control" type="password" name="password"
-							th:field="*{password}">
+						<label class="form-label">Senha</label>
+						<input class="form-control" type="password" name="password">
 					</div>
 
-					<button class="btn btn-danger form-control" type="submit">Entrar</button>
+					<button type="submit" class="btn btn-danger form-control">Entrar</button>
 				</form>
 			</div>
 		</div>
 
 		<div class="card mt-3">
 			<div class="card-body">
-				Não tem conta ainda? Corre lá e
-				<a href="#" th:href="@{/join}">crie uma agora mesmo</a>
+				Não tem uma conta ainda? Corre lá e
+				<a href="#" th:href="@{/join}">crie agora mesmo</a>
 				.
 			</div>
 		</div>

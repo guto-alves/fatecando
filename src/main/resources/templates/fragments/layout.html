@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 	th:fragment="base (title, template)">
 <head>
 <!-- Required meta tags -->
@@ -19,7 +20,7 @@
 <!-- WYSIWYG editor -->
 <script src="https://cdn.ckeditor.com/4.16.0/standard-all/ckeditor.js"></script>
 
-<!-- Datatables -->
+<!-- DataTables -->
 <link rel="stylesheet" type="text/css"
 	href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css">
 <script type="text/javascript" charset="utf8"
@@ -33,7 +34,7 @@
 	src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <title
-	th:text="${title} == '' ? 'Fatecando' : ${title} + ' - Fatecando'"></title>
+	th:text="${title} == '' ? 'Fatecando' : ${title} + ' | Fatecando'"></title>
 
 <link rel="icon"
 	href="https://image.winudf.com/v2/image1/Y29tLnR5YWdveS5mYXRlY19pY29uXzE1NzM1NjM0MTRfMDMx/icon.png?w=170&fakeurl=1">
@@ -61,34 +62,58 @@ body {
 				</button>
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
 					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-						<li class="nav-item"><a class="nav-link active"
-								aria-current="page" href="#" th:href="@{/}">Home</a></li>
-						<li class="nav-item"><a class="nav-link" href="#"
-								th:href="@{/disciplines}">Disciplinas</a></li>
-						<li class="nav-item"><a class="nav-link" href="#"
-								th:href="@{/ranking}">Ranking</a></li>
-						<li class="nav-item dropdown"><a
-								class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+						<li class="nav-item">
+							<a class="nav-link active" aria-current="page" href="#"
+								th:href="@{/dashboard}">Home</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#" th:href="@{/ranking}">Ranking</a>
+						</li>
+						<li class="nav-item dropdown"
+							sec:authorize="hasRole('ROLE_ADMIN')">
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
 								role="button" data-bs-toggle="dropdown" aria-expanded="false">
 								Opções do ADM</a>
 							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-								<li><a class="dropdown-item" href="#"
-										th:href="@{/admin/courses}">Cursos</a></li>
-								<li><a class="dropdown-item" href="#"
-										th:href="@{/admin/disciplines}">Disciplinas</a></li>
+								<li>
+									<a class="dropdown-item" href="#" th:href="@{/admin/courses}">Cursos</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#"
+										th:href="@{/admin/disciplines}">Disciplinas</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#" th:href="@{/admin/topics}">Gerenciar
+										Tópicos</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#" th:href="@{/questions/admin}">Gerenciar
+										Questões</a>
+								</li>
 								<li>
 									<hr class="dropdown-divider">
 								</li>
-								<li><a class="dropdown-item" href="#">Something else
-										here</a></li>
-							</ul></li>
+								<li>
+									<a class="dropdown-item" href="#">Something else here</a>
+								</li>
+							</ul>
+						</li>
 					</ul>
 					<form class="d-flex">
 						<input class="form-control me-2" type="search"
 							placeholder="Pesquisar" aria-label="Search">
 						<button class="btn btn-outline-dark me-2" type="submit">Pesquisar</button>
 
-						<a class="btn btn-outline-light" href="#" th:href="@{/login}">Login</a>
+						<a class="btn btn-outline-light me-2" href="#" th:href="@{/login}"
+							sec:authorize="!isAuthenticated()">Login</a>
+
+						<a class="btn btn-outline-light me-2" href="#" th:href="@{/join}"
+							sec:authorize="!isAuthenticated()">Join</a>
+
+						<a class="btn btn-outline-light me-2" href="#"
+							th:href="@{/logout}" sec:authorize="isAuthenticated()">Logout</a>
+
+						<span sec:authentication="name">Bob</span>
 					</form>
 				</div>
 			</div>

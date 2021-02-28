@@ -37,13 +37,17 @@ public class UserService {
 		return restTemplate.postForObject(URL, user, User.class);
 	}
 
-	public void login(User user) {
-		restTemplate.getInterceptors() //
-				.add(new BasicAuthenticationInterceptor(user.getEmail(), user.getPassword()));
-	}
+	public User login(String email, String password) {
+		User user = restTemplate //
+				.postForObject(URL + "login?email={email}&password={password}", //
+						null, User.class, email, password);
 
-	public void logout() {
-		restTemplate.getInterceptors().remove(0);
+		if (user != null) {
+			restTemplate.getInterceptors().clear();
+			restTemplate.getInterceptors().add(new BasicAuthenticationInterceptor(email, password));
+		}
+
+		return user;
 	}
 
 	public User findCurrentUser() {

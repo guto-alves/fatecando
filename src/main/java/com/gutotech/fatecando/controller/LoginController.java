@@ -22,12 +22,6 @@ public class LoginController {
 		return "users/login";
 	}
 
-	@PostMapping("login")
-	public String proccessLoginForm(@ModelAttribute User user, Model model) {
-		userService.login(user);
-		return "redirect:/disciplines";
-	}
-
 	@GetMapping("join")
 	public String initRegistrationForm(Model model) {
 		model.addAttribute("user", new User());
@@ -40,9 +34,4 @@ public class LoginController {
 		return "redirect:/login";
 	}
 
-	@GetMapping("logout")
-	public String logout() {
-		userService.logout();
-		return "redirect:/login";
-	}
 }
