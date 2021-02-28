@@ -1,101 +1,101 @@
 <!DOCTYPE html>
 <html xmlns:th="www.thymeleaf.org"
 	th:replace="~{fragments/layout :: base (${topic.name}, ~{::body})}">
+<head>
+<meta charset="utf-8">
+</head>
 <body>
+	<!-- Topic info -->
 	<div class="card mt-3">
 		<div class="card-body">
-			<h2 class="card-title" th:text="${topic.name}">Topic Name</h2>
+			<h2 class="card-title text-center" th:text="${topic.name}">Topic
+				Name</h2>
 			<p th:text="${topic.description}"></p>
 		</div>
 	</div>
 
+	<!-- Content -->
 	<div class="card mt-3">
-		<div class="card-body" id="content">
-			<!-- <th:block th:text="${topic.contentHtml}" /> -->
-
-			<textarea cols="80" id="editor1" name="editor1" rows="10"
-				data-sample-short></textarea>
-			<script>
-				CKEDITOR.replace('editor1', {
-					uiColor : '#CCEAEE'
-				});
-			</script>
-		</div>
+		<div class="card-body" id="content"></div>
 	</div>
+
+	<!-- Quiz -->
 
 	<div class="card mt-3 bg-danger">
 		<div class="card-body">
-			<h5 class="card-title text-light" th:text="'Quiz - ' + ${topic.name}">Quiz</h5>
+			<h4 class="card-title text-light" th:text="'Quiz - ' + ${topic.name}">Quiz</h4>
 
-			<div id="questionContainer" class="p-2 bg-white rounded">
-				<span class="fw-bold">- Question 1 de 3</span>
+			<button id="startQuiz"
+				class="btn btn-outline-light btn-lg form-control mb-3">Iniciar
+				Quiz</button>
 
-				<h5>Os sistemas de informacao estao evoluindo de acordo com as
-					tendencias de mercado, eles proporcionam ganhos imensuraveis para
-					as organizacoes no que diz respeito a ganho de espaco organizacao
-					dos arquivos e informacoes e com isso a liberdade de acesso,
-					representada pela possibilidade de trabalhar com os dados
-					oferecidos pelo sistema da melhor forma possivel. Assim sendo,
-					podemos concluir que:</h5>
+			<div id="quizResult"
+				class="p-3 text-center text-danger bg-white rounded"
+				style="display: none;">
+				<span class="h4">Resultado do Quiz</span>
+				<br>
+			</div>
+
+			<div id="questionContainer" class="p-2 bg-white rounded"
+				style="display: none;">
+				<span id="questionIndex" class="fw-bold">- Question 1 de 3</span>
 				<hr>
 
-				<!-- answers -->
+				<h5 id="question">Os sistemas de informacao estao evoluindo de
+					acordo com as tendencias de mercado, eles proporcionam ganhos
+					imensuraveis para as organizacoes no que diz respeito a ganho de
+					espaco organizacao dos arquivos e informacoes e com isso a
+					liberdade de acesso, representada pela possibilidade de trabalhar
+					com os dados oferecidos pelo sistema da melhor forma possivel.
+					Assim sendo, podemos concluir que:</h5>
+				<br>
+
+				<!-- Answers -->
 				<div class="form-check mb-3">
 					<input class="form-check-input" type="radio"
-						name="flexRadioDefault" id="flexRadioDefault1" checked>
-					<label class="form-check-label" for="flexRadioDefault1">
-						Resposta 1</label>
+						name="alternativeRadio" id="alternativeRadio1">
 
-					<div class="border border-2 border-success p-2 mt-2 rounded ">
-						<span> <b class="text-success">Correto</b> <br>
-							Correto - (Bem utilizado e adequado, o sistema de informacao eh o
-							instrumento mais poderoso de agregacao de valor ao um negocio ou
-							pessoa)
-						</span>
-					</div>
+					<label class="form-check-label" for="alternativeRadio1">Alternativa
+						1</label>
 				</div>
 
 				<div class="form-check mb-3">
 					<input class="form-check-input" type="radio"
-						name="flexRadioDefault" id="flexRadioDefault2">
-					<label class="form-check-label" for="flexRadioDefault2">
-						Resposta 2</label>
+						name="alternativeRadio" id="alternativeRadio2">
+					<label class="form-check-label" for="alternativeRadio2">
+						Alternativa 2</label>
 				</div>
-
-				<div class="form-check mb-3">
-					<input class="form-check-input" type="radio"
-						name="flexRadioDefault" id="flexRadioDefault2">
-					<label class="form-check-label" for="flexRadioDefault2">
-						Resposta 3</label>
-				</div>
-
-				<div class="form-check mb-3">
-					<input class="form-check-input" type="radio"
-						name="flexRadioDefault" id="flexRadioDefault2">
-					<label class="form-check-label" for="flexRadioDefault2">
-						Resposta 4</label>
-				</div>
-
 			</div>
 
 			<div class="row mt-3">
 				<div class="col">
-					<button type="button" class="btn btn-secondary btn-lg form-control"
-						disabled>Previous Question</button>
+					<button id="finishQuiz" type="button"
+						class="btn btn-secondary btn-lg form-control"
+						style="display: none;">Finalizar</button>
 				</div>
+
 				<div class="col">
-					<button type="button"
-						class="btn btn-outline-light btn-lg form-control">Next
-						Question</button>
+					<button id="answerQuestion" type="button"
+						class="btn btn-outline-light btn-lg form-control"
+						style="display: none;">Responder</button>
+				</div>
+
+				<div class="col">
+					<button id="nextQuestion" type="button"
+						class="btn btn-outline-light btn-lg form-control"
+						style="display: none;" onclick="nextQuestion()">Próxima
+						Pergunta</button>
 				</div>
 			</div>
 		</div>
 	</div>
 
 	<script type="text/javascript" th:inline="javascript">
-		// let content = /*[[${topic.contentHtml}]]*/ "Test";
+		$('#content').html(/*[[${topic.htmlContent}]]*/null);
 
-		// $('#content').html(content);
+		let questions = /*[[${questions}]]*/null;
 	</script>
+
+	<script type="text/javascript" th:src="@{/js/topic-details.js}"></script>
 </body>
 </html>
