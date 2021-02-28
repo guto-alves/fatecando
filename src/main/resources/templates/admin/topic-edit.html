@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	th:replace="~{fragments/layout :: base ('Tópico', ~{::body})}">
+<head>
+<meta charset="utf-8">
+</head>
+<body>
+
+	<div class="alert alert-success alert-dismissible fade show"
+		th:if="${!#strings.isEmpty(message)}" role="alert">
+		<th:block th:text="${message}" />
+	</div>
+
+	<div class="card mt-3">
+		<div class="card-body">
+			<h4 class="card-title text-center fw-bold"
+				th:text="'Informações do Tópico - #' + ${topic.id}">Informações
+				do Tópico</h4>
+
+			<form action="#" method="post" th:object="${topic}">
+				<div class="mb-3">
+					<label class="form-label fw-bold" for="name">Nome</label>
+
+					<input type="text" id="name" class="form-control"
+						placeholder="Nome do Tópico" th:field="*{name}">
+
+					<span class="text-danger" th:if="${#fields.hasErrors('name')}"
+						th:errors="*{name}">Nome inválido</span>
+				</div>
+
+				<div class="mb-3">
+					<label class="form-label fw-bold" for="description">Descrição</label>
+
+					<textarea id="description" class="form-control"
+						th:field="*{description}" rows="3" maxlength="1000">
+							</textarea>
+
+					<span class="text-danger"
+						th:if="${#fields.hasErrors('description')}"
+						th:errors="*{description}">Descrição inválida</span>
+				</div>
+
+				<div class="mb-3">
+					<label class="form-label fw-bold" for="htmlContent">Conteúdo</label>
+
+					<textarea id="htmlContent" class="form-control"
+						th:field="*{htmlContent}" name="htmlContent" data-sample-short></textarea>
+					<script>
+						CKEDITOR.replace('htmlContent', {
+							uiColor : '#CCEAEE'
+						});
+					</script>
+
+					<span class="text-danger"
+						th:if="${#fields.hasErrors('htmlContent')}"
+						th:errors="*{htmlContent}">Conteúdo inválido</span>
+				</div>
+
+				<div class="mb-3">
+					<label class="form-label fw-bold" for="status">Disciplina</label>
+
+					<select class="form-select" id="discipline" name="discipline"
+						th:field="*{discipline.id}">
+						<option th:each="discipline : ${disciplines}"
+							th:value="${discipline.id}" th:text="${discipline.name}"
+							th:selected="${discipline == topic.discipline}"></option>
+					</select>
+				</div>
+
+				<div class="mb-3">
+					<label class="fw-bold">Obrigatório para a conclusão da
+						Disciplina?</label>
+
+					<div class="form-check">
+						<input id="required" class="form-check-input" type="checkbox"
+							value="false" th:value="${topic.required}" th:field="*{required}">
+						<label class="form-check-label" for="required">
+							Obrigatório</label>
+					</div>
+				</div>
+
+				<div class="mb-3">
+					<label class="form-label fw-bold" for="status">Status</label>
+
+					<select class="form-select" id="status" name="status">
+						<option
+							th:each="status : ${T(com.gutotech.fatecando.model.UploadStatus).values()}"
+							th:value="${status}" th:text="${status.displayName}"
+							th:selected="${status == topic.status}"></option>
+					</select>
+				</div>
+
+				<br>
+				<span class="fw-bold">Outras Informações</span>
+
+				<div class="row">
+					<div class="col-md-4">
+						<div class="card">
+							<div class="card-body">
+								<h6 class="card-title fw-bold">Usuário</h6>
+								<hr>
+								<span class="fw-bold">ID:</span>
+								<span th:text="${topic.user.id}"></span>
+								<br>
+								<span class="fw-bold">Nome:</span>
+								<span
+									th:text="${topic.user.firstName + ' ' + topic.user.lastName}"></span>
+								<br>
+								<span class="fw-bold">Email:</span>
+								<span th:text="${topic.user.email}"></span>
+								<br>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-5">
+						<div class="card">
+							<div class="card-body">
+								<h6 class="card-title fw-bold">Informações Extras</h6>
+								<hr>
+								<span class="fw-bold">Data do envio:</span>
+								<span
+									th:text="${#dates.format(topic.creationDate, 'dd/MM/yyy às HH:mm:ss')}"></span>
+								<br>
+								<span class="fw-bold">Data de atualização:</span>
+								<span
+									th:text="${#dates.format(topic.updateDate, 'dd/MM/yyyy às HH:mm:ss')}"></span>
+								<br>
+								<span class="fw-bold">Total de Likes:</span>
+								<span th:text="${topic.likes} == 0 ? 'Nenhum' : ${topic.likes}"></span>
+								<br>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<br>
+				<br>
+
+				<button type="submit" class="btn btn-danger form-control">Atualizar</button>
+			</form>
+		</div>
+	</div>
+</body>
+</html>

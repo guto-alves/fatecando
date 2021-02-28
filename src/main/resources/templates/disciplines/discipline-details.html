@@ -12,7 +12,7 @@
 			<br>
 			<br>
 
-			<b>Objetivo:</b> <span th:text="${discipline.semester}"></span>
+			<b>Objetivo:</b> <span th:text="${discipline.objective}"></span>
 		</div>
 
 		<div class="progress">
@@ -147,11 +147,14 @@
 	</div>
 
 	<script type="text/javascript">
-		$('#createForumTopic').click(function () {
+		$('#createForumTopic').click(function() {
 			let title = $('#title').text();
 			let description = $('#description').text();
-			
-			$.post(location.href + '/create-forum-topic', {title: title, description:description}, function() {
+
+			$.post(location.href + '/create-forum-topic', {
+				title : title,
+				description : description
+			}, function() {
 				$('#forumTopicModal').modal('hide');
 			});
 		});

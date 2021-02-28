@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gutotech.fatecando.model.Discipline;
+import com.gutotech.fatecando.service.CourseService;
 import com.gutotech.fatecando.service.DisciplineService;
 
 @Controller
@@ -22,10 +23,14 @@ public class DisciplineAdminController {
 	@Autowired
 	private DisciplineService disciplineService;
 
+	@Autowired
+	private CourseService courseService;
+
 	@GetMapping
 	public String initDisciplinesAdminPage(Model model) {
 		model.addAttribute("disciplines", disciplineService.findAll());
 		model.addAttribute("discipline", new Discipline());
+		model.addAttribute("courses", courseService.findAll());
 		return "admin/disciplines";
 	}
 
@@ -45,8 +50,7 @@ public class DisciplineAdminController {
 	}
 
 	@PostMapping("update")
-	public String processDisciplineCreationForm(@RequestBody @Valid Discipline discipline,
-			BindingResult bindingResult) {
+	public String processDisciplineCreationForm(@RequestBody Discipline discipline, BindingResult bindingResult) {
 		disciplineService.update(discipline);
 		return "redirect:/admin/disciplines";
 	}

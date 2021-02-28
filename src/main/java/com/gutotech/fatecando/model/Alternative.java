@@ -2,14 +2,18 @@ package com.gutotech.fatecando.model;
 
 import java.util.Objects;
 
+import javax.validation.constraints.NotBlank;
+
 public class Alternative {
 	private Long id;
 
+	@NotBlank
 	private String description;
 
-	private String feedback;
-
 	private boolean correct;
+
+	@NotBlank
+	private String feedback;
 
 	public Alternative() {
 	}
@@ -36,20 +40,20 @@ public class Alternative {
 		this.description = description;
 	}
 
-	public String getFeedback() {
-		return feedback;
-	}
-
-	public void setFeedback(String feedback) {
-		this.feedback = feedback;
-	}
-
 	public boolean isCorrect() {
 		return correct;
 	}
 
 	public void setCorrect(boolean correct) {
 		this.correct = correct;
+	}
+
+	public String getFeedback() {
+		return feedback;
+	}
+
+	public void setFeedback(String feedback) {
+		this.feedback = feedback;
 	}
 
 	@Override
@@ -67,6 +71,11 @@ public class Alternative {
 		}
 		Alternative other = (Alternative) obj;
 		return Objects.equals(id, other.id);
+	}
+
+	@Override
+	public String toString() {
+		return "Alternative [id=" + id + ", description=" + description + "]";
 	}
 
 }

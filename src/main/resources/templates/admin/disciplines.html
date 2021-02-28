@@ -21,7 +21,7 @@
 							<label class="form-label" for="nameInput">Nome</label>
 
 							<input type="text" id="nameInput" class="form-control"
-								placeholder="Nome" th:field="*{name}">
+								placeholder="Nome da Disciplina" th:field="*{name}">
 
 							<span class="text-danger" th:if="${#fields.hasErrors('name')}"
 								th:errors="*{name}">Nome inválido</span>
@@ -43,6 +43,15 @@
 							<select class="form-select" id="semester" name="semester">
 								<option th:each="i : ${#numbers.sequence(1, 10)}"
 									th:value="${i}" th:text="${i}" th:selected="${i==1}"></option>
+							</select>
+						</div>
+
+						<div class="mb-3">
+							<label class="form-label" for="course">Curso</label>
+
+							<select class="form-select" th:field="*{course.id}">
+								<option th:each="course : ${courses}" th:value="${course.id}"
+									th:text="${course.name}"></option>
 							</select>
 						</div>
 
@@ -141,9 +150,17 @@
 									</select>
 								</div>
 
+								<label class="form-label" for="updatedCourse">Curso</label>
+								<div class="mb-3">
+									<select class="form-select select2" id="updatedCourse">
+										<option th:each="course : ${courses}" th:value="${course.id}"
+											th:text="${course.name}"></option>
+									</select>
+								</div>
+
 								<div class="mb-3">
 									<label for="description" class="form-label">Descrição</label>
-									<textarea id="updatedDescription" class="form-control" rows="4"
+									<textarea id="updatedDescription" class="form-control" rows="9"
 										required></textarea>
 								</div>
 
@@ -175,6 +192,7 @@
 		});
 
 		let disciplines = /*[[${disciplines}]]*/null;
+		let courses = /*[[${courses}]]*/null;
 
 		$('#disciplineModal').on('show.bs.modal', function() {
 			var disciplineId = parseInt($(event.target).closest('tr').data('id'));
@@ -187,6 +205,8 @@
 					$('#updatedName').val(discipline.name);
 					$('#updatedCode').val(discipline.code);
 					$('#updatedSemester').val(discipline.semester);
+					$('#updatedCourse').val(discipline.course.id);
+					$('#updatedCourse').trigger('change');
 					$('#updatedDescription').text(discipline.description);
 					$('#updatedObjective').text(discipline.objective);
 					
@@ -196,14 +216,18 @@
 						let updatedName = $('#updatedName').val();
 						let updatedCode = $('#updatedCode').val();
 						let updatedSemester = $('#updatedSemester').val();
+						let updatedCourse = $('#updatedCourse').val();
 						let updatedDescription = $('#updatedDescription').val();
 						let updatedObjetive = $('#updatedObjective').val();
+						
+						let course = courses.find(c => c.id == updatedCourse);
 						
 						let updatedDiscipline = {
 							id: discipline.id,
 						    name: updatedName,
 						    code: updatedCode,
 						    semester: updatedSemester,
+						    course: course,
 						    description: updatedDescription,
 						    objective: updatedObjetive
 						};

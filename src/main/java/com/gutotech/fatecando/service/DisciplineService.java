@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.gutotech.fatecando.model.Course;
 import com.gutotech.fatecando.model.Discipline;
 import com.gutotech.fatecando.model.ForumTopic;
 import com.gutotech.fatecando.model.Topic;
@@ -19,7 +20,7 @@ public class DisciplineService {
 	@Autowired
 	private RestTemplate restTemplate;
 
-	private final String URL = "http://localhost:8081/api/disciplines/";
+	private final String URL = "http://localhost:8081/api/disciplines";
 
 	public Discipline findById(Long id) {
 		return restTemplate.getForObject(URL + "/" + id, Discipline.class);
@@ -29,6 +30,14 @@ public class DisciplineService {
 		ResponseEntity<List<Discipline>> responseEntity = restTemplate.exchange(URL, HttpMethod.GET, null,
 				new ParameterizedTypeReference<List<Discipline>>() {
 				});
+
+		return responseEntity.getBody();
+	}
+
+	public List<Discipline> findAllByCourse(Course course) {
+		ResponseEntity<List<Discipline>> responseEntity = restTemplate.exchange(URL + "?course={courseId}",
+				HttpMethod.GET, null, new ParameterizedTypeReference<List<Discipline>>() {
+				}, course.getId());
 
 		return responseEntity.getBody();
 	}
@@ -54,7 +63,7 @@ public class DisciplineService {
 	}
 
 	public void update(Discipline discipline) {
-		restTemplate.put(URL + "{id}", discipline, discipline.getId());
+		restTemplate.put(URL + "/{id}", discipline, discipline.getId());
 	}
 
 }

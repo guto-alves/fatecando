@@ -17,7 +17,7 @@ public class CourseService {
 	@Autowired
 	private RestTemplate restTemplate;
 
-	private final String URL = "http://localhost:8081/api/courses/";
+	private final String URL = "http://localhost:8081/api/courses";
 
 	public List<Course> findAll() {
 		ResponseEntity<List<Course>> responseEntity = restTemplate.exchange(URL, HttpMethod.GET, null,
@@ -28,7 +28,7 @@ public class CourseService {
 	}
 
 	public Course findById(Long id) {
-		return restTemplate.getForObject(URL + "{id}", Course.class, id);
+		return restTemplate.getForObject(URL + "/{id}", Course.class, id);
 	}
 
 	public Course save(Course course) {
@@ -36,7 +36,7 @@ public class CourseService {
 	}
 
 	public void update(Course course) {
-		restTemplate.put(URL + "{id}", course, course.getId());
+		restTemplate.put(URL + "/{id}", course, course.getId());
 	}
 
 }

@@ -3,6 +3,7 @@ package com.gutotech.fatecando.model;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.validation.constraints.NotBlank;
@@ -27,6 +28,8 @@ public class Discipline {
 	private Set<Topic> topics = new HashSet<>();
 
 	private List<ForumTopic> forum = new ArrayList<>();
+
+	private Course course;
 
 	public Discipline() {
 	}
@@ -93,6 +96,31 @@ public class Discipline {
 
 	public List<ForumTopic> getForum() {
 		return forum;
+	}
+
+	public Course getCourse() {
+		return course;
+	}
+
+	public void setCourse(Course course) {
+		this.course = course;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!(obj instanceof Discipline)) {
+			return false;
+		}
+		Discipline other = (Discipline) obj;
+		return Objects.equals(id, other.id);
 	}
 
 }
