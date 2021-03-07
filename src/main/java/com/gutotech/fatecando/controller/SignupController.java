@@ -6,26 +6,28 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gutotech.fatecando.model.User;
 import com.gutotech.fatecando.service.UserService;
 
 @Controller
-public class LoginController {
+@RequestMapping("join")
+public class SignupController {
 
 	@Autowired
 	private UserService userService;
 
-	@GetMapping("login")
-	public String initLoginForm(Model model) {
+	@GetMapping
+	public String initRegistrationForm(Model model) {
 		model.addAttribute("user", new User());
-		return "users/login";
+		return "users/join";
 	}
 
-	@PostMapping("registration")
-	public String proccessRegistrationForm(@ModelAttribute User user, Model model) {
+	@PostMapping
+	public String processRegistrationForm(@ModelAttribute User user, Model model) {
 		userService.register(user);
-		return "redirect:/login";
+		return "redirect:/join";
 	}
 
 }

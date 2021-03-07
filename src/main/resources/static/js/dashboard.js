@@ -1,5 +1,5 @@
 function viewDiscipline(disciplineId) {
-	location.href = '/courses/' + disciplineId;
+	location.href = '/disciplines/' + disciplineId;
 }
 
 function viewCourse(courseId) {
