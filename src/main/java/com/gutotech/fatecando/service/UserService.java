@@ -19,7 +19,7 @@ public class UserService {
 	@Autowired
 	private RestTemplate restTemplate;
 
-	private final String URL = "http://localhost:8081/api/users/";
+	private final String URL = "http://localhost:8081/api/users";
 
 	public List<User> findAll() {
 		ResponseEntity<List<User>> responseEntity = restTemplate.exchange(URL, HttpMethod.GET, null,
@@ -30,7 +30,7 @@ public class UserService {
 	}
 
 	public User findById(Long id) {
-		return restTemplate.getForObject(URL + "{id}", User.class, id);
+		return restTemplate.getForObject(URL + "/{id}", User.class, id);
 	}
 
 	public User register(User user) {
@@ -39,7 +39,7 @@ public class UserService {
 
 	public User login(String email, String password) {
 		User user = restTemplate //
-				.postForObject(URL + "login?email={email}&password={password}", //
+				.postForObject(URL + "/login?email={email}&password={password}", //
 						null, User.class, email, password);
 
 		if (user != null) {
@@ -51,7 +51,7 @@ public class UserService {
 	}
 
 	public User findCurrentUser() {
-		ResponseEntity<User> response = restTemplate.getForEntity(URL + "current", User.class);
+		ResponseEntity<User> response = restTemplate.getForEntity(URL + "/current", User.class);
 
 		if (response.getStatusCode() == HttpStatus.OK) {
 			return response.getBody();

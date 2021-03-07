@@ -22,13 +22,7 @@ public class LoginController {
 		return "users/login";
 	}
 
-	@GetMapping("join")
-	public String initRegistrationForm(Model model) {
-		model.addAttribute("user", new User());
-		return "users/signup";
-	}
-
-	@PostMapping("join")
+	@PostMapping("registration")
 	public String proccessRegistrationForm(@ModelAttribute User user, Model model) {
 		userService.register(user);
 		return "redirect:/login";
