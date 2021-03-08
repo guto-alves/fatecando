@@ -1,6 +1,7 @@
 package com.gutotech.fatecando.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -25,11 +26,15 @@ public class Discipline {
 
 	private int semester;
 
+	private long likes;
+
 	private Set<Topic> topics = new HashSet<>();
 
 	private List<ForumTopic> forum = new ArrayList<>();
 
 	private Course course;
+
+	private UserInfo user;
 
 	public Discipline() {
 	}
@@ -90,6 +95,14 @@ public class Discipline {
 		this.semester = semester;
 	}
 
+	public long getLikes() {
+		return likes;
+	}
+
+	public void setLikes(long likes) {
+		this.likes = likes;
+	}
+
 	public Set<Topic> getTopics() {
 		return topics;
 	}
@@ -104,6 +117,14 @@ public class Discipline {
 
 	public void setCourse(Course course) {
 		this.course = course;
+	}
+
+	public UserInfo getUser() {
+		return user;
+	}
+
+	public void setUser(UserInfo user) {
+		this.user = user;
 	}
 
 	@Override
@@ -121,6 +142,31 @@ public class Discipline {
 		}
 		Discipline other = (Discipline) obj;
 		return Objects.equals(id, other.id);
+	}
+
+	public class UserInfo {
+		private Date accessDate;
+
+		private boolean liked;
+
+		public UserInfo() {
+		}
+
+		public Date getAccessDate() {
+			return accessDate;
+		}
+
+		public void setAccessDate(Date accessDate) {
+			this.accessDate = accessDate;
+		}
+
+		public boolean isLiked() {
+			return liked;
+		}
+
+		public void setLiked(boolean liked) {
+			this.liked = liked;
+		}
 	}
 
 }

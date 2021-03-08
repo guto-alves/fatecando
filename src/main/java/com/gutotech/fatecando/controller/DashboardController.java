@@ -25,8 +25,8 @@ public class DashboardController {
 
 	@GetMapping
 	public String home(Model model) {
+		model.addAttribute("disciplines", disciplineService.findAllAccessed());
 		model.addAttribute("courses", courseService.findAll());
-		model.addAttribute("disciplines", disciplineService.findAll());
 		model.addAttribute("institutions", institutionService.findAll());
 		return "dashboard";
 	}

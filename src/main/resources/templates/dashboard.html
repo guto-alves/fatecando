@@ -22,8 +22,9 @@
 						wider card with supporting text below as a natural lead-in to additional content.
 						This content is a little bit longer.</p>
 				</div>
-				<div class="card-footer">
-					<small class="text-muted">Last seen 3 mins ago</small>
+				<div class="card-footer text-muted">
+					Last seen
+					<time class="timeago" th:datetime="${#dates.formatISO(discipline.user.accessDate)}"></time>
 				</div>
 			</div>
 		</div>
@@ -82,7 +83,6 @@
 					<small class="text-muted">Last seen 3 mins ago</small>
 				</div>
 			</div>
-
 		</div>
 	</div>
 
@@ -92,5 +92,11 @@
 	</script>
 
 	<script type="text/javascript" th:src="@{/js/dashboard.js}"></script>
+
+	<script type="text/javascript" th:src="@{/js/timeago.js}"></script>
+
+	<script type="text/javascript">
+		$("time.timeago").timeago();
+	</script>
 </body>
 </html>

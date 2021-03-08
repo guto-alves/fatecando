@@ -33,6 +33,14 @@ public class DisciplineService {
 
 		return responseEntity.getBody();
 	}
+	
+	public List<Discipline> findAllAccessed() {
+		ResponseEntity<List<Discipline>> responseEntity = restTemplate.exchange(URL + "/accessed", HttpMethod.GET, null,
+				new ParameterizedTypeReference<List<Discipline>>() {
+				});
+
+		return responseEntity.getBody();
+	}
 
 	public List<Discipline> findAllByCourse(Course course) {
 		ResponseEntity<List<Discipline>> responseEntity = restTemplate.exchange(URL + "?course={courseId}",
@@ -64,6 +72,10 @@ public class DisciplineService {
 
 	public void update(Discipline discipline) {
 		restTemplate.put(URL + "/{id}", discipline, discipline.getId());
+	}
+	
+	public void toggleLike(Discipline discipline) {
+		restTemplate.put(URL + "/{id}/like", null, discipline.getId());
 	}
 
 }
