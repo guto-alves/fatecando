@@ -43,6 +43,11 @@
 
 	<hr>
 
+	<div class="alert alert-success alert-dismissible fade show text-center"
+		th:if="${!#strings.isEmpty(message)}" role="alert">
+		<th:block th:text="${message}" />
+	</div>
+
 	<div class="card">
 		<div class="card-header">
 			<ul class="nav nav-tabs fw-bolder">
@@ -56,7 +61,7 @@
 				</li>
 				<li class="nav-item">
 					<a class="nav-link text-danger" th:classappend="${page} == 'forum'? 'active'"
-						href="#" th:href="@{/disciplines/{id}(id=${discipline.id}, page='forum')}">Forum</a>
+						href="#" th:href="@{/disciplines/{id}(id=${discipline.id}, page='forum')}">Fórum</a>
 				</li>
 			</ul>
 		</div>
@@ -88,7 +93,7 @@
 				</a>
 			</div>
 
-			<!-- Forums -->
+			<!-- Forum -->
 			<div th:if="${#strings.equalsIgnoreCase(page, 'forum')}">
 				<div class="card bg-white mb-3">
 					<div class="card-body">
@@ -96,38 +101,44 @@
 
 						<!-- Button trigger modal -->
 						<button type="button" class="btn btn-outline-dark" data-bs-toggle="modal"
-							data-bs-target="#exampleModal">Criar um novo Topico</button>
+							data-bs-target="#forumTopicModal">Criar um novo Tópico</button>
 
 						<!-- Modal -->
 						<div class="modal fade" id="forumTopicModal" tabindex="-1"
 							aria-labelledby="exampleModalLabel" aria-hidden="true">
 							<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h5 class="modal-title" id="exampleModalLabel"
-											th:text="${discipline.code} + ' - Novo Topico para o Forum'">Novo Topico
-											Forum</h5>
-										<button type="button" class="btn-close" data-bs-dismiss="modal"
-											aria-label="Close"></button>
-									</div>
-									<div class="modal-body">
-										<div>
-											<div class="mb-3">
-												<label>Titulo</label>
-												<input id="title" type="text" class="form-control" required>
-											</div>
+								<form action="#" method="post"
+									th:action="@{/disciplines/{id}/forum-topic(id=${discipline.id})}"
+									th:object="${forumTopic}">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalLabel"
+												th:text="${discipline.code} + ' - Novo Tópico para o Fórum'">Novo Tópico
+												Fórum</h5>
+											<button type="button" class="btn-close" data-bs-dismiss="modal"
+												aria-label="Close"></button>
+										</div>
+										<div class="modal-body">
+											<div>
+												<div class="mb-3">
+													<label>Título</label>
+													<input id="title" type="text" class="form-control" required
+														th:field="*{title}">
+												</div>
 
-											<div class="mb-3">
-												<label for="exampleFormControlTextarea1" class="form-label">Descricao</label>
-												<textarea id="description" class="form-control" rows="3" required></textarea>
+												<div class="mb-3">
+													<label for="exampleFormControlTextarea1" class="form-label">Descrição</label>
+													<textarea id="description" class="form-control" rows="3" required
+														th:field="*{description}"></textarea>
+												</div>
 											</div>
 										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+											<button type="submit" class="btn btn-danger">Criar</button>
+										</div>
 									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-										<button id="createForumTopic" type="button" class="btn btn-primary">Criar</button>
-									</div>
-								</div>
+								</form>
 							</div>
 						</div>
 					</div>
@@ -138,31 +149,25 @@
 						th:each="topic : ${forumTopics}">
 
 						<div class="d-flex w-100 justify-content-between">
-							<h5 class="mb-1" th:text="${topic.title}">List group item heading</h5>
-							<small class="text-muted">3 days ago</small>
+							<h5 class="mb-1" th:text="${topic.title}">Topic Title</h5>
+							<time class="text-muted timeago" th:datetime="${#dates.formatISO(topic.date)}">3
+								days ago</time>
 						</div>
-						<p class="mb-1 text-truncate" th:text="${topic.description}">Some placeholder
+						<p class="mb-1 module line-clamp" th:text="${topic.description}">Some placeholder
 							content in a paragraph.</p>
 
-						<small class="text-muted">Postado por Gustavo Alves.</small>
+						<small class="text-muted" th:text="'Criado por ' + ${topic.user.fullName}">Criado
+							por Gustavo Alves.</small>
 					</a>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<script type="text/javascript">
-		$('#createForumTopic').click(function() {
-			let title = $('#title').text();
-			let description = $('#description').text();
+	<script type="text/javascript" th:src="@{/js/timeago.js}"></script>
 
-			$.post(location.href + '/create-forum-topic', {
-				title : title,
-				description : description
-			}, function() {
-				$('#forumTopicModal').modal('hide');
-			});
-		});
+	<script type="text/javascript">
+		$("time.timeago").timeago();
 
 		$('#like').click(function() {
 			$.post(location.href + '/like');

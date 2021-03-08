@@ -33,7 +33,7 @@ public class DisciplineService {
 
 		return responseEntity.getBody();
 	}
-	
+
 	public List<Discipline> findAllAccessed() {
 		ResponseEntity<List<Discipline>> responseEntity = restTemplate.exchange(URL + "/accessed", HttpMethod.GET, null,
 				new ParameterizedTypeReference<List<Discipline>>() {
@@ -59,7 +59,7 @@ public class DisciplineService {
 	}
 
 	public List<ForumTopic> findAllForumTopicsByDiscipline(Discipline discipline) {
-		ResponseEntity<List<ForumTopic>> responseEntity = restTemplate.exchange(URL + "/{id}/forumtopics",
+		ResponseEntity<List<ForumTopic>> responseEntity = restTemplate.exchange(URL + "/{id}/forum-topics",
 				HttpMethod.GET, null, new ParameterizedTypeReference<List<ForumTopic>>() {
 				}, discipline.getId());
 
@@ -73,9 +73,13 @@ public class DisciplineService {
 	public void update(Discipline discipline) {
 		restTemplate.put(URL + "/{id}", discipline, discipline.getId());
 	}
-	
+
 	public void toggleLike(Discipline discipline) {
 		restTemplate.put(URL + "/{id}/like", null, discipline.getId());
+	}
+
+	public ForumTopic saveForumTopic(Discipline discipline, ForumTopic forumTopic) {
+		return restTemplate.postForObject(URL + "/{id}/forum-topics", forumTopic, ForumTopic.class, discipline.getId());
 	}
 
 }

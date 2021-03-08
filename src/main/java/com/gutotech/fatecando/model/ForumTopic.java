@@ -7,20 +7,12 @@ public class ForumTopic {
 	private Long id;
 	private String title;
 	private String description;
-	private Date createdAt;
-	private Date updatedAt;
+	private Date date;
 	private int likes;
 	private User user;
 	private Discipline discipline;
 
 	public ForumTopic() {
-	}
-
-	public ForumTopic(String title, String description, Date createdAt, Discipline discipline) {
-		this.title = title;
-		this.description = description;
-		this.createdAt = createdAt;
-		this.discipline = discipline;
 	}
 
 	public Long getId() {
@@ -47,20 +39,12 @@ public class ForumTopic {
 		this.description = description;
 	}
 
-	public Date getCreatedAt() {
-		return createdAt;
+	public Date getDate() {
+		return date;
 	}
 
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
-
-	public Date getUpdatedAt() {
-		return updatedAt;
-	}
-
-	public void setUpdatedAt(Date updatedAt) {
-		this.updatedAt = updatedAt;
+	public void setDate(Date date) {
+		this.date = date;
 	}
 
 	public int getLikes() {
@@ -71,11 +55,11 @@ public class ForumTopic {
 		this.likes = likes;
 	}
 
-	public User getStudent() {
+	public User getUser() {
 		return user;
 	}
 
-	public void setStudent(User user) {
+	public void setUser(User user) {
 		this.user = user;
 	}
 

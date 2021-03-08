@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gutotech.fatecando.model.Discipline;
+import com.gutotech.fatecando.model.ForumTopic;
 import com.gutotech.fatecando.service.DisciplineService;
 
 @Controller
@@ -22,19 +24,13 @@ public class DisciplineController {
 	private DisciplineService disciplineService;
 
 	@ModelAttribute("discipline")
-	public Discipline getDiscipline(@PathVariable("disciplineId") Long id) {
-		return disciplineService.findById(id);
+	public Discipline getDiscipline(@PathVariable("disciplineId") Long disciplineId) {
+		return disciplineService.findById(disciplineId);
 	}
 
 	@GetMapping
 	public String showDiscipline(Discipline discipline,
-			@RequestParam(value = "page", required = false) String page, Model model) {
-		if (page == null) {
-			page = "topics";
-		}
-
-		model.addAttribute("discipline", discipline);
-
+			@RequestParam(value = "page", required = false, defaultValue = "topics") String page, Model model) {
 		model.addAttribute("page", page);
 
 		switch (page) {
@@ -45,10 +41,11 @@ public class DisciplineController {
 			// add tests
 			break;
 		case "forum":
+			model.addAttribute("forumTopic", new ForumTopic());
 			model.addAttribute("forumTopics", disciplineService.findAllForumTopicsByDiscipline(discipline));
 			break;
 		default:
-			model.addAttribute("page", "forum");
+			model.addAttribute("page", "topics");
 			model.addAttribute("topics", disciplineService.findAllTopicsByDiscipline(discipline));
 			break;
 		}
@@ -58,8 +55,18 @@ public class DisciplineController {
 
 	@PostMapping("like")
 	public ResponseEntity<Void> toggleLike(Discipline discipline) {
-		disciplineService.toggleLike(discipline);;
+		disciplineService.toggleLike(discipline);
 		return ResponseEntity.ok().build();
+	}
+
+	@PostMapping("forum-topic")
+	public String processForumTopicCreatitonForm(Discipline discipline,
+			@ModelAttribute("forumTopic") ForumTopic forumTopic, RedirectAttributes redirectAttributes, Model model) {
+		disciplineService.saveForumTopic(discipline, forumTopic);
+		
+		redirectAttributes.addFlashAttribute("message", "Tópico para o Fórum da disciplina foi criado com sucesso.");
+		
+		return "redirect:/disciplines/" + discipline.getId() + "?page=forum";
 	}
 
 }
