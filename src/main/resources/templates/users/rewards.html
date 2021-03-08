@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org"
+	th:replace="~{fragments/layout :: base ('Recompensas', ~{::body})}">
+<head>
+<meta charset="utf-8">
+</head>
+<body>
+	<div class="card shadow mt-3">
+		<h3 class="card-header fw-bold fst-italic text-center">Recompensas</h3>
+		<div class="card-body">
+			<table class="table table-bordered border-danger table-stripped text-center table-sm">
+				<thead>
+					<tr>
+						<th>Tipo</th>
+						<th>Recompensa</th>
+						<th>Recebido em</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="align-middle" th:each="reward : ${rewards}">
+						<td class="fw-bolder text-warning" th:text="${reward.type.displayName}">Quiz</td>
+						<td class="text-center text-success fw-bold">
+							<span th:text="${reward.type.coins} + ' Moedas'">25 Moedas</span>
+							<br>
+							<span th:text="${reward.type.score} + ' Pontos de Score'">60 Pontos de score</span>
+						</td>
+						<td th:text="${#dates.format(reward.date, 'dd/MM/yyyy HH:mm:ss')}">08/03/2021</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+// 		$('.table').DataTable({
+// 			language : {
+// 				url : '//cdn.datatables.net/plug-ins/1.10.22/i18n/Portuguese-Brasil.json'
+// 			}
+// 		});
+	</script>
+</body>
+</html>
