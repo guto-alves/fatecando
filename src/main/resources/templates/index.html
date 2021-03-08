@@ -1,97 +1,218 @@
 <!DOCTYPE html>
-<html xmlns:th="www.thymeleaf.org"
-	th:replace="~{fragments/layout :: base('', ~{::body})}">
+<html lang="pt-br">
 <head>
+<!-- Meta tags Obrigatórias -->
 <meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	crossorigin="anonymous">
+
+<style>
+body {
+	overflow-x: hidden;
+}
+
+img {
+	max-width: 100%;
+	max-height: 400px;
+	object-fit: cover;
+	padding: 50px;
+}
+
+</style>
+
 </head>
 <body>
-	<h3 class="fw-bolder text-center mt-3">Vantagens de ser Um
-		Fatecando</h3>
 
-	<div class="row row-cols-1 row-cols-md-2 g-2 mt-3">
-		<div class="col">
-			<div class="card bg-primary text-white shadow-lg">
-				<div class="card-body">
-					<h4 class="card-title">Comece do Zero, Comece Agora</h4>
-					<p class="card-text">Siga o cronograma, e chegue lá!</p>
+	<div class="row">
+		<div class="col-sm-12 p-0">
+			<div id="carousel-legenda" class="carousel slide"
+				data-ride="carousel">
+				<ol class="carousel-indicators">
+					<li data-target="#carousel-legenda" data-slide-to="0"
+						class="active"></li>
+					<li data-target="#carousel-legenda" data-slide-to="1"></li>
+					<li data-target="#carousel-legenda" data-slide-to="2"></li>
+					<li data-target="#carousel-legenda" data-slide-to="3"></li>
+					<li data-target="#carousel-legenda" data-slide-to="4"></li>
+				</ol>
+
+				<div class="carousel-inner">
+				
+				<div class="carousel-item active bg-secondary">
+						<div class="row text-center">
+							<div class="col-6 align-self-center">
+								<div style="color: white">
+									<h2>Sem complicação</h2>
+									<p>Estude como e quando quiser!</p>
+									<button class="btn btn-danger" th:onclick="access()">Acessar</button>
+								</div>
+							</div>
+
+							<div class="col-6">
+								<img th:src="@{img/study.svg}" class="img-fluid">
+							</div>
+						</div>
+					</div>
+
+					<div class="carousel-item bg-danger">
+						<div class="row text-center">
+							<div class="col-6 align-self-center">
+								<div style="color: white">
+									<h2>É fazendo que se aprende</h2>
+									<p>Metodologia focada na prática com exercícios e
+										simulados.</p>
+									<button class="btn btn-dark" th:onclick="access()">Acessar</button>
+								</div>
+							</div>
+
+							<div class="col-6">
+								<img th:src="@{img/focus.svg}" class="img-fluid">
+							</div>
+						</div>
+					</div>
+
+					<div class="carousel-item bg-warning">
+						<div class="row text-center">
+							<div class="col-6 align-self-center">
+								<div style="color: white">
+									<h2>O Material Certo</h2>
+									<p>Material sempre atualizado pela Comunidade do Fatecando.</p>
+									<button class="btn btn-danger" th:onclick="access()">Acessar</button>
+								</div>
+							</div>
+
+							<div class="col-6">
+								<img th:src="@{img/material.svg}" class="img-fluid">
+							</div>
+						</div>
+					</div>
+
+					<div class="carousel-item bg-success">
+						<div class="row text-center">
+							<div class="col-6 align-self-center">
+								<div style="color: white">
+									<h2>Mais que juntos</h2>
+									<p>Estude com alunos que estão no mesmo barco que você.</p>
+									<button class="btn btn-dark" th:onclick="access()">Acessar</button>
+								</div>
+							</div>
+
+							<div class="col-6">
+								<img th:src="@{img/group.svg}" class="img-fluid">
+							</div>
+						</div>
+					</div>
+					
+					<div class="carousel-item bg-primary">
+						<div class="row text-center">
+							<div class="col-6 align-self-center">
+								<div style="color: white">
+									<h2>Comece agora</h2>
+									<p>Siga o cronograma e chegue lá!</p>
+									<button class="btn btn-danger" th:onclick="access()">Acessar</button>
+								</div>
+							</div>
+
+							<div class="col-6">
+								<img th:src="@{img/check.svg}" class="img-fluid">
+							</div>
+						</div>
+					</div>
+
 				</div>
+
+				<a href="#carousel-legenda" class="carousel-control-prev"
+					data-slide="prev"> <span class="carousel-control-prev-icon"></span>
+				</a> <a href="#carousel-legenda" class="carousel-control-next"
+					data-slide="next"> <span class="carousel-control-next-icon"></span>
+				</a>
+
 			</div>
 		</div>
-
-		<div class="col">
-			<div class="card bg-danger text-white shadow-lg">
-				<div class="card-body">
-					<h4 class="card-title">Estudar = aula + treino</h4>
-					<p class="card-text">Metodologia focada na prática com
-						exercícios e simulados.</p>
-				</div>
-			</div>
-		</div>
-
-		<div class="col">
-			<div class="card bg-info text-black shadow-lg">
-				<div class="card-body">
-					<h4 class="card-title">O Material Certo</h4>
-					<p class="card-text">Material constantemente atualizado e
-						revisado pelos professores e pela Comunidade do Fatecando.</p>
-				</div>
-			</div>
-		</div>
-
-
-		<div class="col">
-			<div class="card bg-warning text-black shadow-lg">
-				<div class="card-body">
-					<h4 class="card-title">Suas DP's acabaram</h4>
-					<p class="card-text">Fatecando não fica de DP! Materiais certos
-						e organizados, Quizes, Simulados e auxílio dos Fatecandos fica
-						muito facíl passar!</p>
-				</div>
-			</div>
-		</div>
-
-		<div class="col">
-			<div class="card bg-dark text-white shadow-lg">
-				<div class="card-body">
-					<h4 class="card-title">Estude de graça</h4>
-					<p class="card-text">Você não paga nada para estudar. É só
-						inscrever-se e começar a estudar de qualquer lugar que tenha
-						conexão com a Internet.</p>
-				</div>
-			</div>
-		</div>
-
-		<div class="col">
-			<div class="card bg-success text-white shadow-lg">
-				<div class="card-body">
-					<h4 class="card-title">Mais que juntos, together</h4>
-					<p class="card-text">Estude com alunos que estão no mesmo barco
-						que você.</p>
-				</div>
-			</div>
-		</div>
-
 	</div>
 
-	<br>
-	<hr>
-	<br>
-
-	<h3 class="fw-bolder text-center">Se liga em algumas de Nossas
-		Disciplinas</h3>
-
-	<div class="row row-cols-1 row-cols-md-2 g-2 mt-3">
-		<div class="col" th:each="discipline : ${disciplines}">
-			<div class="card h-100 bg-danger text-white shadow-lg">
-				<div class="card-body">
-					<h4 class="card-title" th:text="${discipline.name}">Discipline
-						Name</h4>
-					<p class="card-text text-break" th:text="${discipline.description}">Description</p>
-					<a class="btn btn-light" href="#" th:href="@{/join}">Preciso de
-						Muita Ajuda nessa!</a>
+	<div class="container mt-5">
+	
+		<div class="row">
+			<div class="col text-center">
+				<h3>O Fatecando é uma plataforma de estudos online focado no seu aprendizado!</h3>
+				
+			</div>
+		</div>
+	
+		<div class="row mt-5">
+			<div class="col-md-4">
+				<img th:src="@{img/logo.svg}" class="img-fluid">
+			</div>
+			<div class="col-md-8 d-flex">
+				<div class="align-self-center">
+					<h3>Sabemos as dificuldades de ser um universitário</h3>
+					<p>Já enfrentamos os obstáculos da vida acadêmica. Conteúdos espalhados 
+						pela Web, nem sempre de boa qualidade e muitas vezes defasados.  
+						Por isso decidimos criar o <b class="text-danger">Fatecando</b>, materiais 
+						separados por assuntos e dificuldades em um ambiente dinâmico, para auxiliar 
+						os estudantes em qualquer momento unindo o conhecimento a prática.
+					</p>
 				</div>
 			</div>
 		</div>
+		
+		<div class="row mt-5">
+			<div class="col-md-4">
+				<img th:src="@{img/logo.svg}" class="img-fluid">
+			</div>
+			<div class="col-md-8 d-flex">
+				<div class="align-self-center">
+					<h3>Bateu aquela dúvida? </h3>
+					<p>Não precisa ficar coçando a cabeça com cara de ué, mande sua pergunta no
+						forum e interaja com os outros alunos.
+					</p>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row my-5">
+			<div class="col-md-4">
+				<img th:src="@{img/logo.svg}" class="img-fluid">
+			</div>
+			<div class="col-md-8 d-flex">
+				<div class="align-self-center">
+					<h3>Estudar com os amigos é muito melhor!</h3>
+					<p>Crie salas para competir com seus amigos em um Quiz 
+						com perguntas desafiadoras! Assim você fica afiado
+						e tira de letra qualquer prova.
+					</p>
+				</div>
+			</div>
+		</div>
+		
+		
+		
 	</div>
+
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+		integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+		integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+		crossorigin="anonymous"></script>
+		
+	<script>
+		function access() {
+			location.href = '/join/'
+		}
+	</script>
 </body>
 </html>
