@@ -171,7 +171,7 @@
 		$("time.timeago").timeago();
 
 		$('#like').click(function() {
-			$.post(location.href + '/like');
+			$.post(location.href.split('?')[0] + '/like');
 
 			let button = $(this);
 
