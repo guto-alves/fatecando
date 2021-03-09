@@ -5,21 +5,18 @@ import java.util.Objects;
 
 import javax.validation.constraints.NotBlank;
 
-public class ForumTopic {
+public class ForumTopicComment {
 	private Long id;
 
-	@NotBlank(message = "Please provide a valid title.")
-	private String title;
-
-	@NotBlank(message = "Please provide a valid description.")
-	private String description;
+	@NotBlank(message = "Please provide a valid content")
+	private String content;
 
 	private Date date;
 	private int likes;
 	private User user;
-	private Discipline discipline;
+	private ForumTopic forumTopic;
 
-	public ForumTopic() {
+	public ForumTopicComment() {
 	}
 
 	public Long getId() {
@@ -30,20 +27,12 @@ public class ForumTopic {
 		this.id = id;
 	}
 
-	public String getTitle() {
-		return title;
+	public String getContent() {
+		return content;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
+	public void setContent(String content) {
+		this.content = content;
 	}
 
 	public Date getDate() {
@@ -70,12 +59,12 @@ public class ForumTopic {
 		this.user = user;
 	}
 
-	public Discipline getDiscipline() {
-		return discipline;
+	public ForumTopic getForumTopic() {
+		return forumTopic;
 	}
 
-	public void setDiscipline(Discipline discipline) {
-		this.discipline = discipline;
+	public void setForumTopic(ForumTopic forumTopic) {
+		this.forumTopic = forumTopic;
 	}
 
 	@Override
@@ -88,10 +77,10 @@ public class ForumTopic {
 		if (this == obj) {
 			return true;
 		}
-		if (!(obj instanceof ForumTopic)) {
+		if (!(obj instanceof ForumTopicComment)) {
 			return false;
 		}
-		ForumTopic other = (ForumTopic) obj;
+		ForumTopicComment other = (ForumTopicComment) obj;
 		return Objects.equals(id, other.id);
 	}
 

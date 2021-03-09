@@ -108,7 +108,7 @@
 							aria-labelledby="exampleModalLabel" aria-hidden="true">
 							<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 								<form action="#" method="post"
-									th:action="@{/disciplines/{id}/forum-topic(id=${discipline.id})}"
+									th:action="@{/disciplines/{id}/forum-topics(id=${discipline.id})}"
 									th:object="${forumTopic}">
 									<div class="modal-content">
 										<div class="modal-header">
@@ -128,7 +128,7 @@
 
 												<div class="mb-3">
 													<label for="exampleFormControlTextarea1" class="form-label">Descrição</label>
-													<textarea id="description" class="form-control" rows="3" required
+													<textarea id="description" class="form-control" rows="6" required
 														th:field="*{description}"></textarea>
 												</div>
 											</div>
@@ -146,15 +146,16 @@
 
 				<div class="list-group" th:unless="${#lists.isEmpty(forumTopics)}">
 					<a href="#" class="list-group-item list-group-item-action"
-						th:each="topic : ${forumTopics}">
+						th:each="topic : ${forumTopics}"
+						th:href="@{/disciplines/{id}/forum-topics/{topicId}(id=${discipline.id}, topicId=${topic.id})}">
 
 						<div class="d-flex w-100 justify-content-between">
 							<h5 class="mb-1" th:text="${topic.title}">Topic Title</h5>
 							<time class="text-muted timeago" th:datetime="${#dates.formatISO(topic.date)}">3
 								days ago</time>
 						</div>
-						<p class="mb-1 module line-clamp" th:text="${topic.description}">Some placeholder
-							content in a paragraph.</p>
+						<p class="mb-1 module line-clamp" th:text="${topic.description}">Some
+							placeholder content in a paragraph.</p>
 
 						<small class="text-muted" th:text="'Criado por ' + ${topic.user.fullName}">Criado
 							por Gustavo Alves.</small>

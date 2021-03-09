@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org"
+	th:replace="~{fragments/layout :: base (${forumTopic.title}, ~{::body})}">
+<head>
+<meta charset="utf-8">
+</head>
+<body>
+	<div class="card shadow mt-3">
+		<div class="card-body">
+			<h3 class="card-title" th:text="${forumTopic.title}">Como instalar PIP em arquivo
+				requirements.txt do Odoo</h3>
+			<span class="card-text">
+				<span class="text-muted">Criado</span>
+				<time class="timeago" th:datetime="${#dates.formatISO(forumTopic.date)}"></time>
+			</span>
+			<hr>
+			<div class="card-text" id="description" th:text="${forumTopic.description}"></div>
+		</div>
+		<div class="card-footer">
+			<span class="text-muted">Criado por</span>
+			<span th:text="'' + ${forumTopic.user.fullName}">Gustavo Alves</span>
+
+			<span class="text-muted">em</span>
+			<span th:text="${#dates.format(forumTopic.date, 'dd/MM/yyyy HH:mm')}"></span>
+		</div>
+	</div>
+
+	<div class="card border border-secondary mt-3">
+		<div class="card-body">
+			<h4 class="card-title"
+				th:text="${#lists.size(comments) > 0 ? #lists.size(comments) + ' Respostas' : 'Seja o primeiro a responder!'}">5
+				Respostas</h4>
+
+			<div class="card shadow mb-3" th:each="comment : ${comments}">
+				<div class="card-body">
+					<p id="htmlComment" th:text="${comment.content}"></p>
+				</div>
+				<div class="card-footer d-flex justify-content-between">
+					<div>
+						<span class="text-muted">Respondido por</span>
+						<span th:text="'' + ${forumTopic.user.fullName}">Gustavo Alves</span>
+					</div>
+
+					<time class="timeago" th:datetime="${#dates.formatISO(comment.date)}"></time>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="card border border-danger mt-3">
+		<div class="card-body">
+			<h4 class="card-title">Sua resposta</h4>
+			<form action="#" method="post"
+				th:action="@{/disciplines/{disciplineId}/forum-topics/{topicId}(disciplineId=${discipline.id},topicId=${forumTopic.id})}"
+				th:object="${comment}">
+				<div class="mb-3">
+					<textarea rows="6" class="form-control" th:field="*{content}" required></textarea>
+					<script>
+						CKEDITOR.replace('content', {
+							uiColor : '#CCEAEE'
+						});
+					</script>
+				</div>
+				<button type="submit" class="btn btn-danger form-control">Publique sua
+					resposta</button>
+			</form>
+		</div>
+	</div>
+
+	<script type="text/javascript" th:src="@{/js/timeago.js}"></script>
+	<script type="text/javascript" th:inline="javascript">
+		$("time.timeago").timeago();
+
+		$('#htmlComment').each(function() {
+			$(this).html($(this).text());
+		});
+	</script>
+</body>
+</html>
