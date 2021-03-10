@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="www.thymeleaf.org"
-	th:replace="~{fragments/layout :: base ('Dashboard', ~{::body})}">
+	th:replace="~{fragments/layout :: base('Dashboard', ~{::body}, _, _, _)}">
 <head>
 <meta charset="utf-8">
 </head>
@@ -95,6 +95,7 @@
 		let institutions = /*[[${instituions}]]*/null;
 		let courses = /*[[${courses}]]*/null;
 	</script>
+	
 	<script type="text/javascript" th:src="@{/js/dashboard.js}"></script>
 </body>
 </html>

@@ -1,14 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org"
-	th:replace="~{fragments/layout :: base ('Tópico', ~{::body})}">
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: base ('Tópico', ~{::body}, _, _, _)}">
 <head>
 <meta charset="utf-8">
 </head>
 <body>
 	<h3 class="fw-bolder text-center mt-3">Gerenciar Questões</h3>
 
-	<table id="table"
-		class="table table-sm table-striped table-bordered table-hover">
+	<table id="table" class="table table-sm table-striped table-bordered table-hover">
 		<thead class="thead-dark">
 			<tr>
 				<th>ID</th>
@@ -23,16 +21,12 @@
 		<tbody>
 			<tr th:each="question : ${questions}" th:data-id="${question.id}">
 				<td class="align-middle" th:text="${question.id}"></td>
-				<td class="align-middle text-truncate"
-					th:text="${question.description}"></td>
+				<td class="align-middle text-truncate" th:text="${question.description}"></td>
 				<td class="align-middle" th:text="${question.type}"></td>
-				<td class="align-middle text-truncate"
-					th:text="${question.topic.name}"></td>
-				<td class="align-middle"
-					th:text="${#dates.format(question.creationDate, 'dd/MM/yyyy')}"></td>
+				<td class="align-middle text-truncate" th:text="${question.topic.name}"></td>
+				<td class="align-middle" th:text="${#dates.format(question.creationDate, 'dd/MM/yyyy')}"></td>
 				<td class="align-middle" th:text="${question.status.displayName}"></td>
-				<td><a class="btn btn-outline-dark button-sm" href="#"
-						th:href="@{/questions/admin/{id}(id=${question.id})}">Analisar</a></td>
+				<td><a class="btn btn-outline-dark button-sm" href="#" th:href="@{/questions/admin/{id}(id=${question.id})}">Analisar</a></td>
 			</tr>
 		</tbody>
 	</table>

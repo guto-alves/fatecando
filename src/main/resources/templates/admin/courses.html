@@ -1,62 +1,56 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org"
-	th:replace="~{fragments/layout :: base ('Cursos', ~{::body})}">
+	th:replace="~{fragments/layout :: base('Cursos', ~{::body}, _, _, _)}">
 <head>
 <meta charset="utf-8">
 </head>
 <body>
-	<div class="alert alert-success mt-3" th:if="${!#strings.isEmpty(message)}"
-		th:text="${message}" role="alert">
+	<div class="alert alert-success mt-3" th:if="${!#strings.isEmpty(message)}" th:text="${message}" role="alert">
 		<button type="button" class="close" data-dismiss="alert">&times;</button>
 	</div>
 
 	<div class="accordion mt-3" id="courseFormAccordion">
 		<div class="accordion-item">
 			<h2 class="accordion-header text-center" id="headingOne">
-				<button class="accordion-button collapsed" type="button"
-					data-bs-toggle="collapse" data-bs-target="#collapseOne"
-					aria-expanded="false" aria-controls="collapseOne">
+				<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+					data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
 					<h4 class="fw-bold text-center">Cadastro de Curso</h4>
 				</button>
 			</h2>
-			<div id="collapseOne" class="accordion-collapse collapse"
-				aria-labelledby="headingOne" data-bs-parent="#courseFormAccordion">
+			<div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+				data-bs-parent="#courseFormAccordion">
 				<div class="accordion-body">
 					<div class="card border-secondary">
 						<div class="card-body">
-							<form action="#" method="post" th:action="@{/admin/courses}"
-								th:object="${course}">
+							<form action="#" method="post" th:action="@{/admin/courses}" th:object="${course}">
 								<div class="mb-3">
 									<label for="name" class="form-label">Nome</label>
 
-									<input type="text" class="form-control" id="name" th:field="*{name}"
-										th:errorclass="is-invalid" aria-describedby="nameFeedback">
+									<input type="text" class="form-control" id="name" th:field="*{name}" th:errorclass="is-invalid"
+										aria-describedby="nameFeedback">
 
-									<div id="nameFeedback" class="invalid-feedback"
-										th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Mensagem
-										de erro</div>
+									<div id="nameFeedback" class="invalid-feedback" th:if="${#fields.hasErrors('name')}"
+										th:errors="*{name}">Mensagem de erro</div>
 								</div>
 
 								<div class="row mb-3">
 									<div class="col">
 										<label for="code" class="form-label">Código</label>
 
-										<input type="text" class="form-control" id="institution"
-											placeholder="Ex.: ADS, COMEX, RH, ..." th:field="*{code}"
-											th:classappend="${#fields.hasErrors('code')}? 'is-invalid'"
+										<input type="text" class="form-control" id="institution" placeholder="Ex.: ADS, COMEX, RH, ..."
+											th:field="*{code}" th:classappend="${#fields.hasErrors('code')}? 'is-invalid'"
 											aria-describedby="codeFeedback">
 
-										<div id="codeFeedback" class="invalid-feedback"
-											th:if="${#fields.hasErrors('code')}" th:errors="*{code}">Mensagem
-											de erro</div>
+										<div id="codeFeedback" class="invalid-feedback" th:if="${#fields.hasErrors('code')}"
+											th:errors="*{code}">Mensagem de erro</div>
 									</div>
 
 									<div class="col">
 										<label class="form-label" for="semesters">Total de Semestres</label>
 
 										<select class="form-select" id="semesters" name="semesters">
-											<option th:each="i : ${#numbers.sequence(1, 10)}" th:value="${i}"
-												th:text="${i}" th:selected="${i==course.semesters}"></option>
+											<option th:each="i : ${#numbers.sequence(1, 10)}" th:value="${i}" th:text="${i}"
+												th:selected="${i==course.semesters}"></option>
 										</select>
 									</div>
 								</div>
@@ -68,24 +62,20 @@
 
 								<label class="form-label" for="semesters">Instituição</label>
 								<div class="mb-3 h-100">
-									<select class="form-select select2" th:field="*{institution.id}"
-										style="width: 100%;">
-										<option th:each="institution : ${institutions}"
-											th:value="${institution.id}" th:text="${institution.name}"
-											th:selected="${institution.id == course.institution.id}"></option>
+									<select class="form-select select2" th:field="*{institution.id}" style="width: 100%;">
+										<option th:each="institution : ${institutions}" th:value="${institution.id}"
+											th:text="${institution.name}" th:selected="${institution.id == course.institution.id}"></option>
 									</select>
 								</div>
 
 								<div class="mb-3">
 									<label class="form-label" for="description">Descrição</label>
-									<textarea id="description" class="form-control"
-										th:field="*{description}" rows="3"></textarea>
+									<textarea id="description" class="form-control" th:field="*{description}" rows="3"></textarea>
 								</div>
 
 								<br>
 
-								<button type="submit"
-									class="btn btn-secondary btn-lg form-control fw-bold">Cadastrar</button>
+								<button type="submit" class="btn btn-secondary btn-lg form-control fw-bold">Cadastrar</button>
 							</form>
 						</div>
 					</div>
@@ -102,8 +92,7 @@
 		<div class="card-body">
 			<h3 class="fw-bold text-center">Todos os Cursos</h3>
 
-			<table id="table"
-				class="table table-sm table-striped table-bordered table-hover">
+			<table id="table" class="table table-sm table-striped table-bordered table-hover">
 				<thead class="thead-dark">
 					<tr>
 						<th>ID</th>
@@ -115,28 +104,25 @@
 				</thead>
 
 				<tbody>
-					<tr th:each="course : ${courses}" th:data-id="${course.id}"
-						data-bs-toggle="modal" data-bs-target="#courseModal">
+					<tr th:each="course : ${courses}" th:data-id="${course.id}" data-bs-toggle="modal"
+						data-bs-target="#courseModal">
 						<td id="idTd" class="align-middle" th:text="${course.id}"></td>
 						<td id="codeTd" class="align-middle" th:text="${course.code}"></td>
 						<td id="nameTd" class="align-middle" th:text="${course.name}"></td>
 						<td id="semestersTd" class="align-middle" th:text="${course.semesters}"></td>
-						<td id="institutionTd" class="align-middle"
-							th:text="${course.institution.name}"></td>
+						<td id="institutionTd" class="align-middle" th:text="${course.institution.name}"></td>
 					</tr>
 				</tbody>
 			</table>
 
 			<!-- Modal -->
-			<div class="modal fade" id="courseModal" tabindex="-1"
-				aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal fade" id="courseModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+				aria-hidden="true">
 				<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h5 class="modal-title" id="modalTitle" th:text="'Atualizar Curso'">Atualizar
-								Informações do Curso</h5>
-							<button type="button" class="btn-close" data-bs-dismiss="modal"
-								aria-label="Close"></button>
+							<h5 class="modal-title" id="modalTitle" th:text="'Atualizar Curso'">Atualizar Informações do Curso</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 						</div>
 						<div class="modal-body">
 							<div>
@@ -156,12 +142,10 @@
 								</div>
 
 								<div class="mb-3">
-									<label class="form-label" for="updatedSemesters">Total de
-										Semestres</label>
+									<label class="form-label" for="updatedSemesters">Total de Semestres</label>
 
 									<select class="form-select" id="updatedSemesters">
-										<option th:each="i : ${#numbers.sequence(1, 10)}" th:value="${i}"
-											th:text="${i}"></option>
+										<option th:each="i : ${#numbers.sequence(1, 10)}" th:value="${i}" th:text="${i}"></option>
 									</select>
 								</div>
 
@@ -169,15 +153,14 @@
 									<label for="updatedInstitution" class="form-label">Instituição</label>
 
 									<select id="updatedInstitution" class="form-select">
-										<option th:each="institution : ${institutions}"
-											th:value="${institution.id}" th:text="${institution.name}"></option>
+										<option th:each="institution : ${institutions}" th:value="${institution.id}"
+											th:text="${institution.name}"></option>
 									</select>
 								</div>
 
 								<div class="mb-3">
 									<label for="description" class="form-label">Descrição</label>
-									<textarea id="updatedDescription" class="form-control" rows="3"
-										required></textarea>
+									<textarea id="updatedDescription" class="form-control" rows="3" required></textarea>
 								</div>
 							</div>
 						</div>

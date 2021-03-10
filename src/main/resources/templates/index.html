@@ -1,41 +1,26 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html xmlns:th="www.thymeleaf.org" th:replace="~{fragments/layout :: base('', ~{::body}, _, ~{::style}, _)}">
 <head>
-<!-- Meta tags Obrigatórias -->
 <meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-<!-- Bootstrap CSS -->
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-	crossorigin="anonymous">
-
 <style>
 body {
 	overflow-x: hidden;
 }
 
-img {
+.img-fluid {
 	max-width: 100%;
 	max-height: 400px;
 	object-fit: cover;
 	padding: 50px;
 }
-
 </style>
-
 </head>
 <body>
-
 	<div class="row">
 		<div class="col-sm-12 p-0">
-			<div id="carousel-legenda" class="carousel slide"
-				data-ride="carousel">
+			<div id="carousel-legenda" class="carousel slide" data-ride="carousel">
 				<ol class="carousel-indicators">
-					<li data-target="#carousel-legenda" data-slide-to="0"
-						class="active"></li>
+					<li data-target="#carousel-legenda" data-slide-to="0" class="active"></li>
 					<li data-target="#carousel-legenda" data-slide-to="1"></li>
 					<li data-target="#carousel-legenda" data-slide-to="2"></li>
 					<li data-target="#carousel-legenda" data-slide-to="3"></li>
@@ -43,8 +28,8 @@ img {
 				</ol>
 
 				<div class="carousel-inner">
-				
-				<div class="carousel-item active bg-secondary">
+
+					<div class="carousel-item active bg-secondary">
 						<div class="row text-center">
 							<div class="col-6 align-self-center">
 								<div style="color: white">
@@ -55,7 +40,7 @@ img {
 							</div>
 
 							<div class="col-6">
-								<img th:src="@{img/study.svg}" class="img-fluid">
+								<img alt="" th:src="@{/images/study.svg}" class="img-fluid">
 							</div>
 						</div>
 					</div>
@@ -65,14 +50,13 @@ img {
 							<div class="col-6 align-self-center">
 								<div style="color: white">
 									<h2>É fazendo que se aprende</h2>
-									<p>Metodologia focada na prática com exercícios e
-										simulados.</p>
+									<p>Metodologia focada na prática com exercícios e simulados.</p>
 									<button class="btn btn-dark" th:onclick="access()">Acessar</button>
 								</div>
 							</div>
 
 							<div class="col-6">
-								<img th:src="@{img/focus.svg}" class="img-fluid">
+								<img th:src="@{/images/focus.svg}" class="img-fluid">
 							</div>
 						</div>
 					</div>
@@ -88,7 +72,7 @@ img {
 							</div>
 
 							<div class="col-6">
-								<img th:src="@{img/material.svg}" class="img-fluid">
+								<img th:src="@{/images/material.svg}" class="img-fluid">
 							</div>
 						</div>
 					</div>
@@ -104,11 +88,11 @@ img {
 							</div>
 
 							<div class="col-6">
-								<img th:src="@{img/group.svg}" class="img-fluid">
+								<img th:src="@{/images/group.svg}" class="img-fluid">
 							</div>
 						</div>
 					</div>
-					
+
 					<div class="carousel-item bg-primary">
 						<div class="row text-center">
 							<div class="col-6 align-self-center">
@@ -120,17 +104,18 @@ img {
 							</div>
 
 							<div class="col-6">
-								<img th:src="@{img/check.svg}" class="img-fluid">
+								<img alt="" src="../static/images/check.svg" th:src="@{/images/check.svg}" class="img-fluid">
 							</div>
 						</div>
 					</div>
 
 				</div>
 
-				<a href="#carousel-legenda" class="carousel-control-prev"
-					data-slide="prev"> <span class="carousel-control-prev-icon"></span>
-				</a> <a href="#carousel-legenda" class="carousel-control-next"
-					data-slide="next"> <span class="carousel-control-next-icon"></span>
+				<a href="#carousel-legenda" class="carousel-control-prev" data-slide="prev">
+					<span class="carousel-control-prev-icon"></span>
+				</a>
+				<a href="#carousel-legenda" class="carousel-control-next" data-slide="next">
+					<span class="carousel-control-next-icon"></span>
 				</a>
 
 			</div>
@@ -138,77 +123,65 @@ img {
 	</div>
 
 	<div class="container mt-5">
-	
+
 		<div class="row">
 			<div class="col text-center">
 				<h3>O Fatecando é uma plataforma de estudos online focado no seu aprendizado!</h3>
-				
+
 			</div>
 		</div>
-	
+
 		<div class="row mt-5">
 			<div class="col-md-4">
-				<img th:src="@{img/logo.svg}" class="img-fluid">
+				<img alt="" th:src="@{/images/icon.png}" class="img-fluid">
 			</div>
 			<div class="col-md-8 d-flex">
 				<div class="align-self-center">
 					<h3>Sabemos as dificuldades de ser um universitário</h3>
-					<p>Já enfrentamos os obstáculos da vida acadêmica. Conteúdos espalhados 
-						pela Web, nem sempre de boa qualidade e muitas vezes defasados.  
-						Por isso decidimos criar o <b class="text-danger">Fatecando</b>, materiais 
-						separados por assuntos e dificuldades em um ambiente dinâmico, para auxiliar 
-						os estudantes em qualquer momento unindo o conhecimento a prática.
+					<p>
+						Já enfrentamos os obstáculos da vida acadêmica. Conteúdos espalhados pela Web, nem sempre de boa
+						qualidade e muitas vezes defasados. Por isso decidimos criar o <b class="text-danger">Fatecando</b>,
+						materiais separados por assuntos e dificuldades em um ambiente dinâmico, para auxiliar os estudantes em
+						qualquer momento unindo o conhecimento a prática.
 					</p>
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="row mt-5">
 			<div class="col-md-4">
-				<img th:src="@{img/logo.svg}" class="img-fluid">
+				<img alt="" th:src="@{/images/icon.png}" class="img-fluid">
 			</div>
 			<div class="col-md-8 d-flex">
 				<div class="align-self-center">
-					<h3>Bateu aquela dúvida? </h3>
-					<p>Não precisa ficar coçando a cabeça com cara de ué, mande sua pergunta no
-						forum e interaja com os outros alunos.
-					</p>
+					<h3>Bateu aquela dúvida?</h3>
+					<p>Não precisa ficar coçando a cabeça com cara de ué, mande sua pergunta no forum e interaja com os
+						outros alunos.</p>
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="row my-5">
 			<div class="col-md-4">
-				<img th:src="@{img/logo.svg}" class="img-fluid">
+				<img alt="" th:src="@{/images/icon.png}" class="img-fluid">
 			</div>
 			<div class="col-md-8 d-flex">
 				<div class="align-self-center">
 					<h3>Estudar com os amigos é muito melhor!</h3>
-					<p>Crie salas para competir com seus amigos em um Quiz 
-						com perguntas desafiadoras! Assim você fica afiado
-						e tira de letra qualquer prova.
-					</p>
+					<p>Crie salas para competir com seus amigos em um Quiz com perguntas desafiadoras! Assim você fica
+						afiado e tira de letra qualquer prova.</p>
 				</div>
 			</div>
 		</div>
-		
-		
-		
 	</div>
 
-
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-		integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
-		integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-		crossorigin="anonymous"></script>
-		
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+		integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+		integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
 	<script>
 		function access() {
 			location.href = '/join/'

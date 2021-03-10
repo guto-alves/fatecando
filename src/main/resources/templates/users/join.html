@@ -6,20 +6,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- Bootstrap CSS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
-	crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+	integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 
 <!-- jQuery Validation-->
-<script
-	src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/additional-methods.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/additional-methods.min.js"></script>
 
+<link rel="icon" th:href="@{/images/icon.png}">
+<title>Crie sua conta no Fatecando</title>
 
 <style>
 @import url('https://fonts.googleapis.com/css?family=Mukta');
@@ -51,6 +49,7 @@ a {
 	background-color: #dc3545;
 	margin: auto;
 	right: 0;
+	left: 0;
 	left: 0;
 }
 
@@ -181,6 +180,8 @@ label.error {
 
 </head>
 <body>
+	<header th:replace="~{fragments/header :: header}"></header>
+
 	<div class="login-reg-panel">
 		<div class="login-info-box">
 			<h2>Já tem uma conta?</h2>
@@ -206,8 +207,7 @@ label.error {
 						Por favor, verifique os dados e tente novamente.
 					</div>
 					<input type="email" name="email" placeholder="E-mail" class="form-control" required>
-					<input type="password" name="password" placeholder="Senha" class="form-control"
-						required>
+					<input type="password" name="password" placeholder="Senha" class="form-control" required>
 					<br>
 					<input type="submit" value="Entrar">
 					<a href="">Esqueceu a senha?</a>
@@ -216,10 +216,9 @@ label.error {
 			<div class="register-show">
 				<form id="formRegister" action="#" method="post" th:action="@{/join}" th:object="${user}">
 					<h2>CRIAR CONTA</h2>
-					<input type="text" th:field="*{fullName}" placeholder="Nome Completo"
-						class="form-control" pattern="[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$" required>
-					<input type="email" th:field="*{email}" placeholder="E-mail" class="form-control"
-						required>
+					<input type="text" th:field="*{fullName}" placeholder="Nome Completo" class="form-control"
+						pattern="[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$" required>
+					<input type="email" th:field="*{email}" placeholder="E-mail" class="form-control" required>
 					<input type="password" th:field="*{password}" placeholder="Senha" class="form-control" required>
 					<input type="submit" value="Registrar-se">
 				</form>
@@ -227,10 +226,8 @@ label.error {
 		</div>
 	</div>
 
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
-		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 
 	<script>
 		$(document).ready(function() {
@@ -257,32 +254,35 @@ label.error {
 			}
 		});
 
-		jQuery.extend(jQuery.validator.messages, {
-			required: "Este campo &eacute; obrigatório.",
-			remote: "Por favor, corrija este campo.",
-			email: "Por favor, forne&ccedil;a um endere&ccedil;o eletr&ocirc;nico v&aacute;lido.",
-			url: "Por favor, forne&ccedil;a uma URL v&aacute;lida.",
-			date: "Por favor, forne&ccedil;a uma data v&aacute;lida.",
-			dateISO: "Por favor, forne&ccedil;a uma data v&aacute;lida (ISO).",
-			number: "Por favor, forne&ccedil;a um n&uacute;mero v&aacute;lido.",
-			digits: "Por favor, forne&ccedil;a somente d&iacute;gitos.",
-			creditcard: "Por favor, forne&ccedil;a um cart&atilde;o de cr&eacute;dito v&aacute;lido.",
-			equalTo: "Por favor, forne&ccedil;a o mesmo valor novamente.",
-			accept: "Por favor, forne&ccedil;a um valor com uma extens&atilde;o v&aacute;lida.",
-			maxlength: jQuery.validator
-				.format("Por favor, forne&ccedil;a n&atilde;o mais que {0} caracteres."),
-			minlength: jQuery.validator
-				.format("Por favor, forne&ccedil;a ao menos {0} caracteres."),
-			rangelength: jQuery.validator
-				.format("Por favor, forne&ccedil;a um valor entre {0} e {1} caracteres de comprimento."),
-			range: jQuery.validator
-				.format("Por favor, forne&ccedil;a um valor entre {0} e {1}."),
-			max: jQuery.validator
-				.format("Por favor, forne&ccedil;a um valor menor ou igual a {0}."),
-			min: jQuery.validator
-				.format("Por favor, forne&ccedil;a um valor maior ou igual a {0}."),
-			pattern: "Formato inválido."
-		});
+		jQuery
+				.extend(
+						jQuery.validator.messages,
+						{
+							required : "Este campo &eacute; obrigatório.",
+							remote : "Por favor, corrija este campo.",
+							email : "Por favor, forne&ccedil;a um endere&ccedil;o eletr&ocirc;nico v&aacute;lido.",
+							url : "Por favor, forne&ccedil;a uma URL v&aacute;lida.",
+							date : "Por favor, forne&ccedil;a uma data v&aacute;lida.",
+							dateISO : "Por favor, forne&ccedil;a uma data v&aacute;lida (ISO).",
+							number : "Por favor, forne&ccedil;a um n&uacute;mero v&aacute;lido.",
+							digits : "Por favor, forne&ccedil;a somente d&iacute;gitos.",
+							creditcard : "Por favor, forne&ccedil;a um cart&atilde;o de cr&eacute;dito v&aacute;lido.",
+							equalTo : "Por favor, forne&ccedil;a o mesmo valor novamente.",
+							accept : "Por favor, forne&ccedil;a um valor com uma extens&atilde;o v&aacute;lida.",
+							maxlength : jQuery.validator
+									.format("Por favor, forne&ccedil;a n&atilde;o mais que {0} caracteres."),
+							minlength : jQuery.validator
+									.format("Por favor, forne&ccedil;a ao menos {0} caracteres."),
+							rangelength : jQuery.validator
+									.format("Por favor, forne&ccedil;a um valor entre {0} e {1} caracteres de comprimento."),
+							range : jQuery.validator
+									.format("Por favor, forne&ccedil;a um valor entre {0} e {1}."),
+							max : jQuery.validator
+									.format("Por favor, forne&ccedil;a um valor menor ou igual a {0}."),
+							min : jQuery.validator
+									.format("Por favor, forne&ccedil;a um valor maior ou igual a {0}."),
+							pattern : "Formato inválido."
+						});
 
 		$("#formLogin").validate();
 
