@@ -28,7 +28,7 @@ public class TopicService {
 	}
 
 	public Topic findById(Long id) {
-		return restTemplate.getForObject(URL + "/" + id, Topic.class);
+		return restTemplate.getForObject(URL + id, Topic.class);
 	}
 
 	public Topic save(Topic topic) {
@@ -37,5 +37,9 @@ public class TopicService {
 
 	public void update(Topic topic) {
 		restTemplate.put(URL + "{id}", topic, topic.getId());
+	}
+
+	public void toggleFinished(Topic topic) {
+		restTemplate.put(URL + "{id}/finished", null, topic.getId());
 	}
 }

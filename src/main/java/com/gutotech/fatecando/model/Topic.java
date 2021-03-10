@@ -5,8 +5,6 @@ import java.util.Objects;
 
 import javax.validation.constraints.NotBlank;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 public class Topic {
 	private Long id;
 
@@ -25,27 +23,17 @@ public class Topic {
 
 	private Discipline discipline;
 
-	private User user;
+	private User createdBy;
 
 	private int likes;
 
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date creationDate;
 
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date updateDate;
 
-	public Topic() {
-	}
+	private TopicUser user;
 
-	public Topic(String name, String description, String htmlContent, UploadStatus status, Discipline discipline,
-			User user) {
-		this.name = name;
-		this.description = description;
-		this.htmlContent = htmlContent;
-		this.status = status;
-		this.discipline = discipline;
-		this.user = user;
+	public Topic() {
 	}
 
 	public Long getId() {
@@ -80,14 +68,6 @@ public class Topic {
 		this.htmlContent = htmlContent;
 	}
 
-	public int getLikes() {
-		return likes;
-	}
-
-	public void setLikes(int likes) {
-		this.likes = likes;
-	}
-
 	public boolean isRequired() {
 		return required;
 	}
@@ -112,12 +92,20 @@ public class Topic {
 		this.discipline = discipline;
 	}
 
-	public User getUser() {
-		return user;
+	public User getCreatedBy() {
+		return createdBy;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setCreatedBy(User createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public int getLikes() {
+		return likes;
+	}
+
+	public void setLikes(int likes) {
+		this.likes = likes;
 	}
 
 	public Date getCreationDate() {
@@ -134,6 +122,14 @@ public class Topic {
 
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
+	}
+
+	public TopicUser getUser() {
+		return user;
+	}
+
+	public void setUser(TopicUser user) {
+		this.user = user;
 	}
 
 	@Override
@@ -156,6 +152,52 @@ public class Topic {
 	@Override
 	public String toString() {
 		return "Topic [id=" + id + ", name=" + name + "]";
+	}
+
+	public class TopicUser {
+		private boolean liked;
+
+		private String annotation = "";
+
+		private boolean finished;
+
+		private Date finishDate;
+
+		public TopicUser() {
+		}
+
+		public boolean isLiked() {
+			return liked;
+		}
+
+		public void setLiked(boolean liked) {
+			this.liked = liked;
+		}
+
+		public String getAnnotation() {
+			return annotation;
+		}
+
+		public void setAnnotation(String annotation) {
+			this.annotation = annotation;
+		}
+
+		public boolean isFinished() {
+			return finished;
+		}
+
+		public void setFinished(boolean finished) {
+			this.finished = finished;
+		}
+
+		public Date getFinishDate() {
+			return finishDate;
+		}
+
+		public void setFinishDate(Date finishDate) {
+			this.finishDate = finishDate;
+		}
+
 	}
 
 }

@@ -7,8 +7,7 @@
 <body>
 	<div class="card mt-3 p-1">
 		<div class="card-body">
-			<h4 class="card-title text-center fw-bold"
-				th:text="${discipline.code} + ' - ' +${discipline.name}"></h4>
+			<h4 class="card-title text-center fw-bold" th:text="${discipline.code} + ' - ' +${discipline.name}"></h4>
 
 			<div class="mb-2">
 				<b>Ementa:</b>
@@ -28,20 +27,19 @@
 					<i class="fa fa-thumbs-up"></i>
 				</button>
 				<br>
-				<span id="totalLikes"
-					class="border border-2 border-start-0 border-danger p-2 rounded-end"
+				<span id="totalLikes" class="border border-2 border-start-0 border-danger p-2 rounded-end"
 					th:text="${discipline.likes}"></span>
 			</div>
 		</div>
 
 		<div class="progress" style="height: 25px;">
-			<div class="progress-bar progress-bar-striped progress-bar-animated bg-danger fw-bold"
-				role="progressbar" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"
-				style="width: 55%">55% estudado</div>
+			<div class="progress-bar progress-bar-striped progress-bar-animated bg-danger fw-bold" role="progressbar"
+				aria-valuenow="55" aria-valuemin="0" aria-valuemax="100" style="width: 55%">55% estudado</div>
 		</div>
 	</div>
 
 	<hr>
+
 
 	<div class="alert alert-success alert-dismissible fade show text-center"
 		th:if="${!#strings.isEmpty(message)}" role="alert">
@@ -52,30 +50,31 @@
 		<div class="card-header">
 			<ul class="nav nav-tabs fw-bolder">
 				<li class="nav-item">
-					<a class="nav-link text-danger" th:classappend="${page} == 'topics'? 'active'"
-						href="#" th:href="@{/disciplines/{id}(id=${discipline.id}, page='topics')}">Topicos</a>
+					<a class="nav-link text-danger" th:classappend="${page} == 'topics'? 'active'" href="#"
+						th:href="@{/disciplines/{id}(id=${discipline.id}, page='topics')}">Topicos</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link text-danger" th:classappend="${page} == 'tests'? 'active'"
-						href="#" th:href="@{/disciplines/{id}(id=${discipline.id}, page='tests')}">Simulados</a>
+					<a class="nav-link text-danger" th:classappend="${page} == 'tests'? 'active'" href="#"
+						th:href="@{/disciplines/{id}(id=${discipline.id}, page='tests')}">Simulados</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link text-danger" th:classappend="${page} == 'forum'? 'active'"
-						href="#" th:href="@{/disciplines/{id}(id=${discipline.id}, page='forum')}">Fórum</a>
+					<a class="nav-link text-danger" th:classappend="${page} == 'forum'? 'active'" href="#"
+						th:href="@{/disciplines/{id}(id=${discipline.id}, page='forum')}">Fórum</a>
 				</li>
 			</ul>
 		</div>
 		<div class="card-body bg-danger">
 			<!-- Topics -->
 			<div class="list-group" th:if="${#strings.equalsIgnoreCase(page, 'topics')}">
-				<a href="#" class="list-group-item list-group-item-action shadow-lg mb-2"
-					th:each="topic : ${topics}" th:href="@{/topic/{id}(id=${topic.id})}">
+				<a href="#" class="list-group-item list-group-item-action shadow mb-2 rounded" th:each="topic : ${topics}"
+					th:href="@{/topic/{id}(id=${topic.id})}">
 					<div class="d-flex w-100 justify-content-between">
-						<h5 class="mb-1" th:text="${topic.name}">List group item heading</h5>
-						<small class="text-muted">3 days ago</small>
+						<h5 class="mb-1" th:text="${topic.name}">Topic Name</h5>
+
+						<i class="fa fa-check-circle fa-2x" aria-hidden="true"
+							th:classappend="${topic.user.finished} ? 'text-success'"></i>
 					</div>
-					<p class="mb-1" th:text="${topic.description}">Some placeholder content in a
-						paragraph.</p>
+					<p class="mb-1" th:text="${topic.description}">Some placeholder content in a paragraph.</p>
 					<small class="text-muted">And some muted small print.</small>
 				</a>
 			</div>
@@ -104,32 +103,27 @@
 							data-bs-target="#forumTopicModal">Criar um novo Tópico</button>
 
 						<!-- Modal -->
-						<div class="modal fade" id="forumTopicModal" tabindex="-1"
-							aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal fade" id="forumTopicModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+							aria-hidden="true">
 							<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-								<form action="#" method="post"
-									th:action="@{/disciplines/{id}/forum-topics(id=${discipline.id})}"
+								<form action="#" method="post" th:action="@{/disciplines/{id}/forum-topics(id=${discipline.id})}"
 									th:object="${forumTopic}">
 									<div class="modal-content">
 										<div class="modal-header">
 											<h5 class="modal-title" id="exampleModalLabel"
-												th:text="${discipline.code} + ' - Novo Tópico para o Fórum'">Novo Tópico
-												Fórum</h5>
-											<button type="button" class="btn-close" data-bs-dismiss="modal"
-												aria-label="Close"></button>
+												th:text="${discipline.code} + ' - Novo Tópico para o Fórum'">Novo Tópico Fórum</h5>
+											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 										</div>
 										<div class="modal-body">
 											<div>
 												<div class="mb-3">
 													<label>Título</label>
-													<input id="title" type="text" class="form-control" required
-														th:field="*{title}">
+													<input id="title" type="text" class="form-control" required th:field="*{title}">
 												</div>
 
 												<div class="mb-3">
 													<label for="exampleFormControlTextarea1" class="form-label">Descrição</label>
-													<textarea id="description" class="form-control" rows="6" required
-														th:field="*{description}"></textarea>
+													<textarea id="description" class="form-control" rows="6" required th:field="*{description}"></textarea>
 												</div>
 											</div>
 										</div>
@@ -145,20 +139,18 @@
 				</div>
 
 				<div class="list-group" th:unless="${#lists.isEmpty(forumTopics)}">
-					<a href="#" class="list-group-item list-group-item-action"
-						th:each="topic : ${forumTopics}"
+					<a href="#" class="list-group-item list-group-item-action" th:each="topic : ${forumTopics}"
 						th:href="@{/disciplines/{id}/forum-topics/{topicId}(id=${discipline.id}, topicId=${topic.id})}">
 
 						<div class="d-flex w-100 justify-content-between">
 							<h5 class="mb-1" th:text="${topic.title}">Topic Title</h5>
-							<time class="text-muted timeago" th:datetime="${#dates.formatISO(topic.date)}">3
-								days ago</time>
+							<time class="text-muted timeago" th:datetime="${#dates.formatISO(topic.date)}">3 days ago</time>
 						</div>
-						<p class="mb-1 module line-clamp" th:text="${topic.description}">Some
-							placeholder content in a paragraph.</p>
+						<p class="mb-1 module line-clamp" th:text="${topic.description}">Some placeholder content in a
+							paragraph.</p>
 
-						<small class="text-muted" th:text="'Criado por ' + ${topic.user.fullName}">Criado
-							por Gustavo Alves.</small>
+						<small class="text-muted" th:text="'Criado por ' + ${topic.user.fullName}">Criado por Gustavo
+							Alves.</small>
 					</a>
 				</div>
 			</div>
