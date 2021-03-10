@@ -23,7 +23,7 @@
 						This content is a little bit longer.</p>
 				</div>
 				<div class="card-footer text-muted">
-					Last seen
+					Visto por último
 					<time class="timeago" th:datetime="${#dates.formatISO(discipline.user.accessDate)}"></time>
 				</div>
 			</div>
@@ -86,14 +86,15 @@
 		</div>
 	</div>
 
+	<script type="text/javascript" th:src="@{/js/timeago/timeago.js}"></script>
+	<script type="text/javascript" th:src="@{/js/timeago/jquery.timeago.pt-br.js}"></script>
+
 	<script type="text/javascript" th:inline="javascript">
+		$("time.timeago").timeago();
+
 		let institutions = /*[[${instituions}]]*/null;
 		let courses = /*[[${courses}]]*/null;
 	</script>
 	<script type="text/javascript" th:src="@{/js/dashboard.js}"></script>
-	<script type="text/javascript" th:src="@{/js/timeago.js}"></script>
-	<script type="text/javascript">
-		$("time.timeago").timeago();
-	</script>
 </body>
 </html>
