@@ -148,6 +148,8 @@ public class Discipline {
 		private Date accessDate;
 
 		private boolean liked;
+		
+		private int progress;
 
 		public UserInfo() {
 		}
@@ -166,6 +168,14 @@ public class Discipline {
 
 		public void setLiked(boolean liked) {
 			this.liked = liked;
+		}
+
+		public int getProgress() {
+			return progress;
+		}
+
+		public void setProgress(int progress) {
+			this.progress = progress;
 		}
 	}
 

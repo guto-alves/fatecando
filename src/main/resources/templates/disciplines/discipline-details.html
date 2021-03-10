@@ -1,8 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="www.thymeleaf.org"
-	th:replace="~{fragments/layout :: base(${discipline.code}, ~{::body}, _, _, _)}">
+	th:replace="~{fragments/layout :: base(${discipline.code}, ~{::body}, _, _, ~{::style})}">
 <head>
 <meta charset="utf-8">
+<style type="text/css">
+.bg-green {
+	background-color: #05B714;
+}
+</style>
 </head>
 <body>
 	<div class="card mt-3 p-1">
@@ -32,14 +37,16 @@
 			</div>
 		</div>
 
-		<div class="progress" style="height: 25px;">
-			<div class="progress-bar progress-bar-striped progress-bar-animated bg-danger fw-bold" role="progressbar"
-				aria-valuenow="55" aria-valuemin="0" aria-valuemax="100" style="width: 55%">55% estudado</div>
+		<div class="progress text-center" style="height: 25px;" th:with="progress=${discipline.user.progress}">
+			<div class="progress-bar progress-bar-striped progress-bar-animated fw-bolder" role="progressbar"
+				aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 55%"
+				th:style="'width: ' + ${progress} + '%'" th:classappend="${progress} == 100 ? 'bg-green' : 'bg-danger'"
+				th:text="${progress} > 0 ? ${progress} + '% ESTUDADO'">55% estudado</div>
+			<span th:if="${progress} == 0" class="fw-bold text-primary">Comece a estudar agora mesmo!</span>
 		</div>
 	</div>
 
 	<hr>
-
 
 	<div class="alert alert-success alert-dismissible fade show text-center"
 		th:if="${!#strings.isEmpty(message)}" role="alert">
@@ -51,7 +58,7 @@
 			<ul class="nav nav-tabs fw-bolder">
 				<li class="nav-item">
 					<a class="nav-link text-danger" th:classappend="${page} == 'topics'? 'active'" href="#"
-						th:href="@{/disciplines/{id}(id=${discipline.id}, page='topics')}">Topicos</a>
+						th:href="@{/disciplines/{id}(id=${discipline.id}, page='topics')}">Tópicos</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link text-danger" th:classappend="${page} == 'tests'? 'active'" href="#"
