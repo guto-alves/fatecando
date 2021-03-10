@@ -1,0 +1,15 @@
+@charset "ISO-8859-1";
+
+.btn-card {
+	cursor: pointer;
+}
+
+.btn-card:hover {
+	transform: scale(1.030);
+	border: 1px solid red;
+}
+
+.btn-card-header {
+	background-color: #dc3545;
+	color: #ffffff;
+}

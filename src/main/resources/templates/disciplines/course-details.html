@@ -1,23 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="www.thymeleaf.org"
-	th:replace="~{fragments/layout :: base('Disciplinas', ~{::body}, _, _, _)}">
+	th:replace="~{fragments/layout :: base('Disciplinas', ~{::body}, ~{::link}, _, _)}">
 <head>
 <meta charset="utf-8">
+<link rel="stylesheet" type="text/css" th:href="@{/css/btn-card.css}">
 </head>
 <body>
 	<div class="card mb-3">
 		<div class="row g-0">
 			<div class="col-md-4">
-				<img src="http://www.fatecsp.br/img/ti.jpg"
-					style="max-width: 350px; min-height: 250px">
+				<img src="http://www.fatecsp.br/img/ti.jpg" style="max-width: 400px; min-height: 250px">
 			</div>
 			<div class="col-md-8">
 				<div class="card-body">
-					<h4 class="card-title fw-bolder" th:text="${course.name}">Card
-						title</h4>
-					<p class="card-text" th:text="${course.description}">This is a
-						wider card with supporting text below as a natural lead-in to
-						additional content. This content is a little bit longer.</p>
+					<h4 class="card-title fw-bolder" th:text="${course.name}">Card title</h4>
+					<p class="card-text" th:text="${course.description}">This is a wider card with supporting text below
+						as a natural lead-in to additional content. This content is a little bit longer.</p>
 				</div>
 			</div>
 		</div>
@@ -27,8 +25,7 @@
 		<div class="row justify-content-md-center">
 			<div class="col-md-8">
 				<label for="inputFilter">Pesquise por</label>
-				<input id="inputFilter" class="form-control" type="text"
-					placeholder="Disciplina, Assunto, Palavra-chave">
+				<input id="inputFilter" class="form-control" type="text" placeholder="Disciplina, Assunto, Palavra-chave">
 			</div>
 			<div class="col-6 col-md-4">
 				<label for="semesterSelect">Semestre</label>
@@ -47,20 +44,14 @@
 		<hr>
 
 		<!-- Disciplines -->
-		<div id="disciplinesContainer"
-			class="row row-cols-1 row-cols-md-3 g-4">
-			<div class="col" th:each="discipline : ${disciplines}"
-				th:data-semester="${discipline.semester}">
-				<div class="card h-100 shadow-lg"
-					th:onclick="'go(\'' + ${discipline.id} + '\');'">
+		<div id="disciplinesContainer" class="row row-cols-1 row-cols-md-3 g-4">
+			<div class="col" th:each="discipline : ${disciplines}" th:data-semester="${discipline.semester}">
+				<div class="card btn-card h-100 shadow-lg" th:onclick="'go(\'' + ${discipline.id} + '\');'">
 					<img src="" class="card-img-top" alt="">
+					<h5 class="card-header btn-card-header" th:text="${discipline.name}">Estrutura de Dados</h5>
 					<div class="card-body">
-						<h5 class="card-title" th:text="${discipline.name}">Estrutura
-							de Dados</h5>
-						<p class="card-text text-truncate"
-							th:text="${discipline.description}">This is a wider card with
-							supporting text below as a natural lead-in to additional content.
-							This content is a little bit longer.</p>
+						<p class="card-text text-truncate" th:text="${discipline.description}">This is a wider card with
+							supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
 					</div>
 					<div class="card-footer">
 						<small class="text-muted">Last seen 3 mins ago</small>

@@ -1,8 +1,8 @@
-function viewDiscipline(disciplineId) {
+function showDiscipline(disciplineId) {
 	location.href = '/disciplines/' + disciplineId;
 }
 
-function viewCourse(courseId) {
+function showCourse(courseId) {
 	location.href = '/course/' + courseId;
 }
 

@@ -1,88 +1,88 @@
 <!DOCTYPE html>
 <html xmlns:th="www.thymeleaf.org"
-	th:replace="~{fragments/layout :: base('Dashboard', ~{::body}, _, _, _)}">
+	th:replace="~{fragments/layout :: base('Dashboard', ~{::body}, ~{::link}, _, _)}">
 <head>
 <meta charset="utf-8">
+<link rel="stylesheet" type="text/css" th:href="@{/css/btn-card.css}">
 </head>
 <body>
-	<h3 class="fw-bold mt-3">Continue de onde parou</h3>
+	<div class="container">
+		<h3 class="fw-bold mt-3">Continue de onde parou</h3>
 
-	<!-- Discipline cards -->
-	<div id="disciplinesContainer" class="row row-cols-1 row-cols-md-3 g-4">
-		<div class="col" th:each="discipline : ${disciplines}"
-			th:data-semester="${discipline.semester}">
-			<div class="btn-card card h-100 shadow"
-				th:onclick="'viewDiscipline(\'' + ${discipline.id} + '\');'">
-				<img src="" class="card-img-top" alt="">
-				<div class="card-header">
-					<h5 class="card-title" th:text="${discipline.name}">Estrutura de Dados</h5>
-				</div>
-				<div class="card-body">
-					<p class="card-text text-truncate" th:text="${discipline.description}">This is a
-						wider card with supporting text below as a natural lead-in to additional content.
-						This content is a little bit longer.</p>
-				</div>
-				<div class="card-footer text-muted">
-					Visto por último
-					<time class="timeago" th:datetime="${#dates.formatISO(discipline.user.accessDate)}"></time>
+		<!-- Discipline cards -->
+		<div id="disciplinesContainer" class="row row-cols-1 row-cols-md-3 g-4">
+			<div class="col" th:each="discipline : ${disciplines}" th:data-semester="${discipline.semester}">
+				<div class="btn-card card h-100 shadow" th:onclick="'showDiscipline(\'' + ${discipline.id} + '\');'">
+					<img src="" class="card-img-top" alt="">
+					<div class="card-header btn-card-header">
+						<h5 class="card-title" th:text="${discipline.name}">Estrutura de Dados</h5>
+					</div>
+					<div class="card-body">
+						<p class="card-text text-truncate" th:text="${discipline.description}">This is a wider card with
+							supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+					</div>
+					<div class="card-footer text-muted">
+						Visto por último
+						<time class="timeago" th:datetime="${#dates.formatISO(discipline.user.accessDate)}"></time>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 
-	<br>
+		<br>
 
-	<h3 class="fw-bold mt-3">Cursos</h3>
+		<h3 class="fw-bold mt-3">Cursos</h3>
 
-	<!-- Filters -->
-	<div class="row justify-content-md-center">
-		<div class="col-md-8">
-			<label for="inputFilter" class="form-label">Pesquise por</label>
-			<input id="inputFilter" class="form-control" type="text"
-				placeholder="Curso, Assunto, Palavra-chave, ...">
-		</div>
-
-		<div class="col-6 col-md-4">
-			<label for="institutionSelect" class="form-label">Instituição</label>
-			<select id="institutionSelect" class="form-select">
-				<option value="0">Todas</option>
-				<option th:each="institution : ${institutions}" th:value="${institution.id}"
-					th:text="${institution.name}">Nome da Instituição</option>
-			</select>
-		</div>
-	</div>
-
-	<hr>
-
-	<div id="totalCourses" class="fw-bold text-end mb-3 text-muted"
-		th:text="${#lists.size(courses)} + ' Curso(s)'">156 Curso(s)</div>
-
-	<!-- Course cards -->
-	<div id="coursesContainer" class="row row-cols-1 row-cols-md-2 g-4">
-		<div class="col" th:each="course : ${courses}"
-			th:data-institution="${course.institution.id}">
-
-			<div class="btn-card card h-100 shadow" style="max-width: 540px;"
-				th:onclick="'viewCourse(\'' + ${course.id} + '\');'">
-				<div class="row g-0">
-					<div class="col-lg-4">
-						<img style="min-height: 100%;" class="img-fluid" th:src="${course.imageUrl}">
-					</div>
-
-					<div class="col-lg-8">
-						<div class="card-header">
-							<h5 class="card-title" th:text="${course.name}">Nome do Curso</h5>
-						</div>
-						<div class="card-body">
-							<p class="card-text text-truncate" th:text="${course.description}">Descrição do
-								Curso</p>
-						</div>
-					</div>
-				</div>
-				<div class="card-footer">
-					<small class="text-muted">Last seen 3 mins ago</small>
-				</div>
+		<!-- Filters -->
+		<div class="row justify-content-md-center">
+			<div class="col-md-8">
+				<label for="inputFilter" class="form-label">Pesquise por</label>
+				<input id="inputFilter" class="form-control" type="text" placeholder="Curso, Assunto, Palavra-chave, ...">
 			</div>
+
+			<div class="col-6 col-md-4">
+				<label for="institutionSelect" class="form-label">Instituição</label>
+				<select id="institutionSelect" class="form-select">
+					<option value="0">Todas</option>
+					<option th:each="institution : ${institutions}" th:value="${institution.id}"
+						th:text="${institution.name}">Nome da Instituição</option>
+				</select>
+			</div>
+		</div>
+
+		<hr>
+
+		<div id="totalCourses" class="fw-bold text-end mb-3 text-muted"
+			th:text="${#lists.size(courses)} + ' Curso(s)'">156 Curso(s)</div>
+
+		<!-- Course cards -->
+		<div id="coursesContainer" class="row row-cols-1 row-cols-md-2 g-4">
+
+			<div class="col" th:each="course : ${courses}" th:data-institution="${course.institution.id}">
+
+				<div class="btn-card card h-100 shadow" style="max-width: 540px;"
+					th:onclick="'showCourse(\'' + ${course.id} + '\');'">
+					<div class="row g-0">
+						<div class="col-lg-4">
+							<img style="min-height: 100%;" class="img-fluid" th:src="${course.imageUrl}">
+						</div>
+
+						<div class="col-lg-8">
+							<div class="card-header btn-card-header">
+								<h5 class="card-title" th:text="${course.name}">Nome do Curso</h5>
+							</div>
+							<div class="card-body">
+								<p class="card-text text-truncate" th:text="${course.description}">Descrição do Curso</p>
+							</div>
+						</div>
+					</div>
+					<div class="card-footer">
+						<small class="text-muted">Last seen 3 mins ago</small>
+					</div>
+				</div>
+
+			</div>
+
 		</div>
 	</div>
 
@@ -95,7 +95,7 @@
 		let institutions = /*[[${instituions}]]*/null;
 		let courses = /*[[${courses}]]*/null;
 	</script>
-	
+
 	<script type="text/javascript" th:src="@{/js/dashboard.js}"></script>
 </body>
 </html>

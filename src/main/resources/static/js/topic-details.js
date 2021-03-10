@@ -4,6 +4,7 @@ let feedbacks = [];
 
 $('#startQuiz').click(function() {
 	$(this).remove();
+	$('#quiz-container').removeClass('bg-initial-quiz');
 
 	nextQuestion();
 

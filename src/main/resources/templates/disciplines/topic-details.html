@@ -4,10 +4,17 @@
 <head>
 <meta charset="utf-8">
 
-<style type="text/css">
+<style type="text/css" th:inline="css">
 #finish-btn.active {
 	background-color: #198754;
 	border-color: #198754
+}
+
+.bg-initial-quiz {
+	background: url(/*[[@{/images/quiz-image.png}]]*/ "") no-repeat center
+		center;
+	width: 100%;
+	min-height: 300px;
 }
 </style>
 </head>
@@ -15,15 +22,15 @@
 	<!-- Topic info -->
 	<div class="card mt-3">
 		<div class="card-body">
-			<h2 class="card-title text-center" th:text="${topic.name}">Topic Name</h2>
+			<h2 class="card-title text-center fw-bolder" th:text="${topic.name}">Topic Name</h2>
 			<p th:text="${topic.description}"></p>
 
 			<div class="d-flex justify-content-end">
 				<button id="finishButton" class="btn btn-outline-success mr-3"
 					th:classappend="${topic.user.finished} ? 'active'">
 					<i class="fa fa-check"></i>
-					<span th:text="${topic.user.finished} ? 'Marcado como concluído' : 'Marcar como concluído'">Marcar
-						como concluído</span>
+					<span th:text="${topic.user.finished} ? 'Concluído' : 'Marcar como concluído'">Marcar como
+						concluído</span>
 				</button>
 
 				<div class="btn-group rounded-start" role="group" aria-label="Like toggle button">
@@ -46,11 +53,9 @@
 	</div>
 
 	<!-- Quiz -->
-	<div class="card mt-3 bg-danger">
+	<div id="quiz-container" class="card mt-3 bg-danger bg-initial-quiz">
 		<div class="card-body">
 			<h4 class="card-title text-light" th:text="'Quiz - ' + ${topic.name}">Quiz</h4>
-
-			<button id="startQuiz" class="btn btn-outline-light btn-lg form-control mb-3">Iniciar Quiz</button>
 
 			<div id="quizResult" class="p-3 text-center text-danger bg-white rounded" style="display: none;">
 				<span class="h4">Resultado do Quiz</span>
@@ -99,6 +104,7 @@
 			</div>
 		</div>
 	</div>
+	<button id="startQuiz" class="btn btn-outline-danger btn-lg form-control mb-3">Iniciar Quiz</button>
 
 	<script type="text/javascript" th:inline="javascript">
 		$('#content').html(/*[[${topic.htmlContent}]]*/null);
@@ -133,7 +139,7 @@
 					buttonLabel.text("Marcar como concluído");
 				} else {
 					button.addClass('active');
-					buttonLabel.text("Marcado como concluído");
+					buttonLabel.text("Concluído");
 				}
 
 				waiting = false;
