@@ -19,12 +19,23 @@
 			<p th:text="${topic.description}"></p>
 
 			<div class="d-flex justify-content-end">
-				<button id="finishTopic" class="btn btn-outline-success"
+				<button id="finishButton" class="btn btn-outline-success mr-3"
 					th:classappend="${topic.user.finished} ? 'active'">
 					<i class="fa fa-check"></i>
 					<span th:text="${topic.user.finished} ? 'Marcado como concluído' : 'Marcar como concluído'">Marcar
 						como concluído</span>
 				</button>
+
+				<div class="btn-group rounded-start" role="group" aria-label="Like toggle button">
+					<input type="checkbox" class="btn-check" id="likeButton" autocomplete="off"
+						th:checked="${topic.user.liked}">
+					<label class="btn btn-outline-primary p-2" for="likeButton">
+						Curtir <i class="fa fa-thumbs-up"></i>
+					</label>
+				</div>
+				<span id="totalLikes"
+					class="fw-bolder text-primary border border-1 border-start-0 border-primary p-2 rounded-end"
+					th:text="${topic.likes}"></span>
 			</div>
 		</div>
 	</div>
@@ -95,7 +106,16 @@
 
 		let waiting = false;
 
-		$('#finishTopic').click(function() {
+		$('#likeButton').click(function() {
+			$.post(location.href + '/like');
+
+			let liked = $(this).prop('checked');
+
+			let totalLikes = parseInt($('#totalLikes').text());
+			$('#totalLikes').text(liked ? totalLikes + 1 : totalLikes - 1);
+		});
+
+		$('#finishButton').click(function() {
 			if (waiting) {
 				return false;
 			}
@@ -103,25 +123,24 @@
 			waiting = true;
 
 			let button = $(this);
-			let buttonLabel = $('#finishTopic span');
+			let buttonLabel = $('#finishButton span');
 
 			buttonLabel.text('Aguarde ...');
 
-			$.post(location.href + '/finished')
-				.done(function() {
-					if (button.hasClass('active')) {
-						button.removeClass('active');
-						buttonLabel.text("Marcar como concluído");
-					} else {
-						button.addClass('active');
-						buttonLabel.text("Marcado como concluído");
-					}
-	
-					waiting = false;
-				}).fail(function() {
+			$.post(location.href + '/finished').done(function() {
+				if (button.hasClass('active')) {
 					button.removeClass('active');
-					buttonLabel.text("Erro ao marcar tópico como concluído!");
-				});
+					buttonLabel.text("Marcar como concluído");
+				} else {
+					button.addClass('active');
+					buttonLabel.text("Marcado como concluído");
+				}
+
+				waiting = false;
+			}).fail(function() {
+				button.removeClass('active');
+				buttonLabel.text("Erro ao marcar tópico como concluído!");
+			});
 		});
 	</script>
 

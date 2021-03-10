@@ -48,6 +48,12 @@ public class TopicController {
 		return ResponseEntity.noContent().build();
 	}
 
+	@PostMapping("like")
+	public ResponseEntity<Void> toggleLike(Topic topic) {
+		topicService.toggleLike(topic);
+		return ResponseEntity.noContent().build();
+	}
+
 //	@GetMapping
 //	public String initCreationForm(Model model) {
 //		model.addAttribute("topic", new Topic());
