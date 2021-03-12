@@ -2,17 +2,13 @@ package com.gutotech.fatecando.model;
 
 import java.util.Objects;
 
-import javax.validation.constraints.NotBlank;
-
 public class Alternative {
 	private Long id;
 
-	@NotBlank
 	private String description;
 
 	private boolean correct;
 
-	@NotBlank
 	private String feedback;
 
 	public Alternative() {

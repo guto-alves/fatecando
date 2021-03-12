@@ -19,7 +19,7 @@ public class QuestionService {
 	@Autowired
 	private RestTemplate restTemplate;
 
-	private final String URL = "http://localhost:8081/api/questions/";
+	private final String URL = "http://localhost:8081/api/questions";
 
 	public List<Question> findAll() {
 		ResponseEntity<List<Question>> responseEntity = restTemplate.exchange(URL, HttpMethod.GET, null,
@@ -30,7 +30,7 @@ public class QuestionService {
 	}
 
 	public List<Question> findAllByTopic(Topic topic) {
-		ResponseEntity<List<Question>> responseEntity = restTemplate.exchange(URL + "topic/{id}", HttpMethod.GET, null,
+		ResponseEntity<List<Question>> responseEntity = restTemplate.exchange(URL + "/topic/{id}", HttpMethod.GET, null,
 				new ParameterizedTypeReference<List<Question>>() {
 				}, topic.getId());
 
@@ -46,11 +46,15 @@ public class QuestionService {
 	}
 
 	public void update(Question question) {
-		restTemplate.put(URL + "{id}", question, question.getId());
+		restTemplate.put(URL + "/{id}", question, question.getId());
+	}
+
+	public Question upload(Question question) {
+		return restTemplate.postForObject(URL + "/upload", question, Question.class);
 	}
 
 	public Feedback answer(Long question, Long alternative) {
-		return restTemplate.postForObject(URL + "{question}/answer/{alternative}", null, Feedback.class, question,
+		return restTemplate.postForObject(URL + "/{question}/answer/{alternative}", null, Feedback.class, question,
 				alternative);
 	}
 

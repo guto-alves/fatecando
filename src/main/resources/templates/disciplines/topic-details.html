@@ -14,7 +14,17 @@
 	background: url(/*[[@{/images/quiz-image.png}]]*/ "") no-repeat center
 		center;
 	width: 100%;
-	min-height: 300px;
+	min-height: 190px;
+}
+
+.form-check-input {
+	width: 2em;
+	height: 2em;
+}
+
+.form-check-input:checked {
+	background-color: green;
+	border-color: green;
 }
 </style>
 </head>
@@ -26,7 +36,7 @@
 			<p th:text="${topic.description}"></p>
 
 			<div class="d-flex justify-content-end">
-				<button id="finishButton" class="btn btn-outline-success mr-3"
+				<button id="finishButton" class="btn btn-outline-success me-3"
 					th:classappend="${topic.user.finished} ? 'active'">
 					<i class="fa fa-check"></i>
 					<span th:text="${topic.user.finished} ? 'Concluído' : 'Marcar como concluído'">Marcar como
@@ -36,7 +46,7 @@
 				<div class="btn-group rounded-start" role="group" aria-label="Like toggle button">
 					<input type="checkbox" class="btn-check" id="likeButton" autocomplete="off"
 						th:checked="${topic.user.liked}">
-					<label class="btn btn-outline-primary p-2" for="likeButton">
+					<label id="likingStatus" class="btn btn-outline-primary p-2" for="likeButton">
 						Curtir <i class="fa fa-thumbs-up"></i>
 					</label>
 				</div>
@@ -44,16 +54,25 @@
 					class="fw-bolder text-primary border border-1 border-start-0 border-primary p-2 rounded-end"
 					th:text="${topic.likes}"></span>
 			</div>
+			<a id="contribute" href="#headingTwo" class="btn btn-warning">
+				Contribuir com uma Questão <i class="fa fa-upload"></i>
+			</a>
 		</div>
 	</div>
 
+	<div class="alert alert-success alert-dismissible fade show" role="alert"
+		th:if="${!#strings.isEmpty(successMessage)}">
+		<span th:text=${successMessage}></span>
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+
 	<!-- Content -->
-	<div class="card mt-3">
+	<div class="card mt-5">
 		<div class="card-body" id="content"></div>
 	</div>
 
 	<!-- Quiz -->
-	<div id="quiz-container" class="card mt-3 bg-danger bg-initial-quiz">
+	<div id="quiz-container" class="card mt-5 bg-danger bg-initial-quiz">
 		<div class="card-body">
 			<h4 class="card-title text-light" th:text="'Quiz - ' + ${topic.name}">Quiz</h4>
 
@@ -106,50 +125,91 @@
 	</div>
 	<button id="startQuiz" class="btn btn-outline-danger btn-lg form-control mb-3">Iniciar Quiz</button>
 
+	<!-- Queston form -->
+	<div class="container mt-3">
+		<div class="accordion" id="newQuestionAccordion">
+			<div class="accordion-item">
+				<h2 class="accordion-header" id="headingTwo">
+					<button class="accordion-button collapsed bg-warning fw-bold h5" type="button" data-bs-toggle="collapse"
+						data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Contribuir com
+						uma Questão</button>
+				</h2>
+				<div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+					data-bs-parent="#newQuestionAccordion">
+					<div class="accordion-body">
+
+						<div class="card border border-1 border-secondary shadow">
+							<div class="card-body">
+								<form action="#" method="post" th:action="@{/topic/{t}/question(t=${topic.id})}"
+									th:object="${question}">
+									<div class="mb-3">
+										<label for="name" class="h5 form-label fw-bolder">Pergunta</label>
+										<textarea rows="3" name="description" id="description" class="form-control"
+											th:field="*{description}" placeholder="Sua pergunta .." required></textarea>
+									</div>
+
+									<div id="alternativesContainer" class="mb-3 p-3 border border-1 border-secondary rounded">
+										<label class="h5 form-label fw-bolder ms-5">Alternativas</label>
+
+										<div id="alternatives">
+											<div class="alternative mb-3 d-flex justify-content-start align-items-center"
+												th:each="alternative, itemStat : *{alternatives}">
+												<span class="text-muted me-2" th:text="${itemStat.index + 1} + '.'">1.</span>
+
+												<div class="container">
+													<textarea class="form-control me-5" id="alternative" rows="1"
+														th:field="*{alternatives[__${itemStat.index}__].description}" placeholder="Alternativa" required>Alternativa 1</textarea>
+													<input type="text" class="form-control"
+														th:field="*{alternatives[__${itemStat.index}__].feedback}" placeholder="Feedback da alternativa">
+												</div>
+												<div class="form-check me-3">
+													<input type="checkbox" class="form-check-input"
+														th:field="*{alternatives[__${itemStat.index}__].correct}">
+												</div>
+												<button type="button" class="remove-alternative btn btn-outline-danger btn-sm">
+													<i class="fa fa-trash fa-lg" aria-hidden="true"></i>
+												</button>
+											</div>
+										</div>
+
+										<hr>
+
+										<div class="d-grid gap-2 col-6 mx-auto">
+											<button type="button" id="addAlternative" class="btn btn-outline-secondary">
+												Adicionar Alternativa <i class="fa fa-plus" aria-hidden="true"></i>
+											</button>
+										</div>
+									</div>
+
+									<div class="mb-3">
+										<label for="type" class="h5 form-label fw-bold">Tipo de Questão</label>
+										<select class="form-select" th:field="*{type}">
+											<option th:each="type : ${T(com.gutotech.fatecando.model.QuestionType).values()}"
+												th:value="${type}" th:text="${type.displayName}"></option>
+										</select>
+									</div>
+
+									<button type="submit" class="btn btn-warning btn-lg form-control mt-5 fw-bold">
+										Enviar <i class="fa fa-cloud-upload"></i>
+									</button>
+								</form>
+
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<script type="text/javascript" th:inline="javascript">
 		$('#content').html(/*[[${topic.htmlContent}]]*/null);
 		let questions = /*[[${questions}]]*/null;
-
-		let waiting = false;
-
-		$('#likeButton').click(function() {
-			$.post(location.href + '/like');
-
-			let liked = $(this).prop('checked');
-
-			let totalLikes = parseInt($('#totalLikes').text());
-			$('#totalLikes').text(liked ? totalLikes + 1 : totalLikes - 1);
-		});
-
-		$('#finishButton').click(function() {
-			if (waiting) {
-				return false;
-			}
-
-			waiting = true;
-
-			let button = $(this);
-			let buttonLabel = $('#finishButton span');
-
-			buttonLabel.text('Aguarde ...');
-
-			$.post(location.href + '/finished').done(function() {
-				if (button.hasClass('active')) {
-					button.removeClass('active');
-					buttonLabel.text("Marcar como concluído");
-				} else {
-					button.addClass('active');
-					buttonLabel.text("Concluído");
-				}
-
-				waiting = false;
-			}).fail(function() {
-				button.removeClass('active');
-				buttonLabel.text("Erro ao marcar tópico como concluído!");
-			});
-		});
 	</script>
 
-	<script type="text/javascript" th:src="@{/js/topic-details.js}"></script>
+	<script type="text/javascript" th:src="@{/js/topic-finish-like.button.js}"></script>
+	<script type="text/javascript" th:src="@{/js/question.form.js}"></script>
+	<script type="text/javascript" th:src="@{/js/quiz.js}"></script>
 </body>
 </html>
