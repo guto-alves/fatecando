@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.Objects;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public class Topic {
 	private Long id;
@@ -21,6 +22,7 @@ public class Topic {
 
 	private UploadStatus status;
 
+	@NotNull(message = "Selecione uma disciplina válida")
 	private Discipline discipline;
 
 	private User createdBy;

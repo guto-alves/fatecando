@@ -5,10 +5,12 @@
 <meta charset="utf-8">
 </head>
 <body>
-	<div class="alert alert-success alert-dismissible fade show" role="alert"
-		th:if="${!#strings.isEmpty(message)}">
-		<span class="text-center" th:text=${message}></span>
-		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	<div class="container">
+		<div class="alert alert-success alert-dismissible fade show" role="alert"
+			th:if="${!#strings.isEmpty(message)}">
+			<span class="text-center" th:text=${message}></span>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
 	</div>
 
 	<div class="card mt-3">
@@ -16,7 +18,7 @@
 			<h4 class="card-title text-center fw-bold" th:text="'Informações do Tópico - #' + ${topic.id}">Informações
 				do Tópico</h4>
 
-			<form action="#" method="post" th:object="${topic}">
+			<form action="#" method="post" th:action="@{/admin/topics/{id}(id=${topic.id})}" th:object="${topic}">
 				<div class="mb-3">
 					<label class="form-label fw-bold" for="name">Nome</label>
 
@@ -28,8 +30,7 @@
 				<div class="mb-3">
 					<label class="form-label fw-bold" for="description">Descrição</label>
 
-					<textarea id="description" class="form-control" th:field="*{description}" rows="3" maxlength="1000">
-							</textarea>
+					<textarea id="description" class="form-control" th:field="*{description}" rows="3" maxlength="1000"></textarea>
 
 					<span class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Descrição
 						inválida</span>
@@ -91,7 +92,7 @@
 								<span th:text="${topic.createdBy.id}"></span>
 								<br>
 								<span class="fw-bold">Nome:</span>
-								<span th:text="${topic.createdBy.firstName + ' ' + topic.createdBy.lastName}"></span>
+								<span th:text="${topic.createdBy.fullName}"></span>
 								<br>
 								<span class="fw-bold">Email:</span>
 								<span th:text="${topic.createdBy.email}"></span>

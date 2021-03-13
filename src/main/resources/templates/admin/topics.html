@@ -5,10 +5,13 @@
 <meta charset="utf-8">
 </head>
 <body>
+	<div class="alert alert-success mt-3" th:if="${!#strings.isEmpty(message)}" th:text="${message}" role="alert">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+	</div>
+
 	<h3 class="fw-bolder text-center mt-3">Gerenciar Tópicos</h3>
 
-	<table id="table"
-		class="table table-sm table-striped table-bordered table-hover">
+	<table id="table" class="table table-sm table-striped table-bordered table-hover">
 		<thead class="thead-dark">
 			<tr>
 				<th>ID</th>
@@ -28,8 +31,7 @@
 				<td class="align-middle" th:text="${topic.discipline.name}"></td>
 				<td class="align-middle" th:text="${topic.discipline.course.name}"></td>
 				<td class="align-middle" th:text="${topic.required}"></td>
-				<td class="align-middle"
-					th:text="${#dates.format(topic.creationDate, 'dd/MM/yyyy')}"></td>
+				<td class="align-middle" th:text="${#dates.format(topic.creationDate, 'dd/MM/yyyy')}"></td>
 				<td class="align-middle" th:text="${topic.status.displayName}"></td>
 				<td><a class="btn btn-outline-dark button-sm" href="#"
 						th:href="@{/admin/topics/{id}(id=${topic.id})}">Analisar</a></td>

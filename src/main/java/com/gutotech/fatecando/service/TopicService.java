@@ -17,7 +17,7 @@ public class TopicService {
 	@Autowired
 	private RestTemplate restTemplate;
 
-	private final String URL = "http://localhost:8081/api/topics/";
+	private final String URL = "http://localhost:8081/api/topics";
 
 	public List<Topic> findAll() {
 		ResponseEntity<List<Topic>> responseEntity = restTemplate.exchange(URL, HttpMethod.GET, null,
@@ -28,7 +28,7 @@ public class TopicService {
 	}
 
 	public Topic findById(Long id) {
-		return restTemplate.getForObject(URL + id, Topic.class);
+		return restTemplate.getForObject(URL + "/" + id, Topic.class);
 	}
 
 	public Topic save(Topic topic) {
@@ -36,14 +36,14 @@ public class TopicService {
 	}
 
 	public void update(Topic topic) {
-		restTemplate.put(URL + "{id}", topic, topic.getId());
+		restTemplate.put(URL + "/{id}", topic, topic.getId());
 	}
 
 	public void toggleFinished(Topic topic) {
-		restTemplate.put(URL + "{id}/finished", null, topic.getId());
+		restTemplate.put(URL + "/{id}/finished", null, topic.getId());
 	}
 	
 	public void toggleLike(Topic topic) {
-		restTemplate.put(URL + "{id}/like", null, topic.getId());
+		restTemplate.put(URL + "/{id}/like", null, topic.getId());
 	}
 }
