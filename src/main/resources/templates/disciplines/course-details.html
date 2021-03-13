@@ -49,11 +49,19 @@
 				<div class="card btn-card h-100 shadow-lg" th:onclick="'showDiscipline(\'' + ${discipline.id} + '\');'">
 					<h5 class="card-header btn-card-header" th:text="${discipline.name}">Estrutura de Dados</h5>
 					<div class="card-body">
-						<p class="card-text text-truncate" th:text="${discipline.description}">This is a wider card with
+						<p class="card-text truncate" th:text="${discipline.description}">This is a wider card with
 							supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
 					</div>
 					<div class="card-footer">
-						<small class="text-muted">Last seen 3 mins ago</small>
+						<div th:with="progress=${discipline.user.progress}">
+							<div class="progress text-center" style="height: 10px;">
+								<div class="progress-bar progress-bar-striped progress-bar-animated fw-bolder" role="progressbar"
+									aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 55%"
+									th:style="'width: ' + ${progress} + '%'"
+									th:classappend="${progress} == 100 ? 'bg-green' : 'bg-primary'"></div>
+							</div>
+							<small class="text-muted" th:text="${progress} > 0 ? ${progress} + '% concluído' : 'Começar agora'"></small>
+						</div>
 					</div>
 				</div>
 			</div>

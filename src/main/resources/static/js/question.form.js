@@ -2,7 +2,7 @@ $('#contribute').click(function(event) {
 	if ($('button[class*="accordion-button"]').hasClass('collapsed')) {
 		event.preventDefault();
 		$('button[class*="accordion-button"]').click();
-		setTimeout(() => location.href = location.href.split('#')[0] + "#headingTwo", 200);
+		setTimeout(() => location.href = location.href.split('#')[0] + "#uploadQuestion", 200);
 	}
 });
 

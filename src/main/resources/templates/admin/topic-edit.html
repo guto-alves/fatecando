@@ -5,10 +5,10 @@
 <meta charset="utf-8">
 </head>
 <body>
-
-	<div class="alert alert-success alert-dismissible fade show" th:if="${!#strings.isEmpty(message)}"
-		role="alert">
-		<th:block th:text="${message}" />
+	<div class="alert alert-success alert-dismissible fade show" role="alert"
+		th:if="${!#strings.isEmpty(message)}">
+		<span class="text-center" th:text=${message}></span>
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 	</div>
 
 	<div class="card mt-3">
