@@ -81,18 +81,4 @@ public class TopicController {
 		return "redirect:/topic/{topicId}";
 	}
 
-//	@GetMapping
-//	public String initCreationForm(Model model) {
-//		model.addAttribute("topic", new Topic());
-//		model.addAttribute("disciplines", disciplineService.findAll());
-//		return "admin/topic-edit";
-//	}
-//
-//	@PostMapping
-//	public String processCreationForm(Topic topic, Model model, BindingResult bindingResult) {
-//		topic.setStatus(UploadStatus.WAITING_FOR_RESPONSE);
-//		topic.setRequired(false);
-//		topicService.save(topic);
-//		return "redirect:/dashboard";
-//	}
 }

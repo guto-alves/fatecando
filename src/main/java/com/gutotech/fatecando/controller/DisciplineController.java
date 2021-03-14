@@ -20,8 +20,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.gutotech.fatecando.model.Discipline;
 import com.gutotech.fatecando.model.ForumTopic;
 import com.gutotech.fatecando.model.ForumTopicComment;
+import com.gutotech.fatecando.model.Topic;
+import com.gutotech.fatecando.model.UploadStatus;
 import com.gutotech.fatecando.service.DisciplineService;
 import com.gutotech.fatecando.service.ForumTopicService;
+import com.gutotech.fatecando.service.TopicService;
 
 @Controller
 @RequestMapping("disciplines/{disciplineId}")
@@ -32,6 +35,9 @@ public class DisciplineController {
 
 	@Autowired
 	private ForumTopicService forumTopicService;
+
+	@Autowired
+	private TopicService topicService;
 
 	@ModelAttribute("discipline")
 	public Discipline findDiscipline(@PathVariable("disciplineId") Long disciplineId) {
@@ -64,6 +70,8 @@ public class DisciplineController {
 			model.addAttribute("topics", disciplineService.findAllTopicsByDiscipline(discipline));
 			break;
 		}
+
+		model.addAttribute("topic", new Topic());
 
 		return "disciplines/discipline-details";
 	}
@@ -118,6 +126,27 @@ public class DisciplineController {
 		redirectAttributes.addFlashAttribute("message", "Comentário adicionado com sucesso.");
 
 		return "redirect:/disciplines/{disciplineId}/forum-topics/{topicId}";
+	}
+
+	@PostMapping
+	public String processTopicCreationForm(Discipline discipline, @Valid Topic topic, BindingResult bindingResult,
+			RedirectAttributes redirectAttributes, Model model) {
+		if (bindingResult.hasErrors()) {
+			model.addAttribute(topic);
+			model.addAttribute("topics", disciplineService.findAllTopicsByDiscipline(discipline));
+			model.addAttribute("page", "topics");
+			model.addAttribute("error", true);
+			return "disciplines/discipline-details";
+		}
+
+		topic.setDiscipline(discipline);
+		topic.setStatus(UploadStatus.WAITING_FOR_RESPONSE);
+		topicService.save(topic);
+
+		redirectAttributes.addFlashAttribute("message",
+				"Obrigado pela contribuição! O conteúdo enviado será analisado pela nossa equipe e se tudo estiver certo ele será publicado o mais rápido possível.");
+
+		return "redirect:/disciplines/{disciplineId}";
 	}
 
 }

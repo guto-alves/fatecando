@@ -3,8 +3,10 @@
 	th:replace="~{fragments/layout :: base ('Tópico', ~{::body}, _, _, ~{::style})}">
 <head>
 <meta charset="utf-8">
-
 <style type="text/css">
+	#editor-container {
+	  height: 350;
+	}
 </style>
 </head>
 <body>
@@ -40,10 +42,7 @@
 					<div class="mb-3">
 						<label class="form-label fw-bold" for="htmlContent">Conteúdo</label>
 
-						<div class="document-editor">
-							<div class="editor-toolbar"></div>
-							<div id="editor" th:utext="${topic.htmlContent}"></div>
-						</div>
+						<div id="editor-container" th:utext="${topic.htmlContent}"></div>
 
 						<input type="hidden" th:field="*{htmlContent}">
 
@@ -139,7 +138,7 @@
 			languages : [ 'java', 'javascript' ]
 		});
 
-		var editor = new Quill('#editor', {
+		var editor = new Quill('#editor-container', {
 			modules : {
 				syntax : true,
 				toolbar : [
@@ -168,7 +167,7 @@
 		});
 
 		$('form').submit(function(event) {
-			$('#htmlContent').val($('.ql-editor').html());
+			$('#htmlContent').val(editor.root.innerHTML);
 		});
 	</script>
 </body>

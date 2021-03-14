@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="www.thymeleaf.org"
-	th:replace="~{fragments/layout :: base(${discipline.code}, ~{::body}, _, _, _)}">
+	th:replace="~{fragments/layout :: base(${discipline.code}, ~{::body}, _, _, ~{::style})}">
 <head>
 <meta charset="utf-8">
+<style type="text/css">
+#editor-container {
+	height: 350px;
+}
+</style>
 </head>
 <body>
 	<div class="row">
 		<div class="p-3 mb-5 bg-dark text-white">
 			<div class="card-body">
-				<h3 class="card-title text-center fw-bolder" th:text="${discipline.code} + ' - ' +${discipline.name}"></h3>
+				<h2 class="card-title text-center fw-bolder" th:text="${discipline.code} + ' - ' +${discipline.name}"></h2>
 
 				<div class="mb-2">
 					<b>Ementa:</b>
@@ -28,8 +33,12 @@
 						<i class="fa fa-thumbs-up"></i>
 					</button>
 					<br>
-					<span id="totalLikes" class="border border-2 border-start-0 border-danger p-2 rounded-end"
+					<span id="totalLikes" class="border border-2 border-start-0 border-danger p-2 rounded-end me-3"
 						th:text="${discipline.likes}"></span>
+
+					<div class="text-center">
+						<a href="#newTopicContainer" id="contribute" class="btn btn-warning">Contribuir</a>
+					</div>
 				</div>
 			</div>
 
@@ -45,7 +54,7 @@
 	<div class="container">
 		<div class="alert alert-success alert-dismissible fade show" role="alert"
 			th:if="${!#strings.isEmpty(message)}">
-			<span class="text-center" th:text=${message}></span>
+			<span class="text-center" th:text="${message}"></span>
 			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 		</div>
 
@@ -67,6 +76,7 @@
 				</ul>
 			</div>
 			<div class="card-body bg-danger">
+
 				<!-- Topics -->
 				<div class="list-group" th:if="${#strings.equalsIgnoreCase(page, 'topics')}">
 					<a href="#" class="list-group-item list-group-item-action shadow mb-2 rounded border border-5 p-3"
@@ -165,13 +175,105 @@
 				</div>
 			</div>
 		</div>
-	</div>
+		
+		<!-- Topic Form -->
+		<div class="accordion mt-5" id="newTopicContainer">
+			<div class="accordion-item">
+				<h2 class="accordion-header" id="headingTwo">
+					<button class="accordion-button collapsed bg-warning fw-bold" type="button" data-bs-toggle="collapse"
+						data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+						<h4>Contribuindo</h4>
+					</button>
+				</h2>
+				<div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+					data-bs-parent="#newTopicContainer">
+					<div class="accordion-body">
 
+						<div class="card border border-1 border-secondary shadow">
+							<div class="card-body">
+								<h4 class="card-title text-center" 
+									th:utext="'Sentiu falta de algum tópico/assunto interessante em ' + ${#strings.arraySplit(discipline.name, ' ')[0]} + '?? <br> Manda pra gente!'">
+								</h4>
+								
+								<div class="alert alert-danger alert-dismissible fade show m-3" role="alert"
+									th:if="${error}">
+									<span class="text-center">Houve um erro ao enviar o conteúdo. Verifique os dados e tente novamente.</span>
+									<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+								</div>
+		
+								<form action="#" method="post" th:action="@{/disciplines/{id}/topics(id=${discipline.id})}"
+									th:object="${topic}">
+									<div class="mb-3 mt-2">
+										<label class="form-label fw-bold" for="name">Nome</label>
+
+										<input type="text" id="name" class="form-control" placeholder="Nome do tópico" th:field="*{name}"
+											maxlength="255" required>
+
+										<div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Nome
+											inválido</div>
+									</div>
+
+									<div class="mb-3">
+										<label class="form-label fw-bold" for="description">Descrição</label>
+
+										<textarea id="description" class="form-control" placeholder="Uma breve descrição ..."
+											th:field="*{description}" rows="3" maxlength="1000" required></textarea>
+
+										<span class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Descrição
+											inválida</span>
+									</div>
+
+									<div class="mb-3">
+										<label class="form-label fw-bold" for="htmlContent">Conteúdo</label>
+
+										<div id="editor-container" th:utext="${topic.htmlContent}"></div>
+
+										<input type="hidden" th:field="*{htmlContent}" aria-describedby="htmlContentFeedback">
+
+										<div id="htmlContentFeedback" class="invalid-feedback" 
+											th:if="${#fields.hasErrors('htmlContent')}" th:errors="*{htmlContent}">
+											Conteúdo inválido
+										</div>
+									</div>
+
+									<div class="mb-3">
+										<label class="fw-bold">Você acha que esse novo conteúdo deveria ser adicionar ao conjunto de
+											conteúdos "obrigatórios" para a conclusão da Disciplina?</label>
+
+										<div class="form-check">
+											<input class="form-check-input" type="radio" name="required" id="flexRadioDefault1" 
+												value="true" th:field="*{required}">
+											<label class="form-check-label" for="flexRadioDefault1"> Sim, é um dos principais tópicos
+												da disciplina. </label>
+										</div>
+										<div class="form-check">
+											<input class="form-check-input" type="radio" name="required" id="flexRadioDefault2" 
+												value="false" th:field="*{required}">
+											<label class="form-check-label" for="flexRadioDefault2"> Não, é apenas um conteúdo extra.</label>
+										</div>
+									</div>
+
+									<div class="d-grid gap-2 col-6 mx-auto">
+										<button type="submit" class="btn btn-warning btn-lg form-control mt-5 fw-bold">
+											Enviar <i class="fa fa-cloud-upload"></i>
+										</button>
+									</div>
+								</form>
+
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
 
 	<script type="text/javascript" th:src="@{/js/timeago/timeago.js}"></script>
 	<script type="text/javascript" th:src="@{/js/timeago/jquery.timeago.pt-br.js}"></script>
 
-	<script type="text/javascript">
+	<script type="text/javascript" th:inline="javascript">
 		$("time.timeago").timeago();
 
 		$('#like').click(function() {
@@ -191,6 +293,57 @@
 			button.removeClass(liked ? "btn-secondary" : 'btn-danger')
 			button.addClass(liked ? "btn-danger" : 'btn-secondary');
 		});
+
+		hljs.configure({
+			languages : [ 'java' ]
+		});
+
+		var editor = new Quill('#editor-container', {
+			modules : {
+				syntax : true,
+				toolbar : [ 
+					[ 'bold', 'italic', 'underline', 'strike' ], // toggled buttons
+					[ 'blockquote', 'code-block' ],
+					[ 'link', 'image', 'video', 'formula' ], 
+					[ {	'header' : 1 }, { 'header' : 2 } ], // custom button values
+					[ { 'list' : 'ordered' }, { 'list' : 'bullet' } ], 
+					[ { 'script' : 'sub' }, { 'script' : 'super' } ], // superscript/subscript
+					[ {'indent' : '-1' }, { 'indent' : '+1' } ], // outdent/indent
+					[ { 'direction' : 'rtl' } ], // text direction
+					[ { 'size' : [ 'small', false, 'large', 'huge' ] } ], // custom dropdown
+					[ { 'header' : [ 1, 2, 3, 4, 5, 6, false ] } ], 
+					[ { 'color' : [] }, { 'background' : [] } ], // dropdown with defaults from theme
+					[ { 'font' : [] } ], 
+					[ { 'align' : [] } ], 
+					[ 'clean' ] // remove formatting button
+				],
+				history : {
+					delay : 2000,
+					maxStack : 500,
+					userOnly : true
+				}
+			},
+			theme : 'snow'
+		});
+		
+		$('form').submit(function(event) {
+			if (editor.root.innerText.trim() !== '') {
+				$('#htmlContent').val(editor.root.innerHTML);
+			}
+		});
+		
+		$('#contribute').click(function(event) {
+			if ($('button[class*="accordion-button"]').hasClass('collapsed')) {
+				event.preventDefault();
+				$('button[class*="accordion-button"]').click();
+				setTimeout(() => location.href = location.href.split('#')[0] + "#newTopicContainer", 200);
+			}
+		});
+		
+		if (/*[[${error}]]*/false) {
+			$('button[class*="accordion-button"]').click();
+			setTimeout(() => $('#contribute').click(), 300);
+		}
 	</script>
 </body>
 </html>
