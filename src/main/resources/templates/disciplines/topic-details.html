@@ -69,8 +69,8 @@
 		</div>
 
 		<h3 class="mt-2">Conteúdo</h3>
-		<div class="card mt-3 shadow">
-			<div class="card-body" id="content"></div>
+		<div id="contentCard" class="card mt-3 shadow">
+			<div class="card-body" id="contentEditor" th:utext="${topic.htmlContent}"></div>
 		</div>
 
 		<!-- Quiz -->
@@ -95,13 +95,13 @@
 					<br>
 
 					<!-- Answers -->
-					<div class="form-check mb-3">
+					<div class="alternative form-check mb-3">
 						<input class="form-check-input" type="radio" name="alternativeRadio" id="alternativeRadio1">
 
 						<label class="form-check-label" for="alternativeRadio1">Alternativa 1</label>
 					</div>
 
-					<div class="form-check mb-3">
+					<div class="alternative form-check mb-3">
 						<input class="form-check-input" type="radio" name="alternativeRadio" id="alternativeRadio2">
 						<label class="form-check-label" for="alternativeRadio2"> Alternativa 2</label>
 					</div>
@@ -142,29 +142,26 @@
 
 						<div class="card border border-1 border-secondary shadow">
 							<div class="card-body">
-								<form action="#" method="post" th:action="@{/topic/{t}/question(t=${topic.id})}"
+							
+								<form id="newQuestionForm" action="#" method="post" th:action="@{/topic/{t}/question(t=${topic.id})}"
 									th:object="${question}">
 									<div class="mb-3">
-										<label for="name" class="h5 form-label fw-bolder">Pergunta</label>
-										<textarea rows="3" name="description" id="description" class="form-control"
-											th:field="*{description}" placeholder="Sua pergunta .." required></textarea>
-										<script>
-											CKEDITOR.replace('description', {
-												uiColor : '#F2F4F4'
-											});
-										</script>
+										<label for="description" class="h5 form-label fw-bolder">Pergunta</label>
+										
+										<div id="newQuestionEditor"></div>
+										<input type="hidden" id="description" th:field="*{description}">
 									</div>
 
 									<div id="alternativesContainer" class="mb-3 p-3 border border-1 border-secondary rounded">
 										<label class="h5 form-label fw-bolder ms-5">Alternativas</label>
 
 										<div id="alternatives">
-											<div class="alternative mb-3 d-flex justify-content-start align-items-center"
+											<div class="new-alternative mb-3 d-flex justify-content-start align-items-center"
 												th:each="alternative, itemStat : *{alternatives}">
 												<span class="text-muted me-2" th:text="${itemStat.index + 1} + '.'">1.</span>
 
 												<div class="container">
-													<textarea class="form-control me-5" id="alternative" rows="1"
+													<textarea class="form-control me-5" rows="1"
 														th:field="*{alternatives[__${itemStat.index}__].description}" placeholder="Alternativa" required>Alternativa 1</textarea>
 													<input type="text" class="form-control"
 														th:field="*{alternatives[__${itemStat.index}__].feedback}" placeholder="Feedback da alternativa">
@@ -217,12 +214,67 @@
 	</div>
 
 	<script type="text/javascript" th:inline="javascript">
-		$('#content').html(/*[[${topic.htmlContent}]]*/null);
 		let questions = /*[[${questions}]]*/null;
+
+		hljs.configure({
+			tabReplace : '    ',
+			languages : ['java' ]
+		});
+
+		var contentEditor = new Quill('#contentEditor', {
+			modules : {
+				syntax : true,
+				toolbar : []
+			},
+			theme : 'snow'
+		});
+		contentEditor.enable(false);
+		$('#contentEditor').closest('.ql-toolbar').hide();
+		$('#contentCard').find('.ql-toolbar').first().remove();
+		
+		var questionEditor = new Quill('#question', {
+			modules : {
+				syntax : true,
+				toolbar: []
+			},
+			theme : 'snow'
+		});
+		questionEditor.enable(false);
+		$('#questionContainer').find('.ql-toolbar').first().remove();
+		
+		var newQuestionEditor = new Quill('#newQuestionEditor', {
+			modules : {
+				syntax : true,
+				toolbar : [
+				  ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+				  ['blockquote', 'code-block'],
+				  [ 'link', 'image', 'video', 'formula' ],
+				  [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+				  [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+				  [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+				  [{ 'direction': 'rtl' }],                         // text direction
+				  [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+				  [{ 'font': [] }],
+				  [{ 'align': [] }],
+				  ['clean']                                         // remove formatting button
+				],
+				history: {
+			      delay: 2000,
+			      maxStack: 500,
+			      userOnly: true
+			    }
+			},
+			theme : 'snow'
+		});
+		
+		$('#newQuestionForm').submit(function(event) {
+			$('#description').val(newQuestionEditor.container.innerHTML);
+		});
+		
 	</script>
 
 	<script type="text/javascript" th:src="@{/js/topic-finish-like.button.js}"></script>
-	<script type="text/javascript" th:src="@{/js/question.form.js}"></script>
 	<script type="text/javascript" th:src="@{/js/quiz.js}"></script>
+	<script type="text/javascript" th:src="@{/js/question.form.js}"></script>
 </body>
 </html>

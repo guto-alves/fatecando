@@ -5,8 +5,10 @@
 <meta charset="utf-8">
 </head>
 <body>
-	<div class="alert alert-success mt-3" th:if="${!#strings.isEmpty(message)}" th:text="${message}" role="alert">
-		<button type="button" class="close" data-dismiss="alert">&times;</button>
+	<div class="alert alert-success alert-dismissible fade show" role="alert"
+		th:if="${!#strings.isEmpty(message)}">
+		<span th:text=${message}></span>
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 	</div>
 
 	<div class="accordion mt-3" id="courseFormAccordion">

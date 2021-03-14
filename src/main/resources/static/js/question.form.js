@@ -19,10 +19,10 @@ $('#addAlternative').click(function() {
 
 	$('#alternatives').append(
 		`
-			<div class="alternative mb-3 d-flex justify-content-start align-items-center">
+			<div class="new-alternative mb-3 d-flex justify-content-start align-items-center">
 				<span class="text-muted me-2">${totalAlternatives + 1}.</span>
 				<div class="container">
-					<textarea class="form-control me-5" name="alternatives[${totalAlternatives}].description" id="alternative" rows="1">Alternativa ${totalAlternatives + 1}</textarea>
+					<textarea class="form-control me-5" name="alternatives[${totalAlternatives}].description" rows="1">Alternativa ${totalAlternatives + 1}</textarea>
 					<input type="text" class="form-control" placeholder="Feedback da alternativa" id="alternatives${totalAlternatives}.feedback" name="alternatives[${totalAlternatives}].feedback" value="">
 				</div>
 				<div class="form-check me-3">
@@ -63,8 +63,9 @@ function markAsRight(alternative) {
 }
 
 function removeAlternative(alternative) {
-	if ($('#alternatives').children().length > 2) {
-		$(alternative).closest('.alternative').remove();
+	if ($('#alternatives').children().length > 2 && 
+		!$(alternative).closest('.new-alternative').find('input[type*="checkbox"]').first().prop('checked')) {
+		$(alternative).closest('.new-alternative').remove();
 		return true;
 	}
 
@@ -79,6 +80,16 @@ function updateAlternatives() {
 
 		self.find('span').text((alternativeCount + 1) + '.');
 		self.find('textarea').first().attr('name', `alternatives[${alternativeCount}].description`);
+		
+		self.find('input[type="text"]').first()
+			.prop('id', `alternatives${alternativeCount}.feedback`)
+			.prop('name', `alternatives[${alternativeCount}].feedback`);
+			
+		self.find('input[type="checkbox"]').first()
+			.prop('id', `alternatives${alternativeCount}.correct1`)
+			.prop('name', `alternatives[${alternativeCount}].correct`);
+		
+		self.find('input[type="hidden"]').first().prop('name', `_alternatives[${alternativeCount}].correct`);
 
 		alternativeCount++;
 	});

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="www.thymeleaf.org">
+<html xmlns:th="www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="utf-8">
 </head>
@@ -39,16 +39,16 @@
 								<a class="dropdown-item" href="#" th:href="@{/admin/disciplines}">Disciplinas</a>
 							</li>
 							<li>
+								<hr class="dropdown-divider">
+							</li>
+							<li>
+								<h6 class="dropdown-header">Contribuições</h6>
+							</li>
+							<li>
 								<a class="dropdown-item" href="#" th:href="@{/admin/topics}">Gerenciar Tópicos</a>
 							</li>
 							<li>
 								<a class="dropdown-item" href="#" th:href="@{/questions/admin}">Gerenciar Questões</a>
-							</li>
-							<li>
-								<hr class="dropdown-divider">
-							</li>
-							<li>
-								<a class="dropdown-item" href="#">Something else here</a>
 							</li>
 						</ul>
 					</li>

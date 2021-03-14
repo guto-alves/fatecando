@@ -1,44 +1,60 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: base ('Tópico', ~{::body}, _, _, _)}">
+<html xmlns:th="https://www.thymeleaf.org"
+	th:replace="~{fragments/layout :: base ('Tópico', ~{::body}, _, _, _)}">
 <head>
 <meta charset="utf-8">
 </head>
 <body>
-	<h3 class="fw-bolder text-center mt-3">Gerenciar Questões</h3>
+	<div class="container mt-3">
+		<div class="alert alert-success alert-dismissible fade show" role="alert"
+			th:if="${!#strings.isEmpty(message)}">
+			<span th:text=${message}></span>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	</div>
 
-	<table id="table" class="table table-sm table-striped table-bordered table-hover">
-		<thead class="thead-dark">
-			<tr>
-				<th>ID</th>
-				<th>Pergunta</th>
-				<th>Tipo</th>
-				<th>Tópico</th>
-				<th>Data de Envio</th>
-				<th>Status</th>
-				<th>Ação</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr th:each="question : ${questions}" th:data-id="${question.id}">
-				<td class="align-middle" th:text="${question.id}"></td>
-				<td class="align-middle text-truncate" th:text="${question.description}"></td>
-				<td class="align-middle" th:text="${question.type}"></td>
-				<td class="align-middle text-truncate" th:text="${question.topic.name}"></td>
-				<td class="align-middle" th:text="${#dates.format(question.creationDate, 'dd/MM/yyyy')}"></td>
-				<td class="align-middle" th:text="${question.status.displayName}"></td>
-				<td><a class="btn btn-outline-dark button-sm" href="#" th:href="@{/questions/admin/{id}(id=${question.id})}">Analisar</a></td>
-			</tr>
-		</tbody>
-	</table>
+	<div class="card mt-3 border border-1 border-danger shadow">
+		<h4 class="card-header text-center">Gerenciar Questões</h4>
+		<div class="card-body">
+			<table id="table" class="table cell-border compact order-column table-hover compact stripe">
+				<thead class="thead-dark text-center">
+					<tr>
+						<th>ID</th>
+						<th>Pergunta</th>
+						<th>Tipo</th>
+						<th>Tópico</th>
+						<th>Data de Envio</th>
+						<th>Status</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="question : ${questions}" th:data-id="${question.id}">
+						<td class="align-middle fw-bold text-center" th:text="${question.id}"></td>
+						<td class="align-middle"><p class="content" th:text="${question.description}"></p></td>
+						<td class="align-middle text-center" th:text="${question.type.displayName}"></td>
+						<td class="align-middle text-truncate" th:text="${question.topic.name}"></td>
+						<td class="align-middle" th:text="${#dates.format(question.creationDate, 'dd/MM/yyyy')}"></td>
+						<td class="align-middle text-center" th:text="${question.status.displayName}"></td>
+						<td class="align-middle"><a class="btn btn-outline-dark button-sm" href="#"
+								th:href="@{/questions/admin/{id}(id=${question.id})}">Abrir</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
 
 	<script type="text/javascript">
-		$('#table')
-				.DataTable(
-						{
-							language : {
-								url : '//cdn.datatables.net/plug-ins/1.10.22/i18n/Portuguese-Brasil.json'
-							}
-						});
+		$('#table').DataTable({
+			language : {
+				url : '//cdn.datatables.net/plug-ins/1.10.22/i18n/Portuguese-Brasil.json'
+			}
+		});
+
+		$('.content').each(function() {
+			$(this).html($(this).text());
+		});
 	</script>
 </body>
 </html>

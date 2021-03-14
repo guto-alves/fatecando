@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org"
-	th:replace="~{fragments/layout :: base ('Tópico', ~{::body}, _, _, _)}">
+	th:replace="~{fragments/layout :: base ('Tópico', ~{::body}, _, _, ~{::style})}">
 <head>
 <meta charset="utf-8">
+
+<style type="text/css">
+</style>
 </head>
 <body>
 	<div class="container">
@@ -11,121 +14,162 @@
 			<span class="text-center" th:text=${message}></span>
 			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 		</div>
-	</div>
 
-	<div class="card mt-3">
-		<div class="card-body">
-			<h4 class="card-title text-center fw-bold" th:text="'Informações do Tópico - #' + ${topic.id}">Informações
-				do Tópico</h4>
+		<div class="card mt-3">
+			<div class="card-body">
+				<h3 class="card-title text-center fw-bold" th:text="'Tópico - #' + ${topic.id}">Tópico #146</h3>
 
-			<form action="#" method="post" th:action="@{/admin/topics/{id}(id=${topic.id})}" th:object="${topic}">
-				<div class="mb-3">
-					<label class="form-label fw-bold" for="name">Nome</label>
+				<form action="#" method="post" th:action="@{/admin/topics/{id}(id=${topic.id})}" th:object="${topic}">
+					<div class="mb-3">
+						<label class="form-label fw-bold" for="name">Nome</label>
 
-					<input type="text" id="name" class="form-control" placeholder="Nome do Tópico" th:field="*{name}">
+						<input type="text" id="name" class="form-control" placeholder="Nome do Tópico" th:field="*{name}">
 
-					<span class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Nome inválido</span>
-				</div>
-
-				<div class="mb-3">
-					<label class="form-label fw-bold" for="description">Descrição</label>
-
-					<textarea id="description" class="form-control" th:field="*{description}" rows="3" maxlength="1000"></textarea>
-
-					<span class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Descrição
-						inválida</span>
-				</div>
-
-				<div class="mb-3">
-					<label class="form-label fw-bold" for="htmlContent">Conteúdo</label>
-
-					<textarea id="htmlContent" class="form-control" th:field="*{htmlContent}" name="htmlContent"
-						data-sample-short></textarea>
-					<script>
-						CKEDITOR.replace('htmlContent', {
-							uiColor : '#CCEAEE'
-						});
-					</script>
-
-					<span class="text-danger" th:if="${#fields.hasErrors('htmlContent')}" th:errors="*{htmlContent}">Conteúdo
-						inválido</span>
-				</div>
-
-				<div class="mb-3">
-					<label class="form-label fw-bold" for="status">Disciplina</label>
-
-					<select class="form-select" id="discipline" name="discipline" th:field="*{discipline.id}">
-						<option th:each="discipline : ${disciplines}" th:value="${discipline.id}" th:text="${discipline.name}"
-							th:selected="${discipline == topic.discipline}"></option>
-					</select>
-				</div>
-
-				<div class="mb-3">
-					<label class="fw-bold">Obrigatório para a conclusão da Disciplina?</label>
-
-					<div class="form-check">
-						<input id="required" class="form-check-input" type="checkbox" value="false" th:value="${topic.required}"
-							th:field="*{required}">
-						<label class="form-check-label" for="required"> Obrigatório</label>
+						<span class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Nome inválido</span>
 					</div>
-				</div>
 
-				<div class="mb-3">
-					<label class="form-label fw-bold" for="status">Status</label>
+					<div class="mb-3">
+						<label class="form-label fw-bold" for="description">Descrição</label>
 
-					<select class="form-select" id="status" name="status">
-						<option th:each="status : ${T(com.gutotech.fatecando.model.UploadStatus).values()}" th:value="${status}"
-							th:text="${status.displayName}" th:selected="${status == topic.status}"></option>
-					</select>
-				</div>
+						<textarea id="description" class="form-control" th:field="*{description}" rows="3" maxlength="1000"></textarea>
 
-				<br>
-				<span class="fw-bold">Outras Informações</span>
+						<span class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Descrição
+							inválida</span>
+					</div>
 
-				<div class="row">
-					<div class="col-md-4">
-						<div class="card">
-							<div class="card-body">
-								<h6 class="card-title fw-bold">Usuário</h6>
-								<hr>
-								<span class="fw-bold">ID:</span>
-								<span th:text="${topic.createdBy.id}"></span>
-								<br>
-								<span class="fw-bold">Nome:</span>
-								<span th:text="${topic.createdBy.fullName}"></span>
-								<br>
-								<span class="fw-bold">Email:</span>
-								<span th:text="${topic.createdBy.email}"></span>
-								<br>
+					<div class="mb-3">
+						<label class="form-label fw-bold" for="htmlContent">Conteúdo</label>
+
+						<div class="document-editor">
+							<div class="editor-toolbar"></div>
+							<div id="editor" th:utext="${topic.htmlContent}"></div>
+						</div>
+
+						<input type="hidden" th:field="*{htmlContent}">
+
+						<span class="text-danger" th:if="${#fields.hasErrors('htmlContent')}" th:errors="*{htmlContent}">Conteúdo
+							inválido</span>
+					</div>
+
+					<div class="mb-3">
+						<label class="form-label fw-bold" for="status">Disciplina</label>
+
+						<select class="form-select" id="discipline" name="discipline" th:field="*{discipline.id}">
+							<option th:each="discipline : ${disciplines}" th:value="${discipline.id}" th:text="${discipline.name}"
+								th:selected="${discipline == topic.discipline}"></option>
+						</select>
+					</div>
+
+					<div class="mb-3">
+						<label class="fw-bold">Obrigatório para a conclusão da Disciplina?</label>
+
+						<div class="form-check">
+							<input id="required" class="form-check-input" type="checkbox" value="false"
+								th:value="${topic.required}" th:field="*{required}">
+							<label class="form-check-label" for="required"> Obrigatório</label>
+						</div>
+					</div>
+
+					<div class="mb-3">
+						<label class="form-label fw-bold" for="status">Status</label>
+
+						<select class="form-select" id="status" name="status">
+							<option th:each="status : ${T(com.gutotech.fatecando.model.UploadStatus).values()}"
+								th:value="${status}" th:text="${status.displayName}" th:selected="${status == topic.status}"></option>
+						</select>
+					</div>
+
+					<br>
+					<span class="fw-bold">Outras Informações</span>
+
+					<div class="row">
+						<div class="col-md-4">
+							<div class="card">
+								<div class="card-body">
+									<h6 class="card-title fw-bold">Usuário</h6>
+									<hr>
+									<span class="fw-bold">ID:</span>
+									<span th:text="${topic.createdBy.id}"></span>
+									<br>
+									<span class="fw-bold">Nome:</span>
+									<span th:text="${topic.createdBy.fullName}"></span>
+									<br>
+									<span class="fw-bold">Email:</span>
+									<span th:text="${topic.createdBy.email}"></span>
+									<br>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-5">
+							<div class="card">
+								<div class="card-body">
+									<h6 class="card-title fw-bold">Informações Extras</h6>
+									<hr>
+									<span class="fw-bold">Data do envio:</span>
+									<span th:text="${#dates.format(topic.creationDate, 'dd/MM/yyy às HH:mm:ss')}"></span>
+									<br>
+									<span class="fw-bold">Data de atualização:</span>
+									<span th:text="${#dates.format(topic.updateDate, 'dd/MM/yyyy às HH:mm:ss')}"></span>
+									<br>
+									<span class="fw-bold">Total de Likes:</span>
+									<span th:text="${topic.likes} == 0 ? 'Nenhum' : ${topic.likes}"></span>
+									<br>
+								</div>
 							</div>
 						</div>
 					</div>
 
-					<div class="col-md-5">
-						<div class="card">
-							<div class="card-body">
-								<h6 class="card-title fw-bold">Informações Extras</h6>
-								<hr>
-								<span class="fw-bold">Data do envio:</span>
-								<span th:text="${#dates.format(topic.creationDate, 'dd/MM/yyy às HH:mm:ss')}"></span>
-								<br>
-								<span class="fw-bold">Data de atualização:</span>
-								<span th:text="${#dates.format(topic.updateDate, 'dd/MM/yyyy às HH:mm:ss')}"></span>
-								<br>
-								<span class="fw-bold">Total de Likes:</span>
-								<span th:text="${topic.likes} == 0 ? 'Nenhum' : ${topic.likes}"></span>
-								<br>
-							</div>
-						</div>
+					<br>
+					<br>
+
+					<div class="d-grid gap-2 col-6 mx-auto">
+						<button type="submit" class="btn btn-danger form-control">
+							Atualizar <i class="fa fa-pencil ms-3" aria-hidden="true"></i>
+						</button>
 					</div>
-				</div>
-
-				<br>
-				<br>
-
-				<button type="submit" class="btn btn-danger form-control">Atualizar</button>
-			</form>
+				</form>
+			</div>
 		</div>
+
 	</div>
+
+	<script type="text/javascript">
+		hljs.configure({ // optionally configure hljs
+			languages : [ 'java', 'javascript' ]
+		});
+
+		var editor = new Quill('#editor', {
+			modules : {
+				syntax : true,
+				toolbar : [
+				  ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+				  ['blockquote', 'code-block'],
+				  [ 'link', 'image', 'video', 'formula' ],
+				  [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+				  [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+				  [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+				  [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+				  [{ 'direction': 'rtl' }],                         // text direction
+				  [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+				  [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+				  [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+				  [{ 'font': [] }],
+				  [{ 'align': [] }],
+				  ['clean']                                         // remove formatting button
+				],
+				history: {
+			      delay: 2000,
+			      maxStack: 500,
+			      userOnly: true
+			    }
+			},
+			theme : 'snow'
+		});
+
+		$('form').submit(function(event) {
+			$('#htmlContent').val($('.ql-editor').html());
+		});
+	</script>
 </body>
 </html>

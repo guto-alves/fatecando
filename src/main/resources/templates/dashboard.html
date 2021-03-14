@@ -29,7 +29,8 @@
 									th:style="'width: ' + ${progress} + '%'"
 									th:classappend="${progress} == 100 ? 'bg-green' : 'bg-primary'"></div>
 							</div>
-							<small class="text-muted" th:text="${progress} > 0 ? ${progress} + '% concluído'"></small>
+							<small class="text-muted"
+								th:text="${progress} > 0 ? ${progress} + '% concluído' : 'Não iniciada ainda'"></small>
 						</div>
 					</div>
 				</div>

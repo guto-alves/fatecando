@@ -18,18 +18,19 @@ function nextQuestion() {
 
 	let currentQuestion = questions[currentQuestionIndex];
 
-	$('#question').html(currentQuestion.description);
+	questionEditor.setContents([]);
+	questionEditor.clipboard.dangerouslyPasteHTML(0, currentQuestion.description);
 
 	// Removes old alternatives
-	$('.form-check').remove();
+	$('.alternative').remove();
 
 	// Add new alternatives
 	currentQuestion.alternatives.forEach(alternative => {
 		let alternativeRadio = `
-			<div class="form-check mb-3">
-				<input class="form-check-input" type="radio"
+			<div class="alternative form-check mb-3 d-flex">
+				<input class="form-check-input me-3" type="radio"
 					name="alternativeRadio" value="` + alternative.id + `">
-				<label class="form-check-label">` + alternative.description + `</label>
+				<label class="form-check-label align-self-center mt-1">` + alternative.description + `</label>
 			</div>		
 		`;
 
@@ -40,8 +41,13 @@ function nextQuestion() {
 	$('#answerQuestion').show();
 }
 
-$('#answerQuestion').click(() => {
+$('#answerQuestion').click(function() {
 	let alternativeId = $('input[name="alternativeRadio"]:checked').val();
+	
+	if (alternativeId == null) {
+		return false;
+	}
+	
 	let questionId = questions[currentQuestionIndex].id;
 
 	$.post(
@@ -53,7 +59,7 @@ $('#answerQuestion').click(() => {
 		let text = feedback.correct ? 'Correto' : 'Errado';
 
 		let htmlFeedback = `
-			<div class="border border-2 border- ` + color + ` p-2 mt-2 rounded ">
+			<div class="border border-2 border- ` + color + ` p-2 mb-2 rounded ms-5">
 				<span>
 					<b class="text-` + color + `">` + text + `</b>
 					<br>
@@ -62,7 +68,7 @@ $('#answerQuestion').click(() => {
 			</div>
 		`;
 
-		$('input[name="alternativeRadio"]:checked').closest('.form-check').append(htmlFeedback);
+		$('input[name="alternativeRadio"]:checked').first().closest('.alternative').after(htmlFeedback);
 
 		if (currentQuestionIndex + 1 == questionsLenght) { // Quiz is over
 			$('#answerQuestion').remove();
@@ -82,7 +88,7 @@ $('#finishQuiz').click(() => {
 	$('#questionContainer').remove();
 
 	let rightAnswers = feedbacks.reduce((total, feedback) => total + (feedback.correct ? 1 : 0), 0);
-	
+
 	let result = rightAnswers + '/' + questionsLenght;
 
 	$('#quizResult').append(
