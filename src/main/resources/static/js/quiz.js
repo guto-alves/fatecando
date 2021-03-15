@@ -1,5 +1,5 @@
 let currentQuestionIndex = -1;
-let questionsLenght = Object.keys(questions).length;
+let totalQuestions = Object.keys(questions).length;
 let feedbacks = [];
 
 $('#startQuiz').click(function() {
@@ -12,9 +12,9 @@ $('#startQuiz').click(function() {
 });
 
 function nextQuestion() {
-	currentQuestionIndex = ++currentQuestionIndex % questionsLenght;
+	currentQuestionIndex = ++currentQuestionIndex % totalQuestions;
 
-	$('#questionIndex').text('Questão ' + (currentQuestionIndex + 1) + ' de ' + questionsLenght);
+	$('#questionIndex').text('Questão ' + (currentQuestionIndex + 1) + ' de ' + totalQuestions);
 
 	let currentQuestion = questions[currentQuestionIndex];
 
@@ -27,10 +27,11 @@ function nextQuestion() {
 	// Add new alternatives
 	currentQuestion.alternatives.forEach(alternative => {
 		let alternativeRadio = `
-			<div class="alternative form-check mb-3 d-flex">
-				<input class="form-check-input me-3" type="radio"
-					name="alternativeRadio" value="` + alternative.id + `">
-				<label class="form-check-label align-self-center mt-1">` + alternative.description + `</label>
+			<div class="alternative mb-3">
+				<div class="form-check d-flex">
+					<input class="form-check-input me-3" type="radio" name="alternativeRadio" value="` + alternative.id + `">
+					<label class="form-check-label align-self-center mt-1">` + alternative.description + `</label>
+				</div
 			</div>		
 		`;
 
@@ -68,9 +69,9 @@ $('#answerQuestion').click(function() {
 			</div>
 		`;
 
-		$('input[name="alternativeRadio"]:checked').first().closest('.alternative').after(htmlFeedback);
+		$('input[name="alternativeRadio"]:checked').first().closest('.alternative').append(htmlFeedback);
 
-		if (currentQuestionIndex + 1 == questionsLenght) { // Quiz is over
+		if (currentQuestionIndex + 1 == totalQuestions) { // Quiz is over
 			$('#answerQuestion').remove();
 			$('#nextQuestion').remove();
 			$('#finishQuiz').show();
@@ -89,12 +90,14 @@ $('#finishQuiz').click(() => {
 
 	let rightAnswers = feedbacks.reduce((total, feedback) => total + (feedback.correct ? 1 : 0), 0);
 
-	let result = rightAnswers + '/' + questionsLenght;
+	let result = rightAnswers + '/' + totalQuestions;
 
 	$('#quizResult').append(
-		`<span class="h1 fw-bolder">` + result + `</span>
+		`
+		<span class="h1 fw-bolder">` + result + `</span>
 		<br>
-		<div class="text-muted text-right mt-3">Finalizado em: ` + new Date().toLocaleString() + `</div>`
+		<div class="text-muted text-right mt-3">Finalizado em: ${new Date().toLocaleString()}</div>
+		`
 	);
 
 	$('#quizResult').show();

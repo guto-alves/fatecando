@@ -8,10 +8,6 @@
 	height: 350px;
 }
 
-.active {
-	color: #dc3545 !important;
-}
-
 .list-card-item {
 	cursor: pointer;
 }
@@ -19,7 +15,6 @@
 .list-card-item:hover {
 	transform: scale(1.010);
 }
-
 </style>
 </head>
 <body>
@@ -64,14 +59,13 @@
 	</div>
 
 	<div class="container">
-	
 		<div class="alert alert-success alert-dismissible fade show my-5" role="alert"
 			th:if="${!#strings.isEmpty(message)}">
 			<span class="text-center" th:text="${message}"></span>
 			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 		</div>
 	
-	<!-- Topic Form -->
+		<!-- Topic Form -->
 		<div class="accordion my-5" id="newTopicContainer">
 			<div class="accordion-item">
 				<h6 class="accordion-header" id="headingTwo">
@@ -163,20 +157,22 @@
 			</div>
 		</div>
 
-
 		<div class="card shadow">
 			<div class="card-header">
 				<ul class="nav nav-tabs fw-bolder">
 					<li class="nav-item">
-						<a class="nav-link text-dark" th:classappend="${page} == 'topics'? 'active'" href="#"
+						<a class="nav-link" href="#"
+							th:classappend="|${page == 'topics'? 'active': ''} ${page == 'topics'? 'text-danger' : 'text-dark'}|"
 							th:href="@{/disciplines/{id}(id=${discipline.id}, page='topics')}">Tópicos</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link text-dark" th:classappend="${page} == 'tests'? 'active'" href="#"
+						<a class="nav-link" href="#"
+							th:classappend="|${page == 'tests'? 'active': ''} ${page == 'tests'? 'text-danger' : 'text-dark'}|"
 							th:href="@{/disciplines/{id}(id=${discipline.id}, page='tests')}">Simulados</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link text-dark" th:classappend="${page} == 'forum'? 'active'" href="#"
+						<a class="nav-link" href="#"
+							th:classappend="|${page == 'forum'? 'active': ''} ${page == 'forum'? 'text-danger' : 'text-dark'}|"
 							th:href="@{/disciplines/{id}(id=${discipline.id}, page='forum')}">Fórum</a>
 					</li>
 				</ul>
@@ -185,16 +181,14 @@
 
 				<!-- Topics -->
 				<div class="list-group" th:if="${#strings.equalsIgnoreCase(page, 'topics')}">
-					<div class="list-group-item list-card-item mb-3 border-1"
+					<div class="list-group-item list-card-item mb-3 border-1 shadow"
 						th:each="topic : ${topics}" th:onclick=	"'showTopic(\'' + ${topic.id} + '\');'"						
-						th:classappend="${topic.user.finished} ? 'border-success' : 'border-secondary'"
-						>
+						th:classappend="${topic.user.finished} ? 'border-success' : 'border-secondary'">
 						<div class="d-flex w-100 justify-content-between">
-							<h5 class="mb-1 fw-bolder" th:text="${topic.name}"
-								>Topic Name</h5>
+							<h5 class="mb-1 fw-bolder" th:text="${topic.name}">Topic Name</h5>
 
 							<i class="fa fa-check-circle fa-2x green" aria-hidden="true"
-								th:classappend="${!topic.user.finished} ? 'd-none'"></i>
+								th:classappend="${!topic.user.finished}? 'd-none'"></i>
 						</div>
 
 						<p class="mb-1" th:text="${topic.description}">Some placeholder content in a paragraph.</p>
@@ -207,7 +201,6 @@
 
 				<!-- Tests -->
 				<div class="list-group" th:if="${#strings.equalsIgnoreCase(page, 'tests')}">
-
 					<a href="#" class="list-group-item list-group-item-action shadow mb-2">
 						<div class="d-flex w-100 justify-content-between">
 							<h5 class="mb-1">Simulado - P1</h5>
@@ -229,8 +222,7 @@
 								data-bs-target="#forumTopicModal">Criar um novo Tópico</button>
 
 							<!-- Modal -->
-							<div class="modal fade" id="forumTopicModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-								aria-hidden="true">
+							<div class="modal fade" id="forumTopicModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 								<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 									<form action="#" method="post" th:action="@{/disciplines/{id}/forum-topics(id=${discipline.id})}"
 										th:object="${forumTopic}">
@@ -243,12 +235,12 @@
 											<div class="modal-body">
 												<div>
 													<div class="mb-3">
-														<label>Título</label>
+														<label for="title" class="form-label">Título</label>
 														<input id="title" type="text" class="form-control" required th:field="*{title}">
 													</div>
 
 													<div class="mb-3">
-														<label for="exampleFormControlTextarea1" class="form-label">Descrição</label>
+														<label for="description" class="form-label">Descrição</label>
 														<textarea id="description" class="form-control" rows="6" required th:field="*{description}"></textarea>
 													</div>
 												</div>
@@ -265,14 +257,15 @@
 					</div>
 
 					<div class="list-group" th:unless="${#lists.isEmpty(forumTopics)}">
-						<a href="#" class="list-group-item list-group-item-action mb-2 shadow" th:each="topic : ${forumTopics}"
+						<a href="#" class="list-group-item list-group-item-action mb-2 shadow" 
+							th:each="topic : ${forumTopics}"
 							th:href="@{/disciplines/{id}/forum-topics/{topicId}(id=${discipline.id}, topicId=${topic.id})}">
 
 							<div class="d-flex w-100 justify-content-between">
 								<h5 class="mb-1" th:text="${topic.title}">Topic Title</h5>
 								<time class="text-muted timeago" th:datetime="${#dates.formatISO(topic.date)}">3 days ago</time>
 							</div>
-							<p class="mb-1 module line-clamp" th:text="${topic.description}">Some placeholder content in a
+							<p class="mb-1 truncate" th:text="${topic.description}">Some placeholder content in a
 								paragraph.</p>
 
 							<small class="text-muted" th:text="'Criado por ' + ${topic.user.fullName}">Criado por Gustavo
@@ -282,7 +275,6 @@
 				</div>
 			</div>
 		</div>
-		
 	</div>
 
 	<script type="text/javascript" th:src="@{/js/timeago/timeago.js}"></script>
@@ -361,7 +353,6 @@
 		
 		function showTopic(topicId) {
 			location.href = '/topic/' + topicId;
-			
 		}
 	</script>
 </body>

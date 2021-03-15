@@ -199,7 +199,7 @@ label.error {
 
 		<div class="white-panel">
 			<div class="login-show">
-				<form id="formLogin" action="" th:action="@{/perform_login}" method="post">
+				<form id="formLogin" action="#" th:action="@{/perform_login}" method="post">
 					<h2>LOGAR</h2>
 					<div class="alert alert-danger" role="alert" th:if="${param.error}">
 						E-mail ou senha inválidos.
@@ -287,6 +287,10 @@ label.error {
 		$("#formLogin").validate();
 
 		$("#formRegister").validate();
+		
+		if (location.search.indexOf('register') > -1) {
+			setTimeout(() => $('#log-login-show').click(), 500);
+		}	
 	</script>
 </body>
 </html>

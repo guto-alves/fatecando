@@ -5,58 +5,49 @@
 <meta charset="utf-8">
 </head>
 <body>
-
-	<div class="card mt-3">
-		<div class="card-body">
-			<h6>Filtros</h6>
-			<hr>
-
-			<label>Filtrar por</label>
-			<input id="inputFilter" class="form-control" type="text"
-				placeholder="Posição, Nome ou Pontuação">
+	<div class="container">	
+		<div class="card mt-3 border border-1 border-danger shadow">
+			<div class="card-body">
+				<h2 class="card-title text-center fw-bolder">Ranking</h2>
+				<table id="rankingTable" class="table table-bordered table-stripped">
+					<thead>
+						<tr>
+							<th>Posição</th>
+							<th>Nome</th>
+							<th>Pontos</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="table-warning fw-bolder">
+							<td>1</td>
+							<td>Gustavo Alves</td>
+							<td>91561</td>
+						</tr>
+						<tr class="table-warning fw-bolder">
+							<td>2</td>
+							<td>Larissa Silva</td>
+							<td>91000</td>
+						</tr>
+						<tr class="table-warning fw-bolder">
+							<th scope="row">3</th>
+							<td>Alice Bianca</td>
+							<td>69561</td>
+						</tr>
+						<tr>
+							<td>4</td>
+							<td>Alice Bianca</td>
+							<td>67866</td>
+						</tr>
+						<tr>
+							<td>5</td>
+							<td>Rafael Fernandes</td>
+							<td>464</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</div>
-
-	<hr>
-
-	<h3>Ranking</h3>
-
-	<table id="rankingTable" class="table table-bordered table-stripped">
-		<thead>
-			<tr>
-				<th>Posição</th>
-				<th>Nome</th>
-				<th>Pontos</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr class="table-warning fw-bolder">
-				<td>1</td>
-				<td>Gustavo Alves</td>
-				<td>91561</td>
-			</tr>
-			<tr class="table-warning fw-bolder">
-				<td>2</td>
-				<td>Larissa Silva</td>
-				<td>91000</td>
-			</tr>
-			<tr class="table-warning fw-bolder">
-				<th scope="row">3</th>
-				<td>Alice Bianca</td>
-				<td>69561</td>
-			</tr>
-			<tr>
-				<td>4</td>
-				<td>Alice Bianca</td>
-				<td>67866</td>
-			</tr>
-			<tr>
-				<td>5</td>
-				<td>Rafael Fernandes</td>
-				<td>464</td>
-			</tr>
-		</tbody>
-	</table>
 
 	<script type="text/javascript">
 		$('#rankingTable').DataTable({
