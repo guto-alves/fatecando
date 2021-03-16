@@ -126,14 +126,14 @@
 									</div>
 
 									<div class="mb-3">
-										<label class="fw-bold">Você acha que esse novo conteúdo deveria ser adicionar ao conjunto de
-											conteúdos "obrigatórios" para a conclusão da Disciplina?</label>
+										<label class="fw-bold">Você acha que esse novo conteúdo deveria ser adicionado ao conjunto de
+											tópicos "obrigatórios" para a conclusão da Disciplina?</label>
 
 										<div class="form-check">
 											<input class="form-check-input" type="radio" name="required" id="flexRadioDefault1" 
 												value="true" th:field="*{required}">
-											<label class="form-check-label" for="flexRadioDefault1"> Sim, é um dos principais tópicos
-												da disciplina. </label>
+											<label class="form-check-label" for="flexRadioDefault1"> Sim, é este um dos principais tópicos
+												da disciplina.</label>
 										</div>
 										<div class="form-check">
 											<input class="form-check-input" type="radio" name="required" id="flexRadioDefault2" 
@@ -191,7 +191,7 @@
 								th:classappend="${!topic.user.finished}? 'd-none'"></i>
 						</div>
 
-						<p class="mb-1" th:text="${topic.description}">Some placeholder content in a paragraph.</p>
+						<p class="mb-1 truncate" th:text="${topic.description}">Some placeholder content in a paragraph.</p>
 
 						<div class="d-flex justify-content-end align-items-center">
 							<i class="fa fa-thumbs-o-up fa-lg text-primary me-1"></i> <small class="fw-bold" th:text=${topic.likes}>10</small>
@@ -310,19 +310,19 @@
 			modules : {
 				syntax : true,
 				toolbar : [ 
-					[ 'bold', 'italic', 'underline', 'strike' ], // toggled buttons
-					[ 'blockquote', 'code-block' ],
-					[ 'link', 'image', 'video', 'formula' ], 
-					[ {	'header' : 1 }, { 'header' : 2 } ], // custom button values
-					[ { 'list' : 'ordered' }, { 'list' : 'bullet' } ], 
-					[ { 'script' : 'sub' }, { 'script' : 'super' } ], // superscript/subscript
-					[ {'indent' : '-1' }, { 'indent' : '+1' } ], // outdent/indent
-					[ { 'direction' : 'rtl' } ], // text direction
+					[ { 'font' : [] } ],
 					[ { 'size' : [ 'small', false, 'large', 'huge' ] } ], // custom dropdown
+					[ 'bold', 'italic', 'underline', 'strike' ], // toggled buttons
+					[ {	'header' : 1 }, { 'header' : 2 } ], // custom button values
 					[ { 'header' : [ 1, 2, 3, 4, 5, 6, false ] } ], 
 					[ { 'color' : [] }, { 'background' : [] } ], // dropdown with defaults from theme
-					[ { 'font' : [] } ], 
-					[ { 'align' : [] } ], 
+					[ { 'align': ''}, { 'align': 'center' }, { 'align': 'right' }, { 'align': 'justify' } ], 
+					[ { 'script' : 'sub' }, { 'script' : 'super' } ], // superscript/subscript
+					[ { 'list' : 'ordered' }, { 'list' : 'bullet' } ], 
+					[ { 'indent' : '-1' }, { 'indent' : '+1' } ], // outdent/indent
+					[ { 'direction' : 'rtl' } ], // text direction
+					[ 'blockquote', 'code-block' ],
+					[ 'link', 'image', 'video', 'formula' ], 
 					[ 'clean' ] // remove formatting button
 				],
 				history : {
