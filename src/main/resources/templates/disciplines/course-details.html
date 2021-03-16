@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="www.thymeleaf.org"
-	th:replace="~{fragments/layout :: base('Disciplinas', ~{::body}, ~{::link}, _, _)}">
+	th:replace="~{fragments/layout :: base(${course.code}, ~{::body}, ~{::link}, _, _)}">
 <head>
 <meta charset="utf-8">
 <link rel="stylesheet" type="text/css" th:href="@{/css/btn-card.css}">
