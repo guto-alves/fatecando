@@ -134,9 +134,11 @@
 	</div>
 
 	<script type="text/javascript">
-		hljs.configure({ // optionally configure hljs
-			languages : [ 'java', 'javascript' ]
+		hljs.configure({
+			tabReplace: '    ',
+			languages : [ 'java' ]
 		});
+		hljs.highlightAll();
 
 		var editor = new Quill('#editor-container', {
 			modules : {

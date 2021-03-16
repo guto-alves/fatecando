@@ -221,9 +221,10 @@
 		let questions = /*[[${questions}]]*/null;
 
 		hljs.configure({
-			tabReplace : '    ',
-			languages : ['java' ]
+			tabReplace: '    ',
+			languages : [ 'java' ]
 		});
+		hljs.highlightAll();
 
 		var contentEditor = new Quill('#contentEditor', {
 			modules : {
