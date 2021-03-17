@@ -30,27 +30,36 @@
 </head>
 <body>
 	<div class="row">
-		<div class="p-3 bg-dark text-white">
+		<div class="bg-dark text-white">
 			<div class="card-body">
-				<h2 class="card-title text-center fw-bolder" th:text="${topic.name}">Topic Name</h2>
-				
 				<div class="col-10 offset-1 mb-3">
-					<p th:text="${topic.description}"></p>
-				</div>
-
-				<div class="d-flex justify-content-end">
-
-					<div class="btn-group rounded-start" role="group" aria-label="Like toggle button">
-						<input type="checkbox" class="btn-check" id="likeButton" autocomplete="off"
-							th:checked="${topic.user.liked}">
-						<label id="likingStatus" class="btn btn-outline-primary p-2" for="likeButton">
-							Curtir <i class="fa fa-thumbs-up"></i>
-						</label>
+					<div class="d-flex mt-2 mb-4" style="font-size: 14px;">
+						<a href="#" class="link-danger text-decoration-none fw-bold"  
+							th:href="@{/dashboard}">Análise e Desenvolvimento de Sistemas</a>
+						<span class="mx-2">></span>
+						<a href="#" class="link-danger text-decoration-none fw-bold" 
+							th:href="@{/disciplines/{id}(id=${topic.discipline.id})}" 
+							th:text="${topic.discipline.name}">Estrutura de Dados</a>
 					</div>
-					<span id="totalLikes"
-						class="fw-bolder text-primary border border-1 border-start-0 border-primary p-2 rounded-end"
-						th:text="${topic.likes}"></span>
+				
+					<h2 class="card-title text-center fw-bolder" th:text="${topic.name}">Topic Name</h2>
+					<p th:text="${topic.description}"></p>
+					
+					<div class="d-flex justify-content-end">
+						<div class="btn-group rounded-start" role="group" aria-label="Like toggle button">
+							<input type="checkbox" class="btn-check" id="likeButton" autocomplete="off"
+								th:checked="${topic.user.liked}">
+							<label id="likingStatus" class="btn btn-outline-primary p-2" for="likeButton">
+								Curtir <i class="fa fa-thumbs-up"></i>
+							</label>
+						</div>
+						<span id="totalLikes"
+							class="fw-bolder text-primary border border-1 border-start-0 border-primary p-2 rounded-end"
+							th:text="${topic.likes}"></span>
+					</div>
 				</div>
+
+				
 			</div>
 		</div>
 	</div>
