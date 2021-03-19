@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -15,20 +14,19 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class User {
 	private Long id;
 
-	@NotBlank
+	@NotBlank(message = "Por favor preencha seu nome completo.")
 	private String fullName;
 
-	@NotBlank
+	@NotBlank(message = "Por favor digite uma email válido.")
 	private String email;
 
-	@NotBlank
+	@NotBlank(message = "Por favor digite uma senha válida.")
 	private String password;
 
 	private boolean enabled;
 
 	private Gender gender;
 
-	@NotNull
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
 	private Date birthDate;
@@ -44,8 +42,7 @@ public class User {
 	public User() {
 	}
 
-	public User(String fullName, String email, String password, Gender gender, Date birthDate,
-			Course course) {
+	public User(String fullName, String email, String password, Gender gender, Date birthDate, Course course) {
 		this.fullName = fullName;
 		this.email = email;
 		this.password = password;
@@ -54,8 +51,8 @@ public class User {
 		this.course = course;
 	}
 
-	public User(String fullName, String email, String password, Gender gender, Date birthDate,
-			Course course, List<Role> roles) {
+	public User(String fullName, String email, String password, Gender gender, Date birthDate, Course course,
+			List<Role> roles) {
 		this.fullName = fullName;
 		this.email = email;
 		this.password = password;

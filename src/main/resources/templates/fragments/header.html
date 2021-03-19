@@ -53,12 +53,23 @@
 						</ul>
 					</li>
 				</ul>
+
 				<div class="d-flex">
-					<a class="btn btn-outline-light me-2" href="#" th:href="@{/join?register}" sec:authorize="!isAuthenticated()">Cadastre-se</a>
+					<a class="btn btn-outline-light me-2" href="#" th:href="@{/join?register}"
+						sec:authorize="!isAuthenticated()">Cadastre-se</a>
 
-					<a class="btn btn-outline-light me-2" href="#" th:href="@{/logout}" sec:authorize="isAuthenticated()">Logout</a>
+					<div class="btn-group" sec:authorize="isAuthenticated()">
+						<button type="button" class="btn btn-outline-light dropdown-toggle" data-bs-toggle="dropdown"
+							aria-expanded="false">
+							<i class="fa fa-user-circle fa-lg" aria-hidden="true"></i>
+						</button>
 
-					<span sec:authentication="name">Bob</span>
+						<div class="dropdown-menu dropdown-menu-lg-end">
+							<a class="dropdown-item" href="#" th:href="@{/users/edit-profile}">Editar perfil</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" href="#" th:href="@{/logout}">Logout</a>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

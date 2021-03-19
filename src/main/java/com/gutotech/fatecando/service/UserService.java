@@ -60,4 +60,8 @@ public class UserService {
 		return null;
 	}
 
+	public void update(User user) {
+		restTemplate.put(URL + "/{id}", user, user.getId());
+	}
+
 }
