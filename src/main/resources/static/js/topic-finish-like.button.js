@@ -1,11 +1,11 @@
 $('#likeButton').click(function() {
-	let button = $(this);
-	
 	$.post(location.href.split('#')[0] + '/like')
 		.done(function() {
-			let liked = button.prop('checked');
+			$('#totalLikes').toggleClass('bg-white');
 
 			let totalLikes = parseInt($('#totalLikes').text());
+			let liked = $('#totalLikes').hasClass('bg-white');
+			
 			$('#totalLikes').text(liked ? totalLikes + 1 : totalLikes - 1);
 		});
 });

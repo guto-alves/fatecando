@@ -45,17 +45,17 @@
 					<h2 class="card-title text-center fw-bolder" th:text="${topic.name}">Topic Name</h2>
 					<p th:text="${topic.description}"></p>
 					
-					<div class="d-flex justify-content-end">
+					<div class="d-flex justify-content-end mt-3">
 						<div class="btn-group rounded-start" role="group" aria-label="Like toggle button">
 							<input type="checkbox" class="btn-check" id="likeButton" autocomplete="off"
 								th:checked="${topic.user.liked}">
-							<label id="likingStatus" class="btn btn-outline-primary p-2" for="likeButton">
+							<label id="likeStatus" class="btn btn-outline-primary p-2" for="likeButton">
 								Curtir <i class="fa fa-thumbs-up"></i>
 							</label>
 						</div>
 						<span id="totalLikes"
 							class="fw-bolder text-primary border border-1 border-start-0 border-primary p-2 rounded-end"
-							th:text="${topic.likes}"></span>
+							th:classappend="${topic.user.liked} ? 'bg-white'" th:text="${topic.likes}"></span>
 					</div>
 				</div>
 			</div>
@@ -108,7 +108,7 @@
 														th:field="*{alternatives[__${itemStat.index}__].feedback}" placeholder="Feedback da alternativa">
 												</div>
 												<div class="form-check me-3">
-													<input type="checkbox" class="form-check-input"
+													<input type="checkbox" class="is-correct-alternative form-check-input"
 														th:field="*{alternatives[__${itemStat.index}__].correct}">
 												</div>
 												<button type="button" class="remove-alternative btn btn-outline-danger btn-sm">

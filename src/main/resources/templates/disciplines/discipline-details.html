@@ -36,13 +36,13 @@
 						<div class="btn-group rounded-start" role="group" aria-label="Like toggle button">
 							<input type="checkbox" class="btn-check" id="likeButton" autocomplete="off"
 								th:checked="${discipline.user.liked}">
-							<label id="likingStatus" class="btn btn-outline-primary p-2" for="likeButton">
+							<label id="likeStatus" class="btn btn-outline-primary p-2" for="likeButton">
 								Curtir <i class="fa fa-thumbs-up"></i>
 							</label>
 						</div>
 						<span id="totalLikes"
 							class="fw-bolder text-primary border border-1 border-start-0 border-primary p-2 rounded-end"
-							th:classappend="${discipline.user.liked} ? 'bg-white' : 'bg-dark'" th:text="${discipline.likes}"></span>
+							th:classappend="${discipline.user.liked} ? 'bg-white'" th:text="${discipline.likes}"></span>
 					</div>
 				</div>
 			</div>
@@ -302,19 +302,15 @@
 		$("time.timeago").timeago();
 
 		$('#likeButton').click(function() {
-			$.post(location.href.split('?')[0] + '/like');
+			$.post(location.href.split('?')[0] + '/like')
+				.done(function() {
+					$('#totalLikes').toggleClass('bg-white');
 
-			let button = $(this);
-
-			let liked = !(button.data('liked') === true);
-
-			$(button).data('liked', liked);
-
-			let totalLikes = parseInt($('#totalLikes').text());
-			
-			$('#totalLikes').text(liked ? totalLikes + 1 : totalLikes - 1);
-			$('#totalLikes').removeClass(liked ? 'bg-dark' : 'bg-white');
-			$('#totalLikes').addClass(liked ? 'bg-white' : 'bg-dark');
+					let totalLikes = parseInt($('#totalLikes').text());
+					let liked = $('#totalLikes').hasClass('bg-white');
+					
+					$('#totalLikes').text(liked ? totalLikes + 1 : totalLikes - 1);
+				});
 		});
 
 		hljs.configure({

@@ -6,7 +6,7 @@ $('#contribute').click(function(event) {
 	}
 });
 
-$('input[type="checkbox"]').change(function() {
+$('.is-correct-alternative').change(function() {
 	markAsRight($(this));
 });
 
@@ -26,7 +26,7 @@ $('#addAlternative').click(function() {
 					<input type="text" class="form-control" placeholder="Feedback da alternativa" id="alternatives${totalAlternatives}.feedback" name="alternatives[${totalAlternatives}].feedback" value="">
 				</div>
 				<div class="form-check me-3">
-					<input type="checkbox" class="form-check-input" id="alternatives${totalAlternatives}.correct1" name="alternatives[${totalAlternatives}].correct" value="true"><input type="hidden" name="_alternatives[${totalAlternatives}].correct" value="on">
+					<input type="checkbox" class="is-correct-alternative form-check-input" id="alternatives${totalAlternatives}.correct1" name="alternatives[${totalAlternatives}].correct" value="true"><input type="hidden" name="_alternatives[${totalAlternatives}].correct" value="on">
 				</div>
 				<button type="button" class="remove-alternative btn btn-outline-danger btn-sm">
 					<i class="fa fa-trash fa-lg" aria-hidden="true"></i>
@@ -35,8 +35,8 @@ $('#addAlternative').click(function() {
 		`
 	);
 
-	$('input[type="checkbox"]').off('change');
-	$('input[type="checkbox"]').change(function() {
+	$('.is-correct-alternative').off('change');
+	$('.is-correct-alternative').change(function() {
 		markAsRight($(this));
 	});
 
@@ -55,8 +55,8 @@ $('.remove-alternative').click(function() {
 });
 
 function markAsRight(alternative) {
-	if ($('input[type="checkbox"]:checked').length >= 1) {
-		$('input[type="checkbox"]:checked').prop('checked', false);
+	if ($('.is-correct-alternative:checked').length >= 1) {
+		$('.is-correct-alternative:checked').prop('checked', false);
 	}
 
 	$(alternative).prop('checked', true);
