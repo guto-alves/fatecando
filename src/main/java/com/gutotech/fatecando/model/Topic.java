@@ -19,6 +19,8 @@ public class Topic {
 
 	private boolean required;
 
+	private long itemOrder;
+
 	private UploadStatus status;
 
 	private Discipline discipline;
@@ -74,6 +76,14 @@ public class Topic {
 
 	public void setRequired(boolean required) {
 		this.required = required;
+	}
+
+	public long getItemOrder() {
+		return itemOrder;
+	}
+
+	public void setItemOrder(long itemOrder) {
+		this.itemOrder = itemOrder;
 	}
 
 	public UploadStatus getStatus() {
