@@ -58,7 +58,7 @@
 					<a class="btn btn-outline-light me-2" href="#" th:href="@{/join?register}"
 						sec:authorize="!isAuthenticated()">Cadastre-se</a>
 
-					<div class="btn-group" sec:authorize="isAuthenticated()">
+					<div class="btn-group me-3" sec:authorize="isAuthenticated()">
 						<button type="button" class="btn btn-outline-light dropdown-toggle" data-bs-toggle="dropdown"
 							aria-expanded="false">
 							<i class="fa fa-user-circle fa-lg" aria-hidden="true"></i>

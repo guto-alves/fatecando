@@ -58,8 +58,6 @@
 							th:text="${topic.likes}"></span>
 					</div>
 				</div>
-
-				
 			</div>
 		</div>
 	</div>
@@ -154,11 +152,9 @@
 			</div>
 		</div>
 		
-
 		<h3>Conteúdo</h3>
 		<div id="contentCard" class="card my-3 shadow">
 			<div class="card-body" id="contentEditor" th:utext="${topic.htmlContent}"></div>
-			
 			
 			<div class="d-flex justify-content-end p-3">
 				<button id="finishButton" class="btn btn-outline-success"
@@ -168,12 +164,8 @@
 						concluído</span>
 				</button>
 			</div>
-			
-			
 		</div>
 		
-		
-
 		<!-- Quiz -->
 		<div id="quiz-container" class="card mt-5 bg-danger bg-initial-quiz">
 			<div class="card-body">
