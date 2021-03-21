@@ -144,11 +144,16 @@ public class Discipline {
 		return Objects.equals(id, other.id);
 	}
 
+	@Override
+	public String toString() {
+		return "Discipline [id=" + id + ", name=" + name + ", code=" + code + "]";
+	}
+
 	public class UserInfo {
 		private Date accessDate;
 
 		private boolean liked;
-		
+
 		private int progress;
 
 		public UserInfo() {

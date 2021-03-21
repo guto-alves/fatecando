@@ -1,8 +1,11 @@
 package com.gutotech.fatecando.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,10 +23,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.gutotech.fatecando.model.Discipline;
 import com.gutotech.fatecando.model.ForumTopic;
 import com.gutotech.fatecando.model.ForumTopicComment;
+import com.gutotech.fatecando.model.Test;
 import com.gutotech.fatecando.model.Topic;
 import com.gutotech.fatecando.model.UploadStatus;
 import com.gutotech.fatecando.service.DisciplineService;
 import com.gutotech.fatecando.service.ForumTopicService;
+import com.gutotech.fatecando.service.TestService;
 import com.gutotech.fatecando.service.TopicService;
 
 @Controller
@@ -46,7 +51,7 @@ public class DisciplineController {
 
 	@InitBinder("discipline")
 	public void initDisciplineBinder(WebDataBinder dataBinder) {
-		dataBinder.setDisallowedFields("id");
+		dataBinder.setDisallowedFields("id", "name");
 	}
 
 	@GetMapping
@@ -59,6 +64,8 @@ public class DisciplineController {
 			model.addAttribute("topics", disciplineService.findAllTopicsByDiscipline(discipline));
 			break;
 		case "tests":
+			model.addAttribute("test", new Test(discipline.getName()));
+			model.addAttribute("topics", disciplineService.findAllTopicsByDiscipline(discipline));
 			// add tests
 			break;
 		case "forum":
@@ -149,4 +156,43 @@ public class DisciplineController {
 		return "redirect:/disciplines/{disciplineId}";
 	}
 
+	@Autowired
+	private TestService testService;
+
+	@PostMapping("test")
+	public String processTestCreationForm(Discipline discipline, @Valid Test test, BindingResult bindingResult,
+			RedirectAttributes redirectAttributes, Model model) {
+		if (bindingResult.hasErrors()) {
+			model.addAttribute(test);
+			model.addAttribute("discipline", discipline);
+			model.addAttribute("topics", disciplineService.findAllTopicsByDiscipline(discipline));
+			model.addAttribute("page", "tests");
+			model.addAttribute("topic", new Topic());
+			return "disciplines/discipline-details";
+		}
+
+		test.setDiscipline(discipline);
+
+		testService.save(test);
+
+		return "redirect:/test";
+	}
+
+	@InitBinder
+	public void initBinder(WebDataBinder binder) throws Exception {
+		CustomCollectionEditor topicsEditor = new CustomCollectionEditor(List.class) {
+			@Override
+			protected Object convertElement(Object element) {
+				if (element instanceof String) {
+					Long id = Long.parseLong((String) element);
+					Topic topic = new Topic();
+					topic.setId(id);
+					return topic;
+				}
+				throw new RuntimeException("Invalid element");
+			}
+		};
+
+		binder.registerCustomEditor(List.class, "topics", topicsEditor);
+	}
 }

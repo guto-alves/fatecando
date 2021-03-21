@@ -80,7 +80,7 @@
 						<div class="card border border-1 border-secondary shadow">
 							<div class="card-body">
 								<h4 class="card-title text-center"
-									th:utext="'Sentiu falta de algum tópico/assunto interessante em ' + ${#strings.arraySplit(discipline.name, ' ')[0]} + '? <br> Manda pra gente!'">
+									th:utext="'Sentiu falta de algum tópico/assunto interessante em ' + ${#strings.arraySplit(discipline.name, ' ')[0]}  + '? <br> Manda pra gente!'">
 								</h4>
 
 								<div class="alert alert-danger alert-dismissible fade show m-3" role="alert" th:if="${error}">
@@ -165,7 +165,7 @@
 					<li class="nav-item">
 						<a class="nav-link" href="#"
 							th:classappend="|${page == 'tests'? 'active': ''} ${page == 'tests'? 'text-danger' : 'text-dark'}|"
-							th:href="@{/disciplines/{id}(id=${discipline.id}, page='tests')}">Simulados</a>
+							th:href="@{/disciplines/{id}(id=${discipline.id}, page='tests')}">Teste</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="#"
@@ -198,16 +198,56 @@
 					</div>
 				</div>
 
-				<!-- Tests -->
-				<div class="list-group" th:if="${#strings.equalsIgnoreCase(page, 'tests')}">
-					<a href="#" class="list-group-item list-group-item-action shadow mb-2">
-						<div class="d-flex w-100 justify-content-between">
-							<h5 class="mb-1">Simulado - P1</h5>
-							<small class="text-muted">3 days ago</small>
+				<!-- Test -->
+				<div th:if="${#strings.equalsIgnoreCase(page, 'tests')}">
+
+					<div class="card border border-1 border-dark shadow">
+						<h4 class="card-header text-center">Novo Teste</h4>
+						<div class="card-body">
+							<form action="#" method="post" th:action="@{/disciplines/{id}/test(id=${discipline.id})}"
+								th:object="${test}">
+								<div class="alert alert-danger alert-dismissible fade show" role="alert"
+									th:if="${#fields.hasErrors('name') || #fields.hasErrors('topics')}">
+									<span class="text-center">Erro ao criar teste. Verifique os campos e tente novamente!</span>
+									<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+								</div>
+
+								<div class="mb-3">
+									<label class="form-label">Dê um nome para o Teste</label>
+									<input type="text" class="form-control"
+										placeholder="Por exemplo: Treinamento para a P1, Teste para P1, Teste BD, ..." required
+										th:field="*{name}" th:classappend="${#fields.hasErrors('name')}? 'is-invalid'"
+										aria-describedby="nameFeedback" onclick="this.select();">
+									<div id="nameFeedback" class="invalid-feedback" th:if="${#fields.hasErrors('name')}"
+										th:errors="*{name}">Mensagem de erro</div>
+								</div>
+
+								<div class="mb-4">
+									<label class="form-label">Tópicos</label>
+									<select class="form-select select2" multiple="multiple" th:field="*{topics}"
+										th:classappend="${#fields.hasErrors('topics')}? 'is-invalid'" aria-describedby="topicsFeedback">
+										<option th:each="topic : ${topics}" th:value="${topic.id}" th:text="${topic.name}"></option>
+									</select>
+
+									<div id="topicsFeedback" class="invalid-feedback" th:if="${#fields.hasErrors('topics')}"
+										th:errors="*{topics}">Mensagem de erro</div>
+								</div>
+
+								<div class="d-grid gap-2 col-6 mx-auto">
+									<button type="submit" class="btn btn-dark fw-bold">Iniciar</button>
+								</div>
+
+								<hr class="mt-5">
+								<h5>Como funciona os Teste Rápido</h5>
+								<p>
+									O <b>Teste Rápido</b> é mais uma das formas que o Fatecando possui para práticar o conteúdo estudo.
+									Desta maneira, você só precisar dar um nome para o teste e selecionar os tópicos que deseja treinar e
+									iniciar. Ao iniciar, você será direcionado para uma página onde terá que responder as questões para
+									finalizá-lo.
+								</p>
+							</form>
 						</div>
-						<p class="mb-1">Topicos abortados: Topico 1, Topico 2, Topico 3, Topico 4</p>
-						<small class="text-muted">And some muted small print.</small>
-					</a>
+					</div>
 				</div>
 
 				<!-- Forum -->
@@ -300,6 +340,7 @@
 
 	<script type="text/javascript" th:inline="javascript">
 		$("time.timeago").timeago();
+		$('.select2').select2();
 
 		$('#likeButton').click(function() {
 			$.post(location.href.split('?')[0] + '/like')

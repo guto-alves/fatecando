@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org"
+	th:replace="~{fragments/layout :: base('Teste', ~{::body}, _, _, _)}">
+<head>
+<meta charset="utf-8">
+</head>
+<body>
+	<div class="container">
+		<div id="test-result-container" class="card mt-3 border border-1 border-secondary" style="display: none;">
+			<div class="card-body text-center">
+				<h4 class="card-title">Resultado do Teste</h4>
+
+				<h2 id="ponctuation" class="text-success fw-bolder">3/3</h2>
+
+				<p>
+					<b>Tempo Total</b> = 10:56
+				</p>
+
+				<form action="#" method="post" th:action="@{/test}">
+					<button type="submit" class="btn btn-secondary mt-3"
+						th:text="|Finalizar e voltar para ${test.discipline.name}|">Finalizar e voltar para Banco de
+						Dados</button>
+				</form>
+			</div>
+		</div>
+
+		<div class="card mt-3 shadow">
+			<h4 class="card-header text-center" th:text="${test.name}">Name</h4>
+
+			<div class="card-body">
+				<div class="question" th:each="question : ${test.questions}" th:data-id="${question.id}">
+					<span class="fw-bold" th:text="|${questionStat.count}.|"></span>
+
+					<div class="mb-3" th:id="|question-editor-${question.id}|" th:utext="${question.description}"></div>
+
+					<div class="alternative mb-3" th:each="alternative : ${question.alternatives}">
+						<div class="form-check">
+							<input class="form-check-input" type="radio" th:value="${alternative.id}" th:name="${question.id}"
+								required>
+							<label class="form-check-label" th:text="${alternative.description}">Alternative</label>
+						</div>
+					</div>
+
+					<div th:unless="${questionStat.last}" class="border border-bottom border-1 my-3 m-3"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="d-grid gap-2 col-6 mx-auto mt-4">
+			<button id="finishTest" class="btn btn-primary fw-bold">Conferir respostas</button>
+		</div>
+
+		<div class="text-center">
+			<div id="spinner" class="spinner-border text-danger" style="width: 6rem; height: 6rem; display: none;"
+				role="status">
+				<span class="visually-hidden">Aguarde...</span>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		hljs.configure({
+			tabReplace : '    ',
+			languages : [ 'java' ]
+		});
+		hljs.highlightAll();
+
+		$('div[id*="question-editor"]').each(function() {
+			var editor = new Quill('#' + $(this).prop('id'), {
+				modules : {
+					syntax : true,
+					toolbar : []
+				},
+				readOnly : true,
+				theme : 'snow'
+			});
+		});
+
+		$('.ql-toolbar').remove();
+	</script>
+
+	<script type="text/javascript" th:inline="javascript">
+		let questions = /*[[${test.questions}]]*/null;
+		
+		$('#finishTest').click(function() {
+			if ($('input[type="radio"]:checked').length !== questions.length) {
+				return false;
+			}
+			
+			$('#finishTest').remove();
+			$('#spinner').show();
+			
+			let feedbacks = [];
+			
+			$('input[type="radio"]:checked').each(function() {
+				let alternative = $(this);
+				
+				let chosenAlternative = alternative.val();
+				let question = alternative.closest('.question').data('id');
+				
+				$.post(
+					window.location.origin + '/questions/' + question + '/answer/' + chosenAlternative
+				).done(feedback => {
+					feedbacks.push(feedback);
+
+					let color = feedback.correct ? 'success' : 'danger';
+					let text = feedback.correct ? 'Correto' : 'Errado';
+
+					let htmlFeedback = `
+						<div class="border border-2 border- ` + color + ` p-2 mb-2 rounded ms-3">
+							<span>
+								<b class="text-` + color + `">` + text + `</b>
+								<br>
+								` + feedback.feedback + `
+							</span>
+						</div>
+					`;
+
+					alternative.closest('.alternative').append(htmlFeedback);
+					
+					if (feedbacks.length == questions.length) {
+						let rightAnswers = feedbacks.reduce((total, feedback) => total + (feedback.correct ? 1 : 0), 0);
+						
+						let percent = rightAnswers / questions.length * 100;
+						
+						let result = `
+							<span class="${percent >= 60 ? 'text-success' : 'text-danger'}">${rightAnswers}/${questions.length}</span>
+						`;
+						
+						$('#ponctuation').html(result);
+						
+						setTimeout(() => {
+							$('#spinner').hide();
+							scrollToTop();
+						}, 1000);
+					}
+				}).fail(() => {
+					console.log('Error ao registrar resposta. Por favor, tente mais tarde.');
+				});
+			});
+			
+			$('#test-result-container').show();
+		});
+		
+		function scrollToTop() {
+			document.body.scrollTop = 0; // For Safari
+		  	document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+		}
+	</script>
+</body>
+</html>
