@@ -1,16 +1,19 @@
 package com.gutotech.fatecando.model;
 
 public class Feedback {
+	private Long alternative;
 	private boolean correct;
-
 	private String feedback;
 
 	public Feedback() {
 	}
 
-	public Feedback(String feedback, boolean correct) {
-		this.feedback = feedback;
-		this.correct = correct;
+	public Long getAlternative() {
+		return alternative;
+	}
+
+	public void setAlternative(Long alternative) {
+		this.alternative = alternative;
 	}
 
 	public boolean isCorrect() {
