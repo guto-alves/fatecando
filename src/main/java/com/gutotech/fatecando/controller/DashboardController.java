@@ -30,11 +30,12 @@ public class DashboardController {
 //		model.addAttribute("courses", courseService.findAll());
 //		model.addAttribute("institutions", institutionService.findAll());
 //		return "dashboard";
-		
+
 		Course course = courseService.findById(1L);
 
 		model.addAttribute("course", course);
 		model.addAttribute("disciplines", disciplineService.findAllByCourse(course));
+		model.addAttribute("recentDisciplines", disciplineService.findAllAccessed());
 
 		return "disciplines/course-details";
 	}
