@@ -34,6 +34,14 @@ public class DisciplineService {
 		return responseEntity.getBody();
 	}
 
+	public List<Discipline> findAllWithTopics() {
+		ResponseEntity<List<Discipline>> responseEntity = restTemplate.exchange(URL + "?with-topics=true",
+				HttpMethod.GET, null, new ParameterizedTypeReference<List<Discipline>>() {
+				});
+
+		return responseEntity.getBody();
+	}
+
 	public List<Discipline> findAllAccessed() {
 		ResponseEntity<List<Discipline>> responseEntity = restTemplate.exchange(URL + "/accessed", HttpMethod.GET, null,
 				new ParameterizedTypeReference<List<Discipline>>() {

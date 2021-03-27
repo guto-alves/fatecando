@@ -6,9 +6,8 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import org.springframework.format.annotation.DateTimeFormat;
 
 public class Question {
 	private Long id;
@@ -23,14 +22,13 @@ public class Question {
 	@Size(min = 2, max = 6)
 	private List<Alternative> alternatives = new ArrayList<>();
 
+	@NotNull
 	private Topic topic;
 
 	private User user;
 
-	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss")
 	private Date creationDate;
 
-	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss")
 	private Date updateDate;
 
 	public Question() {

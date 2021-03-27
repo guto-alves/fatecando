@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	th:replace="~{fragments/layout :: base ('Question', ~{::body}, _, _, ~{::style})}">
+<head>
+<meta charset="utf-8">
+<style type="text/css">
+#editor-container {
+	height: 350px;
+}
+
+.form-check-input {
+	width: 2em;
+	height: 2em;
+}
+
+.form-check-input:checked {
+	background-color: green;
+	border-color: green;
+}
+</style>
+</head>
+<body>
+	<div class="container">
+		<div class="alert alert-success alert-dismissible fade show" role="alert"
+			th:if="${!#strings.isEmpty(message)}">
+			<span class="text-center" th:text=${message}></span>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+
+		<div class="card mt-3">
+			<div class="card-body">
+				<h3 class="card-title text-center fw-bold" th:text="'Pergunta - #' + ${question.id}">Pergunta #146</h3>
+
+				<form id="question-form" action="#" method="post" th:action="@{/admin/questions/{id}(id=${question.id})}"
+					th:object="${question}">
+					<div class="mb-3">
+						<label for="description" class="h5 form-label fw-bolder">Pergunta</label>
+
+						<div id="question-editor" th:utext="${question.description}"></div>
+						<input type="hidden" id="description" th:field="*{description}">
+					</div>
+
+					<div id="alternativesContainer" class="mb-3 p-3 border border-1 border-secondary rounded">
+						<label class="h5 form-label fw-bolder ms-5">Alternativas</label>
+
+						<div id="alternatives">
+							<div class="new-alternative mb-3 d-flex justify-content-start align-items-center"
+								th:each="alternative, itemStat : *{alternatives}">
+								<span class="text-muted me-2" th:text="${itemStat.index + 1} + '.'">1.</span>
+
+								<div class="container">
+									<textarea class="form-control me-5" rows="1"
+										th:field="*{alternatives[__${itemStat.index}__].description}" placeholder="Alternativa" required>Alternativa 1</textarea>
+									<input type="text" class="form-control" th:field="*{alternatives[__${itemStat.index}__].feedback}"
+										placeholder="Feedback da alternativa">
+								</div>
+								<div class="form-check me-3">
+									<input type="checkbox" class="is-correct-alternative form-check-input"
+										th:field="*{alternatives[__${itemStat.index}__].correct}">
+								</div>
+								<button type="button" class="remove-alternative btn btn-outline-danger btn-sm">
+									<i class="fa fa-trash fa-lg" aria-hidden="true"></i>
+								</button>
+							</div>
+						</div>
+
+						<hr>
+
+						<div class="d-grid gap-2 col-6 mx-auto">
+							<button type="button" id="addAlternative" class="btn btn-secondary">
+								Adicionar alternativa <i class="fa fa-plus" aria-hidden="true"></i>
+							</button>
+						</div>
+					</div>
+
+
+					<div class="row mb-3">
+						<div class="col-md-6">
+							<label class="form-label fw-bold h5" for="status">Disciplina</label>
+
+							<select id="disciplines-select" class="form-select">
+								<option th:each="discipline : ${disciplines}" th:value="${discipline.id}" th:text="${discipline.name}"
+									th:selected="${discipline == question.topic.discipline}"></option>
+							</select>
+						</div>
+
+						<div class="col-md-6">
+							<label class="form-label fw-bold h5" for="status">Tópico</label>
+
+							<select class="form-select" th:field="*{topic.id}">
+								<option th:each="topic : ${topics}" th:if="${topic.discipline.id == question.topic.discipline.id}"
+									th:value="${topic.id}" th:text="${topic.name}"
+									th:selected="${topic == question.topic}"></option>
+							</select>
+						</div>
+					</div>
+
+					<div class="mb-3">
+						<label for="type" class="h5 form-label fw-bold">Tipo de Questão (Dificuldade)</label>
+						<select class="form-select" aria-describedby="typeHelp" id="type" th:field="*{type}">
+							<option th:each="type : ${T(com.gutotech.fatecando.model.QuestionType).values()}" th:value="${type}"
+								th:text="${type.displayName}"></option>
+						</select>
+						<div id="typeHelp" class="form-text">
+							O tipo da questão está relacionado com a dificuldade dela.
+							<br>
+							Por exemplo, ao escolher "Simulado" a questão só aparecerá em simulados que contém este tópico.
+						</div>
+					</div>
+
+					<div class="mb-3">
+						<label class="form-label fw-bold h5" for="status">Status</label>
+
+						<select class="form-select" id="status" name="status">
+							<option th:each="status : ${T(com.gutotech.fatecando.model.UploadStatus).values()}"
+								th:value="${status}" th:text="${status.displayName}" th:selected="${status == question.status}"></option>
+						</select>
+					</div>
+
+					<br>
+
+					<div class="mb-3">
+						<span class="fw-bold h5">Outras Informações</span>
+
+						<div class="row">
+							<div class="col-md-4">
+								<div class="card">
+									<div class="card-body">
+										<h6 class="card-title fw-bold">Pergunta enviado por</h6>
+										<hr>
+										<span class="fw-bold">ID:</span>
+										<span th:text="${question.user.id}"></span>
+										<br>
+										<span class="fw-bold">Nome:</span>
+										<span th:text="${question.user.fullName}"></span>
+										<br>
+										<span class="fw-bold">Email:</span>
+										<span th:text="${question.user.email}"></span>
+										<br>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-5">
+								<div class="card">
+									<div class="card-body">
+										<h6 class="card-title fw-bold">Informações Extras</h6>
+										<hr>
+										<span class="fw-bold">Data do envio:</span>
+										<span th:text="${#dates.format(question.creationDate, 'dd/MM/yyy HH:mm:ss')}"></span>
+										<br>
+										<span class="fw-bold">Data de atualização:</span>
+										<span th:text="${#dates.format(question.updateDate, 'dd/MM/yyyy HH:mm:ss')}"></span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="d-grid gap-2 col-6 mx-auto">
+						<button type="submit" class="btn btn-danger form-control">
+							Atualizar <i class="fa fa-pencil ms-3" aria-hidden="true"></i>
+						</button>
+					</div>
+				</form>
+
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		hljs.configure({
+			tabReplace : '    ',
+			languages : [ 'java' ]
+		});
+		hljs.highlightAll();
+
+		var editor = new Quill('#question-editor', {
+			modules : {
+				syntax : true,
+				toolbar : [ [ {
+					'font' : []
+				} ], [ {
+					'size' : [ 'small', false, 'large', 'huge' ]
+				} ], // custom dropdown
+				[ 'bold', 'italic', 'underline', 'strike' ], // toggled buttons
+				[ {
+					'header' : 1
+				}, {
+					'header' : 2
+				} ], // custom button values
+				[ {
+					'header' : [ 1, 2, 3, 4, 5, 6, false ]
+				} ], [ {
+					'color' : []
+				}, {
+					'background' : []
+				} ], // dropdown with defaults from theme
+				[ {
+					'align' : ''
+				}, {
+					'align' : 'center'
+				}, {
+					'align' : 'right'
+				}, {
+					'align' : 'justify'
+				} ], [ {
+					'script' : 'sub'
+				}, {
+					'script' : 'super'
+				} ], // superscript/subscript
+				[ {
+					'list' : 'ordered'
+				}, {
+					'list' : 'bullet'
+				} ], [ {
+					'indent' : '-1'
+				}, {
+					'indent' : '+1'
+				} ], // outdent/indent
+				[ {
+					'direction' : 'rtl'
+				} ], // text direction
+				[ 'blockquote', 'code-block' ],
+						[ 'link', 'image', 'video', 'formula' ], [ 'clean' ] // remove formatting button
+				],
+				history : {
+					delay : 2000,
+					maxStack : 500,
+					userOnly : true
+				}
+			},
+			theme : 'snow'
+		});
+
+		$('form').submit(function(event) {
+			$('#description').val(editor.root.innerHTML);
+		});
+	</script>
+
+	<script type="text/javascript" th:inline="javascript">
+		(function () {
+			let topics = /*[[${topics}]]*/[];
+
+			$('#disciplines-select').change(function() {
+				let selectedDisciplineId = parseInt($(this).val());
+
+				let topicSelect = $('select[id*="topic"]').first();
+
+				topicSelect.empty();
+
+				topics.forEach(function(topic) {
+					if (topic.discipline.id == selectedDisciplineId) {
+						let option = `<option value="${topic.id}">${topic.name}</option>`;
+						topicSelect.append(option);
+					}
+				});
+			});
+		})();
+	</script>
+
+	<script type="text/javascript" th:src="@{/js/question.form.js}"></script>
+</body>
+</html>
