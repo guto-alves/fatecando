@@ -1,7 +1,7 @@
 package com.gutotech.fatecando.model;
 
 public enum QuestionType {
-	QUIZ("Quiz"), TEST("Simulado"), GAME("Game");
+	QUIZ("Quiz - Fácil"), TEST("Simulado - Médio"), GAME("Game - Difícil");
 
 	private final String displayName;
 
