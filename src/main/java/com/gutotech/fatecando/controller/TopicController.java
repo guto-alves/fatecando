@@ -64,6 +64,12 @@ public class TopicController {
 		topicService.toggleLike(topic);
 		return ResponseEntity.noContent().build();
 	}
+	
+	@PostMapping("fav")
+	public ResponseEntity<Void> toggleFavorite(Topic topic) {
+		topicService.toggleFavorite(topic);
+		return ResponseEntity.noContent().build();
+	}
 
 	@PostMapping("question")
 	public String addQuestion(Topic topic, Question question, RedirectAttributes redirectAttributes, Model model) {

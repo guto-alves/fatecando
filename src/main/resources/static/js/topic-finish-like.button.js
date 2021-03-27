@@ -10,6 +10,11 @@ $('#likeButton').click(function() {
 		});
 });
 
+$('#fav-button').click(function() {
+	$.post(location.href.split('#')[0] + '/fav');
+});
+
+
 let waiting = false;
 
 $('#finishButton').click(function() {

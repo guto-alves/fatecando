@@ -46,6 +46,10 @@ public class TopicService {
 	public void toggleLike(Topic topic) {
 		restTemplate.put(URL + "/{id}/like", null, topic.getId());
 	}
+	
+	public void toggleFavorite(Topic topic) {
+		restTemplate.put(URL + "/{id}/favorite", null, topic.getId());
+	}
 
 	public void dragTopic(Long draggedTopicId, Long relatedTopicId) {
 		restTemplate.put(URL + "/drag/{draggedTopicId}/{relatedTopicId}", null, draggedTopicId, relatedTopicId);

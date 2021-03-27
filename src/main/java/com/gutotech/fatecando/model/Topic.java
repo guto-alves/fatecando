@@ -166,11 +166,9 @@ public class Topic {
 
 	public class TopicUser {
 		private boolean liked;
-
+		private boolean favorite;
 		private String annotation = "";
-
 		private boolean finished;
-
 		private Date finishDate;
 
 		public TopicUser() {
@@ -182,6 +180,14 @@ public class Topic {
 
 		public void setLiked(boolean liked) {
 			this.liked = liked;
+		}
+
+		public boolean isFavorite() {
+			return favorite;
+		}
+
+		public void setFavorite(boolean favorite) {
+			this.favorite = favorite;
 		}
 
 		public String getAnnotation() {
