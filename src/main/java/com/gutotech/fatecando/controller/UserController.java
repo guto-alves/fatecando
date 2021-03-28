@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gutotech.fatecando.model.User;
+import com.gutotech.fatecando.service.TopicService;
 import com.gutotech.fatecando.service.UserService;
 
 @Controller
@@ -21,6 +22,9 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private TopicService topicService;
 
 	@ModelAttribute("user")
 	public User getUser() {
@@ -40,8 +44,6 @@ public class UserController {
 			return "users/edit-profile";
 		}
 
-		System.out.println(user.getId());
-
 		userService.update(user);
 
 		redirectAttributes.addFlashAttribute("message", "Perfil atualizado com sucesso");
@@ -49,4 +51,10 @@ public class UserController {
 		return "redirect:/users/edit-profile";
 	}
 
+	@GetMapping("favorites")
+	public String showFavoriteTopicsPage(Model model) {
+		model.addAttribute("topics", topicService.findAllFavorites());
+		return "users/favorite-topics";
+	}
+	
 }

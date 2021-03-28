@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org"
+	th:replace="~{fragments/layout :: base('Meus favoritos', ~{::body}, _, _, ~{::style})}">
+<head>
+<meta charset="utf-8">
+<style type="text/css">
+.list-card-item {
+	cursor: poi
+}
+
+.list-card-item:hover {
+	transform: scale(1.010);
+}
+
+@media only screen and ( max-width : 550px) {
+	#sidebar {
+		margin-top: 20px !important;
+	}
+}
+</style>
+</head>
+<body>
+	<div class="container h-100">
+		<div class="row h-100 py-3">
+			<div class="col-sm-3" id="sidebar" style="margin-top: 80px;">
+				<div class="sticky-top">
+					<nav id="disciplines-navbar" class="navbar navbar-light bg-light">
+						<a class="navbar-brand ms-3" href="#">Disciplinas</a>
+						<nav class="nav nav-pills flex-column">
+							<th:block th:each="topic : ${topics}">
+								<th:block th:with="prevIndex=${topicStat.index - 1}">
+									<a
+										th:if="${topicStat.first or not topicStat.first and topics[__prevIndex__].discipline.id != topic.discipline.id}"
+										th:href="|#discipline-${topic.discipline.id}|" class="nav-link discipline-link" href="#">[[${topic.discipline.name}]]</a>
+								</th:block>
+							</th:block>
+						</nav>
+					</nav>
+				</div>
+
+			</div>
+
+			<div class="col col-sm-9" id="main">
+				<h3 class="fw-bold border-5 border-start border-danger ps-3 my-4">Meus favoritos</h3>
+
+				<div class="card">
+					<div class="card-body">
+						<div class="list-group">
+							<th:block th:each="topic : ${topics}">
+								<th:block th:with="prevIndex=${topicStat.index - 1}">
+									<h5
+										th:if="${topicStat.first or not topicStat.first and topics[__prevIndex__].discipline.id != topic.discipline.id}"
+										th:id="|discipline-${topic.discipline.id}|">[[${topic.discipline.name}]]</h5>
+								</th:block>
+
+								<div class="list-group-item list-card-item mb-3 border"
+									th:onclick="|location.href='/topic/' + ${topic.id}|"
+									th:classappend="${topic.user.finished} ? 'border-success' : 'border-secondary'">
+									<div class="d-flex w-100 justify-content-between">
+										<div class="d-flex align-items-center">
+											<h5 class="mb-1 fw-bolder" th:text="${topic.name}">Topic Name</h5>
+										</div>
+
+										<i class="fa fa-check-circle fa-2x green" aria-hidden="true"
+											th:classappend="${!topic.user.finished}? 'd-none'"></i>
+									</div>
+
+									<p class="mb-1 truncate" th:text="${topic.description}">Some placeholder content in a paragraph.</p>
+
+									<div class="d-flex justify-content-end align-items-center">
+										<i class="fa fa-thumbs-o-up fa-lg text-primary me-1"></i> <small class="fw-bold"
+											th:text=${topic.likes}>10</small>
+									</div>
+								</div>
+							</th:block>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$('.discipline-link').click(function() {
+			$('.discipline-link[class*="active"]').removeClass('active');
+			$(this).addClass('active');
+		});
+	</script>
+</body>
+</html>

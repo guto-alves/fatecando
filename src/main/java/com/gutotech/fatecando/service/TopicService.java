@@ -26,6 +26,14 @@ public class TopicService {
 
 		return responseEntity.getBody();
 	}
+	
+	public List<Topic> findAllFavorites() {
+		ResponseEntity<List<Topic>> responseEntity = restTemplate.exchange(URL + "/favorites", HttpMethod.GET, null,
+				new ParameterizedTypeReference<List<Topic>>() {
+				});
+		
+		return responseEntity.getBody();
+	}
 
 	public Topic findById(Long id) {
 		return restTemplate.getForObject(URL + "/" + id, Topic.class);
