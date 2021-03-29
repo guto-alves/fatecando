@@ -62,6 +62,10 @@ public class TopicService {
 	public void toggleFavorite(Topic topic) {
 		restTemplate.put(URL + "/{id}/favorite", null, topic.getId());
 	}
+	
+	public void saveAnnotation(Topic topic, String annotation) {
+		restTemplate.put(URL + "/{id}/annotation", annotation, topic.getId());
+	}
 
 	public void dragTopic(Long draggedTopicId, Long relatedTopicId) {
 		restTemplate.put(URL + "/drag/{draggedTopicId}/{relatedTopicId}", null, draggedTopicId, relatedTopicId);
