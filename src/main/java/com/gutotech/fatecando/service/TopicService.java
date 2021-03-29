@@ -35,6 +35,14 @@ public class TopicService {
 		return responseEntity.getBody();
 	}
 
+	public List<Topic> findAllWithAnnotations() {
+		ResponseEntity<List<Topic>> responseEntity = restTemplate.exchange(URL + "/annotations", HttpMethod.GET, null,
+				new ParameterizedTypeReference<List<Topic>>() {
+				});
+
+		return responseEntity.getBody();
+	}
+
 	public Topic findById(Long id) {
 		return restTemplate.getForObject(URL + "/" + id, Topic.class);
 	}
@@ -62,7 +70,7 @@ public class TopicService {
 	public void toggleFavorite(Topic topic) {
 		restTemplate.put(URL + "/{id}/favorite", null, topic.getId());
 	}
-	
+
 	public void saveAnnotation(Topic topic, String annotation) {
 		restTemplate.put(URL + "/{id}/annotation", annotation, topic.getId());
 	}

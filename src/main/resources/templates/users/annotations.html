@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org"
+	th:replace="~{fragments/layout :: base('Anotações', ~{::body}, _, _, ~{::style})}">
+<head>
+<meta charset="utf-8">
+
+<style type="text/css">
+.list-card-item {
+	cursor: pointer;
+}
+
+.list-card-item:hover {
+	transform: scale(1.010);
+}
+</style>
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-4 my-3">
+				<div class="card shadow">
+					<div class="card-body">
+						<h4 class="card-title text-center fw-bolder mb-4">Minhas anotações ([[${#lists.size(topics)}]])</h4>
+
+						<div class="list-group">
+							<th:block th:each="topic : ${topics}">
+								<th:block th:with="prevIndex=${topicStat.index - 1}">
+									<h5
+										th:if="${topicStat.first or not topicStat.first and topics[__prevIndex__].discipline.id != topic.discipline.id}"
+										th:id="|discipline-${topic.discipline.id}|">[[${topic.discipline.name}]]</h5>
+								</th:block>
+
+								<div class="topic list-group-item list-card-item mb-3 border border-1 rounded"
+									th:data-id="${topic.id}"
+									th:classappend="${topic.user.finished} ? 'border-success' : 'border-secondary'">
+									<div class="d-flex w-100 justify-content-between">
+										<div class="d-flex align-items-center">
+											<h6 class="mb-1 fw-bolder" th:text="${topic.name}">Topic Name</h6>
+										</div>
+
+										<i class="fa fa-check-circle fa-lg green" aria-hidden="true"
+											th:classappend="${!topic.user.finished}? 'd-none'"></i>
+									</div>
+								</div>
+							</th:block>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-8">
+				<h4 id="disciplineName" class="text-center mt-2">...</h4>
+
+				<div class="card shadow">
+					<div class="card-body">
+						<input type="hidden" id="topic">
+
+						<span class="text-muted">Anotações sobre:</span>
+						<div class="d-flex justify-content-between align-items-center">
+							<h4 id="topicName" class="card-title fw-bold">Anotações</h4>
+							<a id="showTopicButton" type="button" class="btn btn-outline-danger btn-sm mb-1" href="#">Acessar
+								conteúdo</a>
+						</div>
+
+						<div id="annotationEditor" style="height: 300px;"></div>
+
+						<div class="d-grid mx-auto col-6">
+							<button id="updateAnnotationButton" type="button" class="btn btn-dark btn-sm fw-bold text-center mt-3"
+								style="display: none;">ATUALIZAR</button>
+						</div>
+					</div>
+				</div>
+
+				<small class="d-flex text-muted ms-2 mt-2">* Use as teclas de setas para a Esquerda ou Direita
+					para navegar entre as anotações.</small>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript" th:inline="javascript">
+		hljs.configure({
+			tabReplace : '	                                            	',
+			languages : [ 'java' ]
+		});
+		hljs.highlightAll();
+		
+		var annotationEditor = new Quill('#annotationEditor', {
+			modules : {
+				syntax : true,
+				toolbar : [ [ {
+					'font' : []
+				} ], [ {
+					'size' : [ 'small', false, 'large', 'huge' ]
+				} ], // custom dropdown
+				[ 'bold', 'italic', 'underline', 'strike' ], // toggled buttons
+				[ {
+					'header' : 1
+				}, {
+					'header' : 2
+				} ], // custom button values
+				[ {
+					'header' : [ 1, 2, 3, 4, 5, 6, false ]
+				} ], [ {
+					'color' : []
+				}, {
+					'background' : []
+				} ], // dropdown with defaults from theme
+				[ {
+					'align' : ''
+				}, {
+					'align' : 'center'
+				}, {
+					'align' : 'right'
+				}, {
+					'align' : 'justify'
+				} ], [ {
+					'script' : 'sub'
+				}, {
+					'script' : 'super'
+				} ], // superscript/subscript
+				[ {
+					'list' : 'ordered'
+				}, {
+					'list' : 'bullet'
+				} ], [ {
+					'indent' : '-1'
+				}, {
+					'indent' : '+1'
+				} ], // outdent/indent
+				[ {
+					'direction' : 'rtl'
+				} ], // text direction
+				[ 'blockquote', 'code-block' ],
+						[ 'link', 'image', 'video', 'formula' ], [ 'clean' ] // remove formatting button
+				],
+				history : {
+					delay : 2000,
+					maxStack : 500,
+					userOnly : true
+				}
+			},
+			theme : 'snow'
+		});
+		
+		annotationEditor.on('text-change', function(eventName, ...args) {
+			$('#updateAnnotationButton').show();
+		});
+	
+		$('.topic').click(function() {
+			let topicId = $(this).data('id');
+			
+			let topic = topics.find(t => t.id === topicId);
+			
+			showAnnotation(topic);
+			$('#updateAnnotationButton').hide();
+			
+			$('.topic[class*="active"]').removeClass('active');
+			$(this).addClass('active');
+		});
+		
+		$(document).keyup(function(event) {
+			if (!annotationEditor.hasFocus()) {
+				if (event.key === 'ArrowRight') {
+					let currentIndex = $('.topic').index($('.topic[class*="active"]').first());
+					
+					let nextIndex = (currentIndex + 1) % $('.topic').length;
+					
+					$('.topic').eq(nextIndex).click();
+				} else if (event.key === 'ArrowLeft') {
+					let currentIndex  = $('.topic').index($('.topic[class*="active"]').first());
+					
+					let previousIndex = currentIndex - 1;
+					
+					if (previousIndex < 0) {
+						previousIndex =  $('.topic').length - 1;
+					}
+					
+					$('.topic').eq(previousIndex).click(); 
+				}
+			}
+		});
+		
+		$('#updateAnnotationButton').click(function() {
+			saveAnnotation();
+			$('#updateAnnotationButton').hide();
+			annotationEditor.blur();
+		});
+		
+		let topics = /*[[${topics}]]*/[];
+		$('.topic').first().click();
+
+		function showAnnotation(topic) {
+			$('#disciplineName').text(topic.discipline.name);
+			$('#topic').val(topic.id);
+			$('#topicName').text(topic.name);
+			$('#showTopicButton').prop('href', window.location.origin + `/topic/${topic.id}`);
+			annotationEditor.setContents([]);
+			annotationEditor.clipboard.dangerouslyPasteHTML(0, topic.user.annotation);
+			annotationEditor.blur();
+		}
+		
+		function saveAnnotation() {
+			let topicId = $('#topic').val();
+			let newAnnotation = annotationEditor.root.innerHTML;
+			
+			$.ajax({
+				method : 'POST',
+				url : window.location.origin + `/topic/${topicId}/annotation`,
+				data : newAnnotation,
+				contentType : 'text/plain'
+			}).done(function() {
+				let topic = topics.find(t => t.id == topicId);
+				topic.user.annotation = newAnnotation;
+				$('#updateAnnotationButton').hide();
+			});
+		}
+	</script>
+</body>
+</html>

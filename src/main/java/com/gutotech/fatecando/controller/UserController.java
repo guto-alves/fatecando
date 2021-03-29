@@ -57,4 +57,10 @@ public class UserController {
 		return "users/favorite-topics";
 	}
 	
+	@GetMapping("annotations")
+	public String showAnnotationsPage(Model model) {
+		model.addAttribute("topics", topicService.findAllWithAnnotations());
+		return "users/annotations";
+	}
+	
 }
