@@ -26,17 +26,21 @@ public class TopicService {
 
 		return responseEntity.getBody();
 	}
-	
+
 	public List<Topic> findAllFavorites() {
 		ResponseEntity<List<Topic>> responseEntity = restTemplate.exchange(URL + "/favorites", HttpMethod.GET, null,
 				new ParameterizedTypeReference<List<Topic>>() {
 				});
-		
+
 		return responseEntity.getBody();
 	}
 
 	public Topic findById(Long id) {
 		return restTemplate.getForObject(URL + "/" + id, Topic.class);
+	}
+
+	public Topic findByIdWithPreviousAndNext(Long id) {
+		return restTemplate.getForObject(URL + "/{id}?previous-next=true", Topic.class, id);
 	}
 
 	public Topic save(Topic topic) {
@@ -54,7 +58,7 @@ public class TopicService {
 	public void toggleLike(Topic topic) {
 		restTemplate.put(URL + "/{id}/like", null, topic.getId());
 	}
-	
+
 	public void toggleFavorite(Topic topic) {
 		restTemplate.put(URL + "/{id}/favorite", null, topic.getId());
 	}

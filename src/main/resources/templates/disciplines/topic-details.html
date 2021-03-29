@@ -223,7 +223,27 @@
 			</div>
 		</div>
 		<button id="startQuiz" class="btn btn-outline-danger btn-lg form-control shadow">Iniciar Quiz</button>
-
+		
+		<div class="row mt-5">
+			<div class="col-md-6">
+				<th:block th:if="${topic.previous != nul}">
+					<small class="d-flex text-muted mb-1 ms-3">Anterior</small>	
+					<a class="btn btn-outline-dark" href="#" th:href="@{/topic/{id}(id=${topic.previous.id})}">
+						<i class="bi bi-caret-left-fill"></i>
+						[[${topic.previous.name}]]
+					</a>
+				</th:block>
+			</div>
+			<div class="col-md-6 text-end">
+				<th:block th:if="${topic.next != nul}">
+					<small class="d-flex justify-content-end text-muted mb-1 me-3">Próximo</small>
+					<a class="btn btn-outline-dark" href="#" th:href="@{/topic/{id}(id=${topic.next.id})}">
+						[[${topic.next.name}]]
+						<i class="bi bi-caret-right-fill"></i>
+					</a>
+				</th:block>
+			</div>
+		</div>
 	</div>
 
 	<script type="text/javascript" th:inline="javascript">

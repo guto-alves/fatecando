@@ -33,7 +33,7 @@ public class TopicController {
 
 	@ModelAttribute("topic")
 	public Topic getTopic(@PathVariable("topicId") Long topicId) {
-		return topicService.findById(topicId);
+		return topicService.findByIdWithPreviousAndNext(topicId);
 	}
 
 	@InitBinder("topic")

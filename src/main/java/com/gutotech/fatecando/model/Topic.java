@@ -34,6 +34,10 @@ public class Topic {
 	private Date updateDate;
 
 	private TopicUser user;
+	
+	private Topic previous;
+
+	private Topic next;
 
 	public Topic() {
 	}
@@ -140,6 +144,22 @@ public class Topic {
 
 	public void setUser(TopicUser user) {
 		this.user = user;
+	}
+
+	public Topic getPrevious() {
+		return previous;
+	}
+
+	public void setPrevious(Topic previous) {
+		this.previous = previous;
+	}
+
+	public Topic getNext() {
+		return next;
+	}
+
+	public void setNext(Topic next) {
+		this.next = next;
 	}
 
 	@Override
