@@ -26,6 +26,49 @@
 	background-color: green;
 	border-color: green;
 }
+
+.sidenav {
+	height: 100%;
+	width: 0;
+	position: fixed;
+	z-index: 1;
+	top: 0;
+	left: 0;
+	background-color: rgb(0, 0, 0);
+	overflow-x: hidden;
+	transition: 0.5s;
+	padding-top: 50px;
+}
+
+.sidenav a {
+	padding: 8px 8px 8px 8px;
+	text-decoration: none;
+	font-size: 25px;
+	color: #818181;
+	display: block;
+	transition: 0.3s;
+}
+
+.sidenav a:hover {
+	color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+	position: absolute;
+	top: 0;
+	right: 25px;
+	font-size: 36px;
+	margin-left: 50px;
+}
+
+@media screen and (max-height: 450px) {
+	.sidenav {
+		padding-top: 28px;
+	}
+	.sidenav a {
+		font-size: 18px;
+	}
+}
 </style>
 </head>
 <body>
@@ -34,18 +77,22 @@
 			<div class="card-body">
 				<div class="col-10 offset-1 mb-3">
 					<div class="d-flex mt-2 mb-4" style="font-size: 14px;">
-						<a href="#" class="link-danger text-decoration-none fw-bold"  
-							th:href="@{/dashboard}">Análise e Desenvolvimento de Sistemas</a>
+						<a href="#" class="link-danger text-decoration-none fw-bold" th:href="@{/dashboard}">Análise e
+							Desenvolvimento de Sistemas</a>
 						<span class="mx-2">></span>
-						<a href="#" class="link-danger text-decoration-none fw-bold" 
-							th:href="@{/disciplines/{id}(id=${topic.discipline.id})}" 
-							th:text="${topic.discipline.name}">Estrutura de Dados</a>
+						<a href="#" class="link-danger text-decoration-none fw-bold"
+							th:href="@{/disciplines/{id}(id=${topic.discipline.id})}" th:text="${topic.discipline.name}">Estrutura
+							de Dados</a>
 					</div>
-				
+
 					<h2 class="card-title text-center fw-bolder" th:text="${topic.name}">Topic Name</h2>
 					<p th:text="${topic.description}"></p>
-					
+
 					<div class="d-flex justify-content-end mt-3">
+						<button class="btn btn-outline-light me-3" type="button" onclick="openNav();">
+							<i class="bi bi-pencil-square" style="font-size: 1.2rem;"></i>
+						</button>
+
 						<div class="btn-group rounded-start me-3" role="group" aria-label="Like toggle button">
 							<input type="checkbox" class="btn-check" id="fav-button" autocomplete="off"
 								th:checked="${topic.user.favorite}">
@@ -53,7 +100,7 @@
 								<i class="bi bi-star-fill"></i>
 							</label>
 						</div>
-						
+
 						<div class="btn-group rounded-start" role="group" aria-label="Like toggle button">
 							<input type="checkbox" class="btn-check" id="likeButton" autocomplete="off"
 								th:checked="${topic.user.liked}">
@@ -70,18 +117,34 @@
 		</div>
 	</div>
 
+	<div id="annotationSideNav" class="sidenav">
+		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
+		<h5 class="fw-bold text-white text-center mb-3">SUAS ANOTAÇÕES</h5>
+
+		<div class="card shadow m-3">
+			<div class="card-body">
+				<div id="annotationEditor" th:utext="${topic.user.annotation}"></div>
+			</div>
+		</div>
+
+		<small class="d-flex text-muted text-center m-3"><small class="text-danger">*</small>Suas anotações
+			são salvas automaticamente a cada um 1 minuto e também no exato momento em que está aba é fechada.</small>
+	</div>
+
 	<div class="container">
 		<div class="alert alert-success alert-dismissible fade show my-5" role="alert"
 			th:if="${!#strings.isEmpty(successMessage)}">
 			<span th:text=${successMessage}></span>
 			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 		</div>
-		
+
 		<div class="accordion my-5" id="uploadQuestion">
 			<div class="accordion-item">
 				<h6 class="accordion-header" id="headingTwo">
-					<button class="accordion-button collapsed bg-danger text-white fw-bold" type="button" data-bs-toggle="collapse"
-						data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" style="height: 50px">
+					<button class="accordion-button collapsed bg-danger text-white fw-bold" type="button"
+						data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false"
+						aria-controls="collapseTwo" style="height: 50px">
 						<h6>Deseja compartilhar seu conhecimento ? Contribua agora!</h6>
 					</button>
 				</h6>
@@ -91,12 +154,12 @@
 
 						<div class="card border border-1 border-secondary shadow">
 							<div class="card-body">
-							
+
 								<form id="newQuestionForm" action="#" method="post" th:action="@{/topic/{t}/question(t=${topic.id})}"
 									th:object="${question}">
 									<div class="mb-3">
 										<label for="description" class="h5 form-label fw-bolder">Pergunta</label>
-										
+
 										<div id="newQuestionEditor"></div>
 										<input type="hidden" id="description" th:field="*{description}">
 									</div>
@@ -159,11 +222,11 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<h3>Conteúdo</h3>
 		<div id="contentCard" class="card my-3 shadow">
 			<div class="card-body" id="contentEditor" th:utext="${topic.htmlContent}"></div>
-			
+
 			<div class="d-flex justify-content-end p-3">
 				<button id="finishButton" class="btn btn-outline-success"
 					th:classappend="${topic.user.finished} ? 'active'">
@@ -173,7 +236,7 @@
 				</button>
 			</div>
 		</div>
-		
+
 		<!-- Quiz -->
 		<div id="quiz-container" class="card mt-5 bg-danger bg-initial-quiz">
 			<div class="card-body">
@@ -223,14 +286,13 @@
 			</div>
 		</div>
 		<button id="startQuiz" class="btn btn-outline-danger btn-lg form-control shadow">Iniciar Quiz</button>
-		
+
 		<div class="row mt-5">
 			<div class="col-md-6">
 				<th:block th:if="${topic.previous != nul}">
-					<small class="d-flex text-muted mb-1 ms-3">Anterior</small>	
+					<small class="d-flex text-muted mb-1 ms-3">Anterior</small>
 					<a class="btn btn-outline-dark" href="#" th:href="@{/topic/{id}(id=${topic.previous.id})}">
-						<i class="bi bi-caret-left-fill"></i>
-						[[${topic.previous.name}]]
+						<i class="bi bi-caret-left-fill"></i> [[${topic.previous.name}]]
 					</a>
 				</th:block>
 			</div>
@@ -238,19 +300,127 @@
 				<th:block th:if="${topic.next != nul}">
 					<small class="d-flex justify-content-end text-muted mb-1 me-3">Próximo</small>
 					<a class="btn btn-outline-dark" href="#" th:href="@{/topic/{id}(id=${topic.next.id})}">
-						[[${topic.next.name}]]
-						<i class="bi bi-caret-right-fill"></i>
+						[[${topic.next.name}]] <i class="bi bi-caret-right-fill"></i>
 					</a>
 				</th:block>
 			</div>
 		</div>
 	</div>
 
+	<script type="text/javascript">
+		var annotationEditor = new Quill('#annotationEditor', {
+			modules : {
+				syntax : true,
+				toolbar : [ [ {
+					'font' : []
+				} ], [ {
+					'size' : [ 'small', false, 'large', 'huge' ]
+				} ], // custom dropdown
+				[ 'bold', 'italic', 'underline', 'strike' ], // toggled buttons
+				[ {
+					'header' : 1
+				}, {
+					'header' : 2
+				} ], // custom button values
+				[ {
+					'header' : [ 1, 2, 3, 4, 5, 6, false ]
+				} ], [ {
+					'color' : []
+				}, {
+					'background' : []
+				} ], // dropdown with defaults from theme
+				[ {
+					'align' : ''
+				}, {
+					'align' : 'center'
+				}, {
+					'align' : 'right'
+				}, {
+					'align' : 'justify'
+				} ], [ {
+					'script' : 'sub'
+				}, {
+					'script' : 'super'
+				} ], // superscript/subscript
+				[ {
+					'list' : 'ordered'
+				}, {
+					'list' : 'bullet'
+				} ], [ {
+					'indent' : '-1'
+				}, {
+					'indent' : '+1'
+				} ], // outdent/indent
+				[ {
+					'direction' : 'rtl'
+				} ], // text direction
+				[ 'blockquote', 'code-block' ],
+						[ 'link', 'image', 'video', 'formula' ], [ 'clean' ] // remove formatting button
+				],
+				history : {
+					delay : 2000,
+					maxStack : 500,
+					userOnly : true
+				}
+			},
+			theme : 'snow'
+		});
+
+		function openNav() {
+			if ($('#annotationSideNav').hasClass('active')) {
+				closeNav();
+			} else {
+				$('#annotationSideNav').addClass('active');
+				saveAnnotation();
+				
+				if ($(window).width() > 680) {
+					$('#annotationSideNav').css('width', '340px');
+					$('body').css('marginLeft', '340px');
+				} else {
+					$('#annotationSideNav').css('width', '100%');
+					$('body').css('marginLeft', '0px');
+				}
+			}
+		}
+
+		function closeNav() {
+			$('#annotationSideNav').removeClass('active');
+			$('#annotationSideNav').css('width', '0px');
+			$('body').css('marginLeft', '0px');
+			saveAnnotation();
+		}
+
+		$(window).on('resize', function() {
+			let window = $(this);
+
+			if ($('#annotationSideNav').hasClass('active')) {
+				if (window.width() <= 680) {
+					$('#annotationSideNav').css('width', '100%');
+					$('body').css('marginLeft', '0px');
+				} else if (window.width() > 680) {
+					$('#annotationSideNav').css('width', '340px');
+					$('body').css('marginLeft', '340px');
+				}
+			}
+		});
+
+		function saveAnnotation() {
+			$.ajax({
+				method : 'POST',
+				url : window.location.href + '/annotation',
+				data : annotationEditor.root.innerHTML,
+				contentType : 'text/plain'
+			});
+		}
+
+		setInterval(saveAnnotation, 60000);
+	</script>
+
 	<script type="text/javascript" th:inline="javascript">
 		let questions = /*[[${questions}]]*/null;
 
 		hljs.configure({
-			tabReplace: '    ',
+			tabReplace : '    ',
 			languages : [ 'java' ]
 		});
 		hljs.highlightAll();
@@ -265,49 +435,78 @@
 		contentEditor.enable(false);
 		$('#contentEditor').closest('.ql-toolbar').hide();
 		$('#contentCard').find('.ql-toolbar').first().remove();
-		
+
 		var questionEditor = new Quill('#question', {
 			modules : {
 				syntax : true,
-				toolbar: []
+				toolbar : []
 			},
 			theme : 'snow'
 		});
 		questionEditor.enable(false);
 		$('#questionContainer').find('.ql-toolbar').first().remove();
-		
+
 		var newQuestionEditor = new Quill('#newQuestionEditor', {
 			modules : {
 				syntax : true,
-				toolbar : [ 
-					[ { 'font' : [] } ],
-					[ { 'size' : [ 'small', false, 'large', 'huge' ] } ], // custom dropdown
-					[ 'bold', 'italic', 'underline', 'strike' ], // toggled buttons
-					[ {	'header' : 1 }, { 'header' : 2 } ], // custom button values
-					[ { 'header' : [ 1, 2, 3, 4, 5, 6, false ] } ], 
-					[ { 'color' : [] }, { 'background' : [] } ], // dropdown with defaults from theme
-					[ { 'align': ''}, { 'align': 'center' }, { 'align': 'right' }, { 'align': 'justify' } ], 
-					[ { 'script' : 'sub' }, { 'script' : 'super' } ], // superscript/subscript
-					[ { 'list' : 'ordered' }, { 'list' : 'bullet' } ], 
-					[ { 'indent' : '-1' }, { 'indent' : '+1' } ], // outdent/indent
-					[ { 'direction' : 'rtl' } ], // text direction
-					[ 'blockquote', 'code-block' ],
-					[ 'link', 'image', 'video', 'formula' ], 
-					[ 'clean' ] // remove formatting button
+				toolbar : [ [ {
+					'font' : []
+				} ], [ {
+					'size' : [ 'small', false, 'large', 'huge' ]
+				} ], // custom dropdown
+				[ 'bold', 'italic', 'underline', 'strike' ], // toggled buttons
+				[ {
+					'header' : 1
+				}, {
+					'header' : 2
+				} ], // custom button values
+				[ {
+					'header' : [ 1, 2, 3, 4, 5, 6, false ]
+				} ], [ {
+					'color' : []
+				}, {
+					'background' : []
+				} ], // dropdown with defaults from theme
+				[ {
+					'align' : ''
+				}, {
+					'align' : 'center'
+				}, {
+					'align' : 'right'
+				}, {
+					'align' : 'justify'
+				} ], [ {
+					'script' : 'sub'
+				}, {
+					'script' : 'super'
+				} ], // superscript/subscript
+				[ {
+					'list' : 'ordered'
+				}, {
+					'list' : 'bullet'
+				} ], [ {
+					'indent' : '-1'
+				}, {
+					'indent' : '+1'
+				} ], // outdent/indent
+				[ {
+					'direction' : 'rtl'
+				} ], // text direction
+				[ 'blockquote', 'code-block' ],
+						[ 'link', 'image', 'video', 'formula' ], [ 'clean' ] // remove formatting button
 				],
-				history: {
-			      delay: 2000,
-			      maxStack: 500,
-			      userOnly: true
-			    }
+				history : {
+					delay : 2000,
+					maxStack : 500,
+					userOnly : true
+				}
 			},
 			theme : 'snow'
 		});
-		
+
 		$('#newQuestionForm').submit(function(event) {
 			$('#description').val(newQuestionEditor.root.innerHTML);
 		});
-		
 	</script>
 
 	<script type="text/javascript" th:src="@{/js/topic-finish-like.button.js}"></script>
