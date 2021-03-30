@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	th:replace="~{fragments/layout :: base('Tópico', ~{::body}, _, _, _)}">
+<head>
+<meta charset="utf-8">
+</head>
+<body>
+	<div class="container mt-3">
+		<div class="alert alert-success alert-dismissible fade show" role="alert"
+			th:if="${!#strings.isEmpty(message)}">
+			<span th:utext=${message}></span>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	</div>
+
+	<div class="card mt-3 border border-1 shadow">
+		<div class="card-body">
+			<h3 class="card-title text-center fw-bolder">Meus Tópicos</h3>
+			<hr>
+
+			<table id="table" class="table table-hover cell-border compact order-column">
+				<thead class="thead-dark text-center">
+					<tr>
+						<th>ID</th>
+						<th>Nome</th>
+						<th>Disciplina</th>
+						<th>Obrigatório</th>
+						<th>Data de Envio</th>
+						<th>Status</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="topic : ${topics}" th:data-id="${topic.id}">
+						<td class="align-middle fw-bold" th:text="${topic.id}"></td>
+						<td class="align-middle fw-bold" th:text="${topic.name}"></td>
+						<td class="align-middle" th:text="${topic.discipline.name}"></td>
+						<td class="align-middle text-center" th:text="${topic.required} ? 'Sim' : 'Não'"></td>
+						<td class="align-middle text-center" th:text="${#dates.format(topic.creationDate, 'dd/MM/yyyy')}"></td>
+						<td class="align-middle text-center fw-bold" th:text="${topic.status.displayName}"></td>
+						<td class="text-center"><a class="btn btn-outline-dark button-sm" href="#"
+								th:href="@{/users/topic/{id}(id=${topic.id})}">Ver mais</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		$('#table').DataTable({
+			language : {
+				url : '//cdn.datatables.net/plug-ins/1.10.22/i18n/Portuguese-Brasil.json'
+			}
+		});
+	</script>
+</body>
+</html>

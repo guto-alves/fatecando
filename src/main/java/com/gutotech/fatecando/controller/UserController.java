@@ -3,15 +3,18 @@ package com.gutotech.fatecando.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.gutotech.fatecando.model.Topic;
 import com.gutotech.fatecando.model.User;
 import com.gutotech.fatecando.service.TopicService;
 import com.gutotech.fatecando.service.UserService;
@@ -56,11 +59,46 @@ public class UserController {
 		model.addAttribute("topics", topicService.findAllFavorites());
 		return "users/favorite-topics";
 	}
-	
+
 	@GetMapping("annotations")
 	public String showAnnotationsPage(Model model) {
 		model.addAttribute("topics", topicService.findAllWithAnnotations());
 		return "users/annotations";
 	}
-	
+
+	@GetMapping("topics")
+	public String showUserTopicsPage(Model model) {
+		model.addAttribute("topics", userService.findAllTopics());
+		return "users/topics";
+	}
+
+	@GetMapping("topic/{id}")
+	public String initUpdateForm(@PathVariable Long id, Model model) {
+		Topic topic = topicService.findById(id);
+		String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+
+		if (!topic.getCreatedBy().getEmail().equals(currentUserEmail)) {
+			return "redirect:/users/topics";
+		}
+
+		model.addAttribute("topic", topic);
+		return "users/topic-edit";
+	}
+
+	@PostMapping("topic/{id}")
+	public String processUpdateForm(@Valid Topic topic, BindingResult bindingResult,
+			RedirectAttributes redirectAttributes, Model model) {
+		if (bindingResult.hasErrors()) {
+			model.addAttribute(topic);
+			return "users/topic-edit";
+		}
+
+		topicService.update(topic);
+
+		redirectAttributes.addFlashAttribute("message",
+				String.format("O tópido <b>%s</b> foi atualizado com sucesso.", topic.getName()));
+
+		return "redirect:/users/topics";
+	}
+
 }

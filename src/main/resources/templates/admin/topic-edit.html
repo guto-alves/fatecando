@@ -74,6 +74,7 @@
 
 						<select class="form-select" id="status" name="status">
 							<option th:each="status : ${T(com.gutotech.fatecando.model.UploadStatus).values()}"
+								th:unless="${status == T(com.gutotech.fatecando.model.UploadStatus).EDITED and status != topic.status}"
 								th:value="${status}" th:text="${status.displayName}" th:selected="${status == topic.status}"></option>
 						</select>
 					</div>

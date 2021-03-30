@@ -11,6 +11,7 @@ import org.springframework.http.client.support.BasicAuthenticationInterceptor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.gutotech.fatecando.model.Topic;
 import com.gutotech.fatecando.model.User;
 
 @Service
@@ -62,6 +63,14 @@ public class UserService {
 
 	public void update(User user) {
 		restTemplate.put(URL + "/{id}", user, user.getId());
+	}
+
+	public List<Topic> findAllTopics() {
+		ResponseEntity<List<Topic>> responseEntity = restTemplate.exchange(URL + "/me/topics", HttpMethod.GET, null,
+				new ParameterizedTypeReference<List<Topic>>() {
+				});
+
+		return responseEntity.getBody();
 	}
 
 }

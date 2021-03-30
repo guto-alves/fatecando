@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	th:replace="~{fragments/layout :: base ('Tópico', ~{::body}, _, _, ~{::style})}">
+<head>
+<meta charset="utf-8">
+<style type="text/css">
+#editor-container {
+	height: 350px;
+}
+</style>
+</head>
+<body>
+	<div class="container">
+		<div class="alert alert-error alert-dismissible fade show" role="alert"
+			th:if="${!#strings.isEmpty(message)}">
+			<span class="text-center" th:utext=${message}></span>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+
+		<div class="card mt-3">
+			<div class="card-body">
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item">
+							<a href="#" th:href="@{/users/topics}">Meus tópicos</a>
+						</li>
+						<li class="breadcrumb-item active" aria-current="page" th:text="${topic.name}">Library</li>
+					</ol>
+				</nav>
+				
+				<h5 class="card-title text-center fw-bold" th:text="|Tópico #${topic.id} - ${topic.status.displayName}|">Tópico
+					#146</h5>
+
+				<form action="#" method="post" th:action="@{/users/topic/{id}(id=${topic.id})}" th:object="${topic}">
+					<input type="hidden" id="status" name="status" th:value="${topic.status}">
+
+					<div class="mb-4">
+						<label class="form-label fw-bold" for="name">Nome</label>
+
+						<input id="name" type="text" class="form-control" placeholder="Nome do Tópico" th:field="*{name}">
+
+						<span class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Nome inválido</span>
+					</div>
+
+					<div class="mb-4">
+						<label class="form-label fw-bold" for="description">Descrição</label>
+
+						<textarea id="description" class="form-control" th:field="*{description}" rows="3" maxlength="1000"></textarea>
+
+						<span class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Descrição
+							inválida</span>
+					</div>
+
+					<div class="mb-4">
+						<label class="form-label fw-bold" for="htmlContent">Conteúdo</label>
+
+						<div id="editor-container" th:utext="${topic.htmlContent}"></div>
+
+						<input type="hidden" th:field="*{htmlContent}">
+
+						<span class="text-danger" th:if="${#fields.hasErrors('htmlContent')}" th:errors="*{htmlContent}">Conteúdo
+							inválido</span>
+					</div>
+
+					<div class="row mb-3">
+						<div class="col-md-6 mb-3">
+							<label class="form-label fw-bold" for="status">Disciplina</label>
+
+							<select class="form-select" id="discipline" name="discipline" disabled>
+								<option th:text="${topic.discipline.name}" selected></option>
+							</select>
+						</div>
+						<div class="col-md-6">
+							<label class="form-label fw-bold mt-2">Obrigatório para a conclusão da Disciplina?</label>
+
+							<div class="form-check">
+								<input id="required" class="form-check-input" type="checkbox" th:value="${topic.required}" disabled>
+								<label for="required" class="form-check-label">Obrigatório</label>
+							</div>
+						</div>
+					</div>
+
+					<div class="d-grid col-md-5">
+						<div class="card">
+							<div class="card-body">
+								<h6 class="card-title fw-bold">Informações Extras</h6>
+								<hr>
+								<span class="text-muted">Data de envio:</span>
+								<span th:text="${#dates.format(topic.creationDate, 'dd/MM/yyyy HH:mm:ss')}"></span>
+								<br>
+								<span class="text-muted">Data de atualização:</span>
+								<span th:text="${#dates.format(topic.updateDate, 'dd/MM/yyyy HH:mm:ss')}"></span>
+								<br>
+								<span class="text-muted">Total de Likes:</span>
+								<span th:text="${topic.likes} == 0 ? 'Nenhum' : ${topic.likes}"></span>
+								<br>
+							</div>
+						</div>
+					</div>
+
+					<div class="d-grid gap-2 col-6 mx-auto mt-5">
+						<button type="submit" class="btn btn-danger form-control fw-bold mb-2">
+							Enviar tópico editado<i class="fa fa-pencil ms-3" aria-hidden="true"></i>
+						</button>
+
+						<small class="text-muted">Ao enviar, o <strong>status</strong> do tópico mudará para <strong>Editado</strong>
+							e você não poderá editá-lo até voltar para o status Editável.
+						</small>
+					</div>
+				</form>
+			</div>
+		</div>
+
+	</div>
+
+	<script type="text/javascript" th:inline="javascript">
+		(function() {
+			hljs.configure({
+				tabReplace : '    ',
+				languages : [ 'java' ]
+			});
+			hljs.highlightAll();
+
+			var editor = new Quill('#editor-container', {
+				modules : {
+					syntax : true,
+					toolbar : [ 
+						[ { 'font' : [] } ],
+						[ { 'size' : [ 'small', false, 'large', 'huge' ] } ], // custom dropdown
+						[ 'bold', 'italic', 'underline', 'strike' ], // toggled buttons
+						[ {	'header' : 1 }, { 'header' : 2 } ], // custom button values
+						[ { 'header' : [ 1, 2, 3, 4, 5, 6, false ] } ], 
+						[ { 'color' : [] }, { 'background' : [] } ], // dropdown with defaults from theme
+						[ { 'align': ''}, { 'align': 'center' }, { 'align': 'right' }, { 'align': 'justify' } ], 
+						[ { 'script' : 'sub' }, { 'script' : 'super' } ], // superscript/subscript
+						[ { 'list' : 'ordered' }, { 'list' : 'bullet' } ], 
+						[ { 'indent' : '-1' }, { 'indent' : '+1' } ], // outdent/indent
+						[ { 'direction' : 'rtl' } ], // text direction
+						[ 'blockquote', 'code-block' ],
+						[ 'link', 'image', 'video', 'formula' ], 
+						[ 'clean' ] // remove formatting button
+					],
+					history : {
+						delay : 2000,
+						maxStack : 500,
+						userOnly : true
+					}
+				},
+				theme : 'snow'
+			});
+
+			$('form').submit(function(event) {
+				$('#htmlContent').val(editor.root.innerHTML);
+			});
+
+			let topicStatus = /*[[${topic.status}]]*/null;
+
+			if (topicStatus !== 'EDITABLE') {
+				$('input').prop('disabled', true);
+				$('textarea').prop('disabled', true);
+				$('select').prop('disabled', true);
+				$('button[type="submit"]').closest('div').remove();
+				editor.enable(false);
+				$('.ql-toolbar').remove();
+			}
+		})();
+	</script>
+</body>
+</html>
