@@ -1,12 +1,4 @@
-var questionEditor = new Quill('#question', {
-	modules: {
-		syntax: true,
-		toolbar: []
-	},
-	readOnly: true,
-	theme: 'snow'
-});
-$('.ql-toolbar').remove();
+var questionEditor = new Quill('#question', EditorOptions.READ_ONLY);
 
 updateGame();
 
@@ -24,9 +16,8 @@ function updateGame() {
 				currentRound = game.currentRound;
 
 				$('#round').text(`Round ${currentRound + 1} de ${game.totalRounds}`);
-
-				questionEditor.setContents([]);
-				questionEditor.clipboard.dangerouslyPasteHTML(0, round.question.description);
+				
+				QuillUtils.setContent(questionEditor, round.question.description);
 
 				$('#alternatives').empty();
 

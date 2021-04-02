@@ -89,7 +89,7 @@
 									<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 								</div>
 
-								<form action="#" method="post" th:action="@{/disciplines/{id}(id=${discipline.id})}"
+								<form id="topic-form" action="#" method="post" th:action="@{/disciplines/{id}(id=${discipline.id})}"
 									th:object="${topic}">
 									<div class="mb-3 mt-2">
 										<label class="form-label fw-bold" for="name">Nome</label>
@@ -114,7 +114,7 @@
 									<div class="mb-3">
 										<label class="form-label fw-bold" for="bodyHtml">Conteúdo</label>
 
-										<div id="editor-container" th:utext="${topic.bodyHtml}"></div>
+										<div id="topic-body-editor" th:utext="${topic.bodyHtml}"></div>
 
 										<input type="hidden" th:field="*{bodyHtml}" aria-describedby="bodyHtmlFeedback">
 
@@ -341,27 +341,8 @@
 
 	<script type="text/javascript" th:src="@{/js/timeago/timeago.js}"></script>
 	<script type="text/javascript" th:src="@{/js/timeago/jquery.timeago.pt-br.js}"></script>
-
-	<script type="text/javascript" sec:authorize="hasRole('ROLE_ADMIN')">
-		var el = document.getElementById('topics');
-		
-		Sortable.create(el, {
-			animation: 150,
-			onEnd: function (event) {
-				let draggedTopicId = $(event.item).data('id');
-				let relatedTopicId;
-				
-				if (event.newDraggableIndex > event.oldDraggableIndex) {
-					relatedTopicId = $('#topics').children().eq(event.newDraggableIndex - 1).data('id');
-				} else {
-					relatedTopicId = $('#topics').children().eq(event.newDraggableIndex + 1).data('id');			
-				}
-				
-				$.post(window.location.origin + `/admin/topics/drag/${draggedTopicId}/${relatedTopicId}`);
-			}
-		});
-	</script>
-
+	<script type="text/javascript" th:src="@{/js/quill-utils.js}"></script>
+	
 	<script type="text/javascript" th:inline="javascript">
 		$("time.timeago").timeago();
 		$('.select2').select2();
@@ -378,73 +359,17 @@
 				});
 		});
 
-		hljs.configure({
-			tabReplace: '    ',
-			languages : [ 'java' ]
-		});
-		hljs.highlightAll();
-
-		var editor = new Quill('#editor-container', {
-			modules : {
-				syntax : true,
-				toolbar : [ 
-					[ { 'font' : [] } ],
-					[ { 'size' : [ 'small', false, 'large', 'huge' ] } ], // custom dropdown
-					[ 'bold', 'italic', 'underline', 'strike' ], // toggled buttons
-					[ {	'header' : 1 }, { 'header' : 2 },  { 'header' : 3 } ], // custom button values
-					[ { 'header' : [ 1, 2, 3, 4, 5, 6, false ] } ], 
-					[ { 'color' : [] }, { 'background' : [] } ], // dropdown with defaults from theme
-					[ { 'align': ''}, { 'align': 'center' }, { 'align': 'right' }, { 'align': 'justify' } ], 
-					[ { 'script' : 'sub' }, { 'script' : 'super' } ], // superscript/subscript
-					[ { 'list' : 'ordered' }, { 'list' : 'bullet' } ], 
-					[ { 'indent' : '-1' }, { 'indent' : '+1' } ], // outdent/indent
-					[ { 'direction' : 'rtl' } ], // text direction
-					[ 'blockquote', 'code-block' ],
-					[ 'link', 'image', 'video', 'formula' ], 
-					[ 'clean' ] // remove formatting button
-				],
-				history : {
-					delay : 2000,
-					maxStack : 500,
-					userOnly : true
-				}
-			},
-			theme : 'snow'
-		});
-		
-		$('form').submit(function(event) {
-			if (editor.root.innerText.trim() !== '') {
-				$('#bodyHtml').val(editor.root.innerHTML);
+		var topicBodyEditor = new Quill('#topic-body-editor', EditorOptions.TOPIC);
+		$('#topic-form').submit(function(event) {
+			if (topicBodyEditor.root.innerText.trim() !== '') {
+				$('#topic-form #bodyHtml').val(topicBodyEditor.root.innerHTML);
 			}
 		});
 		
-		var forumTopicBodyEditor = new Quill('#forum-topic-body-editor', {
-			modules : {
-				syntax : true,
-				toolbar : [ 
-					[ 'bold', 'italic', 'underline' ], // toggled buttons
-					[ {	'header' : 1 }, { 'header' : 2 } ], // custom button values
-					[ { 'color' : [] }, { 'background' : [] } ], // dropdown with defaults from theme
-					[ { 'align': ''}, { 'align': 'center' }, { 'align': 'right' }, { 'align': 'justify' } ], 
-					[ { 'script' : 'sub' }, { 'script' : 'super' } ], // superscript/subscript
-					[ { 'list' : 'ordered' }, { 'list' : 'bullet' } ], 
-					[ { 'indent' : '-1' }, { 'indent' : '+1' } ], // outdent/indent
-					[ 'blockquote', 'code-block' ],
-					[ 'link', 'image', 'video', 'formula' ], 
-					[ 'clean' ] // remove formatting button
-				],
-				history : {
-					delay : 2000,
-					maxStack : 500,
-					userOnly : true
-				}
-			},
-			theme : 'snow'
-		});
-		
+		var forumTopicBodyEditor = new Quill('#forum-topic-body-editor', EditorOptions.FORUM_TOPIC);
 		$('#forum-topic-form').submit(function(event) {
 			if (forumTopicBodyEditor.root.innerText.trim() !== '') {
-				$('#bodyHtml[type="hidden"]').val(forumTopicBodyEditor.root.innerHTML);
+				$('#forum-topic-form #bodyHtml').val(forumTopicBodyEditor.root.innerHTML);
 			}
 		});
 		
@@ -464,6 +389,26 @@
 		function showTopic(topicId) {
 			location.href = '/topic/' + topicId;
 		}
+	</script>
+
+	<script type="text/javascript" sec:authorize="hasRole('ROLE_ADMIN')">
+		var el = document.getElementById('topics');
+		
+		Sortable.create(el, {
+			animation: 150,
+			onEnd: function (event) {
+				let draggedTopicId = $(event.item).data('id');
+				let relatedTopicId;
+				
+				if (event.newDraggableIndex > event.oldDraggableIndex) {
+					relatedTopicId = $('#topics').children().eq(event.newDraggableIndex - 1).data('id');
+				} else {
+					relatedTopicId = $('#topics').children().eq(event.newDraggableIndex + 1).data('id');			
+				}
+				
+				$.post(window.location.origin + `/admin/topics/drag/${draggedTopicId}/${relatedTopicId}`);
+			}
+		});
 	</script>
 </body>
 </html>

@@ -18,8 +18,7 @@ function nextQuestion() {
 
 	let currentQuestion = questions[currentQuestionIndex];
 
-	questionEditor.setContents([]);
-	questionEditor.clipboard.dangerouslyPasteHTML(0, currentQuestion.description);
+	QuillUtils.setContent(questionEditor, currentQuestion.description);
 
 	// Removes old alternatives
 	$('.alternative').remove();

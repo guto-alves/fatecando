@@ -58,25 +58,12 @@
 		</div>
 	</div>
 
+	<script type="text/javascript" th:src="@{/js/quill-utils.js}"></script>
+	
 	<script type="text/javascript">
-		hljs.configure({
-			tabReplace : '    ',
-			languages : [ 'java' ]
-		});
-		hljs.highlightAll();
-
 		$('div[id*="question-editor"]').each(function() {
-			var editor = new Quill('#' + $(this).prop('id'), {
-				modules : {
-					syntax : true,
-					toolbar : []
-				},
-				readOnly : true,
-				theme : 'snow'
-			});
+			var editor = new Quill('#' + $(this).prop('id'), EditorOptions.READ_ONLY);
 		});
-
-		$('.ql-toolbar').remove();
 	</script>
 
 	<script type="text/javascript" th:inline="javascript">

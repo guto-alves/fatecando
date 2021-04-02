@@ -77,61 +77,18 @@
 
 	<script type="text/javascript" th:src="@{/js/timeago/timeago.js}"></script>
 	<script type="text/javascript" th:src="@{/js/timeago/jquery.timeago.pt-br.js}"></script>
+	<script type="text/javascript" th:src="@{/js/quill-utils.js}"></script>
 
 	<script type="text/javascript" th:inline="javascript">
 		$("time.timeago").timeago();
 		
-		hljs.configure({
-			tabReplace: '    ',
-			languages : [ 'java' ]
-		});
-		hljs.highlightAll();
+		let topicBodyEditor = new Quill('#topic-body-editor', EditorOptions.READ_ONLY);
 		
-		let topicBodyEditor = new Quill('#topic-body-editor', {
-			modules : {
-				syntax : true,
-				toolbar : false
-			},
-			readOnly : true,
-			theme : 'snow'
-		});
-		
-		// Comments
 		$('.comment-body').each(function() {
-			new Quill(this, {
-				modules : {
-					syntax : true,
-					toolbar : false
-				},
-				readOnly: true,
-				theme : 'snow'
-			});
+			new Quill(this, EditorOptions.READ_ONLY);
 		});
 		
-		let commentBodyEditor = new Quill('#comment-body-editor', {
-			modules : {
-				syntax : true,
-				toolbar : [ 
-					[ 'bold', 'italic', 'underline' ], // toggled buttons
-					[ {	'header' : 1 }, { 'header' : 2 }, { 'header' : 2 } ], // custom button values
-					[ { 'color' : [] }, { 'background' : [] } ], // dropdown with defaults from theme
-					[ { 'align': ''}, { 'align': 'center' }, { 'align': 'right' }, { 'align': 'justify' } ], 
-					[ { 'script' : 'sub' }, { 'script' : 'super' } ], // superscript/subscript
-					[ { 'list' : 'ordered' }, { 'list' : 'bullet' } ], 
-					[ { 'indent' : '-1' }, { 'indent' : '+1' } ], // outdent/indent
-					[ 'blockquote', 'code-block' ],
-					[ 'link', 'image', 'video', 'formula' ], 
-					[ 'clean' ] // remove formatting button
-				],
-				history : {
-					delay : 2000,
-					maxStack : 500,
-					userOnly : true
-				}
-			},
-			theme : 'snow'
-		});
-		
+		let commentBodyEditor = new Quill('#comment-body-editor', EditorOptions.FORUM_TOPIC_COMMENT);
 		$('#comment-form').submit(function(event) {
 			if (commentBodyEditor.root.innerText.trim() !== '') {
 				$('#comment-form #bodyHtml').val(commentBodyEditor.root.innerHTML);

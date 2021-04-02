@@ -76,70 +76,10 @@
 		</div>
 	</div>
 
+	<script type="text/javascript" th:src="@{/js/quill-utils.js}"></script>
+	
 	<script type="text/javascript" th:inline="javascript">
-		hljs.configure({
-			tabReplace : '	                                            	',
-			languages : [ 'java' ]
-		});
-		hljs.highlightAll();
-		
-		var annotationEditor = new Quill('#annotationEditor', {
-			modules : {
-				syntax : true,
-				toolbar : [ [ {
-					'font' : []
-				} ], [ {
-					'size' : [ 'small', false, 'large', 'huge' ]
-				} ], // custom dropdown
-				[ 'bold', 'italic', 'underline', 'strike' ], // toggled buttons
-				[ {
-					'header' : 1
-				}, {
-					'header' : 2
-				} ], // custom button values
-				[ {
-					'header' : [ 1, 2, 3, 4, 5, 6, false ]
-				} ], [ {
-					'color' : []
-				}, {
-					'background' : []
-				} ], // dropdown with defaults from theme
-				[ {
-					'align' : ''
-				}, {
-					'align' : 'center'
-				}, {
-					'align' : 'right'
-				}, {
-					'align' : 'justify'
-				} ], [ {
-					'script' : 'sub'
-				}, {
-					'script' : 'super'
-				} ], // superscript/subscript
-				[ {
-					'list' : 'ordered'
-				}, {
-					'list' : 'bullet'
-				} ], [ {
-					'indent' : '-1'
-				}, {
-					'indent' : '+1'
-				} ], // outdent/indent
-				[ {
-					'direction' : 'rtl'
-				} ], // text direction
-				[ 'blockquote', 'code-block' ],
-						[ 'link', 'image', 'video', 'formula' ], [ 'clean' ] // remove formatting button
-				],
-				history : {
-					delay : 2000,
-					maxStack : 500,
-					userOnly : true
-				}
-			},
-			theme : 'snow'
-		});
+		var annotationEditor = new Quill('#annotationEditor', EditorOptions.TOPIC);
 		
 		annotationEditor.on('text-change', function(eventName, ...args) {
 			$('#updateAnnotationButton').show();

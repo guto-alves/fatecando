@@ -27,7 +27,7 @@
 						<li class="breadcrumb-item active" aria-current="page" th:text="${topic.name}">Library</li>
 					</ol>
 				</nav>
-				
+
 				<h5 class="card-title text-center fw-bold" th:text="|Tópico #${topic.id} - ${topic.status.displayName}|">Tópico
 					#146</h5>
 
@@ -54,7 +54,7 @@
 					<div class="mb-4">
 						<label class="form-label fw-bold" for="bodyHtml">Conteúdo</label>
 
-						<div id="editor-container" th:utext="${topic.bodyHtml}"></div>
+						<div id="body-editor" th:utext="${topic.bodyHtml}"></div>
 
 						<input type="hidden" th:field="*{bodyHtml}">
 
@@ -67,14 +67,14 @@
 							<label class="form-label fw-bold" for="status">Disciplina</label>
 
 							<select class="form-select" id="discipline" name="discipline" disabled>
-								<option th:text="${topic.discipline.name}" selected></option>
+								<option th:value="${topic.discipline.id}" th:text="${topic.discipline.name}" selected></option>
 							</select>
 						</div>
 						<div class="col-md-6">
 							<label class="form-label fw-bold mt-2">Obrigatório para a conclusão da Disciplina?</label>
 
 							<div class="form-check">
-								<input id="required" class="form-check-input" type="checkbox" th:value="${topic.required}" disabled>
+								<input id="required" class="form-check-input" type="checkbox" th:checked="${topic.required}" disabled>
 								<label for="required" class="form-check-label">Obrigatório</label>
 							</div>
 						</div>
@@ -113,55 +113,24 @@
 
 	</div>
 
+	<script type="text/javascript" th:src="@{/js/quill-utils.js}"></script>
+
 	<script type="text/javascript" th:inline="javascript">
 		(function() {
-			hljs.configure({
-				tabReplace : '    ',
-				languages : [ 'java' ]
-			});
-			hljs.highlightAll();
-
-			var editor = new Quill('#editor-container', {
-				modules : {
-					syntax : true,
-					toolbar : [ 
-						[ { 'font' : [] } ],
-						[ { 'size' : [ 'small', false, 'large', 'huge' ] } ], // custom dropdown
-						[ 'bold', 'italic', 'underline', 'strike' ], // toggled buttons
-						[ {	'header' : 1 }, { 'header' : 2 } ], // custom button values
-						[ { 'header' : [ 1, 2, 3, 4, 5, 6, false ] } ], 
-						[ { 'color' : [] }, { 'background' : [] } ], // dropdown with defaults from theme
-						[ { 'align': ''}, { 'align': 'center' }, { 'align': 'right' }, { 'align': 'justify' } ], 
-						[ { 'script' : 'sub' }, { 'script' : 'super' } ], // superscript/subscript
-						[ { 'list' : 'ordered' }, { 'list' : 'bullet' } ], 
-						[ { 'indent' : '-1' }, { 'indent' : '+1' } ], // outdent/indent
-						[ { 'direction' : 'rtl' } ], // text direction
-						[ 'blockquote', 'code-block' ],
-						[ 'link', 'image', 'video', 'formula' ], 
-						[ 'clean' ] // remove formatting button
-					],
-					history : {
-						delay : 2000,
-						maxStack : 500,
-						userOnly : true
-					}
-				},
-				theme : 'snow'
-			});
-
-			$('form').submit(function(event) {
-				$('#bodyHtml').val(editor.root.innerHTML);
-			});
-
 			let topicStatus = /*[[${topic.status}]]*/null;
 
-			if (topicStatus !== 'EDITABLE') {
+			if (topicStatus === 'EDITABLE') {
+				var bodyEditor = new Quill('#body-editor', EditorOptions.TOPIC);
+
+				$('form').submit(function(event) {
+					$('#bodyHtml').val(bodyEditor.root.innerHTML);
+				});
+			} else {
+				new Quill('#body-editor', EditorOptions.READ_ONLY);
 				$('input').prop('disabled', true);
 				$('textarea').prop('disabled', true);
 				$('select').prop('disabled', true);
 				$('button[type="submit"]').closest('div').remove();
-				editor.enable(false);
-				$('.ql-toolbar').remove();
 			}
 		})();
 	</script>
