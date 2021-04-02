@@ -22,6 +22,10 @@
 				<hr>
 				
 				<div id="topic-body-editor" th:utext="${forumTopic.bodyHtml}"></div>
+				
+				<div class="tags mt-2">
+					<span class="badge rounded-pill bg-dark me-2" th:each="tag : ${forumTopic.tags}" th:text="${tag.name}"></span>
+				</div>
 			</div>
 			<div class="card-footer">
 				<span class="text-muted">Criado por</span>

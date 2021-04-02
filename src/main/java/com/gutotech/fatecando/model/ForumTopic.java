@@ -1,6 +1,8 @@
 package com.gutotech.fatecando.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import javax.validation.constraints.NotBlank;
@@ -15,12 +17,14 @@ public class ForumTopic {
 	private String bodyHtml;
 
 	private Date creationDate;
-	
+
 	private int likes;
-	
+
 	private User user;
-	
+
 	private Discipline discipline;
+
+	private List<Topic> tags = new ArrayList<>();
 
 	public ForumTopic() {
 	}
@@ -79,6 +83,14 @@ public class ForumTopic {
 
 	public void setDiscipline(Discipline discipline) {
 		this.discipline = discipline;
+	}
+
+	public List<Topic> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<Topic> topics) {
+		this.tags = topics;
 	}
 
 	@Override

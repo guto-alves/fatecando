@@ -54,19 +54,33 @@ public class DisciplineController {
 		dataBinder.setDisallowedFields("id", "name");
 	}
 
+	@InitBinder
+	public void initBinder(WebDataBinder binder) throws Exception {
+		CustomCollectionEditor topicsEditor = new CustomCollectionEditor(List.class) {
+			@Override
+			protected Object convertElement(Object element) {
+				if (element instanceof String) {
+					Long id = Long.parseLong((String) element);
+					Topic topic = new Topic();
+					topic.setId(id);
+					return topic;
+				}
+				throw new RuntimeException("Invalid element");
+			}
+		};
+
+		binder.registerCustomEditor(List.class, "topics", topicsEditor);
+		binder.registerCustomEditor(List.class, "tags", topicsEditor);
+	}
+
 	@GetMapping
 	public String showDiscipline(Discipline discipline,
 			@RequestParam(value = "page", required = false, defaultValue = "topics") String page, Model model) {
 		model.addAttribute("page", page);
 
 		switch (page) {
-		case "topics":
-			model.addAttribute("topics", disciplineService.findAllTopicsByDiscipline(discipline));
-			break;
 		case "tests":
 			model.addAttribute("test", new Test(discipline.getName()));
-			model.addAttribute("topics", disciplineService.findAllTopicsByDiscipline(discipline));
-			// add tests
 			break;
 		case "forum":
 			model.addAttribute("forumTopic", new ForumTopic());
@@ -74,11 +88,11 @@ public class DisciplineController {
 			break;
 		default:
 			model.addAttribute("page", "topics");
-			model.addAttribute("topics", disciplineService.findAllTopicsByDiscipline(discipline));
 			break;
 		}
 
 		model.addAttribute("topic", new Topic());
+		model.addAttribute("topics", disciplineService.findAllTopicsByDiscipline(discipline));
 
 		return "disciplines/discipline-details";
 	}
@@ -178,21 +192,4 @@ public class DisciplineController {
 		return "redirect:/test";
 	}
 
-	@InitBinder
-	public void initBinder(WebDataBinder binder) throws Exception {
-		CustomCollectionEditor topicsEditor = new CustomCollectionEditor(List.class) {
-			@Override
-			protected Object convertElement(Object element) {
-				if (element instanceof String) {
-					Long id = Long.parseLong((String) element);
-					Topic topic = new Topic();
-					topic.setId(id);
-					return topic;
-				}
-				throw new RuntimeException("Invalid element");
-			}
-		};
-
-		binder.registerCustomEditor(List.class, "topics", topicsEditor);
-	}
 }
