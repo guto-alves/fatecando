@@ -15,7 +15,7 @@ $('#courseModal').on('show.bs.modal', function() {
 			$('#updatedName').val(course.name);
 			$('#updatedCode').val(course.code);
 			$('#updatedImageUrl').val(course.imageUrl);
-			$('#updatedSemesters').val(course.semesters);
+			$('#updatedSemesters').val(course.totalSemesters);
 			$('#updatedInstitution').val(course.institution.id);
 			$('#updatedDescription').val(course.description);
 
@@ -40,7 +40,7 @@ $('#courseModal').on('show.bs.modal', function() {
 						name: updatedName,
 						code: updatedCode,
 						imageUrl: updatedImageUrl,
-						semesters: updatedSemesters,
+						totalSemesters: updatedSemesters,
 						description: updatedDescription,
 						institution: institution
 					}),
@@ -51,7 +51,7 @@ $('#courseModal').on('show.bs.modal', function() {
 					course.code = updatedCode;
 					course.imageUrl = updatedImageUrl;
 					course.description = updatedDescription;
-					course.semesters = updatedSemesters;
+					course.totalSemesters = updatedSemesters;
 					course.institution = institution;
 
 					let rowSelector = 'tr[data-id="' + course.id + '"]';

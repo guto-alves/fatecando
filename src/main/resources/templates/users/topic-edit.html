@@ -52,13 +52,13 @@
 					</div>
 
 					<div class="mb-4">
-						<label class="form-label fw-bold" for="htmlContent">Conteúdo</label>
+						<label class="form-label fw-bold" for="bodyHtml">Conteúdo</label>
 
-						<div id="editor-container" th:utext="${topic.htmlContent}"></div>
+						<div id="editor-container" th:utext="${topic.bodyHtml}"></div>
 
-						<input type="hidden" th:field="*{htmlContent}">
+						<input type="hidden" th:field="*{bodyHtml}">
 
-						<span class="text-danger" th:if="${#fields.hasErrors('htmlContent')}" th:errors="*{htmlContent}">Conteúdo
+						<span class="text-danger" th:if="${#fields.hasErrors('bodyHtml')}" th:errors="*{bodyHtml}">Conteúdo
 							inválido</span>
 					</div>
 
@@ -150,7 +150,7 @@
 			});
 
 			$('form').submit(function(event) {
-				$('#htmlContent').val(editor.root.innerHTML);
+				$('#bodyHtml').val(editor.root.innerHTML);
 			});
 
 			let topicStatus = /*[[${topic.status}]]*/null;

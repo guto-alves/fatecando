@@ -112,14 +112,14 @@
 									</div>
 
 									<div class="mb-3">
-										<label class="form-label fw-bold" for="htmlContent">Conteúdo</label>
+										<label class="form-label fw-bold" for="bodyHtml">Conteúdo</label>
 
-										<div id="editor-container" th:utext="${topic.htmlContent}"></div>
+										<div id="editor-container" th:utext="${topic.bodyHtml}"></div>
 
-										<input type="hidden" th:field="*{htmlContent}" aria-describedby="htmlContentFeedback">
+										<input type="hidden" th:field="*{bodyHtml}" aria-describedby="bodyHtmlFeedback">
 
-										<div id="htmlContentFeedback" class="invalid-feedback" th:if="${#fields.hasErrors('htmlContent')}"
-											th:errors="*{htmlContent}">Conteúdo inválido</div>
+										<div id="bodyHtmlFeedback" class="invalid-feedback" th:if="${#fields.hasErrors('bodyHtml')}"
+											th:errors="*{bodyHtml}">Conteúdo inválido</div>
 									</div>
 
 									<div class="mb-3">
@@ -281,7 +281,7 @@
 
 													<div class="mb-3">
 														<label for="description" class="form-label">Descrição</label>
-														<textarea id="description" class="form-control" rows="6" required th:field="*{description}"></textarea>
+														<textarea id="description" class="form-control" rows="6" required th:field="*{bodyHtml}"></textarea>
 													</div>
 												</div>
 											</div>
@@ -302,9 +302,9 @@
 
 							<div class="d-flex w-100 justify-content-between">
 								<h5 class="mb-1" th:text="${topic.title}">Topic Title</h5>
-								<time class="text-muted timeago" th:datetime="${#dates.formatISO(topic.date)}">3 days ago</time>
+								<time class="text-muted timeago" th:datetime="${#dates.formatISO(topic.creationDate)}">3 days ago</time>
 							</div>
-							<p class="mb-1 truncate" th:text="${topic.description}">Some placeholder content in a paragraph.</p>
+							<p class="mb-1 truncate" th:text="${topic.bodyHtml}">Some placeholder content in a paragraph.</p>
 
 							<small class="text-muted" th:text="'Criado por ' + ${topic.user.fullName}">Criado por Gustavo
 								Alves.</small>
@@ -390,7 +390,7 @@
 		
 		$('form').submit(function(event) {
 			if (editor.root.innerText.trim() !== '') {
-				$('#htmlContent').val(editor.root.innerHTML);
+				$('#bodyHtml').val(editor.root.innerHTML);
 			}
 		});
 		

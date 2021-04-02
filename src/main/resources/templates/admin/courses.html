@@ -39,20 +39,20 @@
 									<div class="col">
 										<label for="code" class="form-label">Código</label>
 
-										<input type="text" class="form-control" id="institution" placeholder="Ex.: ADS, COMEX, RH, ..."
+										<input type="text" class="form-control" id="code" placeholder="Ex.: ADS, COMEX, RH, ..."
 											th:field="*{code}" th:classappend="${#fields.hasErrors('code')}? 'is-invalid'"
-											aria-describedby="codeFeedback">
+											aria-describedby="codeFeedback" maxlength="20">
 
 										<div id="codeFeedback" class="invalid-feedback" th:if="${#fields.hasErrors('code')}"
 											th:errors="*{code}">Mensagem de erro</div>
 									</div>
 
 									<div class="col">
-										<label class="form-label" for="semesters">Total de Semestres</label>
+										<label class="form-label" for="totalSemesters">Total de Semestres</label>
 
-										<select class="form-select" id="semesters" name="semesters">
+										<select class="form-select" id="totalSemesters" name="totalSemesters">
 											<option th:each="i : ${#numbers.sequence(1, 10)}" th:value="${i}" th:text="${i}"
-												th:selected="${i==course.semesters}"></option>
+												th:selected="${i == course.totalSemesters}"></option>
 										</select>
 									</div>
 								</div>
@@ -111,7 +111,7 @@
 						<td id="idTd" class="align-middle" th:text="${course.id}"></td>
 						<td id="codeTd" class="align-middle" th:text="${course.code}"></td>
 						<td id="nameTd" class="align-middle" th:text="${course.name}"></td>
-						<td id="semestersTd" class="align-middle" th:text="${course.semesters}"></td>
+						<td id="semestersTd" class="align-middle" th:text="${course.totalSemesters}"></td>
 						<td id="institutionTd" class="align-middle" th:text="${course.institution.name}"></td>
 					</tr>
 				</tbody>

@@ -2,12 +2,12 @@ package com.gutotech.fatecando.model;
 
 import java.util.Objects;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 
 public class Institution {
 	private Long id;
 
-	@NotEmpty(message = "Por favor forneça o nome da instituição.")
+	@NotBlank(message = "Por favor forneça o nome da instituição.")
 	private String name;
 
 	private String description;

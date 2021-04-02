@@ -15,7 +15,7 @@ public class Topic {
 	private String description;
 
 	@NotBlank(message = "O campo Conteúdo é obrigatório")
-	private String htmlContent;
+	private String bodyHtml;
 
 	private boolean required;
 
@@ -34,7 +34,7 @@ public class Topic {
 	private Date updateDate;
 
 	private TopicUser user;
-	
+
 	private Topic previous;
 
 	private Topic next;
@@ -66,12 +66,12 @@ public class Topic {
 		this.description = description;
 	}
 
-	public String getHtmlContent() {
-		return htmlContent;
+	public String getBodyHtml() {
+		return bodyHtml;
 	}
 
-	public void setHtmlContent(String htmlContent) {
-		this.htmlContent = htmlContent;
+	public void setBodyHtml(String bodyHtml) {
+		this.bodyHtml = bodyHtml;
 	}
 
 	public boolean isRequired() {

@@ -17,17 +17,17 @@
 					Odoo</h3>
 				<span class="card-text">
 					<span class="text-muted">Criado</span>
-					<time class="timeago" th:datetime="${#dates.formatISO(forumTopic.date)}"></time>
+					<time class="timeago" th:datetime="${#dates.formatISO(forumTopic.creationDate)}"></time>
 				</span>
 				<hr>
-				<div class="card-text" id="description" th:text="${forumTopic.description}"></div>
+				<div class="card-text" id="description" th:text="${forumTopic.bodyHtml}"></div>
 			</div>
 			<div class="card-footer">
 				<span class="text-muted">Criado por</span>
 				<span th:text="'' + ${forumTopic.user.fullName}">Gustavo Alves</span>
 
 				<span class="text-muted">em</span>
-				<span th:text="${#dates.format(forumTopic.date, 'dd/MM/yyyy HH:mm')}"></span>
+				<span th:text="${#dates.format(forumTopic.creationDate, 'dd/MM/yyyy HH:mm')}"></span>
 			</div>
 		</div>
 
@@ -39,7 +39,7 @@
 
 				<div class="card shadow mb-3" th:each="comment : ${comments}">
 					<div class="card-body">
-						<p id="htmlComment" th:text="${comment.content}"></p>
+						<p id="htmlComment" th:text="${comment.bodyHtml}"></p>
 					</div>
 					<div class="card-footer d-flex justify-content-between">
 						<div>
@@ -47,7 +47,7 @@
 							<span th:text="'' + ${forumTopic.user.fullName}">Gustavo Alves</span>
 						</div>
 
-						<time class="timeago" th:datetime="${#dates.formatISO(comment.date)}"></time>
+						<time class="timeago" th:datetime="${#dates.formatISO(comment.creationDate)}"></time>
 					</div>
 				</div>
 			</div>
@@ -60,7 +60,7 @@
 					th:action="@{/disciplines/{disciplineId}/forum-topics/{topicId}(disciplineId=${discipline.id},topicId=${forumTopic.id})}"
 					th:object="${comment}">
 					<div class="mb-3">
-						<textarea rows="6" class="form-control" th:field="*{content}" required></textarea>
+						<textarea rows="6" class="form-control" th:field="*{bodyHtml}" required></textarea>
 					</div>
 					<button type="submit" class="btn btn-danger form-control">Publique sua resposta</button>
 				</form>

@@ -9,12 +9,13 @@ public class ForumTopicComment {
 	private Long id;
 
 	@NotBlank(message = "Please provide a valid content")
-	private String content;
+	private String bodyHtml;
 
-	private Date date;
+	private Date creationDate;
+
 	private int likes;
+
 	private User user;
-	private ForumTopic forumTopic;
 
 	public ForumTopicComment() {
 	}
@@ -27,20 +28,20 @@ public class ForumTopicComment {
 		this.id = id;
 	}
 
-	public String getContent() {
-		return content;
+	public String getBodyHtml() {
+		return bodyHtml;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
+	public void setBodyHtml(String bodyHtml) {
+		this.bodyHtml = bodyHtml;
 	}
 
-	public Date getDate() {
-		return date;
+	public Date getCreationDate() {
+		return creationDate;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
 	}
 
 	public int getLikes() {
@@ -57,14 +58,6 @@ public class ForumTopicComment {
 
 	public void setUser(User user) {
 		this.user = user;
-	}
-
-	public ForumTopic getForumTopic() {
-		return forumTopic;
-	}
-
-	public void setForumTopic(ForumTopic forumTopic) {
-		this.forumTopic = forumTopic;
 	}
 
 	@Override

@@ -12,11 +12,14 @@ public class ForumTopic {
 	private String title;
 
 	@NotBlank(message = "Please provide a valid description.")
-	private String description;
+	private String bodyHtml;
 
-	private Date date;
+	private Date creationDate;
+	
 	private int likes;
+	
 	private User user;
+	
 	private Discipline discipline;
 
 	public ForumTopic() {
@@ -38,20 +41,20 @@ public class ForumTopic {
 		this.title = title;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getBodyHtml() {
+		return bodyHtml;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setBodyHtml(String bodyHtml) {
+		this.bodyHtml = bodyHtml;
 	}
 
-	public Date getDate() {
-		return date;
+	public Date getCreationDate() {
+		return creationDate;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
 	}
 
 	public int getLikes() {

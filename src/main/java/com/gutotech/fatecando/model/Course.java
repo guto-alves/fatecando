@@ -18,22 +18,12 @@ public class Course {
 
 	private String description;
 
-	private int semesters;
+	private int totalSemesters;
 
 	@NotNull(message = "Por favor escolha a Instituição do Curso")
 	private Institution institution;
 
 	public Course() {
-	}
-
-	public Course(String name, String code, String imageUrl, String description, int semesters,
-			Institution institution) {
-		this.name = name;
-		this.code = code;
-		this.imageUrl = imageUrl;
-		this.description = description;
-		this.semesters = semesters;
-		this.institution = institution;
 	}
 
 	public Long getId() {
@@ -76,12 +66,12 @@ public class Course {
 		this.description = description;
 	}
 
-	public int getSemesters() {
-		return semesters;
+	public int getTotalSemesters() {
+		return totalSemesters;
 	}
 
-	public void setSemesters(int semesters) {
-		this.semesters = semesters;
+	public void setTotalSemesters(int semesters) {
+		this.totalSemesters = semesters;
 	}
 
 	public Institution getInstitution() {
