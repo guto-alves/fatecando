@@ -13,14 +13,15 @@
 						th:href="@{/disciplines/{id}(id=${discipline.id})}" th:text="${discipline.name}">Estrutura de Dados</a>
 				</div>
 
-				<h3 class="card-title" th:text="${forumTopic.title}">Como instalar PIP em arquivo requirements.txt do
-					Odoo</h3>
+				<h3 class="card-title" th:text="${forumTopic.title}">Título</h3>
+
 				<span class="card-text">
 					<span class="text-muted">Criado</span>
 					<time class="timeago" th:datetime="${#dates.formatISO(forumTopic.creationDate)}"></time>
 				</span>
 				<hr>
-				<div class="card-text" id="description" th:text="${forumTopic.bodyHtml}"></div>
+				
+				<div id="topic-body-editor" th:utext="${forumTopic.bodyHtml}"></div>
 			</div>
 			<div class="card-footer">
 				<span class="text-muted">Criado por</span>
@@ -39,7 +40,7 @@
 
 				<div class="card shadow mb-3" th:each="comment : ${comments}">
 					<div class="card-body">
-						<p id="htmlComment" th:text="${comment.bodyHtml}"></p>
+						<div class="comment-body" th:utext="${comment.bodyHtml}"></div>
 					</div>
 					<div class="card-footer d-flex justify-content-between">
 						<div>
@@ -56,11 +57,13 @@
 		<div class="card border border-danger mb-3">
 			<div class="card-body">
 				<h4 class="card-title">Sua resposta</h4>
-				<form action="#" method="post"
+				<form id="comment-form" action="#" method="post"
 					th:action="@{/disciplines/{disciplineId}/forum-topics/{topicId}(disciplineId=${discipline.id},topicId=${forumTopic.id})}"
 					th:object="${comment}">
 					<div class="mb-3">
-						<textarea rows="6" class="form-control" th:field="*{bodyHtml}" required></textarea>
+						<div id="comment-body-editor"></div>
+						
+						<input type="hidden" th:field="*{bodyHtml}" required></input>
 					</div>
 					<button type="submit" class="btn btn-danger form-control">Publique sua resposta</button>
 				</form>
@@ -73,9 +76,62 @@
 
 	<script type="text/javascript" th:inline="javascript">
 		$("time.timeago").timeago();
-
-		$('#htmlComment').each(function() {
-			$(this).html($(this).text());
+		
+		hljs.configure({
+			tabReplace: '    ',
+			languages : [ 'java' ]
+		});
+		hljs.highlightAll();
+		
+		let topicBodyEditor = new Quill('#topic-body-editor', {
+			modules : {
+				syntax : true,
+				toolbar : false
+			},
+			readOnly : true,
+			theme : 'snow'
+		});
+		
+		// Comments
+		$('.comment-body').each(function() {
+			new Quill(this, {
+				modules : {
+					syntax : true,
+					toolbar : false
+				},
+				readOnly: true,
+				theme : 'snow'
+			});
+		});
+		
+		let commentBodyEditor = new Quill('#comment-body-editor', {
+			modules : {
+				syntax : true,
+				toolbar : [ 
+					[ 'bold', 'italic', 'underline' ], // toggled buttons
+					[ {	'header' : 1 }, { 'header' : 2 }, { 'header' : 2 } ], // custom button values
+					[ { 'color' : [] }, { 'background' : [] } ], // dropdown with defaults from theme
+					[ { 'align': ''}, { 'align': 'center' }, { 'align': 'right' }, { 'align': 'justify' } ], 
+					[ { 'script' : 'sub' }, { 'script' : 'super' } ], // superscript/subscript
+					[ { 'list' : 'ordered' }, { 'list' : 'bullet' } ], 
+					[ { 'indent' : '-1' }, { 'indent' : '+1' } ], // outdent/indent
+					[ 'blockquote', 'code-block' ],
+					[ 'link', 'image', 'video', 'formula' ], 
+					[ 'clean' ] // remove formatting button
+				],
+				history : {
+					delay : 2000,
+					maxStack : 500,
+					userOnly : true
+				}
+			},
+			theme : 'snow'
+		});
+		
+		$('#comment-form').submit(function(event) {
+			if (commentBodyEditor.root.innerText.trim() !== '') {
+				$('#comment-form #bodyHtml').val(commentBodyEditor.root.innerHTML);
+			}
 		});
 	</script>
 </body>

@@ -264,15 +264,16 @@
 							<div class="modal fade" id="forumTopicModal" tabindex="-1" aria-labelledby="exampleModalLabel"
 								aria-hidden="true">
 								<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-									<form action="#" method="post" th:action="@{/disciplines/{id}/forum-topics(id=${discipline.id})}"
-										th:object="${forumTopic}">
-										<div class="modal-content">
-											<div class="modal-header">
-												<h5 class="modal-title" id="exampleModalLabel"
-													th:text="${discipline.code} + ' - Novo Tópico para o Fórum'">Novo Tópico Fórum</h5>
-												<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-											</div>
-											<div class="modal-body">
+
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalLabel"
+												th:text="${discipline.code} + ' - Novo Tópico para o Fórum'">Novo Tópico Fórum</h5>
+											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+										</div>
+										<div class="modal-body">
+											<form id="forum-topic-form" action="#" method="post"
+												th:action="@{/disciplines/{id}/forum-topics(id=${discipline.id})}" th:object="${forumTopic}">
 												<div>
 													<div class="mb-3">
 														<label for="title" class="form-label">Título</label>
@@ -280,17 +281,19 @@
 													</div>
 
 													<div class="mb-3">
-														<label for="description" class="form-label">Descrição</label>
-														<textarea id="description" class="form-control" rows="6" required th:field="*{bodyHtml}"></textarea>
+														<label for="forum-topic-body-editor" class="form-label">Descrição</label>
+														<div id="forum-topic-body-editor"></div>
+														<input type="hidden" id="bodyHtml" th:field="*{bodyHtml}" required></input>
 													</div>
 												</div>
-											</div>
-											<div class="modal-footer">
-												<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-												<button type="submit" class="btn btn-danger">Criar</button>
-											</div>
+											</form>
 										</div>
-									</form>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+											<button type="submit" class="btn btn-danger" onclick="$('#forum-topic-form').submit();">Criar</button>
+										</div>
+									</div>
+
 								</div>
 							</div>
 						</div>
@@ -302,9 +305,10 @@
 
 							<div class="d-flex w-100 justify-content-between">
 								<h5 class="mb-1" th:text="${topic.title}">Topic Title</h5>
-								<time class="text-muted timeago" th:datetime="${#dates.formatISO(topic.creationDate)}">3 days ago</time>
+								<time class="text-muted timeago" th:datetime="${#dates.formatISO(topic.creationDate)}">3 days
+									ago</time>
 							</div>
-							<p class="mb-1 truncate" th:text="${topic.bodyHtml}">Some placeholder content in a paragraph.</p>
+							<div class="mb-1 truncate" th:utext="${topic.bodyHtml}">Some placeholder content in a paragraph.</div>
 
 							<small class="text-muted" th:text="'Criado por ' + ${topic.user.fullName}">Criado por Gustavo
 								Alves.</small>
@@ -367,7 +371,7 @@
 					[ { 'font' : [] } ],
 					[ { 'size' : [ 'small', false, 'large', 'huge' ] } ], // custom dropdown
 					[ 'bold', 'italic', 'underline', 'strike' ], // toggled buttons
-					[ {	'header' : 1 }, { 'header' : 2 } ], // custom button values
+					[ {	'header' : 1 }, { 'header' : 2 },  { 'header' : 3 } ], // custom button values
 					[ { 'header' : [ 1, 2, 3, 4, 5, 6, false ] } ], 
 					[ { 'color' : [] }, { 'background' : [] } ], // dropdown with defaults from theme
 					[ { 'align': ''}, { 'align': 'center' }, { 'align': 'right' }, { 'align': 'justify' } ], 
@@ -391,6 +395,36 @@
 		$('form').submit(function(event) {
 			if (editor.root.innerText.trim() !== '') {
 				$('#bodyHtml').val(editor.root.innerHTML);
+			}
+		});
+		
+		var forumTopicBodyEditor = new Quill('#forum-topic-body-editor', {
+			modules : {
+				syntax : true,
+				toolbar : [ 
+					[ 'bold', 'italic', 'underline' ], // toggled buttons
+					[ {	'header' : 1 }, { 'header' : 2 } ], // custom button values
+					[ { 'color' : [] }, { 'background' : [] } ], // dropdown with defaults from theme
+					[ { 'align': ''}, { 'align': 'center' }, { 'align': 'right' }, { 'align': 'justify' } ], 
+					[ { 'script' : 'sub' }, { 'script' : 'super' } ], // superscript/subscript
+					[ { 'list' : 'ordered' }, { 'list' : 'bullet' } ], 
+					[ { 'indent' : '-1' }, { 'indent' : '+1' } ], // outdent/indent
+					[ 'blockquote', 'code-block' ],
+					[ 'link', 'image', 'video', 'formula' ], 
+					[ 'clean' ] // remove formatting button
+				],
+				history : {
+					delay : 2000,
+					maxStack : 500,
+					userOnly : true
+				}
+			},
+			theme : 'snow'
+		});
+		
+		$('#forum-topic-form').submit(function(event) {
+			if (forumTopicBodyEditor.root.innerText.trim() !== '') {
+				$('#bodyHtml[type="hidden"]').val(forumTopicBodyEditor.root.innerHTML);
 			}
 		});
 		
