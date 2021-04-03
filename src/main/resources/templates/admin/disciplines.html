@@ -5,76 +5,74 @@
 <meta charset="utf-8">
 </head>
 <body>
-	<div class="row mt-3">
+	<div class="row mt-4">
 		<div class="col-lg-6 mb-3">
-			<div class="alert alert-success alert-dismissible fade show"
-				th:if="${!#strings.isEmpty(message)}" role="alert">
-				<th:block th:text="${message}" />
+			<div class="alert alert-success alert-dismissible fade show" role="alert"
+				th:if="${!#strings.isEmpty(message)}">
+				<th:block th:text=${message} />
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 			</div>
 
 			<div class="card">
 				<div class="card-body">
-					<h4 class="card-title text-center">Cadastrar Disciplina</h4>
+					<h4 class="card-title text-center">Nova Disciplina</h4>
 
 					<form action="#" method="post" th:object="${discipline}">
 						<div class="mb-3">
 							<label class="form-label" for="nameInput">Nome</label>
 
-							<input type="text" id="nameInput" class="form-control"
-								placeholder="Nome da Disciplina" th:field="*{name}">
+							<input type="text" id="nameInput" class="form-control" placeholder="Nome da Disciplina"
+								th:field="*{name}">
 
-							<span class="text-danger" th:if="${#fields.hasErrors('name')}"
-								th:errors="*{name}">Nome inválido</span>
+							<span class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Nome inválido</span>
 						</div>
 
-						<div class="mb-3">
-							<label class="form-label" for="codeInput">Código</label>
+						<div class="row">
+							<div class="col-md-6 mb-3">
+								<label class="form-label" for="codeInput">Código</label>
 
-							<input type="text" id="codeInput" class="form-control"
-								placeholder="Código" th:field="*{code}">
+								<input type="text" id="codeInput" class="form-control" placeholder="Código" th:field="*{code}">
 
-							<span class="text-danger" th:if="${#fields.hasErrors('code')}"
-								th:errors="*{code}">Código inválido</span>
-						</div>
+								<span class="text-danger" th:if="${#fields.hasErrors('code')}" th:errors="*{code}">Código
+									inválido</span>
+							</div>
 
-						<div class="mb-3">
-							<label class="form-label" for="semester">Semestre</label>
+							<div class="col-md-6 mb-3">
+								<label class="form-label" for="semester">Semestre</label>
 
-							<select class="form-select" id="semester" name="semester">
-								<option th:each="i : ${#numbers.sequence(1, 10)}" th:value="${i}"
-									th:text="${i}" th:selected="${i==1}"></option>
-							</select>
+								<select class="form-select" id="semester" name="semester">
+									<option th:each="i : ${#numbers.sequence(1, 10)}" th:value="${i}" th:text="${i}"
+										th:selected="${i==1}"></option>
+								</select>
+							</div>
 						</div>
 
 						<div class="mb-3">
 							<label class="form-label" for="course">Curso</label>
 
 							<select class="form-select" th:field="*{course.id}">
-								<option th:each="course : ${courses}" th:value="${course.id}"
-									th:text="${course.name}"></option>
+								<option th:each="course : ${courses}" th:value="${course.id}" th:text="${course.name}"></option>
 							</select>
 						</div>
 
 						<div class="mb-3">
 							<label class="form-label" for="description">Ementa</label>
 
-							<textarea id="description" class="form-control" th:field="*{description}"
-								rows="6" maxlength="2500">
+							<textarea id="description" class="form-control" th:field="*{description}" rows="3" maxlength="1000">
 							</textarea>
 
-							<span class="text-danger" th:if="${#fields.hasErrors('description')}"
-								th:errors="*{description}">Descrição inválida</span>
+							<span class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Descrição
+								inválida</span>
 						</div>
 
 						<div class="mb-3">
 							<label class="form-label" for="objective">Objetivo</label>
 
-							<textarea id="objective" class="form-control" th:field="*{objective}"
-								rows="2" maxlength="255">
+							<textarea id="objective" class="form-control" th:field="*{objective}" rows="2" maxlength="500">
 							</textarea>
 
-							<span class="text-danger" th:if="${#fields.hasErrors('objective')}"
-								th:errors="*{objective}">Objetivo inválido</span>
+							<span class="text-danger" th:if="${#fields.hasErrors('objective')}" th:errors="*{objective}">Objetivo
+								inválido</span>
 						</div>
 
 						<button type="submit" class="btn btn-danger form-control">Cadastrar</button>
@@ -88,8 +86,7 @@
 		<div class="col-lg-6">
 			<h3>Todas as Disciplinas</h3>
 
-			<table id="table"
-				class="table table-sm table-striped table-bordered table-hover">
+			<table id="table" class="table table-sm table-striped table-bordered table-hover" style="cursor: pointer;">
 				<thead class="thead-dark">
 					<tr>
 						<th>Código</th>
@@ -99,8 +96,8 @@
 				</thead>
 
 				<tbody>
-					<tr th:each="discipline : ${disciplines}" th:data-id="${discipline.id}"
-						data-bs-toggle="modal" data-bs-target="#disciplineModal">
+					<tr th:each="discipline : ${disciplines}" th:data-id="${discipline.id}" data-bs-toggle="modal"
+						data-bs-target="#disciplineModal">
 						<td id="codeTd" class="align-middle" th:text="${discipline.code}"></td>
 						<td id="nameTd" class="align-middle" th:text="${discipline.name}"></td>
 						<td id="semesterTd" class="align-middle" th:text="${discipline.semester}"></td>
@@ -109,57 +106,51 @@
 			</table>
 
 			<!-- Modal -->
-			<div class="modal fade" id="disciplineModal" tabindex="-1"
-				aria-labelledby="exampleModalLabel" aria-hidden="true">
-				<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal fade" id="disciplineModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+				aria-hidden="true">
+				<div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
 					<div class="modal-content">
-
-
 						<div class="modal-header">
-							<h5 class="modal-title" id="modalTitle" th:text="'Atualizar Disciplina'">Atualizar
-								Informações do Disciplina</h5>
-							<button type="button" class="btn-close" data-bs-dismiss="modal"
-								aria-label="Close"></button>
+							<h5 class="modal-title" id="modalTitle" th:text="'Atualizar Disciplina'">Atualizar Informações da
+								Disciplina</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 						</div>
 						<div class="modal-body">
-							<div>
-								<div class="mb-3">
-									<label>Nome</label>
-									<input id="updatedName" type="text" class="form-control" required>
+							<div class="mb-3">
+								<label class="form-label">Nome</label>
+								<input id="updatedName" type="text" class="form-control" maxlength="255" required>
+							</div>
+
+							<div class="row">
+								<div class="col-md-6 mb-3">
+									<label class="form-label">Código</label>
+									<input id="updatedCode" type="text" class="form-control" maxlength="20" required>
 								</div>
 
-								<div class="mb-3">
-									<label>Código</label>
-									<input id="updatedCode" type="text" class="form-control" required>
-								</div>
-
-								<div class="mb-3">
+								<div class="col-md-6 mb-3">
 									<label class="form-label" for="updatedSemester">Semestre</label>
 
 									<select class="form-select" id="updatedSemester">
-										<option th:each="i : ${#numbers.sequence(1, 10)}" th:value="${i}"
-											th:text="${i}"></option>
+										<option th:each="i : ${#numbers.sequence(1, 10)}" th:value="${i}" th:text="${i}"></option>
 									</select>
 								</div>
+							</div>
 
-								<label class="form-label" for="updatedCourse">Curso</label>
-								<div class="mb-3">
-									<select class="form-select select2" id="updatedCourse">
-										<option th:each="course : ${courses}" th:value="${course.id}"
-											th:text="${course.name}"></option>
-									</select>
-								</div>
+							<label class="form-label" for="updatedCourse">Curso</label>
+							<div class="mb-3">
+								<select class="form-select select2" data-width="100%" id="updatedCourse">
+									<option th:each="course : ${courses}" th:value="${course.id}" th:text="${course.name}"></option>
+								</select>
+							</div>
 
-								<div class="mb-3">
-									<label for="description" class="form-label">Descrição</label>
-									<textarea id="updatedDescription" class="form-control" rows="9"
-										required></textarea>
-								</div>
+							<div class="mb-3">
+								<label for="description" class="form-label">Descrição</label>
+								<textarea id="updatedDescription" class="form-control" rows="3" maxlength="1000" required></textarea>
+							</div>
 
-								<div class="mb-3">
-									<label for="updatedObjective" class="form-label">Objetivo</label>
-									<textarea id="updatedObjective" class="form-control" rows="2" required></textarea>
-								</div>
+							<div class="mb-3">
+								<label for="updatedObjective" class="form-label">Objetivo</label>
+								<textarea id="updatedObjective" class="form-control" rows="2" maxlength="500" required></textarea>
 							</div>
 						</div>
 						<div class="modal-footer">
@@ -172,7 +163,7 @@
 
 		</div>
 	</div>
-	
+
 	<script type="text/javascript" th:inline="javascript">
 		$('.select2').select2();
 		

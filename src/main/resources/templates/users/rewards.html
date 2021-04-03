@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 </head>
 <body>
-	<div class="container">
-		<div class="card shadow mt-3">
-			<h3 class="card-header fw-bold text-center">Recompensas</h3>
+	<div class="container mt-4">
+		<div class="card shadow">
+			<h4 class="card-header fw-bold text-center">Recompensas</h4>
 			<div class="card-body">
-				<table class="table table-bordered border-danger table-stripped text-center table-sm">
+				<table class="table table-sm table-bordered table-stripped text-center">
 					<thead>
 						<tr>
 							<th>Tipo</th>
@@ -18,9 +18,10 @@
 					</thead>
 					<tbody>
 						<tr class="align-middle" th:each="reward : ${rewards}">
-							<td class="fw-bolder text-warning" th:text="${reward.type.displayName}">Quiz</td>
-							<td class="text-center text-success fw-bold"><span th:text="${reward.type.coins} + ' Moedas'">25
-									Moedas</span> <br> <span th:text="${reward.type.score} + ' Pontos de Score'">60 Pontos de score</span>
+							<td class="fw-bolder" th:text="${reward.type.displayName}">Quiz</td>
+							<td class="text-center text-success fw-bold">
+								<span th:text="${reward.type.coins} + ' Moedas'">25 Moedas</span><br> 
+								<span th:text="${reward.type.score} + ' Pontos de Score'">60 Pontos de score</span>
 							</td>
 							<td th:text="${#dates.format(reward.date, 'dd/MM/yyyy HH:mm:ss')}">08/03/2021</td>
 						</tr>

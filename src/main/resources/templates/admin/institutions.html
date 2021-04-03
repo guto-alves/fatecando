@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: base('Instituições', ~{::body}, _, _, _)}">
+<html xmlns:th="https://www.thymeleaf.org"
+	th:replace="~{fragments/layout :: base('Instituições', ~{::body}, _, _, _)}">
 <head>
 <meta charset="utf-8">
 </head>
@@ -14,12 +15,12 @@
 						<div class="mb-3">
 							<label for="institution" class="form-label">Nome</label>
 
-							<input type="text" class="form-control" id="institution" placeholder="Ex.: Fatec Zona Leste" 
-								th:field="*{name}" th:classappend="${#fields.hasErrors('name')}? 'is-invalid'" 
+							<input type="text" class="form-control" id="institution" placeholder="Ex.: Fatec Zona Leste"
+								th:field="*{name}" th:classappend="${#fields.hasErrors('name')}? 'is-invalid'"
 								aria-describedby="nameFeedback">
 
-							<div id="nameFeedback" class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
-								Mensagem de erro</div>
+							<div id="nameFeedback" class="invalid-feedback" th:if="${#fields.hasErrors('name')}"
+								th:errors="*{name}">Mensagem de erro</div>
 						</div>
 
 						<div class="mb-3">
@@ -33,8 +34,10 @@
 				</div>
 			</div>
 
-			<div class="alert alert-success mt-3" th:if="${!#strings.isEmpty(message)}" th:text="${message}" role="alert">
-				<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<div class="alert alert-success alert-dismissible fade show mt-3" role="alert"
+				th:if="${!#strings.isEmpty(message)}">
+				[[${message}]]
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 			</div>
 		</div>
 
@@ -43,7 +46,7 @@
 				<div class="card-body">
 					<h3 class="card-title text-center">Todas as Instituições</h3>
 
-					<table id="table" class="table table-sm table-striped table-bordered table-hover">
+					<table id="table" class="table table-sm table-striped table-bordered table-hover" style="cursor: pointer;">
 						<thead class="thead-dark">
 							<tr>
 								<th>ID</th>
@@ -64,7 +67,8 @@
 			</div>
 
 			<!-- Modal -->
-			<div class="modal fade" id="institutionModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal fade" id="institutionModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+				aria-hidden="true">
 				<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 					<div class="modal-content">
 						<div class="modal-header">

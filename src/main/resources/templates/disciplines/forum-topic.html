@@ -1,17 +1,25 @@
 <!DOCTYPE html>
 <html xmlns:th="www.thymeleaf.org"
-	th:replace="~{fragments/layout :: base(${forumTopic.title}, ~{::body}, _, _, _)}">
+	th:replace="~{fragments/layout :: base(${forumTopic.title}, ~{::body}, ~{::link}, _, _)}">
 <head>
 <meta charset="utf-8">
+<link rel="stylesheet" type="text/css" th:href="@{/css/nav-breadcrumb.css}">
 </head>
 <body>
 	<div class="container">
 		<div class="card shadow my-4">
 			<div class="card-body">
-				<div class="d-flex mb-3" style="font-size: 14px;">
-					<a href="#" class="link-danger text-decoration-none fw-bold"
-						th:href="@{/disciplines/{id}(id=${discipline.id})}" th:text="${discipline.name}">Estrutura de Dados</a>
-				</div>
+				<nav class="nav-breadcrumb dark" aria-label="breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item">
+							<a href="#" th:href="@{/disciplines/{id}(id=${discipline.id})}" 
+								th:text="${discipline.name}">Disciplina</a>
+						</li>
+						<li class="breadcrumb-item">
+							<a href="#" th:href="@{/disciplines/{id}?page=forum(id=${discipline.id})}">Fórum</a>
+						</li>
+					</ol>
+				</nav>
 
 				<h3 class="card-title" th:text="${forumTopic.title}">Título</h3>
 
@@ -19,12 +27,13 @@
 					<span class="text-muted">Criado</span>
 					<time class="timeago" th:datetime="${#dates.formatISO(forumTopic.creationDate)}"></time>
 				</span>
-				<hr>
-				
+
 				<div id="topic-body-editor" th:utext="${forumTopic.bodyHtml}"></div>
-				
+
 				<div class="tags mt-2">
-					<span class="badge rounded-pill bg-dark me-2" th:each="tag : ${forumTopic.tags}" th:text="${tag.name}"></span>
+					<a class="badge rounded-pill bg-dark link-light text-decoration-none me-2" th:each="tag : ${forumTopic.tags}" 
+						th:href="@{/topic/{id}(id=${tag.id})}" th:text="${tag.name}">
+					</a>
 				</div>
 			</div>
 			<div class="card-footer">
@@ -36,11 +45,11 @@
 			</div>
 		</div>
 
-		<div class="card border border-secondary mb-3">
+		<div class="card border mb-3">
 			<div class="card-body">
-				<h4 class="card-title"
+				<h5 class="card-title"
 					th:text="${#lists.size(comments) > 0 ? #lists.size(comments) + ' Resposta(s)' : 'Seja o primeiro a responder!'}">5
-					Respostas</h4>
+					Respostas</h5>
 
 				<div class="card shadow mb-3" th:each="comment : ${comments}">
 					<div class="card-body">
@@ -58,18 +67,20 @@
 			</div>
 		</div>
 
-		<div class="card border border-danger mb-3">
+		<div class="card border mb-3">
 			<div class="card-body">
-				<h4 class="card-title">Sua resposta</h4>
+				<h5 class="card-title">Sua resposta</h5>
 				<form id="comment-form" action="#" method="post"
 					th:action="@{/disciplines/{disciplineId}/forum-topics/{topicId}(disciplineId=${discipline.id},topicId=${forumTopic.id})}"
 					th:object="${comment}">
-					<div class="mb-3">
+					<div class="mb-4">
 						<div id="comment-body-editor"></div>
-						
+
 						<input type="hidden" th:field="*{bodyHtml}" required></input>
 					</div>
-					<button type="submit" class="btn btn-danger form-control">Publique sua resposta</button>
+					<div class="d-grid mx-auto">
+						<button type="submit" class="btn btn-danger col-md-6">Publique sua resposta</button>
+					</div>
 				</form>
 			</div>
 		</div>
@@ -81,17 +92,20 @@
 
 	<script type="text/javascript" th:inline="javascript">
 		$("time.timeago").timeago();
-		
-		let topicBodyEditor = new Quill('#topic-body-editor', EditorOptions.READ_ONLY);
-		
+
+		let topicBodyEditor = new Quill('#topic-body-editor',
+				EditorOptions.READ_ONLY);
+
 		$('.comment-body').each(function() {
 			new Quill(this, EditorOptions.READ_ONLY);
 		});
-		
-		let commentBodyEditor = new Quill('#comment-body-editor', EditorOptions.FORUM_TOPIC_COMMENT);
+
+		let commentBodyEditor = new Quill('#comment-body-editor',
+				EditorOptions.FORUM_TOPIC_COMMENT);
 		$('#comment-form').submit(function(event) {
 			if (commentBodyEditor.root.innerText.trim() !== '') {
-				$('#comment-form #bodyHtml').val(commentBodyEditor.root.innerHTML);
+				$('#comment-form #bodyHtml').val(
+						commentBodyEditor.root.innerHTML);
 			}
 		});
 	</script>

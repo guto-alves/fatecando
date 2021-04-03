@@ -26,7 +26,7 @@ public class InstitutionAdminController {
 	private InstitutionService institutionService;
 
 	@ModelAttribute("institutions")
-	public List<Institution> findAllBrands() {
+	public List<Institution> findAllInstitutions() {
 		return institutionService.findAll();
 	}
 
@@ -47,7 +47,7 @@ public class InstitutionAdminController {
 		institutionService.save(institution);
 
 		redirectAttributes.addFlashAttribute("message",
-				"A instituição " + institution.getName() + " foi criada com sucesso");
+				"A instituição " + institution.getName() + " foi cadastrada com sucesso.");
 
 		return "redirect:/admin/institutions";
 	}

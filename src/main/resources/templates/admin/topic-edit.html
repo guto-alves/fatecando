@@ -10,16 +10,16 @@
 </style>
 </head>
 <body>
-	<div class="container">
+	<div class="container mt-4">
 		<div class="alert alert-success alert-dismissible fade show" role="alert"
 			th:if="${!#strings.isEmpty(message)}">
-			<span class="text-center" th:text=${message}></span>
+			<span th:text=${message}></span>
 			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 		</div>
 
 		<div class="card mt-3">
 			<div class="card-body">
-				<h3 class="card-title text-center fw-bold" th:text="'Tópico - #' + ${topic.id}">Tópico #146</h3>
+				<h4 class="card-title text-center fw-bold" th:text="'Tópico - #' + ${topic.id}">Tópico #146</h4>
 
 				<form action="#" method="post" th:action="@{/admin/topics/{id}(id=${topic.id})}" th:object="${topic}">
 					<div class="mb-3">

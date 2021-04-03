@@ -6,8 +6,8 @@
 <link rel="stylesheet" type="text/css" th:href="@{/css/btn-card.css}">
 </head>
 <body>
-	<div class="row ">
-		<div class="card m-0 p-0 bg-dark text-white">
+	<div class="row">
+		<div class="card m-0 ps-0 bg-dark text-white">
 			<div class="row">
 				<div class="col-md-4">
 					<img th:src="${course.imageUrl}" class="img-fluid">
@@ -23,13 +23,13 @@
 		</div>
 	</div>
 
-	<div class="container">
+	<div class="container mt-4">
 		<div th:unless="${#lists.isEmpty(recentDisciplines)}">
-			<h3 class="fw-bold mt-4">Continue de onde parou</h3>
+			<h3 class="fw-bold">Continue de onde parou</h3>
 
 			<!-- Discipline cards -->
 			<div class="row row-cols-1 row-cols-md-3 g-4">
-				<div class="col" th:each="discipline : ${recentDisciplines}">
+				<div class="col" th:each="discipline : ${recentDisciplines}" th:if="${disciplineStat.count <= 3}">
 					<div class="btn-card card h-100 shadow" th:onclick="|showDiscipline('${discipline.id}');|">
 						<h5 class="card-header btn-card-header" th:text="${discipline.name}"></h5>
 						<div class="card-body">

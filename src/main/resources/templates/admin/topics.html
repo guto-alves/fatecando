@@ -5,26 +5,25 @@
 <meta charset="utf-8">
 </head>
 <body>
-	<div class="container mt-3">
+	<div class="container mt-4">
 		<div class="alert alert-success alert-dismissible fade show" role="alert"
 			th:if="${!#strings.isEmpty(message)}">
 			<span th:text=${message}></span>
 			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 		</div>
-	</div>
+	
 
-	<div class="card mt-3 border border-1 border-danger shadow">
+	<div class="card mt-3 border border-1 shadow">
 		<div class="card-body">
-			<h2 class="card-title text-center fw-bolder">Gerenciar Tópicos</h2>
+			<h4 class="card-title text-center fw-bolder">Gerenciar Tópicos</h4>
 			<hr>
 
-			<table id="table" class="table table-hover cell-border compact order-column">
+			<table id="table" class="table table-sm table-striped table-bordered table-hover">
 				<thead class="thead-dark text-center">
 					<tr>
 						<th>ID</th>
 						<th>Nome</th>
 						<th>Disciplina</th>
-						<th>Curso</th>
 						<th>Obrigatório</th>
 						<th>Data de Envio</th>
 						<th>Status</th>
@@ -33,30 +32,31 @@
 				</thead>
 				<tbody>
 					<tr th:each="topic : ${topics}" th:data-id="${topic.id}">
-						<td class="align-middle fw-bold" th:text="${topic.id}"></td>
+						<td class="align-middle fw-bold text-center" th:text="${topic.id}"></td>
 						<td class="align-middle fw-bold" th:text="${topic.name}"></td>
 						<td class="align-middle" th:text="${topic.discipline.name}"></td>
-						<td class="align-middle text-center" th:text="${topic.discipline.course.code}"></td>
 						<td class="align-middle text-center" th:text="${topic.required} ? 'Sim' : 'Não'"></td>
 						<td class="align-middle text-center" th:text="${#dates.format(topic.creationDate, 'dd/MM/yyyy')}"></td>
 						<td class="align-middle text-center fw-bold" th:text="${topic.status.displayName}"></td>
-						<td class="text-center"><a class="btn btn-outline-dark button-sm" href="#"
-								th:href="@{/admin/topics/{id}(id=${topic.id})}">Ver mais</a></td>
+						<td class="text-center">
+							<a class="btn btn-outline-dark btn-sm" href="#" 
+								th:href="@{/admin/topics/{id}(id=${topic.id})}">Ver mais</a>
+						</td>
 					</tr>
 				</tbody>
 			</table>
 
 		</div>
 	</div>
+	</div>
 
 	<script type="text/javascript">
-		$('#table')
-				.DataTable(
-						{
-							language : {
-								url : '//cdn.datatables.net/plug-ins/1.10.22/i18n/Portuguese-Brasil.json'
-							}
-						});
+		$('#table').DataTable({
+		    responsive: true,
+			language : {
+				url : '//cdn.datatables.net/plug-ins/1.10.22/i18n/Portuguese-Brasil.json'
+			}
+		});
 	</script>
 </body>
 </html>
