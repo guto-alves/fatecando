@@ -2,7 +2,9 @@ hljs.configure({
 	tabReplace: '    ',
 	languages: ['java']
 });
-hljs.highlightAll();
+hljs.initHighlighting();
+hljs.initHighlightingOnLoad();
+hljs.initLineNumbersOnLoad();
 
 const EditorOptions = {
 	TOPIC: {
@@ -22,13 +24,19 @@ const EditorOptions = {
 				[{ 'direction': 'rtl' }], // text direction
 				['blockquote', 'code-block'],
 				['link', 'image', 'video', 'formula'],
+				['emoji'],
 				['clean'] // remove formatting button
 			],
 			history: {
 				delay: 2000,
 				maxStack: 500,
 				userOnly: true
-			}
+			},
+			imageDrop: true,
+			imageResize: {
+				modules: ['Resize', 'DisplaySize', 'Toolbar']
+			},
+			"emoji-toolbar": true
 		},
 		theme: 'snow'
 	},
@@ -55,6 +63,10 @@ const EditorOptions = {
 				delay: 2000,
 				maxStack: 500,
 				userOnly: true
+			},
+			imageDrop: true,
+			imageResize: {
+				modules: ['Resize', 'DisplaySize', 'Toolbar']
 			}
 		},
 		theme: 'snow'
@@ -78,11 +90,15 @@ const EditorOptions = {
 				delay: 2000,
 				maxStack: 500,
 				userOnly: true
+			},
+			imageDrop: true,
+			imageResize: {
+				modules: ['Resize', 'DisplaySize', 'Toolbar']
 			}
 		},
 		theme: 'snow'
 	},
-	FORUM_TOPIC_COMMENT: { 
+	FORUM_TOPIC_COMMENT: {
 		modules: {
 			syntax: true,
 			toolbar: [
@@ -101,6 +117,10 @@ const EditorOptions = {
 				delay: 2000,
 				maxStack: 500,
 				userOnly: true
+			},
+			imageDrop: true,
+			imageResize: {
+				modules: ['Resize', 'DisplaySize', 'Toolbar']
 			}
 		},
 		theme: 'snow'
