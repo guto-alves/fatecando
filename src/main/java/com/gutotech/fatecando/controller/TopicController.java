@@ -50,8 +50,24 @@ public class TopicController {
 				new Alternative("Alternativa 2", null, false)));
 
 		model.addAttribute("question", question);
-		model.addAttribute("questions", questionService.findAllByTopic(topic));
-		return "disciplines/topic-details";
+		model.addAttribute("questions", topicService.getQuiz(topic));
+		return "subjects/topic-details";
+	}
+
+	@PostMapping("question")
+	public String addQuestion(Topic topic, Question question, RedirectAttributes redirectAttributes, Model model) {
+		if (question.getAlternatives().size() > 6) {
+			model.addAttribute("question", question);
+			return "subjects/topic-details";
+		}
+
+		question.setTopic(topic);
+
+		questionService.upload(question);
+
+		redirectAttributes.addFlashAttribute("successMessage", "Obrigado pela contribuição!");
+
+		return "redirect:/topic/{topicId}";
 	}
 
 	@PostMapping("finished")
@@ -65,33 +81,17 @@ public class TopicController {
 		topicService.toggleLike(topic);
 		return ResponseEntity.noContent().build();
 	}
-	
+
 	@PostMapping("fav")
 	public ResponseEntity<Void> toggleFavorite(Topic topic) {
 		topicService.toggleFavorite(topic);
 		return ResponseEntity.noContent().build();
 	}
-	
+
 	@PostMapping("annotation")
 	public ResponseEntity<Void> saveAnnotation(Topic topic, @RequestBody String annotation) {
 		topicService.saveAnnotation(topic, annotation);
 		return ResponseEntity.noContent().build();
-	}
-
-	@PostMapping("question")
-	public String addQuestion(Topic topic, Question question, RedirectAttributes redirectAttributes, Model model) {
-		if (question.getAlternatives().size() > 6) {
-			model.addAttribute("question", question);
-			return "disciplines/topic-details";
-		}
-
-		question.setTopic(topic);
-
-		questionService.upload(question);
-
-		redirectAttributes.addFlashAttribute("successMessage", "Obrigado pela contribuição!");
-
-		return "redirect:/topic/{topicId}";
 	}
 
 }

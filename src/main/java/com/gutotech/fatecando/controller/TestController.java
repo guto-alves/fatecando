@@ -35,6 +35,6 @@ public class TestController {
 	@PostMapping
 	public String finishTestForm(Test test, Model model) {
 		testService.finish();
-		return "redirect:/disciplines/" + test.getDiscipline().getId();
+		return "redirect:/disciplines/" + test.getSubject().getId();
 	}
 }

@@ -20,37 +20,37 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.gutotech.fatecando.model.Discipline;
-import com.gutotech.fatecando.model.ForumTopic;
-import com.gutotech.fatecando.model.ForumTopicComment;
+import com.gutotech.fatecando.model.Comment;
+import com.gutotech.fatecando.model.ForumThread;
+import com.gutotech.fatecando.model.Subject;
 import com.gutotech.fatecando.model.Test;
 import com.gutotech.fatecando.model.Topic;
 import com.gutotech.fatecando.model.UploadStatus;
-import com.gutotech.fatecando.service.DisciplineService;
-import com.gutotech.fatecando.service.ForumTopicService;
+import com.gutotech.fatecando.service.ForumThreadService;
+import com.gutotech.fatecando.service.SubjectService;
 import com.gutotech.fatecando.service.TestService;
 import com.gutotech.fatecando.service.TopicService;
 
 @Controller
-@RequestMapping("disciplines/{disciplineId}")
-public class DisciplineController {
+@RequestMapping("subjects/{subjectId}")
+public class SubjectController {
 
 	@Autowired
-	private DisciplineService disciplineService;
+	private SubjectService subjectService;
 
 	@Autowired
-	private ForumTopicService forumTopicService;
+	private ForumThreadService forumThreadService;
 
 	@Autowired
 	private TopicService topicService;
 
-	@ModelAttribute("discipline")
-	public Discipline findDiscipline(@PathVariable("disciplineId") Long disciplineId) {
-		return disciplineService.findById(disciplineId);
+	@ModelAttribute("subject")
+	public Subject findSubject(@PathVariable("subjectId") Long subjectId) {
+		return subjectService.findById(subjectId);
 	}
 
-	@InitBinder("discipline")
-	public void initDisciplineBinder(WebDataBinder dataBinder) {
+	@InitBinder("subject")
+	public void initSubjectBinder(WebDataBinder dataBinder) {
 		dataBinder.setDisallowedFields("id", "name");
 	}
 
@@ -74,17 +74,17 @@ public class DisciplineController {
 	}
 
 	@GetMapping
-	public String showDiscipline(Discipline discipline,
+	public String showSubject(Subject subject,
 			@RequestParam(value = "page", required = false, defaultValue = "topics") String page, Model model) {
 		model.addAttribute("page", page);
 
 		switch (page) {
 		case "tests":
-			model.addAttribute("test", new Test(discipline.getName()));
+			model.addAttribute("test", new Test(subject.getName()));
 			break;
 		case "forum":
-			model.addAttribute("forumTopic", new ForumTopic());
-			model.addAttribute("forumTopics", disciplineService.findAllForumTopicsByDiscipline(discipline));
+			model.addAttribute("forumTopic", new ForumThread());
+			model.addAttribute("forumTopics", subjectService.findAllForumTopicsBySubject(subject));
 			break;
 		default:
 			model.addAttribute("page", "topics");
@@ -92,100 +92,100 @@ public class DisciplineController {
 		}
 
 		model.addAttribute("topic", new Topic());
-		model.addAttribute("topics", disciplineService.findAllTopicsByDiscipline(discipline));
+		model.addAttribute("topics", subjectService.findAllTopicsBySubject(subject));
 
-		return "disciplines/discipline-details";
+		return "subjects/subject";
 	}
 
 	@PostMapping("like")
-	public ResponseEntity<Void> toggleLike(Discipline discipline) {
-		disciplineService.toggleLike(discipline);
+	public ResponseEntity<Void> toggleLike(Subject subject) {
+		subjectService.toggleLike(subject);
 		return ResponseEntity.noContent().build();
 	}
 
 	@PostMapping("forum-topics")
-	public String processForumTopicCreationForm(Discipline discipline, @Valid ForumTopic forumTopic,
+	public String processForumTopicCreationForm(Subject subject, @Valid ForumThread forumThread,
 			BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
 		if (bindingResult.hasErrors()) {
 			redirectAttributes.addFlashAttribute("message",
 					"Não foi possível criar o tópico para o fórum:\nTítulo ou descrição inválido!");
-			return "redirect:/disciplines/{disciplineId}?page=forum";
+			return "redirect:/subjects/{subjectId}?page=forum";
 		}
 
-		disciplineService.saveForumTopic(discipline, forumTopic);
+		subjectService.saveForumThread(subject, forumThread);
 
 		redirectAttributes.addFlashAttribute("message", "Tópico para o Fórum da disciplina foi criado com sucesso.");
 
-		return "redirect:/disciplines/{disciplineId}?page=forum";
+		return "redirect:/subjects/{subjectId}?page=forum";
 	}
 
 	@GetMapping("forum-topics/{topicId}")
-	public String showForumTopic(Discipline discipline, @PathVariable("topicId") Long topicId, Model model) {
-		ForumTopic forumTopic = forumTopicService.findById(topicId);
+	public String showForumTopic(Subject subject, @PathVariable("topicId") Long topicId, Model model) {
+		ForumThread forumThread = forumThreadService.findById(topicId);
 
-		model.addAttribute("forumTopic", forumTopic);
-		model.addAttribute("comments", forumTopicService.findAllComments(forumTopic));
-		model.addAttribute("comment", new ForumTopicComment());
+		model.addAttribute("forumTopic", forumThread);
+		model.addAttribute("comments", forumThreadService.findAllComments(forumThread));
+		model.addAttribute("comment", new Comment());
 
-		return "disciplines/forum-topic";
+		return "subjects/forum-topic";
 	}
 
 	@PostMapping("forum-topics/{topicId}")
-	public String processCommentCreationForm(@PathVariable("topicId") Long topicId, @Valid ForumTopicComment comment,
-			BindingResult bindingResult, RedirectAttributes redirectAttributes, Discipline discipline, Model model) {
-		ForumTopic forumTopic = forumTopicService.findById(topicId);
+	public String processCommentCreationForm(@PathVariable("topicId") Long topicId, @Valid Comment comment,
+			BindingResult bindingResult, RedirectAttributes redirectAttributes, Subject subject, Model model) {
+		ForumThread forumThread = forumThreadService.findById(topicId);
 
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("comment", comment);
-			model.addAttribute("comments", forumTopicService.findAllComments(forumTopic));
-			model.addAttribute("forumTopic", forumTopic);
-			return "disciplines/forum-topic";
+			model.addAttribute("comments", forumThreadService.findAllComments(forumThread));
+			model.addAttribute("forumTopic", forumThread);
+			return "subjects/forum-topic";
 		}
 
-		forumTopicService.saveComment(comment, forumTopic);
+		forumThreadService.saveComment(comment, forumThread);
 
 		redirectAttributes.addFlashAttribute("message", "Comentário adicionado com sucesso.");
 
-		return "redirect:/disciplines/{disciplineId}/forum-topics/{topicId}";
+		return "redirect:/subjects/{subjectId}/forum-topics/{topicId}";
 	}
 
 	@PostMapping
-	public String processTopicCreationForm(Discipline discipline, @Valid Topic topic, BindingResult bindingResult,
+	public String processTopicCreationForm(Subject subject, @Valid Topic topic, BindingResult bindingResult,
 			RedirectAttributes redirectAttributes, Model model) {
 		if (bindingResult.hasErrors()) {
 			model.addAttribute(topic);
-			model.addAttribute("topics", disciplineService.findAllTopicsByDiscipline(discipline));
+			model.addAttribute("topics", subjectService.findAllTopicsBySubject(subject));
 			model.addAttribute("page", "topics");
 			model.addAttribute("error", true);
-			return "disciplines/discipline-details";
+			return "subjects/subject";
 		}
 
-		topic.setDiscipline(discipline);
+		topic.setSubject(subject);
 		topic.setStatus(UploadStatus.WAITING_FOR_RESPONSE);
 		topicService.save(topic);
 
 		redirectAttributes.addFlashAttribute("message",
 				"Obrigado pela contribuição! O conteúdo enviado será analisado pela nossa equipe e se tudo estiver certo ele será publicado o mais rápido possível.");
 
-		return "redirect:/disciplines/{disciplineId}";
+		return "redirect:/subjects/{subjectId}";
 	}
 
 	@Autowired
 	private TestService testService;
 
 	@PostMapping("test")
-	public String processTestCreationForm(Discipline discipline, @Valid Test test, BindingResult bindingResult,
+	public String processTestCreationForm(Subject subject, @Valid Test test, BindingResult bindingResult,
 			RedirectAttributes redirectAttributes, Model model) {
 		if (bindingResult.hasErrors()) {
 			model.addAttribute(test);
-			model.addAttribute("discipline", discipline);
-			model.addAttribute("topics", disciplineService.findAllTopicsByDiscipline(discipline));
+			model.addAttribute("subject", subject);
+			model.addAttribute("topics", subjectService.findAllTopicsBySubject(subject));
 			model.addAttribute("page", "tests");
 			model.addAttribute("topic", new Topic());
-			return "disciplines/discipline-details";
+			return "subjects/subject";
 		}
 
-		test.setDiscipline(discipline);
+		test.setSubject(subject);
 
 		testService.save(test);
 

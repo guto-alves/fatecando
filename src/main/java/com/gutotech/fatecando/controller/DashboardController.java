@@ -8,8 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gutotech.fatecando.model.Course;
 import com.gutotech.fatecando.service.CourseService;
-import com.gutotech.fatecando.service.DisciplineService;
 import com.gutotech.fatecando.service.InstitutionService;
+import com.gutotech.fatecando.service.SubjectService;
+import com.gutotech.fatecando.service.UserService;
 
 @Controller
 @RequestMapping("dashboard")
@@ -19,7 +20,10 @@ public class DashboardController {
 	private CourseService courseService;
 
 	@Autowired
-	private DisciplineService disciplineService;
+	private SubjectService subjectService;
+	
+	@Autowired
+	private UserService userService;
 
 	@Autowired
 	private InstitutionService institutionService;
@@ -34,10 +38,10 @@ public class DashboardController {
 		Course course = courseService.findById(1L);
 
 		model.addAttribute("course", course);
-		model.addAttribute("disciplines", disciplineService.findAllByCourse(course));
-		model.addAttribute("recentDisciplines", disciplineService.findAllAccessed());
+		model.addAttribute("subjects", subjectService.findAllByCourse(course));
+		model.addAttribute("recentDisciplines", userService.findSubjectsAccessed());
 
-		return "disciplines/course-details";
+		return "subjects/course-details";
 	}
 
 }

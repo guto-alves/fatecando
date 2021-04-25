@@ -56,13 +56,13 @@ public class UserController {
 
 	@GetMapping("favorites")
 	public String showFavoriteTopicsPage(Model model) {
-		model.addAttribute("topics", topicService.findAllFavorites());
+		model.addAttribute("topics", userService.findFavoriteTopics());
 		return "users/favorite-topics";
 	}
 
 	@GetMapping("annotations")
 	public String showAnnotationsPage(Model model) {
-		model.addAttribute("topics", topicService.findAllWithAnnotations());
+		model.addAttribute("topics", userService.findAnnotatedTopics());
 		return "users/annotations";
 	}
 

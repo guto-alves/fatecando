@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gutotech.fatecando.model.Question;
-import com.gutotech.fatecando.service.DisciplineService;
+import com.gutotech.fatecando.service.SubjectService;
 import com.gutotech.fatecando.service.QuestionService;
 import com.gutotech.fatecando.service.TopicService;
 
@@ -28,7 +28,7 @@ public class QuestionAdminController {
 	private TopicService topicService;
 
 	@Autowired
-	private DisciplineService disciplineService;
+	private SubjectService subjectService;
 
 	@GetMapping
 	public String showAllQuestions(Model model) {
@@ -40,7 +40,7 @@ public class QuestionAdminController {
 	public String initUpdateForm(@PathVariable Long id, Model model) {
 		model.addAttribute("question", questionService.findById(id));
 		model.addAttribute("topics", topicService.findAll());
-		model.addAttribute("disciplines", disciplineService.findAllWithTopics());
+		model.addAttribute("disciplines", subjectService.findAllWithTopics());
 		return "admin/question-edit";
 	}
 
@@ -50,7 +50,7 @@ public class QuestionAdminController {
 		if (bindingResult.hasErrors()) {
 			model.addAttribute(question);
 			model.addAttribute("topics", topicService.findAll());
-			model.addAttribute("disciplines", disciplineService.findAllWithTopics());
+			model.addAttribute("disciplines", subjectService.findAllWithTopics());
 			return "admin/question-edit";
 		}
 

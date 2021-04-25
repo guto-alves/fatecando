@@ -34,7 +34,7 @@
 					<tr th:each="topic : ${topics}" th:data-id="${topic.id}">
 						<td class="align-middle fw-bold" th:text="${topic.id}"></td>
 						<td class="align-middle fw-bold" th:text="${topic.name}"></td>
-						<td class="align-middle" th:text="${topic.discipline.name}"></td>
+						<td class="align-middle text-center" th:text="${topic.subject.name}"></td>
 						<td class="align-middle text-center" th:text="${topic.required} ? 'Sim' : 'Não'"></td>
 						<td class="align-middle text-center" th:text="${#dates.format(topic.creationDate, 'dd/MM/yyyy')}"></td>
 						<td class="align-middle text-center fw-bold" th:text="${topic.status.displayName}"></td>

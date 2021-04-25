@@ -24,14 +24,14 @@
 		<div class="row h-100 py-3">
 			<div class="col-sm-3" id="sidebar" style="margin-top: 80px;">
 				<div class="sticky-top">
-					<nav id="disciplines-navbar" class="navbar navbar-light bg-light">
+					<nav id="subjects-navbar" class="navbar navbar-light bg-light">
 						<a class="navbar-brand ms-3" href="#">Disciplinas</a>
 						<nav class="nav nav-pills flex-column">
 							<th:block th:each="topic : ${topics}">
 								<th:block th:with="prevIndex=${topicStat.index - 1}">
 									<a
-										th:if="${topicStat.first or not topicStat.first and topics[__prevIndex__].discipline.id != topic.discipline.id}"
-										th:href="|#discipline-${topic.discipline.id}|" class="nav-link discipline-link" href="#">[[${topic.discipline.name}]]</a>
+										th:if="${topicStat.first or not topicStat.first and topics[__prevIndex__].subject.id != topic.subject.id}"
+										th:href="|#subject-${topic.subject.id}|" class="nav-link subject-link" href="#">[[${topic.subject.name}]]</a>
 								</th:block>
 							</th:block>
 						</nav>
@@ -49,8 +49,8 @@
 							<th:block th:each="topic : ${topics}">
 								<th:block th:with="prevIndex=${topicStat.index - 1}">
 									<h5
-										th:if="${topicStat.first or not topicStat.first and topics[__prevIndex__].discipline.id != topic.discipline.id}"
-										th:id="|discipline-${topic.discipline.id}|">[[${topic.discipline.name}]]</h5>
+										th:if="${topicStat.first or not topicStat.first and topics[__prevIndex__].subject.id != topic.subject.id}"
+										th:id="|subject-${topic.subject.id}|">[[${topic.subject.name}]]</h5>
 								</th:block>
 
 								<div class="list-group-item list-card-item mb-3 border"
@@ -80,8 +80,8 @@
 		</div>
 	</div>
 	<script type="text/javascript">
-		$('.discipline-link').click(function() {
-			$('.discipline-link[class*="active"]').removeClass('active');
+		$('.subject-link').click(function() {
+			$('.subject-link[class*="active"]').removeClass('active');
 			$(this).addClass('active');
 		});
 	</script>

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gutotech.fatecando.model.Topic;
-import com.gutotech.fatecando.service.DisciplineService;
+import com.gutotech.fatecando.service.SubjectService;
 import com.gutotech.fatecando.service.TopicService;
 
 @Controller
@@ -26,7 +26,7 @@ public class TopicAdminController {
 	private TopicService topicService;
 
 	@Autowired
-	private DisciplineService disciplineService;
+	private SubjectService subjectService;
 
 	@GetMapping
 	public String showAllTopics(Model model) {
@@ -38,7 +38,7 @@ public class TopicAdminController {
 	public String initUpdateForm(@PathVariable Long id, Model model) {
 		Topic topic = topicService.findById(id);
 		model.addAttribute("topic", topic);
-		model.addAttribute("disciplines", disciplineService.findAll());
+		model.addAttribute("disciplines", subjectService.findAll());
 		return "admin/topic-edit";
 	}
 
@@ -47,7 +47,7 @@ public class TopicAdminController {
 			RedirectAttributes redirectAttributes, Model model) {
 		if (bindingResult.hasErrors()) {
 			model.addAttribute(topic);
-			model.addAttribute("disciplines", disciplineService.findAll());
+			model.addAttribute("disciplines", subjectService.findAll());
 			return "admin/topic-edit";
 		}
 

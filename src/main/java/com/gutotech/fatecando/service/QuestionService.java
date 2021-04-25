@@ -11,7 +11,6 @@ import org.springframework.web.client.RestTemplate;
 
 import com.gutotech.fatecando.model.Feedback;
 import com.gutotech.fatecando.model.Question;
-import com.gutotech.fatecando.model.Topic;
 
 @Service
 public class QuestionService {
@@ -25,14 +24,6 @@ public class QuestionService {
 		ResponseEntity<List<Question>> responseEntity = restTemplate.exchange(URL, HttpMethod.GET, null,
 				new ParameterizedTypeReference<List<Question>>() {
 				});
-
-		return responseEntity.getBody();
-	}
-
-	public List<Question> findAllByTopic(Topic topic) {
-		ResponseEntity<List<Question>> responseEntity = restTemplate.exchange(URL + "/topic/{id}", HttpMethod.GET, null,
-				new ParameterizedTypeReference<List<Question>>() {
-				}, topic.getId());
 
 		return responseEntity.getBody();
 	}

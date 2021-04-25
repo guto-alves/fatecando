@@ -1,19 +1,14 @@
 package com.gutotech.fatecando.model;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 
 import javax.validation.constraints.NotBlank;
 
-public class ForumTopic {
+public class Comment {
 	private Long id;
 
-	@NotBlank(message = "Please provide a valid title.")
-	private String title;
-
-	@NotBlank(message = "Please provide a valid description.")
+	@NotBlank(message = "Please provide a valid content")
 	private String bodyHtml;
 
 	private Date creationDate;
@@ -22,11 +17,7 @@ public class ForumTopic {
 
 	private User user;
 
-	private Discipline discipline;
-
-	private List<Topic> tags = new ArrayList<>();
-
-	public ForumTopic() {
+	public Comment() {
 	}
 
 	public Long getId() {
@@ -35,14 +26,6 @@ public class ForumTopic {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
 	}
 
 	public String getBodyHtml() {
@@ -77,22 +60,6 @@ public class ForumTopic {
 		this.user = user;
 	}
 
-	public Discipline getDiscipline() {
-		return discipline;
-	}
-
-	public void setDiscipline(Discipline discipline) {
-		this.discipline = discipline;
-	}
-
-	public List<Topic> getTags() {
-		return tags;
-	}
-
-	public void setTags(List<Topic> topics) {
-		this.tags = topics;
-	}
-
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -103,10 +70,10 @@ public class ForumTopic {
 		if (this == obj) {
 			return true;
 		}
-		if (!(obj instanceof ForumTopic)) {
+		if (!(obj instanceof Comment)) {
 			return false;
 		}
-		ForumTopic other = (ForumTopic) obj;
+		Comment other = (Comment) obj;
 		return Objects.equals(id, other.id);
 	}
 

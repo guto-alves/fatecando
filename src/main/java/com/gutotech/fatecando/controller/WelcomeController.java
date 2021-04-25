@@ -5,17 +5,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.gutotech.fatecando.service.DisciplineService;
+import com.gutotech.fatecando.service.SubjectService;
 
 @Controller
 public class WelcomeController {
 
 	@Autowired
-	private DisciplineService disciplineService;
+	private SubjectService subjectService;
 
 	@GetMapping({ "/", "index", "home" })
 	public String welcome(Model model) {
-		model.addAttribute("disciplines", disciplineService.findAll());
+		model.addAttribute("disciplines", subjectService.findAll());
 		return "index";
 	}
 

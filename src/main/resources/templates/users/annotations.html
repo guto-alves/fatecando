@@ -26,8 +26,8 @@
 							<th:block th:each="topic : ${topics}">
 								<th:block th:with="prevIndex=${topicStat.index - 1}">
 									<h5
-										th:if="${topicStat.first or not topicStat.first and topics[__prevIndex__].discipline.id != topic.discipline.id}"
-										th:id="|discipline-${topic.discipline.id}|">[[${topic.discipline.name}]]</h5>
+										th:if="${topicStat.first or not topicStat.first and topics[__prevIndex__].subject.id != topic.subject.id}"
+										th:id="|subject-${topic.subject.id}|">[[${topic.subject.name}]]</h5>
 								</th:block>
 
 								<div class="topic list-group-item list-card-item mb-3 border border-1 rounded"
@@ -48,7 +48,7 @@
 				</div>
 			</div>
 			<div class="col-md-8">
-				<h4 id="disciplineName" class="text-center mt-2">...</h4>
+				<h4 id="subjectName" class="text-center mt-2">...</h4>
 
 				<div class="card shadow">
 					<div class="card-body">
@@ -129,7 +129,7 @@
 		$('.topic').first().click();
 
 		function showAnnotation(topic) {
-			$('#disciplineName').text(topic.discipline.name);
+			$('#subjectName').text(topic.subject.name);
 			$('#topic').val(topic.id);
 			$('#topicName').text(topic.name);
 			$('#showTopicButton').prop('href', window.location.origin + `/topic/${topic.id}`);

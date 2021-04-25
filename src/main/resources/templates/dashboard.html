@@ -12,7 +12,7 @@
 		<!-- Discipline cards -->
 		<div id="disciplinesContainer" class="row row-cols-1 row-cols-md-3 g-4">
 			<div class="col" th:each="discipline : ${disciplines}" th:data-semester="${discipline.semester}">
-				<div class="btn-card card h-100 shadow" th:onclick="'showDiscipline(\'' + ${discipline.id} + '\');'">
+				<div class="btn-card card h-100 shadow" th:onclick="'showSubject(\'' + ${discipline.id} + '\');'">
 					<img src="" class="card-img-top" alt="">
 					<div class="card-header btn-card-header">
 						<h5 class="card-title" th:text="${discipline.name}">Estrutura de Dados</h5>

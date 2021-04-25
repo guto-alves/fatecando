@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-	th:replace="~{fragments/layout :: base(${discipline.code}, ~{::body}, _, _, ~{::style})}">
+	th:replace="~{fragments/layout :: base(${subject.code}, ~{::body}, _, _, ~{::style})}">
 <head>
 <meta charset="utf-8">
 <style type="text/css">
@@ -21,33 +21,33 @@
 	<div class="row">
 		<div class="p-3 bg-dark text-white">
 			<div class="card-body">
-				<h3 class="card-title text-center fw-bolder" th:text="${discipline.code} + ' - ' +${discipline.name}"></h3>
+				<h3 class="card-title text-center fw-bolder" th:text="${subject.code} + ' - ' +${subject.name}"></h3>
 
 				<div class="col-10 offset-1">
 					<div class="mb-3">
 						<h5 class="d-inline">Ementa:</h5>
-						<span th:text="${discipline.description}"></span>
+						<span th:text="${subject.description}"></span>
 					</div>
 
 					<h5 class="d-inline">Objetivo:</h5>
-					<span th:text="${discipline.objective}"></span>
+					<span th:text="${subject.objective}"></span>
 
 					<div class="d-flex justify-content-end mt-3">
 						<div class="btn-group rounded-start" role="group" aria-label="Like toggle button">
 							<input type="checkbox" class="btn-check" id="likeButton" autocomplete="off"
-								th:checked="${discipline.user.liked}">
+								th:checked="${subject.user.liked}">
 							<label id="likeStatus" class="btn btn-outline-primary p-2" for="likeButton">
 								Curtir <i class="fa fa-thumbs-up"></i>
 							</label>
 						</div>
 						<span id="totalLikes"
 							class="fw-bolder text-primary border border-1 border-start-0 border-primary p-2 rounded-end"
-							th:classappend="${discipline.user.liked} ? 'bg-white'" th:text="${discipline.likes}"></span>
+							th:classappend="${subject.user.liked} ? 'bg-white'" th:text="${subject.likes}"></span>
 					</div>
 				</div>
 			</div>
 
-			<div class="progress text-center" style="height: 25px;" th:with="progress=${discipline.user.progress}">
+			<div class="progress text-center" style="height: 25px;" th:with="progress=${subject.user.progress}">
 				<div class="progress-bar progress-bar-striped progress-bar-animated fw-bolder" role="progressbar"
 					aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 55%"
 					th:style="'width: ' + ${progress} + '%'" th:classappend="${progress} == 100 ? 'bg-green' : 'bg-danger'"
@@ -80,7 +80,7 @@
 						<div class="card border border-1 border-secondary shadow">
 							<div class="card-body">
 								<h4 class="card-title text-center"
-									th:utext="'Sentiu falta de algum tópico/assunto interessante em ' + ${#strings.arraySplit(discipline.name, ' ')[0]}  + '? <br> Manda pra gente!'">
+									th:utext="'Sentiu falta de algum tópico/assunto interessante em ' + ${#strings.arraySplit(subject.name, ' ')[0]}  + '? <br> Manda pra gente!'">
 								</h4>
 
 								<div class="alert alert-danger alert-dismissible fade show m-3" role="alert" th:if="${error}">
@@ -89,7 +89,7 @@
 									<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 								</div>
 
-								<form id="topic-form" action="#" method="post" th:action="@{/disciplines/{id}(id=${discipline.id})}"
+								<form id="topic-form" action="#" method="post" th:action="@{/subjects/{id}(id=${subject.id})}"
 									th:object="${topic}">
 									<div class="mb-3 mt-2">
 										<label class="form-label fw-bold" for="name">Nome</label>
@@ -160,17 +160,17 @@
 					<li class="nav-item">
 						<a class="nav-link" href="#"
 							th:classappend="|${page == 'topics'? 'active': ''} ${page == 'topics'? 'text-danger' : 'text-dark'}|"
-							th:href="@{/disciplines/{id}(id=${discipline.id}, page='topics')}">Tópicos</a>
+							th:href="@{/subjects/{id}(id=${subject.id}, page='topics')}">Tópicos</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="#"
 							th:classappend="|${page == 'tests'? 'active': ''} ${page == 'tests'? 'text-danger' : 'text-dark'}|"
-							th:href="@{/disciplines/{id}(id=${discipline.id}, page='tests')}">Teste</a>
+							th:href="@{/subjects/{id}(id=${subject.id}, page='tests')}">Teste</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="#"
 							th:classappend="|${page == 'forum'? 'active': ''} ${page == 'forum'? 'text-danger' : 'text-dark'}|"
-							th:href="@{/disciplines/{id}(id=${discipline.id}, page='forum')}">Fórum</a>
+							th:href="@{/subjects/{id}(id=${subject.id}, page='forum')}">Fórum</a>
 					</li>
 				</ul>
 			</div>
@@ -204,7 +204,7 @@
 					<div class="card border border-1 border-dark shadow">
 						<h4 class="card-header text-center">Novo Teste</h4>
 						<div class="card-body">
-							<form action="#" method="post" th:action="@{/disciplines/{id}/test(id=${discipline.id})}"
+							<form action="#" method="post" th:action="@{/subjects/{id}/test(id=${subject.id})}"
 								th:object="${test}">
 								<div class="alert alert-danger alert-dismissible fade show" role="alert"
 									th:if="${#fields.hasErrors('name') || #fields.hasErrors('topics')}">
@@ -267,12 +267,12 @@
 									<div class="modal-content">
 										<div class="modal-header">
 											<h5 class="modal-title" id="exampleModalLabel"
-												th:text="${discipline.code} + ' - Novo Tópico para o Fórum'">Novo Tópico Fórum</h5>
+												th:text="${subject.code} + ' - Novo Tópico para o Fórum'">Novo Tópico Fórum</h5>
 											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 										</div>
 										<div class="modal-body">
 											<form id="forum-topic-form" action="#" method="post"
-												th:action="@{/disciplines/{id}/forum-topics(id=${discipline.id})}" th:object="${forumTopic}">
+												th:action="@{/subjects/{id}/forum-topics(id=${subject.id})}" th:object="${forumTopic}">
 												<div>
 													<div class="mb-3">
 														<label for="title">Título</label>
@@ -317,7 +317,7 @@
 
 					<div class="list-group" th:unless="${#lists.isEmpty(forumTopics)}">
 						<a href="#" class="list-group-item list-group-item-action list-card-item mb-3 border-1 shadow" th:each="topic : ${forumTopics}"
-							th:href="@{/disciplines/{id}/forum-topics/{topicId}(id=${discipline.id}, topicId=${topic.id})}">
+							th:href="@{/subjects/{id}/forum-topics/{topicId}(id=${subject.id}, topicId=${topic.id})}">
 
 							<div class="d-flex w-100 justify-content-between">
 								<h5 class="mb-1" th:text="${topic.title}">Topic Title</h5>

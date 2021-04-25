@@ -1,34 +1,34 @@
 $('#inputFilter').keyup(function() {
 	let filter = $(this).val().toUpperCase();
-	filterDisciplinesBy(filter);
+	filterSubjectsBy(filter);
 });
 
 $('#semesterSelect').change(function() {
 	let selectedSemester = $(this).val();
-	filterDisciplinesBySemester(selectedSemester);
+	filterSubjectsBySemester(selectedSemester);
 });
 
-function filterDisciplinesBy(searchValue) {
+function filterSubjectsBy(searchValue) {
 	getVisibleDisciplines().each(function() {
-		let disciplineContainer = $(this);
-		let name = disciplineContainer.find('.card-header').first().text();
+		let subjectContainer = $(this);
+		let name = subjectContainer.find('.card-header').first().text();
 
-		let discipline = disciplines.find(d => d.name === name);
+		let subject = subjects.find(d => d.name === name);
 
-		if (discipline.name.toUpperCase().indexOf(searchValue) > -1 ||
-			discipline.code.toUpperCase().indexOf(searchValue) > -1 ||
-			discipline.description.toUpperCase().indexOf(searchValue) > -1 ||
-			discipline.objective.toUpperCase().indexOf(searchValue) > -1
+		if (subject.name.toUpperCase().indexOf(searchValue) > -1 ||
+			subject.code.toUpperCase().indexOf(searchValue) > -1 ||
+			subject.description.toUpperCase().indexOf(searchValue) > -1 ||
+			subject.objective.toUpperCase().indexOf(searchValue) > -1
 		) {
-			disciplineContainer.removeAttr('style');
+			subjectContainer.removeAttr('style');
 		} else {
-			disciplineContainer.hide();
+			subjectContainer.hide();
 		}
 	});
 }
 
-function filterDisciplinesBySemester(selectedSemester) {
-	$('#disciplinesContainer').children().each(function() {
+function filterSubjectsBySemester(selectedSemester) {
+	$('#subjectsContainer').children().each(function() {
 		let semester = $(this).data('semester');
 
 		if (selectedSemester == 0 || selectedSemester == semester) {
@@ -42,26 +42,26 @@ function filterDisciplinesBySemester(selectedSemester) {
 }
 
 function getVisibleDisciplines() {
-	let disciplines = [];
+	let subjects = [];
 
 	let selectedSemester = parseInt($('#semesterSelect').val());
 
 	if (selectedSemester != 0) {
 		let selector = 'div[data-semester="' + selectedSemester + '"]';
 
-		disciplines = $('#disciplinesContainer').find(selector);
-	} else { // get all disciplines
-		disciplines = $('#disciplinesContainer').children();
+		subjects = $('#subjectsContainer').find(selector);
+	} else { // get all subjects
+		subjects = $('#subjectsContainer').children();
 	}
 
-	return disciplines;
+	return subjects;
 }
 
-function showDiscipline(disciplineId) {
-	location.href = '/disciplines/' + disciplineId;
+function showSubject(subjectId) {
+	location.href = '/subjects/' + subjectId;
 }
 
 setTimeout(() => {
-	filterDisciplinesBySemester($('#semesterSelect').val());
+	filterSubjectsBySemester($('#semesterSelect').val());
 }, 500);
 

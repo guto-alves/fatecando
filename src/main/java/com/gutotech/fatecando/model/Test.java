@@ -15,7 +15,7 @@ public class Test {
 
 	private User user;
 
-	private Discipline discipline;
+	private Subject subject;
 
 	@Size(min = 2, message = "Por favor selecione no mínimo dois tópicos.")
 	private List<Topic> topics = new ArrayList<>();
@@ -53,12 +53,12 @@ public class Test {
 		this.user = user;
 	}
 
-	public Discipline getDiscipline() {
-		return discipline;
+	public Subject getSubject() {
+		return subject;
 	}
 
-	public void setDiscipline(Discipline discipline) {
-		this.discipline = discipline;
+	public void setSubject(Subject subject) {
+		this.subject = subject;
 	}
 
 	public List<Question> getQuestions() {

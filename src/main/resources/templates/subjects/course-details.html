@@ -29,15 +29,15 @@
 
 			<!-- Discipline cards -->
 			<div class="row row-cols-1 row-cols-md-3 g-4">
-				<div class="col" th:each="discipline : ${recentDisciplines}" th:if="${disciplineStat.count <= 3}">
-					<div class="btn-card card h-100 shadow" th:onclick="|showDiscipline('${discipline.id}');|">
-						<h5 class="card-header btn-card-header" th:text="${discipline.name}"></h5>
+				<div class="col" th:each="subject : ${recentDisciplines}" th:if="${subjectStat.count <= 3}">
+					<div class="btn-card card h-100 shadow" th:onclick="|showSubject('${subject.id}');|">
+						<h5 class="card-header btn-card-header" th:text="${subject.name}"></h5>
 						<div class="card-body">
-							<p class="card-text text-truncate" th:text="${discipline.description}">This is a wider card with
+							<p class="card-text text-truncate" th:text="${subject.description}">This is a wider card with
 								supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
 						</div>
 						<div class="card-footer">
-							<div th:with="progress=${discipline.user.progress}">
+							<div th:with="progress=${subject.user.progress}">
 								<div class="progress text-center" style="height: 10px;">
 									<div class="progress-bar progress-bar-striped progress-bar-animated fw-bolder" role="progressbar"
 										aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 55%"
@@ -56,7 +56,7 @@
 		<div class="row justify-content-md-center mt-3">
 			<div class="col-md-8">
 				<label for="inputFilter" class="form-label">Pesquise por</label>
-				<input id="inputFilter" class="form-control" type="text" placeholder="Disciplina, Assunto, Palavra-chave">
+				<input id="inputFilter" class="form-control" type="text" placeholder="Disciplina, Tópico, Palavra-chave, ...">
 			</div>
 			<div class="col-6 col-md-4">
 				<label for="semesterSelect" class="form-label">Semestre</label>
@@ -72,23 +72,23 @@
 			</div>
 		</div>
 
-		<!-- Disciplines -->
-		<div id="disciplinesContainer" class="row row-cols-1 row-cols-md-3 g-4 mt-3">
-			<div class="col" th:each="discipline : ${disciplines}" th:data-semester="${discipline.semester}">
-				<div class="card btn-card h-100 shadow" th:onclick="'showDiscipline(\'' + ${discipline.id} + '\');'">
-					<h5 class="card-header btn-card-header" th:text="${discipline.name}">Estrutura de Dados</h5>
+		<!-- Subjects -->
+		<div id="subjectsContainer" class="row row-cols-1 row-cols-md-3 g-4 mt-3">
+			<div class="col" th:each="subject : ${subjects}" th:data-semester="${subject.semester}">
+				<div class="card btn-card h-100 shadow" th:onclick="'showSubject(\'' + ${subject.id} + '\');'">
+					<h5 class="card-header btn-card-header" th:text="${subject.name}">Estrutura de Dados</h5>
 					<div class="card-body ">
-						<p class="card-text truncate" th:text="${discipline.description}">This is a wider card with
+						<p class="card-text truncate" th:text="${subject.description}">This is a wider card with
 							supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
 						<div class="d-flex justify-content-end ">
-							<p class="mb-0 pb-0 text-secondary" th:text="'Semestre '+ ${discipline.semester}">Semestre: x</p>
+							<p class="mb-0 pb-0 text-secondary" th:text="'Semestre '+ ${subject.semester}">Semestre: x</p>
 							<span class="ms-3 text-primary">
-								<i class="fa fa-thumbs-o-up" th:text="' ' + ${discipline.likes}"> 0</i>
+								<i class="fa fa-thumbs-o-up" th:text="' ' + ${subject.likes}"> 0</i>
 							</span>
 						</div>
 					</div>
 					<div class="card-footer">
-						<div th:with="progress=${discipline.user.progress}">
+						<div th:with="progress=${subject.user.progress}">
 							<div class="progress text-center" style="height: 10px;">
 								<div class="progress-bar progress-bar-striped progress-bar-animated fw-bolder" role="progressbar"
 									aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" th:style="'width: ' + ${progress} + '%'"
@@ -103,7 +103,7 @@
 	</div>
 
 	<script type="text/javascript" th:inline="javascript">
-		var disciplines = /*[[${disciplines}]]*/null;
+		var subjects = /*[[${subjects}]]*/null;
 	</script>
 
 	<script type="text/javascript" th:src="@{/js/course-details.js}"></script>

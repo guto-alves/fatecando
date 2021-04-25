@@ -11,6 +11,7 @@ import org.springframework.http.client.support.BasicAuthenticationInterceptor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.gutotech.fatecando.model.Subject;
 import com.gutotech.fatecando.model.Topic;
 import com.gutotech.fatecando.model.User;
 
@@ -52,7 +53,7 @@ public class UserService {
 	}
 
 	public User findCurrentUser() {
-		ResponseEntity<User> response = restTemplate.getForEntity(URL + "/current", User.class);
+		ResponseEntity<User> response = restTemplate.getForEntity(URL + "/me", User.class);
 
 		if (response.getStatusCode() == HttpStatus.OK) {
 			return response.getBody();
@@ -68,6 +69,30 @@ public class UserService {
 	public List<Topic> findAllTopics() {
 		ResponseEntity<List<Topic>> responseEntity = restTemplate.exchange(URL + "/me/topics", HttpMethod.GET, null,
 				new ParameterizedTypeReference<List<Topic>>() {
+				});
+
+		return responseEntity.getBody();
+	}
+
+	public List<Subject> findSubjectsAccessed() {
+		ResponseEntity<List<Subject>> responseEntity = restTemplate.exchange(URL + "/me/subjects/last-accessed",
+				HttpMethod.GET, null, new ParameterizedTypeReference<List<Subject>>() {
+				});
+
+		return responseEntity.getBody();
+	}
+
+	public List<Topic> findFavoriteTopics() {
+		ResponseEntity<List<Topic>> responseEntity = restTemplate.exchange(URL + "/me/topics/favorites", HttpMethod.GET,
+				null, new ParameterizedTypeReference<List<Topic>>() {
+				});
+
+		return responseEntity.getBody();
+	}
+
+	public List<Topic> findAnnotatedTopics() {
+		ResponseEntity<List<Topic>> responseEntity = restTemplate.exchange(URL + "/me/topics/annotated",
+				HttpMethod.GET, null, new ParameterizedTypeReference<List<Topic>>() {
 				});
 
 		return responseEntity.getBody();

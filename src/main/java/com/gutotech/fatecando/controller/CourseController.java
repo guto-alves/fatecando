@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gutotech.fatecando.model.Course;
 import com.gutotech.fatecando.service.CourseService;
-import com.gutotech.fatecando.service.DisciplineService;
+import com.gutotech.fatecando.service.SubjectService;
 
 @Controller
 @RequestMapping("course")
@@ -19,16 +19,16 @@ public class CourseController {
 	private CourseService courseService;
 
 	@Autowired
-	private DisciplineService disciplineService;
+	private SubjectService subjectService;
 
 	@GetMapping("{id}")
 	public String showCourseInfo(@PathVariable("id") Long id, Model model) {
 		Course course = courseService.findById(id);
 
 		model.addAttribute("course", course);
-		model.addAttribute("disciplines", disciplineService.findAllByCourse(course));
+		model.addAttribute("subjects", subjectService.findAllByCourse(course));
 
-		return "disciplines/course-details";
+		return "subjects/course-details";
 	}
 
 }

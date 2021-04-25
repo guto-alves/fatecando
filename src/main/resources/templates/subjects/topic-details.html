@@ -81,11 +81,11 @@
 					<nav class="nav-breadcrumb dark" aria-label="breadcrumb">
 						<ol class="breadcrumb">
 							<li class="breadcrumb-item">
-								<a href="#" th:href="@{/dashboard}" th:text="${topic.discipline.course.name}">Disciplina</a>
+								<a href="#" th:href="@{/dashboard}" th:text="${topic.subject.course.name}">Disciplina</a>
 							</li>
 							<li class="breadcrumb-item">
-								<a href="#" th:href="@{/disciplines/{id}(id=${topic.discipline.id})}"
-									th:text="${topic.discipline.name}">Fórum</a>
+								<a href="#" th:href="@{/subjects/{id}(id=${topic.subject.id})}"
+									th:text="${topic.subject.name}">Fórum</a>
 							</li>
 						</ol>
 					</nav>

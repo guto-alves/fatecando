@@ -23,7 +23,7 @@ public class Topic {
 
 	private UploadStatus status;
 
-	private Discipline discipline;
+	private Subject subject;
 
 	private User createdBy;
 
@@ -98,12 +98,12 @@ public class Topic {
 		this.status = status;
 	}
 
-	public Discipline getDiscipline() {
-		return discipline;
+	public Subject getSubject() {
+		return subject;
 	}
 
-	public void setDiscipline(Discipline discipline) {
-		this.discipline = discipline;
+	public void setSubject(Subject subject) {
+		this.subject = subject;
 	}
 
 	public User getCreatedBy() {

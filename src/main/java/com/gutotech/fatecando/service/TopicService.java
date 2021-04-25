@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.gutotech.fatecando.model.Question;
 import com.gutotech.fatecando.model.Topic;
 
 @Service
@@ -21,22 +22,6 @@ public class TopicService {
 
 	public List<Topic> findAll() {
 		ResponseEntity<List<Topic>> responseEntity = restTemplate.exchange(URL, HttpMethod.GET, null,
-				new ParameterizedTypeReference<List<Topic>>() {
-				});
-
-		return responseEntity.getBody();
-	}
-
-	public List<Topic> findAllFavorites() {
-		ResponseEntity<List<Topic>> responseEntity = restTemplate.exchange(URL + "/favorites", HttpMethod.GET, null,
-				new ParameterizedTypeReference<List<Topic>>() {
-				});
-
-		return responseEntity.getBody();
-	}
-
-	public List<Topic> findAllWithAnnotations() {
-		ResponseEntity<List<Topic>> responseEntity = restTemplate.exchange(URL + "/annotations", HttpMethod.GET, null,
 				new ParameterizedTypeReference<List<Topic>>() {
 				});
 
@@ -77,5 +62,13 @@ public class TopicService {
 
 	public void dragTopic(Long draggedTopicId, Long relatedTopicId) {
 		restTemplate.put(URL + "/drag/{draggedTopicId}/{relatedTopicId}", null, draggedTopicId, relatedTopicId);
+	}
+
+	public List<Question> getQuiz(Topic topic) {
+		ResponseEntity<List<Question>> responseEntity = restTemplate.exchange(URL + "/{id}/quiz", HttpMethod.GET, null,
+				new ParameterizedTypeReference<List<Question>>() {
+				}, topic.getId());
+
+		return responseEntity.getBody();
 	}
 }

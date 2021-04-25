@@ -9,7 +9,7 @@ import java.util.Set;
 
 import javax.validation.constraints.NotBlank;
 
-public class Discipline {
+public class Subject {
 	private Long id;
 
 	@NotBlank
@@ -30,16 +30,16 @@ public class Discipline {
 
 	private Set<Topic> topics = new HashSet<>();
 
-	private List<ForumTopic> forum = new ArrayList<>();
+	private List<ForumThread> forum = new ArrayList<>();
 
 	private Course course;
 
 	private UserInfo user;
 
-	public Discipline() {
+	public Subject() {
 	}
 
-	public Discipline(String name, String code, String description, String objetive, int semester) {
+	public Subject(String name, String code, String description, String objetive, int semester) {
 		this.name = name;
 		this.code = code;
 		this.description = description;
@@ -107,7 +107,7 @@ public class Discipline {
 		return topics;
 	}
 
-	public List<ForumTopic> getForum() {
+	public List<ForumThread> getForum() {
 		return forum;
 	}
 
@@ -137,10 +137,10 @@ public class Discipline {
 		if (this == obj) {
 			return true;
 		}
-		if (!(obj instanceof Discipline)) {
+		if (!(obj instanceof Subject)) {
 			return false;
 		}
-		Discipline other = (Discipline) obj;
+		Subject other = (Subject) obj;
 		return Objects.equals(id, other.id);
 	}
 

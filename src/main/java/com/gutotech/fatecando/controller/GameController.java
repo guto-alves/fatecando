@@ -21,7 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.gutotech.fatecando.model.Game;
 import com.gutotech.fatecando.model.RoundAnswer;
 import com.gutotech.fatecando.model.Topic;
-import com.gutotech.fatecando.service.DisciplineService;
+import com.gutotech.fatecando.service.SubjectService;
 import com.gutotech.fatecando.service.GameService;
 import com.gutotech.fatecando.service.TopicService;
 
@@ -33,7 +33,7 @@ public class GameController {
 	private TopicService topicService;
 
 	@Autowired
-	private DisciplineService disciplineService;
+	private SubjectService subjectService;
 
 	@Autowired
 	private GameService gameService;
@@ -61,7 +61,7 @@ public class GameController {
 		model.addAttribute("game", new Game());
 		model.addAttribute("games", gameService.findAll());
 		model.addAttribute("topics", topicService.findAll());
-		model.addAttribute("disciplines", disciplineService.findAll());
+		model.addAttribute("disciplines", subjectService.findAll());
 		return "games/games";
 	}
 
@@ -72,7 +72,7 @@ public class GameController {
 			model.addAttribute(game);
 			model.addAttribute("games", gameService.findAll());
 			model.addAttribute("topics", topicService.findAll());
-			model.addAttribute("disciplines", disciplineService.findAll());
+			model.addAttribute("disciplines", subjectService.findAll());
 			return "games/games";
 		}
 
