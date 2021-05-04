@@ -1,4 +1,6 @@
-$('.select2').select2();
+$('.select2').select2({
+	closeOnSelect: false
+});
 
 $('#filter-game-input').keyup(function() {
 	let filter = $(this).val().toUpperCase();

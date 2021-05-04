@@ -74,7 +74,8 @@
 										<label for="topics" class="form-label">Tópicos</label>
 
 										<select id="topics" class="form-select select2" multiple="multiple" th:field="*{topics}"
-											th:classappend="${#fields.hasErrors('topics')}? 'is-invalid'" aria-describedby="topicsFeedback">
+											th:classappend="${#fields.hasErrors('topics')}? 'is-invalid'" aria-describedby="topicsFeedback"
+											style="width: 100%;">
 											<option th:each="topic : ${topics}" th:value="${topic.id}" th:text="${topic.name}"></option>
 										</select>
 
