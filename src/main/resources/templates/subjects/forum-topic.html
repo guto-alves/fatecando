@@ -17,7 +17,7 @@
 				</li>
 			</ol>
 		</nav>
-		
+
 		<div class="card mt-3 mb-5">
 			<div class="card-body">
 				<h3 class="card-title" th:text="${forumTopic.title}">Título</h3>
@@ -33,7 +33,7 @@
 							title="Este post mostra esforço de pesquisa; é útil e claro">
 							<input type="checkbox" class="btn-check" id="upvote-button" autocomplete="off"
 								th:checked="${forumTopic.me.upvoted}">
-							<label class="btn btn-outline-success btn-sm" for="upvote-button">
+							<label class="btn btn-outline-dark btn-sm" for="upvote-button">
 								<i class="bi bi-caret-up-fill" style="font-size: 16px;"></i>
 							</label>
 						</div>
@@ -46,7 +46,6 @@
 								<i class="bi bi-caret-down-fill" style="font-size: 16px;"></i>
 							</label>
 						</div>
-
 					</div>
 					<div class="flex-fill">
 						<div id="topic-body-editor" class="flex-fill" th:utext="${forumTopic.bodyHtml}"></div>
@@ -72,7 +71,28 @@
 
 		<div class="card mb-3" th:each="comment : ${comments}">
 			<div class="card-body">
-				<div class="comment-body" th:utext="${comment.bodyHtml}"></div>
+				<div class="d-flex p-2">
+					<div class="me-3 text-center ">
+						<div class="upvote-comment-button btn-group" role="group" data-bs-toggle="tooltip"
+							data-bs-placement="right" title="Esta resposta é útil" th:data-id="${comment.id}">
+							<input type="checkbox" class="btn-check" autocomplete="off" th:checked="${comment.me.upvoted}">
+							<label class="btn btn-outline-dark btn-sm">
+								<i class="bi bi-caret-up-fill fs-8"></i>
+							</label>
+						</div>
+						<div class="vote-count text-center fw-bold" th:text="${comment.voteCount}">3</div>
+						<div class="downvote-comment-button btn-group" role="group" data-bs-toggle="tooltip"
+							data-bs-placement="right" title="Esta resposta não é útil" th:data-id="${comment.id}">
+							<input type="checkbox" class="btn-check" autocomplete="off" th:checked="${comment.me.downvoted}">
+							<label class="btn btn-outline-secondary btn-sm">
+								<i class="bi bi-caret-down-fill fs-8"></i>
+							</label>
+						</div>
+					</div>
+					<div class="flex-fill">
+						<div class="comment-body" th:utext="${comment.bodyHtml}"></div>
+					</div>
+				</div>
 			</div>
 			<div class="card-footer d-flex justify-content-between">
 				<div>
@@ -105,8 +125,7 @@
 
 	<script type="text/javascript" th:inline="javascript">
 		let forumId = /*[[${forumTopic.id}]]*/null;
-		let topicBodyEditor = new Quill('#topic-body-editor',
-				EditorOptions.READ_ONLY);
+		let topicBodyEditor = new Quill('#topic-body-editor', EditorOptions.READ_ONLY);
 
 		$("time.timeago").timeago();
 
@@ -135,6 +154,32 @@
 			$.post('/forum/' + forumId + '/downvote', function(data) {
 				$('#upvote-button').prop('checked', false);
 				$('#vote-count').text(data.voteCount);
+			});
+		});
+
+		$('.upvote-comment-button').click(function() {
+			let _this = $(this);
+			let commentId = _this.data('id');
+			
+			let checkbox = $(_this).find('input');
+			checkbox.prop('checked', !checkbox.prop('checked'));
+			
+			$.post('/comments/' + commentId + '/upvote', function(data) {
+				$(_this).nextAll('.downvote-comment-button').find('input').prop('checked', false);
+				$(_this).next('.vote-count').text(data.voteCount);
+			});
+		});
+
+		$('.downvote-comment-button').click(function() {
+			let _this = $(this);
+			let commentId = _this.data('id');
+			
+			let checkbox = $(_this).find('input');
+			checkbox.prop('checked', !checkbox.prop('checked'));
+			
+			$.post('/comments/' + commentId + '/downvote', function(data) {
+				$(_this).prevAll('.upvote-comment-button').find('input').prop('checked', false);
+				$(_this).prev('.vote-count').text(data.voteCount);
 			});
 		});
 	</script>

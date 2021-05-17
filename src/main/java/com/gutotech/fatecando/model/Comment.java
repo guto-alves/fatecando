@@ -13,9 +13,11 @@ public class Comment {
 
 	private Date creationDate;
 
-	private int likes;
-
 	private User user;
+
+	private CommentUser me;
+
+	private long voteCount;
 
 	public Comment() {
 	}
@@ -44,20 +46,28 @@ public class Comment {
 		this.creationDate = creationDate;
 	}
 
-	public int getLikes() {
-		return likes;
-	}
-
-	public void setLikes(int likes) {
-		this.likes = likes;
-	}
-
 	public User getUser() {
 		return user;
 	}
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public long getVoteCount() {
+		return voteCount;
+	}
+
+	public void setVoteCount(long voteCount) {
+		this.voteCount = voteCount;
+	}
+
+	public CommentUser getMe() {
+		return me;
+	}
+
+	public void setMe(CommentUser me) {
+		this.me = me;
 	}
 
 	@Override
@@ -77,4 +87,27 @@ public class Comment {
 		return Objects.equals(id, other.id);
 	}
 
+	public class CommentUser {
+		private boolean upvoted;
+		private boolean downvoted;
+
+		public CommentUser() {
+		}
+
+		public boolean isUpvoted() {
+			return upvoted;
+		}
+
+		public void setUpvoted(boolean upvoted) {
+			this.upvoted = upvoted;
+		}
+
+		public boolean isDownvoted() {
+			return downvoted;
+		}
+
+		public void setDownvoted(boolean downvoted) {
+			this.downvoted = downvoted;
+		}
+	}
 }
