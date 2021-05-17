@@ -7,26 +7,26 @@
 </head>
 <body>
 	<div class="container">
-		<div class="card my-4">
+		<nav class="nav-breadcrumb dark mt-2" aria-label="breadcrumb">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">
+					<a href="#" th:href="@{/subjects/{id}(id=${subject.id})}" th:text="${subject.name}">Disciplina</a>
+				</li>
+				<li class="breadcrumb-item">
+					<a href="#" th:href="@{/subjects/{id}?page=forum(id=${subject.id})}">Fórum</a>
+				</li>
+			</ol>
+		</nav>
+		
+		<div class="card mt-3 mb-5">
 			<div class="card-body">
-				<nav class="nav-breadcrumb dark" aria-label="breadcrumb">
-					<ol class="breadcrumb">
-						<li class="breadcrumb-item">
-							<a href="#" th:href="@{/subjects/{id}(id=${subject.id})}" th:text="${subject.name}">Disciplina</a>
-						</li>
-						<li class="breadcrumb-item">
-							<a href="#" th:href="@{/subjects/{id}?page=forum(id=${subject.id})}">Fórum</a>
-						</li>
-					</ol>
-				</nav>
-
 				<h3 class="card-title" th:text="${forumTopic.title}">Título</h3>
 
 				<span class="card-text">
 					<span class="text-muted">Criado</span>
 					<time class="timeago" th:datetime="${#dates.formatISO(forumTopic.creationDate)}"></time>
 				</span>
-
+				<hr>
 				<div class="d-flex">
 					<div class="p-3 text-center ">
 						<div class="btn-group" role="group" data-bs-toggle="tooltip" data-bs-placement="right"
@@ -52,7 +52,7 @@
 						<div id="topic-body-editor" class="flex-fill" th:utext="${forumTopic.bodyHtml}"></div>
 					</div>
 				</div>
-				<div class="tags d-grid gap-2 d-md-flex justify-content-md-end  mt-2">
+				<div class="tags d-grid gap-2 d-md-flex justify-content-md-end mt-2">
 					<a class="badge rounded-pill bg-dark link-light text-decoration-none" th:each="tag : ${forumTopic.tags}"
 						th:href="@{/topic/{id}(id=${tag.id})}" th:text="${tag.name}"> </a>
 				</div>
@@ -66,45 +66,37 @@
 			</div>
 		</div>
 
-		<div class="card border mb-3">
+		<h5 class="fw-bold"
+			th:text="${#lists.size(comments) > 0 ? #lists.size(comments) + ' Resposta(s)' : 'Seja o primeiro a responder!'}">5
+			Respostas</h5>
+
+		<div class="card mb-3" th:each="comment : ${comments}">
 			<div class="card-body">
-				<h5 class="card-title"
-					th:text="${#lists.size(comments) > 0 ? #lists.size(comments) + ' Resposta(s)' : 'Seja o primeiro a responder!'}">5
-					Respostas</h5>
-
-				<div class="card shadow mb-3" th:each="comment : ${comments}">
-					<div class="card-body">
-						<div class="comment-body" th:utext="${comment.bodyHtml}"></div>
-					</div>
-					<div class="card-footer d-flex justify-content-between">
-						<div>
-							<span class="text-muted">Respondido por</span>
-							<span th:text="'' + ${forumTopic.user.fullName}">Gustavo Alves</span>
-						</div>
-
-						<time class="timeago" th:datetime="${#dates.formatISO(comment.creationDate)}"></time>
-					</div>
+				<div class="comment-body" th:utext="${comment.bodyHtml}"></div>
+			</div>
+			<div class="card-footer d-flex justify-content-between">
+				<div>
+					<span class="text-muted">Respondido por</span>
+					<span th:text="'' + ${forumTopic.user.fullName}">Gustavo Alves</span>
 				</div>
+
+				<time class="timeago" th:datetime="${#dates.formatISO(comment.creationDate)}"></time>
 			</div>
 		</div>
 
-		<div class="card border mb-3">
-			<div class="card-body">
-				<h5 class="card-title">Sua resposta</h5>
-				<form id="comment-form" action="#" method="post"
-					th:action="@{/subjects/{disciplineId}/forum-topics/{topicId}(disciplineId=${subject.id},topicId=${forumTopic.id})}"
-					th:object="${comment}">
-					<div class="mb-4">
-						<div id="comment-body-editor"></div>
+		<h5 class="card-title mt-5">Sua resposta</h5>
+		<form id="comment-form" action="#" method="post"
+			th:action="@{/subjects/{disciplineId}/forum-topics/{topicId}(disciplineId=${subject.id},topicId=${forumTopic.id})}"
+			th:object="${comment}">
+			<div class="mb-4">
+				<div id="comment-body-editor"></div>
 
-						<input type="hidden" th:field="*{bodyHtml}" required></input>
-					</div>
-					<div class="d-grid mx-auto">
-						<button type="submit" class="btn btn-danger col-md-6">Publique sua resposta</button>
-					</div>
-				</form>
+				<input type="hidden" th:field="*{bodyHtml}" required></input>
 			</div>
-		</div>
+			<div class="d-grid gap-2 col-4 mx-auto">
+				<button type="submit" class="btn btn-danger">Publique sua resposta</button>
+			</div>
+		</form>
 	</div>
 
 	<script type="text/javascript" th:src="@{/js/timeago/timeago.js}"></script>
@@ -113,7 +105,8 @@
 
 	<script type="text/javascript" th:inline="javascript">
 		let forumId = /*[[${forumTopic.id}]]*/null;
-		let topicBodyEditor = new Quill('#topic-body-editor', EditorOptions.READ_ONLY);
+		let topicBodyEditor = new Quill('#topic-body-editor',
+				EditorOptions.READ_ONLY);
 
 		$("time.timeago").timeago();
 
@@ -121,12 +114,15 @@
 			new Quill(this, EditorOptions.READ_ONLY);
 		});
 
-		let commentBodyEditor = new Quill('#comment-body-editor', EditorOptions.FORUM_TOPIC_COMMENT);
-		$('#comment-form').submit(function(event) {
-			if (commentBodyEditor.root.innerText.trim() !== '') {
-				$('#comment-form #bodyHtml').val(commentBodyEditor.root.innerHTML);
-			}
-		});
+		let commentBodyEditor = new Quill('#comment-body-editor',
+				EditorOptions.FORUM_TOPIC_COMMENT);
+		$('#comment-form').submit(
+				function(event) {
+					if (commentBodyEditor.root.innerText.trim() !== '') {
+						$('#comment-form #bodyHtml').val(
+								commentBodyEditor.root.innerHTML);
+					}
+				});
 
 		$('#upvote-button').click(function() {
 			$.post('/forum/' + forumId + '/upvote', function(data) {
