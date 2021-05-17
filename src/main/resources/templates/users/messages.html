@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org"
+	th:replace="~{fragments/layout :: base('Mensagens', ~{::body}, _, _, ~{::style})}">
+<head>
+<meta charset="utf-8">
+<style type="text/css">
+#messages {
+	max-height: 300px;
+	overflow-y: auto;
+}
+</style>
+</head>
+<body onload="disconnect()">
+	<div class="container text-white bg-dark py-3">
+		<h3>Mensagens ([[${#lists.size(chats)}]])</h3>
+	</div>
+
+	<div class="container mt-4">
+		<div class="row">
+			<div class="col-md-4 mb-3">
+				<div class="card mb-2">
+					<div class="card-body">
+						<ul class="nav nav-tabs" id="myTab" role="tablist">
+							<li class="nav-item" role="presentation">
+								<button class="nav-link active" id="threads-tab" data-bs-toggle="tab" data-bs-target="#threads"
+									type="button" role="tab" aria-controls="threads" aria-selected="true">Conversas</button>
+							</li>
+							<li class="nav-item" role="presentation">
+								<button class="nav-link" id="users-tab" data-bs-toggle="tab" data-bs-target="#users" type="button"
+									role="tab" aria-controls="users" aria-selected="false">Usuários</button>
+							</li>
+						</ul>
+						<div class="tab-content" id="myTabContent">
+							<div class="tab-pane fade show active" id="threads" role="tabpanel" aria-labelledby="threads-tab">
+								<div class="conversations list-group mt-2"></div>
+							</div>
+							<div class="tab-pane fade" id="users" role="tabpanel" aria-labelledby="users-tab">
+								<form id="search-form">
+									<div class="input-group mt-2">
+										<input type="text" id="user-filter" class="form-control" placeholder="Pesquisar"
+											aria-describedby="search-button">
+										<button class="btn btn-outline-secondary" type="submit" id="search-button">
+											<i class="bi bi-search"></i>
+										</button>
+									</div>
+								</form>
+
+								<div id="users-result" class="list-group mt-2"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-8">
+				<div class="card">
+					<div id="to" class="card-header fw-bold">...</div>
+					<div class="card-body">
+						<div id="messages" class="mb-3 pb-3 border-bottom"></div>
+						<div id="new-message-editor"></div>
+						<div class="d-grid col-md-6 mx-auto mt-2">
+							<button class="btn btn-sm border border-1" id="send-message-button">
+								<img width="20" height="20" src="https://img.icons8.com/ios/452/sent.png">
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript" th:src="@{/js/timeago/timeago.js}"></script>
+	<script type="text/javascript" th:src="@{/js/timeago/jquery.timeago.pt-br.js}"></script>
+	<script src="/webjars/sockjs-client/sockjs.min.js"></script>
+	<script src="/webjars/stomp-websocket/stomp.min.js"></script>
+	<script type="text/javascript" th:src="@{/js/quill-utils.js}"></script>
+
+
+	<script type="text/javascript" th:inline="javascript">
+		const from = /*[[${#authentication.name}]]*/null;
+		
+		let conversations = /*[[${chats}]]*/null;
+		let selectedConversation;
+
+		let stompClient = null;
+		
+		let users = [];
+		
+		updateConversations();
+
+		// Conversations Tab
+		function updateConversations() {
+			$('.conversations').empty();
+			
+			conversations.forEach(conversation => {
+				$('.conversations').append(`
+					<button type="button" class="conversation list-group-item list-group-item-action" data-id="${conversation.id}">
+						<div class="d-flex w-100 justify-content-between">
+							<span class="fw-bold mb-1">${conversation.to.fullName}</span>
+							<small><time class="timeago" datetime="${conversation.lastMessage.date}"></time></small>
+						</div>
+						${conversation.lastMessage.body}
+					</button>
+				`);
+				
+				if (selectedConversation != null && conversation.id === selectedConversation.id) {
+					toggleSelectedConversation('.conversation', $('.conversation').last());
+				}
+			});
+			
+			$("time.timeago").timeago();
+			
+			$('.conversation').click(function() {
+				let conversationId = $(this).data('id');
+				
+				selectedConversation = conversations.find(c => c.id === conversationId);
+				
+				updateChat();
+				
+				$.get('/user/messages/' + conversationId, function (messages) {
+					updateMessages(messages);
+				});
+				
+				stompClient.subscribe('/secured/message/queue/chat-' + conversationId, function(data) {
+					let messages = JSON.parse(data.body);
+					updateMessages(messages);
+				});
+				
+				toggleSelectedConversation('.conversation', this);
+			});
+		}
+		
+
+		// Search Tab 
+		$('#search-form').submit(function(event) {
+			event.preventDefault();
+			
+			$('#users-result').empty();
+			
+			$.get('/users/search', {filter: $('#user-filter').val()}, function (data) {
+				users = data;
+				
+				users.forEach(user => {
+					$('#users-result').append(`
+						<button type="button" class="user list-group-item list-group-item-action" data-user="${user.email}">
+							<div class="fw-bold">${user.fullName}</div>
+							<small>${user.email}</small>
+						</button>		
+					`);
+				});
+				
+				$('.user').off('click');
+				
+				$('.user').click(function() {
+					toggleSelectedConversation('.user', this);
+					
+					let userEmail = $(this).data('user');
+					
+					let selectedUser = users.find(user => user.email === userEmail);
+					
+					selectedConversation = {
+						to: selectedUser,
+						pvt: true
+					};
+						
+					updateChat();
+					
+					$.get('/user/messages/private/' + selectedUser.email, function (messages) {
+						updateMessages(messages);
+					});
+				});
+			});
+		});
+		
+		let newMessageEditor = new Quill('#new-message-editor', EditorOptions.MESSAGE);
+		
+		$('#send-message-button').click(function() {
+			if (selectedConversation != null) {
+				let message = {
+					body : newMessageEditor.root.innerHTML,
+					to : {
+						email : selectedConversation.to.email
+					},
+					chat: {
+						id: selectedConversation.id
+					}
+				};
+				
+				sendMessage(message);
+				
+				QuillUtils.setContent(newMessageEditor, '');
+			}
+		});
+		
+		function toggleSelectedConversation(selector, selectedDiv) {
+			$(selector).each(function() {
+				$(this).removeClass([ 'active', 'bg-dark' ]);
+			});
+			
+			$(selectedDiv).addClass([ 'active', 'bg-dark' ]);
+		}
+		
+		function updateChat() {
+			if (selectedConversation.pvt) {
+				$('#to').text(selectedConversation.to.fullName);			 
+			} else {
+				$('#to').text('Game');
+			}
+		}
+		
+		function updateMessages(messages) {
+			clearMessages();
+			messages.forEach(message => showOutputMessage(message));
+			$("time.timeago").timeago();
+			scrollToBottom();
+		}
+		
+		function clearMessages() {
+			$('#messages').empty();
+		}
+
+		function showOutputMessage(message) {
+			let messageContainer = document.createElement('div');
+			
+			let messageEditor = document.createElement('div');
+			messageEditor.classList.add('mb-1');
+			messageEditor.innerHTML = message.body;
+			
+			if (message.from == null || message.from.email === from) {
+				messageEditor.classList.add('border', 'border-1', 'border-danger');	
+			}
+			
+			$(messageContainer).append(`<small class="text-muted"><time class="timeago" datetime="${message.date}"></time></small>`);
+			$(messageContainer).append(messageEditor);
+			
+			$('#messages').append(messageContainer);
+			
+			new Quill(messageEditor, EditorOptions.READ_ONLY);
+		}
+		
+		function scrollToBottom() {
+			let messagesDiv = $('#messages');
+			messagesDiv.prop("scrollTop", messagesDiv.prop("scrollHeight"));
+		}
+	</script>
+	<script type="text/javascript" th:src="@{/js/chat.js}"></script>
+</body>
+</html>

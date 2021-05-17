@@ -125,6 +125,33 @@ const EditorOptions = {
 		},
 		theme: 'snow'
 	},
+	MESSAGE: {
+		modules : {
+			syntax : true,
+			toolbar: [
+				[{ 'font': [] }],
+				['bold', 'italic', 'underline'], // toggled buttons
+				[{ 'color': [] }, { 'background': [] }], // dropdown with defaults from theme
+				[{ 'script': 'sub' }, { 'script': 'super' }], // superscript/subscript
+				[{ 'list': 'ordered' }, { 'list': 'bullet' }],
+				['blockquote', 'code-block'],
+				['link', 'image', 'video', 'formula'],
+				['emoji'],
+				['clean'] // remove formatting button
+			],
+			history : {
+				delay : 2000,
+				maxStack : 500,
+				userOnly : true
+			},
+			imageDrop : true,
+			imageResize : {
+				modules : [ 'Resize', 'DisplaySize', 'Toolbar' ]
+			},
+			'emoji-toolbar' : true
+		},
+		theme : 'snow'
+	},
 	READ_ONLY: {
 		modules: {
 			syntax: true,
