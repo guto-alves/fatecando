@@ -1,5 +1,7 @@
 package com.gutotech.fatecando.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gutotech.fatecando.model.Topic;
@@ -101,4 +105,9 @@ public class UserController {
 		return "redirect:/users/topics";
 	}
 
+	@ResponseBody
+	@GetMapping("search")
+	public List<User> search(@RequestParam String filter) {
+		return userService.searchByNameOrEmail(filter);
+	}
 }

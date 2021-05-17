@@ -31,6 +31,14 @@ public class UserService {
 		return responseEntity.getBody();
 	}
 
+	public List<User> searchByNameOrEmail(String filter) {
+		ResponseEntity<List<User>> responseEntity = restTemplate.exchange(URL + "/search?filter=" + filter,
+				HttpMethod.GET, null, new ParameterizedTypeReference<List<User>>() {
+				});
+
+		return responseEntity.getBody();
+	}
+
 	public User findById(Long id) {
 		return restTemplate.getForObject(URL + "/{id}", User.class, id);
 	}
@@ -91,8 +99,8 @@ public class UserService {
 	}
 
 	public List<Topic> findAnnotatedTopics() {
-		ResponseEntity<List<Topic>> responseEntity = restTemplate.exchange(URL + "/me/topics/annotated",
-				HttpMethod.GET, null, new ParameterizedTypeReference<List<Topic>>() {
+		ResponseEntity<List<Topic>> responseEntity = restTemplate.exchange(URL + "/me/topics/annotated", HttpMethod.GET,
+				null, new ParameterizedTypeReference<List<Topic>>() {
 				});
 
 		return responseEntity.getBody();
