@@ -26,6 +26,10 @@ public class ForumThread {
 
 	private List<Topic> tags = new ArrayList<>();
 
+	private long voteCount;
+
+	private ForumThreadUser me;
+
 	public ForumThread() {
 	}
 
@@ -77,11 +81,11 @@ public class ForumThread {
 		this.user = user;
 	}
 
-	public Subject getDiscipline() {
+	public Subject getSubject() {
 		return subject;
 	}
 
-	public void setDiscipline(Subject subject) {
+	public void setSubject(Subject subject) {
 		this.subject = subject;
 	}
 
@@ -91,6 +95,18 @@ public class ForumThread {
 
 	public void setTags(List<Topic> topics) {
 		this.tags = topics;
+	}
+
+	public long getVoteCount() {
+		return voteCount;
+	}
+
+	public void setVoteCount(long voteCount) {
+		this.voteCount = voteCount;
+	}
+
+	public ForumThreadUser getMe() {
+		return me;
 	}
 
 	@Override
@@ -108,6 +124,31 @@ public class ForumThread {
 		}
 		ForumThread other = (ForumThread) obj;
 		return Objects.equals(id, other.id);
+	}
+
+	public class ForumThreadUser {
+		private boolean upvoted;
+		private boolean downvoted;
+
+		public ForumThreadUser() {
+		}
+
+		public boolean isUpvoted() {
+			return upvoted;
+		}
+
+		public void setUpvoted(boolean upvoted) {
+			this.upvoted = upvoted;
+		}
+
+		public boolean isDownvoted() {
+			return downvoted;
+		}
+
+		public void setDownvoted(boolean downvoted) {
+			this.downvoted = downvoted;
+		}
+
 	}
 
 }
