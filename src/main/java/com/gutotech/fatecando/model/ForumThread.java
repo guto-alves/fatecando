@@ -28,6 +28,10 @@ public class ForumThread {
 
 	private long voteCount;
 
+	private long viewCount;
+
+	private long totalComments;
+
 	private ForumThreadUser me;
 
 	public ForumThread() {
@@ -103,6 +107,22 @@ public class ForumThread {
 
 	public void setVoteCount(long voteCount) {
 		this.voteCount = voteCount;
+	}
+
+	public long getViewCount() {
+		return viewCount;
+	}
+
+	public void setViewCount(long viewCount) {
+		this.viewCount = viewCount;
+	}
+
+	public long getTotalComments() {
+		return totalComments;
+	}
+
+	public void setTotalComments(long totalComments) {
+		this.totalComments = totalComments;
 	}
 
 	public ForumThreadUser getMe() {

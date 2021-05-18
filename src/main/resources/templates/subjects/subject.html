@@ -321,8 +321,18 @@
 
 							<div class="d-flex">
 								<div class="me-4 text-center align-self-center">
-									<small class="d-block text-muted">Votos</small> 
-									<small th:text="${topic.voteCount}"></small>
+									<div class="mb-1">
+										<small class="d-block text-muted">votos</small> 
+										<small th:text="${topic.voteCount}">1</small>
+									</div>
+									<div class="mb-1">
+										<small class="d-block text-muted">respostas</small> 
+										<small th:text="${topic.totalComments}">1</small>
+									</div>
+									<div class="mb-1">
+										<small class="d-block text-muted">visitas</small> 
+										<small th:text="${topic.viewCount}">1</small>									
+									</div>
 								</div>
 								<div class="flex-fill">
 									<div class="d-flex w-100 justify-content-between">
