@@ -32,6 +32,8 @@ public class ForumThread {
 
 	private long totalComments;
 
+	private boolean answered;
+
 	private ForumThreadUser me;
 
 	public ForumThread() {
@@ -123,6 +125,14 @@ public class ForumThread {
 
 	public void setTotalComments(long totalComments) {
 		this.totalComments = totalComments;
+	}
+
+	public boolean isAnswered() {
+		return answered;
+	}
+
+	public void setAnswered(boolean answered) {
+		this.answered = answered;
 	}
 
 	public ForumThreadUser getMe() {

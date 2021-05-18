@@ -29,4 +29,10 @@ public class CommentController {
 		return commentService.addDownvote(id);
 	}
 
+	@ResponseBody
+	@PostMapping("{id}/accept")
+	public Comment accept(@PathVariable Long id) {
+		return commentService.accept(id);
+	}
+
 }

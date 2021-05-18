@@ -69,7 +69,9 @@
 			th:text="${#lists.size(comments) > 0 ? #lists.size(comments) + ' Resposta(s)' : 'Seja o primeiro a responder!'}">5
 			Respostas</h5>
 
-		<div class="card mb-3" th:each="comment : ${comments}">
+		<div class="card mb-3" th:each="comment : ${comments}"
+			th:classappend="${forumTopic.user.email != #authentication.name and comment.accepted} ? 'border-3 border-success'"
+			title="O autor da pergunta aceitou esta como a melhor resposta">
 			<div class="card-body">
 				<div class="d-flex p-2">
 					<div class="me-3 text-center ">
@@ -86,6 +88,14 @@
 							<input type="checkbox" class="btn-check" autocomplete="off" th:checked="${comment.me.downvoted}">
 							<label class="btn btn-outline-secondary btn-sm">
 								<i class="bi bi-caret-down-fill fs-8"></i>
+							</label>
+						</div>
+						<div class="btn-group d-block mt-3" role="group" aria-label="Basic checkbox toggle button group"
+							th:if="${forumTopic.user.email == #authentication.name}">
+							<input type="checkbox" class="btn-check accept-button" th:id="|comment-${comment.id}|"
+								autocomplete="off" th:checked="${comment.accepted}" th:data-id="${comment.id}">
+							<label class="btn btn-outline-success btn-sm" th:for="|comment-${comment.id}|">
+								<i class="bi bi-check2"></i>
 							</label>
 						</div>
 					</div>
@@ -135,13 +145,12 @@
 
 		let commentBodyEditor = new Quill('#comment-body-editor',
 				EditorOptions.FORUM_TOPIC_COMMENT);
-		$('#comment-form').submit(
-				function(event) {
-					if (commentBodyEditor.root.innerText.trim() !== '') {
-						$('#comment-form #bodyHtml').val(
-								commentBodyEditor.root.innerHTML);
-					}
-				});
+		$('#comment-form').submit(function(event) {
+			if (commentBodyEditor.root.innerText.trim() !== '') {
+				$('#comment-form #bodyHtml').val(
+						commentBodyEditor.root.innerHTML);
+			}
+		});
 
 		$('#upvote-button').click(function() {
 			$.post('/forum/' + forumId + '/upvote', function(data) {
@@ -180,6 +189,18 @@
 			$.post('/comments/' + commentId + '/downvote', function(data) {
 				$(_this).prevAll('.upvote-comment-button').find('input').prop('checked', false);
 				$(_this).prev('.vote-count').text(data.voteCount);
+			});
+		});
+		
+		$('.accept-button').click(function() {
+			let commentId = $(this).data('id');
+			
+			$.post('/comments/' + commentId + '/accept', (data) => {
+				$('.accept-button').each(function() {
+					if ($(this).data('id') !== commentId) {
+						$(this).prop('checked', false);
+					}
+				});
 			});
 		});
 	</script>

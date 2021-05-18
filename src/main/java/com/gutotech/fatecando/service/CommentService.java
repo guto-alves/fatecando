@@ -25,5 +25,9 @@ public class CommentService {
 	public Comment addDownvote(Long id) {
 		return restTemplate.postForObject(URL + "/{id}/downvote", null, Comment.class, id);
 	}
+	
+	public Comment accept(Long id) {
+		return restTemplate.postForObject(URL + "/{id}/accept", null, Comment.class, id);
+	}
 
 }

@@ -15,6 +15,8 @@ public class Comment {
 
 	private User user;
 
+	private boolean accepted;
+
 	private CommentUser me;
 
 	private long voteCount;
@@ -60,6 +62,14 @@ public class Comment {
 
 	public void setVoteCount(long voteCount) {
 		this.voteCount = voteCount;
+	}
+
+	public boolean isAccepted() {
+		return accepted;
+	}
+
+	public void setAccepted(boolean accepted) {
+		this.accepted = accepted;
 	}
 
 	public CommentUser getMe() {

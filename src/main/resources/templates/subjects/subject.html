@@ -253,7 +253,7 @@
 				<div th:if="${#strings.equalsIgnoreCase(page, 'forum')}">
 					<div class="card bg-white mb-3">
 						<div class="card-body">
-							<label>Precisa de Ajuda?</label>
+							<span>Precisa de Ajuda?</span>
 
 							<!-- Button trigger modal -->
 							<button type="button" class="btn btn-outline-dark fw-bold" data-bs-toggle="modal"
@@ -325,8 +325,8 @@
 										<small class="d-block text-muted">votos</small> 
 										<small th:text="${topic.voteCount}">1</small>
 									</div>
-									<div class="mb-1">
-										<small class="d-block text-muted">respostas</small> 
+									<div class="mb-1" th:classappend="${topic.answered} ? 'badge bg-success'">
+										<small class="d-block" th:classappend="${not topic.answered} ? 'text-muted'">respostas</small> 
 										<small th:text="${topic.totalComments}">1</small>
 									</div>
 									<div class="mb-1">
