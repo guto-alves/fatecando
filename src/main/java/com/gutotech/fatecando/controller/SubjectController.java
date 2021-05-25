@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gutotech.fatecando.model.Comment;
@@ -192,6 +193,12 @@ public class SubjectController {
 		return "redirect:/test";
 	}
 
-	
+	@ResponseBody
+	@GetMapping("forums")
+	public List<ForumThread> search(Subject subject, @RequestParam String sort,
+			@RequestParam(name = "filter", required = false) List<String> filters,
+			@RequestParam(name = "topic", required = false) List<Long> topics) {
+		return forumThreadService.findForumThreadBy(subject, sort, filters, topics);
+	}
 
 }
