@@ -259,7 +259,8 @@
 									<label for="review-content" class="col-sm-2 col-form-label">Comentário</label>
 									<div class="col-sm-10">
 										<textarea class="form-control" id="review-content" rows="6"
-											placeholder="Deixe sua observação..." maxlength="500" th:text="${topic.user.review.content}"></textarea>
+											placeholder="Deixe sua observação..." maxlength="500" 
+											th:text="${topic.user.review?.content}"></textarea>
 									</div>
 								</div>
 							</div>
@@ -347,7 +348,7 @@
 	
 	<script type="text/javascript" th:inline="javascript">
 		 $('#review-stars-container').rating({
-			 value: /*[[${topic.user.review.stars}]]*/0,
+			 value: /*[[${topic.user.review?.stars ?: 0}]]*/0,
 	         click: function (event) {
 	        	 $('#review-modal').modal('show');
 	         }
@@ -365,7 +366,7 @@
 			}).done(function () {
 				$('#review-modal').modal('hide');
 			}).fail(function(jqXHR, textStatus) {
-				alert( "Request failed: " + textStatus );
+				alert('Request failed: ' + textStatus);
 			});
 		});
 	</script>
