@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	th:replace="~{fragments/layout :: base('Usuários', ~{::body}, _, _, _)}">
+<head>
+<meta charset="utf-8">
+</head>
+<body>
+	<div class="container mt-4">
+		<div class="alert alert-success alert-dismissible fade show" role="alert"
+			th:if="${!#strings.isEmpty(message)}">
+			<span th:text=${message}></span>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+
+		<div class="card mt-4">
+			<div class="card-body">
+				<h4 class="fw-bold text-center">Todos os Usuários</h4>
+
+				<table id="table" class="table table-sm table-striped table-bordered table-hover text-center">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Nome</th>
+							<th>E-mail</th>
+							<th>Sexo</th>
+							<th>Data de criação</th>
+							<th>Último login</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="text-center align-middle" th:each="user : ${users}" th:data-id="${user.id}">
+							<td th:text="${user.id}"></td>
+							<td th:text="${user.fullName}"></td>
+							<td th:text="${user.email}"></td>
+							<td th:text="${user.gender.displayName}"></td>
+							<td th:text="${#dates.format(user.creationDate, 'dd/MM/yyyy HH:mm')}"></td>
+							<td th:text="${#dates.format(user.lastLogin, 'dd/MM/yyyy HH:mm')}"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		$('#table').DataTable({
+			language : {
+				url : '//cdn.datatables.net/plug-ins/1.10.22/i18n/Portuguese-Brasil.json'
+			}
+		});
+	</script>
+</body>
+</html>
