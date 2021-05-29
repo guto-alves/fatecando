@@ -1,4 +1,4 @@
-package com.gutotech.fatecando.controller;
+package com.gutotech.fatecando.controller.admin;
 
 import javax.validation.Valid;
 

@@ -37,6 +37,8 @@ public class User {
 
 	private Date creationDate;
 
+	private Date lastLogin;
+
 	private List<Role> roles = new ArrayList<>();
 
 	public User() {
@@ -140,6 +142,14 @@ public class User {
 
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
+	}
+
+	public Date getLastLogin() {
+		return lastLogin;
+	}
+
+	public void setLastLogin(Date lastLogin) {
+		this.lastLogin = lastLogin;
 	}
 
 	public List<Role> getRoles() {
