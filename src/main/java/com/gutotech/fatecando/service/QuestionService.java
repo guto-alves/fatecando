@@ -4,10 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import com.gutotech.fatecando.model.Feedback;
 import com.gutotech.fatecando.model.Question;
@@ -16,16 +13,12 @@ import com.gutotech.fatecando.model.Question;
 public class QuestionService {
 
 	@Autowired
-	private RestTemplate restTemplate;
+	private CustomRestTemplate restTemplate;
 
 	private final String URL = "http://localhost:8081/api/questions";
 
 	public List<Question> findAll() {
-		ResponseEntity<List<Question>> responseEntity = restTemplate.exchange(URL, HttpMethod.GET, null,
-				new ParameterizedTypeReference<List<Question>>() {
-				});
-
-		return responseEntity.getBody();
+		return restTemplate.getForObjects(URL, new ParameterizedTypeReference<List<Question>>() {});
 	}
 
 	public Question findById(Long id) {

@@ -15,12 +15,14 @@ public class HttpEntityUtils {
 	}
 
 	private static HttpHeaders createHeaders() {
-		HttpHeaders headers = new HttpHeaders();
+		if (SecurityContextHolder.getContext().getAuthentication() != null) {
+			HttpHeaders headers = new HttpHeaders();
+			headers.setBasicAuth(SecurityContextHolder.getContext().getAuthentication().getName(),
+					SecurityContextHolder.getContext().getAuthentication().getCredentials().toString());
+			return headers;
+		}
 
-		headers.setBasicAuth(SecurityContextHolder.getContext().getAuthentication().getName(),
-				SecurityContextHolder.getContext().getAuthentication().getCredentials().toString());
-
-		return headers;
+		return null;
 	}
 
 }

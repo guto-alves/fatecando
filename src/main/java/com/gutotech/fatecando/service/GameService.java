@@ -16,7 +16,7 @@ public class GameService {
 	private final CustomRestTemplate restTemplate = new CustomRestTemplate();
 
 	public List<Game> findAll() {
-		return restTemplate.getForObjetcs(URL, new ParameterizedTypeReference<List<Game>>() {
+		return restTemplate.getForObjects(URL, new ParameterizedTypeReference<List<Game>>() {
 		});
 	}
 

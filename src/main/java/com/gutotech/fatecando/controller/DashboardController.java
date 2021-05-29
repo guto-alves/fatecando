@@ -21,7 +21,7 @@ public class DashboardController {
 
 	@Autowired
 	private SubjectService subjectService;
-	
+
 	@Autowired
 	private UserService userService;
 
@@ -42,6 +42,6 @@ public class DashboardController {
 		model.addAttribute("recentDisciplines", userService.findSubjectsAccessed());
 
 		return "subjects/course-details";
-	}
+	} 
 
 }

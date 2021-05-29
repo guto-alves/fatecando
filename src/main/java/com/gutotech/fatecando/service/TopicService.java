@@ -4,10 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import com.gutotech.fatecando.model.Question;
 import com.gutotech.fatecando.model.Topic;
@@ -16,16 +13,13 @@ import com.gutotech.fatecando.model.Topic;
 public class TopicService {
 
 	@Autowired
-	private RestTemplate restTemplate;
+	private CustomRestTemplate restTemplate;
 
 	private final String URL = "http://localhost:8081/api/topics";
 
 	public List<Topic> findAll() {
-		ResponseEntity<List<Topic>> responseEntity = restTemplate.exchange(URL, HttpMethod.GET, null,
-				new ParameterizedTypeReference<List<Topic>>() {
-				});
-
-		return responseEntity.getBody();
+		return restTemplate.getForObjects(URL, new ParameterizedTypeReference<List<Topic>>() {
+		});
 	}
 
 	public Topic findById(Long id) {
@@ -65,10 +59,7 @@ public class TopicService {
 	}
 
 	public List<Question> getQuiz(Topic topic) {
-		ResponseEntity<List<Question>> responseEntity = restTemplate.exchange(URL + "/{id}/quiz", HttpMethod.GET, null,
-				new ParameterizedTypeReference<List<Question>>() {
-				}, topic.getId());
-
-		return responseEntity.getBody();
+		return restTemplate.getForObjects(URL + "/{id}/quiz", 
+				new ParameterizedTypeReference<List<Question>>() {}, topic.getId());
 	}
 }

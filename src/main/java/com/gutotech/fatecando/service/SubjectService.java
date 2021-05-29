@@ -4,10 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import com.gutotech.fatecando.model.Course;
 import com.gutotech.fatecando.model.ForumThread;
@@ -18,7 +15,7 @@ import com.gutotech.fatecando.model.Topic;
 public class SubjectService {
 
 	@Autowired
-	private RestTemplate restTemplate;
+	private CustomRestTemplate restTemplate;
 
 	private final String URL = "http://localhost:8081/api/subjects";
 
@@ -27,43 +24,29 @@ public class SubjectService {
 	}
 
 	public List<Subject> findAll() {
-		ResponseEntity<List<Subject>> responseEntity = restTemplate.exchange(URL, HttpMethod.GET, null,
-				new ParameterizedTypeReference<List<Subject>>() {
-				});
-
-		return responseEntity.getBody();
+		return restTemplate.getForObjects(URL, new ParameterizedTypeReference<List<Subject>>() {
+		});
 	}
 
 	public List<Subject> findAllWithTopics() {
-		ResponseEntity<List<Subject>> responseEntity = restTemplate.exchange(URL + "?with-topics=true", HttpMethod.GET,
-				null, new ParameterizedTypeReference<List<Subject>>() {
-				});
-
-		return responseEntity.getBody();
+		return restTemplate.getForObjects(URL + "?with-topics=true", new ParameterizedTypeReference<List<Subject>>() {
+		});
 	}
 
 	public List<Subject> findAllByCourse(Course course) {
-		ResponseEntity<List<Subject>> responseEntity = restTemplate.exchange(URL + "?course={courseId}", HttpMethod.GET,
-				null, new ParameterizedTypeReference<List<Subject>>() {
-				}, course.getId());
-
-		return responseEntity.getBody();
+		return restTemplate.getForObjects(URL + "?course={courseId}", new ParameterizedTypeReference<List<Subject>>() {
+		}, course.getId());
 	}
 
 	public List<Topic> findAllTopicsBySubject(Subject subject) {
-		ResponseEntity<List<Topic>> responseEntity = restTemplate.exchange(URL + "/{id}/topics", HttpMethod.GET, null,
-				new ParameterizedTypeReference<List<Topic>>() {
-				}, subject.getId());
-
-		return responseEntity.getBody();
+		return restTemplate.getForObjects(URL + "/{id}/topics", new ParameterizedTypeReference<List<Topic>>() {
+		}, subject.getId());
 	}
 
 	public List<ForumThread> findAllForumTopicsBySubject(Subject subject) {
-		ResponseEntity<List<ForumThread>> responseEntity = restTemplate.exchange(URL + "/{id}/forum-topics",
-				HttpMethod.GET, null, new ParameterizedTypeReference<List<ForumThread>>() {
+		return restTemplate.getForObjects(URL + "/{id}/forum-topics",
+				new ParameterizedTypeReference<List<ForumThread>>() {
 				}, subject.getId());
-
-		return responseEntity.getBody();
 	}
 
 	public Subject save(Subject subject) {

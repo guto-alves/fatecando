@@ -4,10 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import com.gutotech.fatecando.model.Course;
 
@@ -15,16 +12,12 @@ import com.gutotech.fatecando.model.Course;
 public class CourseService {
 
 	@Autowired
-	private RestTemplate restTemplate;
+	private CustomRestTemplate restTemplate;
 
 	private final String URL = "http://localhost:8081/api/courses";
 
 	public List<Course> findAll() {
-		ResponseEntity<List<Course>> responseEntity = restTemplate.exchange(URL, HttpMethod.GET, null,
-				new ParameterizedTypeReference<List<Course>>() {
-				});
-
-		return responseEntity.getBody();
+		return restTemplate.getForObjects(URL, new ParameterizedTypeReference<List<Course>>() {});
 	}
 
 	public Course findById(Long id) {

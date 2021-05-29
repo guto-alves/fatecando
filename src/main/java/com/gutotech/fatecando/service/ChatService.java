@@ -18,17 +18,17 @@ public class ChatService {
 	private static final String URL = "http://localhost:8081/api/chats";
 
 	public List<Chat> findChats() {
-		return restTemplate.getForObjetcs(URL, new ParameterizedTypeReference<List<Chat>>() {
+		return restTemplate.getForObjects(URL, new ParameterizedTypeReference<List<Chat>>() {
 		});
 	}
 
 	public List<Message> findMessages(Long chatId) {
-		return restTemplate.getForObjetcs(URL + "/" + chatId, new ParameterizedTypeReference<List<Message>>() {
+		return restTemplate.getForObjects(URL + "/" + chatId, new ParameterizedTypeReference<List<Message>>() {
 		});
 	}
 
 	public List<Message> findPrivateMessages(String email) {
-		return restTemplate.getForObjetcs(URL + "/messages/private/" + email,
+		return restTemplate.getForObjects(URL + "/messages/private/" + email,
 				new ParameterizedTypeReference<List<Message>>() {
 				});
 	}

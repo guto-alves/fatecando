@@ -26,8 +26,11 @@ public class CustomRestTemplate {
 		return restTemplate.exchange(url, HttpMethod.GET, HttpEntityUtils.createHttpEntity(), responseType).getBody();
 	}
 
-	public <T> List<T> getForObjetcs(String url, ParameterizedTypeReference<List<T>> responseType) {
-		return restTemplate.exchange(url, HttpMethod.GET, HttpEntityUtils.createHttpEntity(), responseType).getBody();
+	public <T> List<T> getForObjects(String url, ParameterizedTypeReference<List<T>> responseType,
+			Object... uriVariables) {
+		return restTemplate
+				.exchange(url, HttpMethod.GET, HttpEntityUtils.createHttpEntity(), responseType, uriVariables)
+				.getBody();
 	}
 
 	// POST
@@ -37,7 +40,8 @@ public class CustomRestTemplate {
 	}
 
 	public <T> T postForObject(String url, Object request, Class<T> responseType, Object... uriVariables) {
-		return restTemplate.exchange(url, HttpMethod.POST, HttpEntityUtils.createHttpEntity(request), responseType)
+		return restTemplate
+				.exchange(url, HttpMethod.POST, HttpEntityUtils.createHttpEntity(request), responseType, uriVariables)
 				.getBody();
 	}
 
