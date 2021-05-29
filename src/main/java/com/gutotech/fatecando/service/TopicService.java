@@ -7,6 +7,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 
 import com.gutotech.fatecando.model.Question;
+import com.gutotech.fatecando.model.Review;
 import com.gutotech.fatecando.model.Topic;
 
 @Service
@@ -54,6 +55,10 @@ public class TopicService {
 		restTemplate.put(URL + "/{id}/annotation", annotation, topic.getId());
 	}
 
+	public void saveReview(Topic topic, Review review) {
+		restTemplate.put(URL + "/{id}/review", review, topic.getId());
+	}
+
 	public void dragTopic(Long draggedTopicId, Long relatedTopicId) {
 		restTemplate.put(URL + "/drag/{draggedTopicId}/{relatedTopicId}", null, draggedTopicId, relatedTopicId);
 	}
@@ -62,4 +67,5 @@ public class TopicService {
 		return restTemplate.getForObjects(URL + "/{id}/quiz", 
 				new ParameterizedTypeReference<List<Question>>() {}, topic.getId());
 	}
+
 }

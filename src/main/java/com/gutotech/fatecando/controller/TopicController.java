@@ -18,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gutotech.fatecando.model.Alternative;
 import com.gutotech.fatecando.model.Question;
+import com.gutotech.fatecando.model.Review;
 import com.gutotech.fatecando.model.Topic;
 import com.gutotech.fatecando.service.QuestionService;
 import com.gutotech.fatecando.service.TopicService;
@@ -91,6 +92,12 @@ public class TopicController {
 	@PostMapping("annotation")
 	public ResponseEntity<Void> saveAnnotation(Topic topic, @RequestBody String annotation) {
 		topicService.saveAnnotation(topic, annotation);
+		return ResponseEntity.noContent().build();
+	}
+	
+	@PostMapping("review")
+	public ResponseEntity<Void> saveReview(Topic topic, @RequestBody Review review) {
+		topicService.saveReview(topic, review);
 		return ResponseEntity.noContent().build();
 	}
 

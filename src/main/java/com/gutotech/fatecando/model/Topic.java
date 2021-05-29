@@ -190,6 +190,7 @@ public class Topic {
 		private String annotation = "";
 		private boolean finished;
 		private Date finishDate;
+		private Review review;
 
 		public TopicUser() {
 		}
@@ -232,6 +233,14 @@ public class Topic {
 
 		public void setFinishDate(Date finishDate) {
 			this.finishDate = finishDate;
+		}
+
+		public Review getReview() {
+			return review;
+		}
+
+		public void setReview(Review review) {
+			this.review = review;
 		}
 
 	}
