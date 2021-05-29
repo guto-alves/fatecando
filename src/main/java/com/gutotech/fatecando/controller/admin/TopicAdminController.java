@@ -38,7 +38,7 @@ public class TopicAdminController {
 	public String initUpdateForm(@PathVariable Long id, Model model) {
 		Topic topic = topicService.findById(id);
 		model.addAttribute("topic", topic);
-		model.addAttribute("disciplines", subjectService.findAll());
+		model.addAttribute("subjects", subjectService.findAll());
 		return "admin/topic-edit";
 	}
 
@@ -47,7 +47,7 @@ public class TopicAdminController {
 			RedirectAttributes redirectAttributes, Model model) {
 		if (bindingResult.hasErrors()) {
 			model.addAttribute(topic);
-			model.addAttribute("disciplines", subjectService.findAll());
+			model.addAttribute("subjects", subjectService.findAll());
 			return "admin/topic-edit";
 		}
 
