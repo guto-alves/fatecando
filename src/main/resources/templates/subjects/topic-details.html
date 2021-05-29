@@ -97,24 +97,13 @@
 							<i class="bi bi-pencil-square" style="font-size: 1.2rem;"></i>
 						</button>
 
-						<div class="btn-group rounded-start me-3" role="group" aria-label="Like toggle button">
+						<div class="btn-group rounded-start" role="group" aria-label="Favorite toggle button">
 							<input type="checkbox" class="btn-check" id="fav-button" autocomplete="off"
 								th:checked="${topic.user.favorite}">
 							<label class="btn btn-outline-primary p-2" for="fav-button">
 								<i class="bi bi-star-fill"></i>
 							</label>
 						</div>
-
-						<div class="btn-group rounded-start" role="group" aria-label="Like toggle button">
-							<input type="checkbox" class="btn-check" id="likeButton" autocomplete="off"
-								th:checked="${topic.user.liked}">
-							<label id="likeStatus" class="btn btn-outline-primary p-2" for="likeButton">
-								Curtir <i class="fa fa-thumbs-up"></i>
-							</label>
-						</div>
-						<span id="totalLikes"
-							class="fw-bolder text-primary border border-1 border-start-0 border-primary p-2 rounded-end"
-							th:classappend="${topic.user.liked} ? 'bg-white'" th:text="${topic.likes}"></span>
 					</div>
 				</div>
 			</div>
@@ -439,7 +428,7 @@
 		});
 	</script>
 
-	<script type="text/javascript" th:src="@{/js/topic-finish-like.button.js}"></script>
+	<script type="text/javascript" th:src="@{/js/topic-fav-finish-buttons.js}"></script>
 	<script type="text/javascript" th:src="@{/js/quiz.js}"></script>
 	<script type="text/javascript" th:src="@{/js/question.form.js}"></script>
 </body>

@@ -3,7 +3,7 @@ const defaults = {
     "stars": 5,
     "half": false,
     "emptyStar": "fa fa-star-o",
-    "halfStar": "fa fa-star-half",
+    "halfStar": "fa fa-star-half-o",
     "filledStar": "fa fa-star",
     "color": "#fcd703",
     "readonly": false,
@@ -133,4 +133,29 @@ jQuery.fn.extend({
             }
         });
     }
+});
+
+$(function () {
+    $("[data-rating-stars]").each(function () {
+        // Get all data-rating attributes
+        let d = {},
+            re_dataAttr = /^data-rating\-(.+)$/;
+
+        $.each($(this).get(0).attributes, function (index, attr) {
+            if (re_dataAttr.test(attr.nodeName)) {
+                let key = attr.nodeName.match(re_dataAttr)[1];
+                d[key] = attr.nodeValue;
+            }
+        });
+
+        // Create the click event handler
+        if (d.input != null) {
+            d.click = function (e) {
+                $(d.input).val(e.stars);
+            }
+        }
+
+        // Run the rating function on the element
+        $(this).rating(d);
+    });
 });

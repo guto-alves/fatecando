@@ -77,12 +77,6 @@ public class TopicController {
 		return ResponseEntity.noContent().build();
 	}
 
-	@PostMapping("like")
-	public ResponseEntity<Void> toggleLike(Topic topic) {
-		topicService.toggleLike(topic);
-		return ResponseEntity.noContent().build();
-	}
-
 	@PostMapping("fav")
 	public ResponseEntity<Void> toggleFavorite(Topic topic) {
 		topicService.toggleFavorite(topic);

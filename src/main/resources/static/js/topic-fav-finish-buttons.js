@@ -1,15 +1,3 @@
-$('#likeButton').click(function() {
-	$.post(location.href.split('#')[0] + '/like')
-		.done(function() {
-			$('#totalLikes').toggleClass('bg-white');
-
-			let totalLikes = parseInt($('#totalLikes').text());
-			let liked = $('#totalLikes').hasClass('bg-white');
-			
-			$('#totalLikes').text(liked ? totalLikes + 1 : totalLikes - 1);
-		});
-});
-
 $('#fav-button').click(function() {
 	$.post(location.href.split('#')[0] + '/fav');
 });

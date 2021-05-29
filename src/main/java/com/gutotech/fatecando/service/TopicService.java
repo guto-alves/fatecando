@@ -43,10 +43,6 @@ public class TopicService {
 		restTemplate.put(URL + "/{id}/finished", null, topic.getId());
 	}
 
-	public void toggleLike(Topic topic) {
-		restTemplate.put(URL + "/{id}/like", null, topic.getId());
-	}
-
 	public void toggleFavorite(Topic topic) {
 		restTemplate.put(URL + "/{id}/favorite", null, topic.getId());
 	}

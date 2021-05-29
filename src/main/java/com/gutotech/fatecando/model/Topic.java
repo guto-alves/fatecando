@@ -27,7 +27,9 @@ public class Topic {
 
 	private User createdBy;
 
-	private int likes;
+	private Float stars;
+	
+	private long totalReviews;
 
 	private Date creationDate;
 
@@ -114,12 +116,20 @@ public class Topic {
 		this.createdBy = createdBy;
 	}
 
-	public int getLikes() {
-		return likes;
+	public Float getStars() {
+		return stars;
 	}
 
-	public void setLikes(int likes) {
-		this.likes = likes;
+	public void setStars(Float stars) {
+		this.stars = stars;
+	}
+	
+	public long getTotalReviews() {
+		return totalReviews;
+	}
+
+	public void setTotalReviews(long totalReviews) {
+		this.totalReviews = totalReviews;
 	}
 
 	public Date getCreationDate() {
