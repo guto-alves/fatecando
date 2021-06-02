@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org"
+	th:replace="~{fragments/layout :: base('Ticket de Suporte', ~{::body}, _, _, _)}">
+<head>
+<meta charset="utf-8">
+</head>
+<body>
+	<div class="container mt-3">
+		<div class="row justify-content-center">
+			<div class="col-md-8">
+				<nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item">
+							<a href="#" class="link-dark" th:href="@{/support}">Suporte</a>
+						</li>
+						<li class="breadcrumb-item active" aria-current="page">Criar Ticket</li>
+					</ol>
+				</nav>
+
+				<h3 class="fw-bold border-5 border-danger border-start ps-2">Ticket de Suporte</h3>
+
+				<hr>
+
+				<form id="ticket-form" action="#" method="post" th:object="${ticket}">
+					<div class="mb-3">
+						<label for="category" class="form-label">Categoria</label>
+						<select class="form-control" th:field="*{category}" required>
+							<option th:each="category : ${categories}" th:value="${category}" th:text="${category.displayName}"></option>
+						</select>
+					</div>
+					<div class="mb-3">
+						<label for="title" class="form-label">Como podemos ajudar?</label>
+						<input type="text" class="form-control" placeholder="Título" required maxlength="30" th:field="*{title}">
+					</div>
+					<div class="mb-3">
+						<label for="description" class="form-label">Descreva seu problema</label>
+						<input type="hidden" th:field="*{description}" required>
+						<div id="description-editor"></div>
+					</div>
+					<div class="d-grid gap-2 col-md-4 mx-auto">
+						<button type="submit" class="btn btn-danger">Enviar</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<script th:src="@{/js/quill-utils.js}"></script>
+
+	<script type="text/javascript">
+		let descriptionEditor = new Quill('#description-editor',
+				EditorOptions.TICKET);
+
+		$('#ticket-form').submit(function(event) {
+			$('#description').val(descriptionEditor.root.innerHTML);
+		});
+	</script>
+</body>
+</html>

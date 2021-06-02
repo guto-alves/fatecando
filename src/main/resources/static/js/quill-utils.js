@@ -152,6 +152,24 @@ const EditorOptions = {
 		},
 		theme : 'snow'
 	},
+	TICKET: {
+		modules : {
+			toolbar: [
+				['link', 'image', 'video'],
+				['clean']
+			],
+			history : {
+				delay : 2000,
+				maxStack : 500,
+				userOnly : true
+			},
+			imageDrop : true,
+			imageResize : {
+				modules : [ 'Resize', 'DisplaySize', 'Toolbar' ]
+			}
+		},
+		theme : 'snow'
+	},
 	READ_ONLY: {
 		modules: {
 			syntax: true,
