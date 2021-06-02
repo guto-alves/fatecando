@@ -2,6 +2,7 @@ package com.gutotech.fatecando.security;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 public class HttpEntityUtils {
@@ -11,14 +12,15 @@ public class HttpEntityUtils {
 	}
 
 	public static HttpEntity<Object> createHttpEntity(Object request) {
-		return new HttpEntity<Object>(request, createHeaders());
+		return new HttpEntity<>(request, createHeaders());
 	}
 
-	private static HttpHeaders createHeaders() {
-		if (SecurityContextHolder.getContext().getAuthentication() != null) {
+	public static HttpHeaders createHeaders() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+		if (authentication != null) {
 			HttpHeaders headers = new HttpHeaders();
-			headers.setBasicAuth(SecurityContextHolder.getContext().getAuthentication().getName(),
-					SecurityContextHolder.getContext().getAuthentication().getCredentials().toString());
+			headers.setBasicAuth(authentication.getName(), authentication.getCredentials().toString());
 			return headers;
 		}
 
