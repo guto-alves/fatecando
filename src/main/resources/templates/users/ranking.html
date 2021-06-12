@@ -20,7 +20,7 @@
 					<tbody>
 						<tr  th:each="user : ${users}" th:class="${userStat.index < 3}? 'table-warning fw-bolder'">
 							<td th:text="${userStat.count}">1</td>
-							<td><a class="text-decoration-none text-dark" href="#">[[${user.fullName}]]</a></td>
+							<td><a class="text-decoration-none text-dark" href="#" th:href="@{/users/{id}(id=${user.id})}">[[${user.fullName}]]</a></td>
 							<td th:text="${user.score}">91561</td>
 						</tr>
 					</tbody>

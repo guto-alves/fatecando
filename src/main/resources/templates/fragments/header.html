@@ -72,7 +72,7 @@
 
 						<div class="dropdown-menu dropdown-menu-lg-end">
 							<div class="text-center">
-								<span sec:authentication="name">Gustavo</span>
+								<a class="link-danger fw-bolder" th:href="@{/users/{id}(id=${user.id})}" th:text=${user.fullName}></a>
 							</div>
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item" href="#" th:href="@{/users/annotations}">Minhas Anotações</a>
@@ -81,7 +81,7 @@
 							<a class="dropdown-item" href="#" th:href="@{/users/topics}">Meus Tópicos</a>
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item" href="#" th:href="@{/users/edit-profile}">Editar Perfil</a>
-							
+
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item" href="#" th:href="@{/user/messages}">Mensagens</a>
 							<div class="dropdown-divider"></div>

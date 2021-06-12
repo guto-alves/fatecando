@@ -200,8 +200,8 @@
 		}
 		
 		function updateChat() {
-			if (selectedConversation.pvt) {
-				$('#to').text(selectedConversation.to.fullName);			 
+			if (selectedConversation.pvt) {		 
+				$('#to').html(`<a class="text-decoration-none link-dark" href="/users/${selectedConversation.to.id}">${selectedConversation.to.fullName}</a>`);
 			} else {
 				$('#to').text('Game');
 			}

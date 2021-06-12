@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="https://thymeleaf.org" th:replace="~{fragments/layout :: base('Perfil', ~{::body}, _, _, _)}">
+<head>
+<meta charset="utf-8">
+</head>
+<body>
+	<div class="container-fluid col-md-10 mt-5">
+		<div class="card">
+			<div class="card-body">
+				<div class="row text-center fw-bold">
+					<div class="col-md-4">
+						<div class="card h-100">
+							<div class="card-body">
+								<i class="bi bi-person-circle" style="font-size: 110px;"></i>
+								<h5 class="card-title text-center border-top pt-3" th:text="${user.fullName}">Nome</h5>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="card h-100">
+							<div class="card-header bg-white">Resumo</div>
+							<div class="card-body">
+								<div class="mb-1">
+									<span class="green">Respostas certas:</span>
+									<span th:text="${user.userActivity.rightAnswers}">10</span>
+								</div>
+								<div class="mb-1">
+									<span class="text-danger">Respostas erradas:</span>
+									<span th:text="${user.userActivity.wrongAnswers}">10</span>
+								</div>
+								<div class="mb-1">
+									<span class="green">Vitórias Games:</span>
+									<span th:text="${user.userActivity.gameWins}">10</span>
+								</div>
+								<div class="mb-1">
+									<span class="text-danger">Derrotas Games:</span>
+									<span th:text="${user.userActivity.gameLosses}">10</span>
+								</div>
+								<div class="mb-1">
+									<span class="green">Testes Concluídos:</span>
+									<span th:text="${user.userActivity.completeTests}">10</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="card h-100">
+							<div class="card-header bg-white">Outras informações</div>
+							<div class="card-body">
+								<div class="mb-1">
+									<span class="text-muted">Total contribuições:</span>
+									<span th:text="${user.userActivity.contentUploaded}">10</span>
+								</div>
+								<div class="mb-1">
+									<span class="text-muted">Último login:</span>
+									<span th:text="${#dates.format(user.lastLogin, 'dd/MM/yyyy HH:mm:ss')}">10</span>
+								</div>
+								<div class="mb-1">
+									<span class="text-muted">Membro desde:</span>
+									<span th:text="${#dates.format(user.creationDate, 'dd/MM/yyyy')}">10</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
