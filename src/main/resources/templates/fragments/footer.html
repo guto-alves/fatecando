@@ -1,20 +1,14 @@
 <!DOCTYPE>
-<html>
+<html xmlns:th="www.thymeleaf.org">
 <head>
 <meta charset="utf-8">
 </head>
 
-<footer th:fragment="footer">
-	<div class="container mb-3" style="text-align: center;">
-		<hr>
-		<span>Fatecando | RCG, Inc.</span>
-		<br>
-		<small class="text-muted">Copyright 2021 www.fatecando.com, ALL RIGHTS RESERVED. All website content, all
-			photos, images, logos, brands, sayings, sound, software, image set, layout, trade dress, shown here are the exclusive
-			property of Fatecando.com Internet S.A. or its partners. Any reproduction, in whole or in part, of any element of
-			identity is prohibited without express authorization. Violation of any of the aforementioned rights will result in
-			civil and criminal liability under the terms of the Law. NS2.Com Internet S / A - CNPJ: 09.339.936 / 0001-16 Rua
-			Vergueiro, 943 - Liberdade - CEP01504-001 - São Paulo - SP.</small>
-	</div>
+<footer class="mt-auto text-center py-3 mx-2" th:fragment="footer">
+	<hr>
+	<a class="text-decoration-none" th:href="@{/}">
+		<img th:src="@{images/icon.png}" width="45" height="32">
+	</a>
+	<small class="text-muted">© 2021 Fatecando, Inc.</small>
 </footer>
 </html>

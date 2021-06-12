@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org" th:fragment="base (title, body, links, scripts, styles)">
+<html xmlns:th="https://www.thymeleaf.org" th:fragment="base (title, body, links, scripts, styles)" class="h-100">
 <head th:replace="~{fragments/head :: head(${title}, ${links}, ${scripts}, ${styles})}">
 <meta charset="utf-8">
 </head>
-<body>
+<body class="d-flex flex-column h-100">
 	<header th:replace="~{fragments/header :: header}"></header>
 
 	<main role="main" class="container-fluid">
