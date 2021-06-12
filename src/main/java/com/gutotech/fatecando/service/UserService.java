@@ -23,6 +23,11 @@ public class UserService {
 		return restTemplate.getForObjects(URL, new ParameterizedTypeReference<List<User>>() {
 		});
 	}
+	
+	public List<User> getRanking() {
+		return restTemplate.getForObjects(URL + "/ranking", new ParameterizedTypeReference<List<User>>() {
+		});
+	}
 
 	public List<User> searchByNameOrEmail(String filter) {
 		return restTemplate.getForObjects(URL + "/search?filter=" + filter, new ParameterizedTypeReference<List<User>>() {});

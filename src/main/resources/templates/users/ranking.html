@@ -14,34 +14,14 @@
 						<tr>
 							<th>Posição</th>
 							<th>Nome</th>
-							<th>Pontos</th>
+							<th>Score</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr class="table-warning fw-bolder">
-							<td>1</td>
-							<td><a class="text-decoration-none text-dark" href="#">Gustavo Alves</a></td>
-							<td>91561</td>
-						</tr>
-						<tr class="table-warning fw-bolder">
-							<td>2</td>
-							<td><a class="text-decoration-none text-dark" href="#">Larissa Silva</a></td>
-							<td>91000</td>
-						</tr>
-						<tr class="table-warning fw-bolder">
-							<th scope="row">3</th>
-							<td><a class="text-decoration-none text-dark" href="#">Alice Bianca</a></td>
-							<td>69561</td>
-						</tr>
-						<tr>
-							<td>4</td>
-							<td><a class="text-decoration-none text-dark" href="#">Maria Silva</a></td>
-							<td>67866</td>
-						</tr>
-						<tr>
-							<td>5</td>
-							<td><a class="text-decoration-none text-dark" href="#">Rafael Fernandes</a></td>
-							<td>464</td>
+						<tr  th:each="user : ${users}" th:class="${userStat.index < 3}? 'table-warning fw-bolder'">
+							<td th:text="${userStat.count}">1</td>
+							<td><a class="text-decoration-none text-dark" href="#">[[${user.fullName}]]</a></td>
+							<td th:text="${user.score}">91561</td>
 						</tr>
 					</tbody>
 				</table>

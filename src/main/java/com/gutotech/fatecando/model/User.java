@@ -41,27 +41,9 @@ public class User {
 
 	private List<Role> roles = new ArrayList<>();
 
+	private long score;
+
 	public User() {
-	}
-
-	public User(String fullName, String email, String password, Gender gender, Date birthDate, Course course) {
-		this.fullName = fullName;
-		this.email = email;
-		this.password = password;
-		this.gender = gender;
-		this.birthDate = birthDate;
-		this.course = course;
-	}
-
-	public User(String fullName, String email, String password, Gender gender, Date birthDate, Course course,
-			List<Role> roles) {
-		this.fullName = fullName;
-		this.email = email;
-		this.password = password;
-		this.gender = gender;
-		this.birthDate = birthDate;
-		this.course = course;
-		this.roles = roles;
 	}
 
 	public Long getId() {
@@ -158,6 +140,14 @@ public class User {
 
 	public void setRoles(List<Role> roles) {
 		this.roles = roles;
+	}
+
+	public long getScore() {
+		return score;
+	}
+
+	public void setScore(long score) {
+		this.score = score;
 	}
 
 	@Override
