@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gutotech.fatecando.model.User;
 import com.gutotech.fatecando.service.UserService;
@@ -25,8 +26,11 @@ public class SignupController {
 	}
 
 	@PostMapping
-	public String processRegistrationForm(@ModelAttribute User user, Model model) {
+	public String processRegistrationForm(@ModelAttribute User user, Model model,
+			RedirectAttributes redirectAttributes) {
 		userService.register(user);
+		redirectAttributes.addFlashAttribute("successMessage",
+				"Sua conta foi criada com sucesso! Faça o login e comece seus estudos agora mesmo!");
 		return "redirect:/join";
 	}
 

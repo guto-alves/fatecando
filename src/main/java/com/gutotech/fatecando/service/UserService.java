@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.gutotech.fatecando.model.Subject;
 import com.gutotech.fatecando.model.Topic;
@@ -32,6 +33,7 @@ public class UserService {
 	}
 
 	public User register(User user) {
+		RestTemplate restTemplate = new RestTemplate();
 		return restTemplate.postForObject(URL, user, User.class);
 	}
 
