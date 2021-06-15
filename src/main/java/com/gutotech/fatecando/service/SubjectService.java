@@ -3,6 +3,7 @@ package com.gutotech.fatecando.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,11 @@ public class SubjectService {
 	@Autowired
 	private CustomRestTemplate restTemplate;
 
-	private final String URL = "http://localhost:8081/api/subjects";
+	private final String URL;
+	
+	public SubjectService(@Value("${fatecando.api.base-url}") String url) {
+		URL = url + "/subjects";
+	}
 
 	public Subject findById(Long id) {
 		return restTemplate.getForObject(URL + "/" + id, Subject.class);

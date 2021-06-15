@@ -51,7 +51,7 @@ $('#answerQuestion').click(function() {
 	let questionId = questions[currentQuestionIndex].id;
 
 	$.post(
-		'http://localhost:8080/questions/' + questionId + '/answer/' + alternativeId
+		'/questions/' + questionId + '/answer/' + alternativeId
 	).done(feedback => {
 		feedbacks.push(feedback);
 

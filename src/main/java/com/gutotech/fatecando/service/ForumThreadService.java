@@ -3,6 +3,7 @@ package com.gutotech.fatecando.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -17,7 +18,11 @@ public class ForumThreadService {
 	@Autowired
 	private CustomRestTemplate restTemplate;
 
-	private final String URL = "http://localhost:8081/api/forum-threads";
+	private final String URL;
+
+	public ForumThreadService(@Value("${fatecando.api.base-url}") String url) {
+		URL = url + "/forum-threads";
+	}
 
 	public List<ForumThread> findForumThreadBy(Subject subject, String sortBy, List<String> filters,
 			List<Long> topics) {

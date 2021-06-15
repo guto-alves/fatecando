@@ -2,6 +2,8 @@ package com.gutotech.fatecando.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +13,14 @@ import com.gutotech.fatecando.model.RoundAnswer;
 @Service
 public class GameService {
 
-	private static final String URL = "http://localhost:8081/api/games";
+	private final String URL;
 
-	private final CustomRestTemplate restTemplate = new CustomRestTemplate();
+	@Autowired
+	private CustomRestTemplate restTemplate;
+
+	public GameService(@Value("${fatecando.api.base-url}") String url) {
+		URL = url + "/games";
+	}
 
 	public List<Game> findAll() {
 		return restTemplate.getForObjects(URL, new ParameterizedTypeReference<List<Game>>() {

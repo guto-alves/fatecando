@@ -3,6 +3,7 @@ package com.gutotech.fatecando.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,11 @@ public class InstitutionService {
 	@Autowired
 	private CustomRestTemplate restTemplate;
 
-	private final String URL = "http://localhost:8081/api/institutions";
+	private final String URL;
+
+	public InstitutionService(@Value("${fatecando.api.base-url}") String url) {
+		URL = url + "/institutions";
+	}
 
 	public List<Institution> findAll() {
 		return restTemplate.getForObjects(URL, new ParameterizedTypeReference<List<Institution>>() {});
