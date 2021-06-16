@@ -19,7 +19,7 @@ public class TicketService {
 	private final String URL;
 
 	public TicketService(@Value("${fatecando.api.base-url}") String url) {
-		URL = url + "/ticktes";
+		URL = url + "/tickets";
 	}
 
 	public List<Ticket> findAll() {
