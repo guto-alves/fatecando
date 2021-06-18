@@ -218,8 +218,13 @@
 		<h3>Conteúdo</h3>
 		<div id="contentCard" class="card my-3 shadow">
 			<div class="card-body" id="contentEditor" th:utext="${topic.bodyHtml}"></div>
+			
+			<div class="mt-2 mb-3 mx-3">
+				<span class="text-muted">Por</span>
+				<a class="text-decoration-none link-dark" target="_blank" href="#" th:href="@{/users/{id}(id=${topic.createdBy.id})}" th:text="${topic.createdBy.fullName}"></a>
+			</div>
 
-			<div class="d-flex justify-content-center mt-3">
+			<div class="d-flex justify-content-center">
 				<button id="finishButton" class="btn btn-outline-success" th:classappend="${topic.user.finished} ? 'active'">
 					<i class="fa fa-check"></i>
 					<span th:text="${topic.user.finished} ? 'Concluído' : 'Marcar como concluído'">Marcar como concluído</span>
@@ -417,11 +422,11 @@
 	<script type="text/javascript" th:inline="javascript">
 		let questions = /*[[${questions}]]*/null;
 
-		var contentEditor = new Quill('#contentEditor', EditorOptions.READ_ONLY);
+		let contentEditor = new Quill('#contentEditor', EditorOptions.READ_ONLY);
 
-		var questionEditor = new Quill('#question', EditorOptions.READ_ONLY);
+		let questionEditor = new Quill('#question', EditorOptions.READ_ONLY);
 
-		var newQuestionEditor = new Quill('#newQuestionEditor',
+		let newQuestionEditor = new Quill('#newQuestionEditor',
 				EditorOptions.QUESTION);
 		$('#newQuestionForm').submit(function(event) {
 			$('#description').val(newQuestionEditor.root.innerHTML);
