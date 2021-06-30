@@ -16,7 +16,7 @@ public class UserControllerAdvice {
 	@Autowired
 	private UserService userService;
 	
-	@ModelAttribute("user")
+	@ModelAttribute("currentUser")
 	public User getUser() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		
