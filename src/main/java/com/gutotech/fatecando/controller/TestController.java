@@ -29,12 +29,12 @@ public class TestController {
 			return "redirect:/dashboard";
 		}
 
-		return "disciplines/test";
+		return "subjects/test";
 	}
 
 	@PostMapping
 	public String finishTestForm(Test test, Model model) {
 		testService.finish();
-		return "redirect:/disciplines/" + test.getSubject().getId();
+		return "redirect:/subjects/" + test.getSubject().getId();
 	}
 }
