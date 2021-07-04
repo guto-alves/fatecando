@@ -40,7 +40,7 @@ public class QuestionAdminController {
 	public String initUpdateForm(@PathVariable Long id, Model model) {
 		model.addAttribute("question", questionService.findById(id));
 		model.addAttribute("topics", topicService.findAll());
-		model.addAttribute("disciplines", subjectService.findAllWithTopics());
+		model.addAttribute("subjects", subjectService.findAllWithTopics());
 		return "admin/question-edit";
 	}
 
@@ -50,7 +50,7 @@ public class QuestionAdminController {
 		if (bindingResult.hasErrors()) {
 			model.addAttribute(question);
 			model.addAttribute("topics", topicService.findAll());
-			model.addAttribute("disciplines", subjectService.findAllWithTopics());
+			model.addAttribute("subjects", subjectService.findAllWithTopics());
 			return "admin/question-edit";
 		}
 

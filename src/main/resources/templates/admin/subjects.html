@@ -17,7 +17,7 @@
 				<div class="card-body">
 					<h4 class="card-title text-center">Nova Disciplina</h4>
 
-					<form action="#" method="post" th:object="${discipline}">
+					<form action="#" method="post" th:object="${subject}">
 						<div class="mb-3">
 							<label class="form-label" for="nameInput">Nome</label>
 
@@ -96,17 +96,17 @@
 				</thead>
 
 				<tbody>
-					<tr th:each="discipline : ${disciplines}" th:data-id="${discipline.id}" data-bs-toggle="modal"
-						data-bs-target="#disciplineModal">
-						<td id="codeTd" class="align-middle" th:text="${discipline.code}"></td>
-						<td id="nameTd" class="align-middle" th:text="${discipline.name}"></td>
-						<td id="semesterTd" class="align-middle" th:text="${discipline.semester}"></td>
+					<tr th:each="subject : ${subjectss}" th:data-id="${subject.id}" data-bs-toggle="modal"
+						data-bs-target="#subjectsModal">
+						<td id="codeTd" class="align-middle" th:text="${subject.code}"></td>
+						<td id="nameTd" class="align-middle" th:text="${subject.name}"></td>
+						<td id="semesterTd" class="align-middle" th:text="${subject.semester}"></td>
 					</tr>
 				</tbody>
 			</table>
 
 			<!-- Modal -->
-			<div class="modal fade" id="disciplineModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+			<div class="modal fade" id="subjectsModal" tabindex="-1" aria-labelledby="exampleModalLabel"
 				aria-hidden="true">
 				<div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
 					<div class="modal-content">
@@ -155,7 +155,7 @@
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-							<button id="updateDiscipline" type="button" class="btn btn-danger">Atualizar</button>
+							<button id="updateSubject" type="button" class="btn btn-danger">Atualizar</button>
 						</div>
 					</div>
 				</div>
@@ -173,28 +173,28 @@
 	        }
 		});
 
-		let disciplines = /*[[${disciplines}]]*/null;
+		let subjectss = /*[[${subjectss}]]*/null;
 		let courses = /*[[${courses}]]*/null;
 
-		$('#disciplineModal').on('show.bs.modal', function() {
-			var disciplineId = parseInt($(event.target).closest('tr').data('id'));
+		$('#subjectsModal').on('show.bs.modal', function() {
+			var subjectsId = parseInt($(event.target).closest('tr').data('id'));
 
-			for (let i = 0; i < disciplines.length; i++) {
-				let discipline = disciplines[i];
+			for (let i = 0; i < subjectss.length; i++) {
+				let subjects = subjectss[i];
 
-				if (discipline.id == disciplineId) {
-					$('#modalTitle').html('Disciplina <br><b>' + discipline.name + '</b>');
-					$('#updatedName').val(discipline.name);
-					$('#updatedCode').val(discipline.code);
-					$('#updatedSemester').val(discipline.semester);
-					$('#updatedCourse').val(discipline.course.id);
+				if (subjects.id == subjectsId) {
+					$('#modalTitle').html('Disciplina <br><b>' + subjects.name + '</b>');
+					$('#updatedName').val(subjects.name);
+					$('#updatedCode').val(subjects.code);
+					$('#updatedSemester').val(subjects.semester);
+					$('#updatedCourse').val(subjects.course.id);
 					$('#updatedCourse').trigger('change');
-					$('#updatedDescription').text(discipline.description);
-					$('#updatedObjective').text(discipline.objective);
+					$('#updatedDescription').text(subjects.description);
+					$('#updatedObjective').text(subjects.objective);
 					
-					$('#updateDiscipline').off('click');
+					$('#updateSubject').off('click');
 					
-					$('#updateDiscipline').click(() => {
+					$('#updateSubject').click(() => {
 						let updatedName = $('#updatedName').val();
 						let updatedCode = $('#updatedCode').val();
 						let updatedSemester = $('#updatedSemester').val();
@@ -204,8 +204,8 @@
 						
 						let course = courses.find(c => c.id == updatedCourse);
 						
-						let updatedDiscipline = {
-							id: discipline.id,
+						let updatedSubject = {
+							id: subjects.id,
 						    name: updatedName,
 						    code: updatedCode,
 						    semester: updatedSemester,
@@ -218,21 +218,21 @@
 						    url: location.href + '/update',
 						    type: "POST",
 						    contentType: "application/json; charset=utf-8",
-						    data: JSON.stringify(updatedDiscipline), // Stringified Json Object
+						    data: JSON.stringify(updatedSubject), // Stringified Json Object
 						    cache: false, // This will force requested pages not to be cached by the browser  
 						    processData: false
 						}).done(function () {
-						    let rowSelector = 'tr[data-id="' + discipline.id + '"]';
+						    let rowSelector = 'tr[data-id="' + subjects.id + '"]';
 						
 						    $(rowSelector).find('#codeTd').first().text(updatedCode);
 						    $(rowSelector).find('#nameTd').first().text(updatedName);
 						    $(rowSelector).find('#semesterTd').first().text(updatedSemester);
 						    
-						    discipline = updatedDiscipline;
+						    subjects = updatedSubject;
 						}).fail(function (jqXHR, textStatus ) {
 						    console.log("Erro ao atualizar a disciplina. Status: " + textStatus);
 						}).always(function() {
-							$('#disciplineModal').modal('hide');
+							$('#subjectsModal').modal('hide');
 	 					});
 					});
 					

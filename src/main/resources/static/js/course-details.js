@@ -9,7 +9,7 @@ $('#semesterSelect').change(function() {
 });
 
 function filterSubjectsBy(searchValue) {
-	getVisibleDisciplines().each(function() {
+	getVisibleSubjects().each(function() {
 		let subjectContainer = $(this);
 		let name = subjectContainer.find('.card-header').first().text();
 
@@ -41,7 +41,7 @@ function filterSubjectsBySemester(selectedSemester) {
 	$('#inputFilter').trigger('keyup');
 }
 
-function getVisibleDisciplines() {
+function getVisibleSubjects() {
 	let subjects = [];
 
 	let selectedSemester = parseInt($('#semesterSelect').val());

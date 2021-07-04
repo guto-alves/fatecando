@@ -39,7 +39,7 @@ public class TopicController {
 	}
 
 	@InitBinder("topic")
-	public void initDisciplineBinder(WebDataBinder dataBinder) {
+	public void initSubjectBinder(WebDataBinder dataBinder) {
 		dataBinder.setDisallowedFields("id");
 	}
 

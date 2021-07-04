@@ -116,7 +116,7 @@
 
 		<h5 class="card-title mt-5">Sua resposta</h5>
 		<form id="comment-form" action="#" method="post"
-			th:action="@{/subjects/{disciplineId}/forum-topics/{topicId}(disciplineId=${subject.id},topicId=${forumTopic.id})}"
+			th:action="@{/subjects/{subjectId}/forum-topics/{topicId}(subjectId=${subject.id},topicId=${forumTopic.id})}"
 			th:object="${comment}">
 			<div class="mb-4">
 				<div id="comment-body-editor"></div>

@@ -62,11 +62,11 @@
 									</div>
 
 									<div class="mb-3">
-										<label for="disciplines" class="form-label">Disciplina</label>
+										<label for="subjects" class="form-label">Disciplina</label>
 
-										<select id="disciplines" class="form-select">
-											<option th:each="discipline : ${disciplines}" th:value="${discipline.id}"
-												th:text="${discipline.name}"></option>
+										<select id="subjects" class="form-select">
+											<option th:each="subject : ${subjects}" th:value="${subject.id}"
+												th:text="${subject.name}"></option>
 										</select>
 									</div>
 

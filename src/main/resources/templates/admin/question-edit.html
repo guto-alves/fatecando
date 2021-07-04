@@ -78,9 +78,9 @@
 						<div class="col-md-6">
 							<label class="form-label fw-bold h5" for="status">Disciplina</label>
 
-							<select id="disciplines-select" class="form-select">
-								<option th:each="discipline : ${disciplines}" th:value="${discipline.id}" th:text="${discipline.name}"
-									th:selected="${discipline == question.topic.discipline}"></option>
+							<select id="subject-select" class="form-select">
+								<option th:each="subject : ${subjects}" th:value="${subject.id}" th:text="${subject.name}"
+									th:selected="${subject == question.topic.subject}"></option>
 							</select>
 						</div>
 
@@ -88,7 +88,7 @@
 							<label class="form-label fw-bold h5" for="status">Tópico</label>
 
 							<select class="form-select" th:field="*{topic.id}">
-								<option th:each="topic : ${topics}" th:if="${topic.discipline.id == question.topic.discipline.id}"
+								<option th:each="topic : ${topics}" th:if="${topic.subject.id == question.topic.subject.id}"
 									th:value="${topic.id}" th:text="${topic.name}"
 									th:selected="${topic == question.topic}"></option>
 							</select>
@@ -178,15 +178,15 @@
 			
 			let topics = /*[[${topics}]]*/[];
 
-			$('#disciplines-select').change(function() {
-				let selectedDisciplineId = parseInt($(this).val());
+			$('#subject-select').change(function() {
+				let selectedSubjectId = parseInt($(this).val());
 
 				let topicSelect = $('select[id*="topic"]').first();
 
 				topicSelect.empty();
 
 				topics.forEach(function(topic) {
-					if (topic.discipline.id == selectedDisciplineId) {
+					if (topic.subject.id == selectedSubjectId) {
 						let option = `<option value="${topic.id}">${topic.name}</option>`;
 						topicSelect.append(option);
 					}

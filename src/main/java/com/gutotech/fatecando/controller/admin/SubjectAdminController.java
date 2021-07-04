@@ -17,7 +17,7 @@ import com.gutotech.fatecando.service.CourseService;
 import com.gutotech.fatecando.service.SubjectService;
 
 @Controller
-@RequestMapping("admin/disciplines")
+@RequestMapping("admin/subjects")
 public class SubjectAdminController {
 
 	@Autowired
@@ -27,31 +27,31 @@ public class SubjectAdminController {
 	private CourseService courseService;
 
 	@GetMapping
-	public String initDisciplinesAdminPage(Model model) {
-		model.addAttribute("disciplines", subjectService.findAll());
-		model.addAttribute("discipline", new Subject());
+	public String initSubjectsAdminPage(Model model) {
+		model.addAttribute("subjects", subjectService.findAll());
+		model.addAttribute("subject", new Subject());
 		model.addAttribute("courses", courseService.findAll());
-		return "admin/disciplines";
+		return "admin/subjects";
 	}
 
 	@PostMapping
-	public String processDisciplineCreationForm(@Valid Subject subject, Model model, BindingResult bindingResult,
+	public String processSubjectCreationForm(@Valid Subject subject, Model model, BindingResult bindingResult,
 			RedirectAttributes redirectAttributes) {
 		if (bindingResult.hasErrors()) {
 			model.addAttribute(subject);
-			return "admin/disciplines";
+			return "admin/subjects";
 		}
 
 		subjectService.save(subject);
 
 		redirectAttributes.addFlashAttribute("message", "Disciplina " + subject.getName() + " criada com sucesso");
 
-		return "redirect:/admin/disciplines";
+		return "redirect:/admin/subjects";
 	}
 
 	@PostMapping("update")
-	public String processDisciplineCreationForm(@RequestBody Subject subject, BindingResult bindingResult) {
+	public String processSubjectCreationForm(@RequestBody Subject subject, BindingResult bindingResult) {
 		subjectService.update(subject);
-		return "redirect:/admin/disciplines";
+		return "redirect:/admin/subjects";
 	}
 }

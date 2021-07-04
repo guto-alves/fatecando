@@ -24,12 +24,11 @@
 	</div>
 
 	<div class="container mt-4">
-		<div th:unless="${#lists.isEmpty(recentDisciplines)}">
+		<div th:unless="${#lists.isEmpty(recentSubjects)}">
 			<h3 class="fw-bold">Continue de onde parou</h3>
 
-			<!-- Discipline cards -->
 			<div class="row row-cols-1 row-cols-md-3 g-4">
-				<div class="col" th:each="subject : ${recentDisciplines}" th:if="${subjectStat.count <= 3}">
+				<div class="col" th:each="subject : ${recentSubjects}" th:if="${subjectStat.count <= 3}">
 					<div class="btn-card card h-100 shadow" th:onclick="|showSubject('${subject.id}');|">
 						<h5 class="card-header btn-card-header" th:text="${subject.name}"></h5>
 						<div class="card-body">

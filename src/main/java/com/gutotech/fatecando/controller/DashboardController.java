@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gutotech.fatecando.model.Course;
 import com.gutotech.fatecando.service.CourseService;
-import com.gutotech.fatecando.service.InstitutionService;
 import com.gutotech.fatecando.service.SubjectService;
 import com.gutotech.fatecando.service.UserService;
 
@@ -25,23 +24,15 @@ public class DashboardController {
 	@Autowired
 	private UserService userService;
 
-	@Autowired
-	private InstitutionService institutionService;
-
 	@GetMapping
 	public String home(Model model) {
-//		model.addAttribute("disciplines", disciplineService.findAllAccessed());
-//		model.addAttribute("courses", courseService.findAll());
-//		model.addAttribute("institutions", institutionService.findAll());
-//		return "dashboard";
-
-		Course course = courseService.findById(1L);
+		Course course = courseService.findById(1L); // get ADS course
 
 		model.addAttribute("course", course);
 		model.addAttribute("subjects", subjectService.findAllByCourse(course));
-		model.addAttribute("recentDisciplines", userService.findSubjectsAccessed());
+		model.addAttribute("recentSubjects", userService.findSubjectsAccessed());
 
 		return "subjects/course-details";
-	} 
+	}
 
 }

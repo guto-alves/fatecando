@@ -144,11 +144,6 @@ public class Subject {
 		return Objects.equals(id, other.id);
 	}
 
-	@Override
-	public String toString() {
-		return "Discipline [id=" + id + ", name=" + name + ", code=" + code + "]";
-	}
-
 	public class UserInfo {
 		private Date accessDate;
 

@@ -9,20 +9,20 @@
 	<div class="container">
 		<h3 class="fw-bold mt-3">Continue de onde parou</h3>
 
-		<!-- Discipline cards -->
-		<div id="disciplinesContainer" class="row row-cols-1 row-cols-md-3 g-4">
-			<div class="col" th:each="discipline : ${disciplines}" th:data-semester="${discipline.semester}">
-				<div class="btn-card card h-100 shadow" th:onclick="'showSubject(\'' + ${discipline.id} + '\');'">
+		<!-- Subject cards -->
+		<div id="subjectsContainer" class="row row-cols-1 row-cols-md-3 g-4">
+			<div class="col" th:each="subject : ${subjects}" th:data-semester="${subject.semester}">
+				<div class="btn-card card h-100 shadow" th:onclick="'showSubject(\'' + ${subject.id} + '\');'">
 					<img src="" class="card-img-top" alt="">
 					<div class="card-header btn-card-header">
-						<h5 class="card-title" th:text="${discipline.name}">Estrutura de Dados</h5>
+						<h5 class="card-title" th:text="${subject.name}">Estrutura de Dados</h5>
 					</div>
 					<div class="card-body">
-						<p class="card-text text-truncate" th:text="${discipline.description}">This is a wider card with
+						<p class="card-text text-truncate" th:text="${subject.description}">This is a wider card with
 							supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
 					</div>
 					<div class="card-footer">
-						<div th:with="progress=${discipline.user.progress}">
+						<div th:with="progress=${subject.user.progress}">
 							<div class="progress text-center" style="height: 15px;">
 								<div class="progress-bar progress-bar-striped progress-bar-animated fw-bolder" role="progressbar"
 									aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 55%"
