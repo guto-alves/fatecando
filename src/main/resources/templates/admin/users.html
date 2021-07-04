@@ -32,7 +32,7 @@
 							<td th:text="${user.id}"></td>
 							<td th:text="${user.fullName}"></td>
 							<td th:text="${user.email}"></td>
-							<td th:text="${user.gender.displayName}"></td>
+							<td th:text="${user.gender?.displayName}"></td>
 							<td th:text="${#dates.format(user.creationDate, 'dd/MM/yyyy HH:mm')}"></td>
 							<td th:text="${#dates.format(user.lastLogin, 'dd/MM/yyyy HH:mm')}"></td>
 						</tr>

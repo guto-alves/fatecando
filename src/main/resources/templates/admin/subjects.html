@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org"
-	th:replace="~{fragments/layout :: base('Disciplina', ~{::body}, _, _, _)}">
+	th:replace="~{fragments/layout :: base('Disciplinas', ~{::body}, _, _, _)}">
 <head>
 <meta charset="utf-8">
 </head>
@@ -15,7 +15,7 @@
 
 			<div class="card">
 				<div class="card-body">
-					<h4 class="card-title text-center">Nova Disciplina</h4>
+					<h4 class="card-title text-center">Disciplina</h4>
 
 					<form action="#" method="post" th:object="${subject}">
 						<div class="mb-3">
@@ -96,7 +96,7 @@
 				</thead>
 
 				<tbody>
-					<tr th:each="subject : ${subjectss}" th:data-id="${subject.id}" data-bs-toggle="modal"
+					<tr th:each="subject : ${subjects}" th:data-id="${subject.id}" data-bs-toggle="modal"
 						data-bs-target="#subjectsModal">
 						<td id="codeTd" class="align-middle" th:text="${subject.code}"></td>
 						<td id="nameTd" class="align-middle" th:text="${subject.name}"></td>
@@ -165,32 +165,30 @@
 	</div>
 
 	<script type="text/javascript" th:inline="javascript">
-		$('.select2').select2();
-		
 		$('#table').DataTable({
 			language: {
 				url: '//cdn.datatables.net/plug-ins/1.10.22/i18n/Portuguese-Brasil.json'
 	        }
 		});
 
-		let subjectss = /*[[${subjectss}]]*/null;
+		let subjects = /*[[${subjects}]]*/null;
 		let courses = /*[[${courses}]]*/null;
 
 		$('#subjectsModal').on('show.bs.modal', function() {
-			var subjectsId = parseInt($(event.target).closest('tr').data('id'));
+			let subjectId = parseInt($(event.target).closest('tr').data('id'));
 
-			for (let i = 0; i < subjectss.length; i++) {
-				let subjects = subjectss[i];
+			for (let i = 0; i < subjects.length; i++) {
+				let subject = subjects[i];
 
-				if (subjects.id == subjectsId) {
-					$('#modalTitle').html('Disciplina <br><b>' + subjects.name + '</b>');
-					$('#updatedName').val(subjects.name);
-					$('#updatedCode').val(subjects.code);
-					$('#updatedSemester').val(subjects.semester);
-					$('#updatedCourse').val(subjects.course.id);
+				if (subject.id == subjectId) {
+					$('#modalTitle').html('Disciplina <br><b>' + subject.name + '</b>');
+					$('#updatedName').val(subject.name);
+					$('#updatedCode').val(subject.code);
+					$('#updatedSemester').val(subject.semester);
+					$('#updatedCourse').val(subject.course.id);
 					$('#updatedCourse').trigger('change');
-					$('#updatedDescription').text(subjects.description);
-					$('#updatedObjective').text(subjects.objective);
+					$('#updatedDescription').text(subject.description);
+					$('#updatedObjective').text(subject.objective);
 					
 					$('#updateSubject').off('click');
 					
@@ -205,7 +203,7 @@
 						let course = courses.find(c => c.id == updatedCourse);
 						
 						let updatedSubject = {
-							id: subjects.id,
+							id: subject.id,
 						    name: updatedName,
 						    code: updatedCode,
 						    semester: updatedSemester,
@@ -222,13 +220,13 @@
 						    cache: false, // This will force requested pages not to be cached by the browser  
 						    processData: false
 						}).done(function () {
-						    let rowSelector = 'tr[data-id="' + subjects.id + '"]';
+						    let rowSelector = 'tr[data-id="' + subject.id + '"]';
 						
 						    $(rowSelector).find('#codeTd').first().text(updatedCode);
 						    $(rowSelector).find('#nameTd').first().text(updatedName);
 						    $(rowSelector).find('#semesterTd').first().text(updatedSemester);
 						    
-						    subjects = updatedSubject;
+						    subject = updatedSubject;
 						}).fail(function (jqXHR, textStatus ) {
 						    console.log("Erro ao atualizar a disciplina. Status: " + textStatus);
 						}).always(function() {

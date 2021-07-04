@@ -67,9 +67,11 @@
 
 									<p class="mb-1 truncate" th:text="${topic.description}">Some placeholder content in a paragraph.</p>
 
-									<div class="d-flex justify-content-end align-items-center">
-										<i class="fa fa-thumbs-o-up fa-lg text-primary me-1"></i> <small class="fw-bold"
-											th:text=${topic.likes}>10</small>
+									<div class="d-flex justify-content-end align-items-center" th:if="${topic.stars}">
+										<small class="fw-bold text-warning" th:text="${topic.stars}">5</small>
+										<div class="star-rating mx-1" data-rating-stars="5" data-rating-readonly="true" 
+											th:data-rating-value="${topic.stars}" data-rating-half="true"></div>
+										<small class="text-muted" th:text="|(${topic.totalReviews})|"></small>
 									</div>
 								</div>
 							</th:block>
@@ -79,6 +81,7 @@
 			</div>
 		</div>
 	</div>
+	<script th:src="@{/js/rating.js}"></script>
 	<script type="text/javascript">
 		$('.subject-link').click(function() {
 			$('.subject-link[class*="active"]').removeClass('active');

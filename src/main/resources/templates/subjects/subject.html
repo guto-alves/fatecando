@@ -193,7 +193,7 @@
 						<p class="mb-1 truncate" th:text="${topic.description}">Some placeholder content in a paragraph.</p>
 
 						<div class="d-flex justify-content-end align-items-center" th:if="${topic.stars}">
-							<small class="fw-bold text-warning" th:text="${topic.stars}">10</small>
+							<small class="fw-bold text-warning" th:text="${topic.stars}">5</small>
 							<div class="star-rating mx-1" data-rating-stars="5" data-rating-readonly="true" 
 								th:data-rating-value="${topic.stars}" data-rating-half="true"></div>
 							<small class="text-muted" th:text="|(${topic.totalReviews})|"></small>
