@@ -1,22 +1,24 @@
 <!DOCTYPE html>
 <html xmlns:th="www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 	th:replace="~{fragments/layout :: base(${subject.code}, ~{::body}, _, _, ~{::style})}">
+
 <head>
-<meta charset="utf-8">
-<style type="text/css">
-#editor-container {
-	height: 350px;
-}
+	<meta charset="utf-8">
+	<style type="text/css">
+		#editor-container {
+			height: 350px;
+		}
 
-.list-card-item {
-	cursor: pointer;
-}
+		.list-card-item {
+			cursor: pointer;
+		}
 
-.list-card-item:hover {
-	transform: scale(1.010);
-}
-</style>
+		.list-card-item:hover {
+			transform: scale(1.010);
+		}
+	</style>
 </head>
+
 <body>
 	<div class="row">
 		<div class="p-3 bg-dark text-white">
@@ -50,7 +52,8 @@
 			<div class="progress text-center" style="height: 25px;" th:with="progress=${subject.user.progress}">
 				<div class="progress-bar progress-bar-striped progress-bar-animated fw-bolder" role="progressbar"
 					aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 55%"
-					th:style="'width: ' + ${progress} + '%'" th:classappend="${progress} == 100 ? 'bg-green' : 'bg-danger'"
+					th:style="'width: ' + ${progress} + '%'"
+					th:classappend="${progress} == 100 ? 'bg-green' : 'bg-danger'"
 					th:text="${progress} > 0 ? ${progress} + '% Estudado'">55% estudado</div>
 			</div>
 		</div>
@@ -79,8 +82,7 @@
 
 						<div class="card border border-1 border-secondary shadow">
 							<div class="card-body">
-								<h4 class="card-title text-center"
-									th:utext="'Sentiu falta de algum tópico/assunto interessante em ' + ${#strings.arraySplit(subject.name, ' ')[0]}  + '? <br> Manda pra gente!'">
+								<h4 class="card-title text-center" th:utext="'Sentiu falta de algum tópico/assunto interessante em ' + ${#strings.arraySplit(subject.name, ' ')[0]}  + '? <br> Manda pra gente!'">
 								</h4>
 
 								<div class="alert alert-danger alert-dismissible fade show m-3" role="alert" th:if="${error}">
@@ -94,11 +96,11 @@
 									<div class="mb-3 mt-2">
 										<label class="form-label fw-bold" for="name">Nome</label>
 
-										<input type="text" id="name" class="form-control" placeholder="Nome do tópico" th:field="*{name}"
+										<input type="text" class="form-control" placeholder="Nome do tópico" th:field="*{name}"
 											maxlength="255" required>
 
-										<div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Nome
-											inválido</div>
+										<span class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Nome
+											inválido</span>
 									</div>
 
 									<div class="mb-3">
@@ -217,9 +219,9 @@
 								<div class="mb-3">
 									<label class="form-label">Dê um nome para o Teste</label>
 									<input type="text" class="form-control"
-										placeholder="Por exemplo: Treinamento para a P1, Teste para P1, Teste BD, ..." required
+										placeholder="Por exemplo: Treinamento para a P1, Teste para P1, Teste BD, ..."
 										th:field="*{name}" th:classappend="${#fields.hasErrors('name')}? 'is-invalid'"
-										aria-describedby="nameFeedback" onclick="this.select();">
+										aria-describedby="nameFeedback" onclick="this.select();" required>
 									<div id="nameFeedback" class="invalid-feedback" th:if="${#fields.hasErrors('name')}"
 										th:errors="*{name}">Mensagem de erro</div>
 								</div>
@@ -293,7 +295,7 @@
 
 													<div class="mb-3">
 														<label for="topics">Tópicos de Tag</label>
-														<small class="d-flex text-muted">Adicione o(s) tópico(s) que tem haver com sua pergunta</small>
+														<small class="d-flex text-muted">Adicione um ou mais tópicos relacionados à sua pergunta</small>
 														<select class="form-select select2-tags" multiple th:field="*{tags}"
 															th:classappend="${#fields.hasErrors('tags')}? 'is-invalid'" aria-describedby="topicsFeedback"
 															style="width: 100%;">
@@ -428,79 +430,75 @@
 
 	<script type="text/javascript" th:inline="javascript">
 		let subjectId = /*[[${subject.id}]]*/null;
-	
+
+		const page = /*[[${page}]]*/ 'topics';
+
 		$("time.timeago").timeago();
-	
+
 		$('.select2').select2({
 			closeOnSelect: false
 		});
-		$('.select2-tags').select2({
-			dropdownParent: $("#forumTopicModal") 		
-		});
-		$('.select2-filter-tags').select2({
-			closeOnSelect: false
-		});
 
-		$('#likeButton').click(function() {
+		$('#likeButton').click(function () {
 			$.post(location.href.split('?')[0] + '/like')
-				.done(function() {
+				.done(function () {
 					$('#totalLikes').toggleClass('bg-white');
 
 					let totalLikes = parseInt($('#totalLikes').text());
 					let liked = $('#totalLikes').hasClass('bg-white');
-					
+
 					$('#totalLikes').text(liked ? totalLikes + 1 : totalLikes - 1);
 				});
 		});
 
 		var topicBodyEditor = new Quill('#topic-body-editor', EditorOptions.TOPIC);
-		$('#topic-form').submit(function(event) {
+		$('#topic-form').submit(function (event) {
 			if (topicBodyEditor.root.innerText.trim() !== '') {
 				$('#topic-form #bodyHtml').val(topicBodyEditor.root.innerHTML);
 			}
 		});
-		
-		var forumTopicBodyEditor = new Quill('#forum-topic-body-editor', EditorOptions.FORUM_TOPIC);
-		$('#forum-topic-form').submit(function(event) {
-			if (forumTopicBodyEditor.root.innerText.trim() !== '') {
-				$('#forum-topic-form #bodyHtml').val(forumTopicBodyEditor.root.innerHTML);
-			}
-		});
-		
-		$('#contribute').click(function(event) {
-			if ($('button[class*="accordion-button"]').hasClass('collapsed')) {
-				event.preventDefault();
-				$('button[class*="accordion-button"]').click();
-				setTimeout(() => location.href = location.href.split('#')[0] + "#newTopicContainer", 200);
-			}
-		});
-		
-		if (/*[[${error}]]*/false) {
-			$('button[class*="accordion-button"]').click();
-			setTimeout(() => $('#contribute').click(), 300);
+
+		if (page === 'forum') {
+			$('.select2-tags').select2({
+				dropdownParent: $("#forumTopicModal")
+			});
+			$('.select2-filter-tags').select2({
+				closeOnSelect: false
+			});
+
+			let forumTopicBodyEditor = new Quill('#forum-topic-body-editor', EditorOptions.FORUM_TOPIC);
+			$('#forum-topic-form').submit(function (event) {
+				if (forumTopicBodyEditor.root.innerText.trim() !== '') {
+					$('#forum-topic-form #bodyHtml').val(forumTopicBodyEditor.root.innerHTML);
+				}
+			});
 		}
-		
+
+		if (/*[[${error}]]*/false) {
+			setTimeout(() => $('button[class*="accordion-button"]').click(), 300);
+		}
+
 		function showTopic(topicId) {
 			location.href = '/topic/' + topicId;
 		}
 	</script>
 
-	<script type="text/javascript" sec:authorize="hasRole('ROLE_ADMIN')">
-		var el = document.getElementById('topics');
-		
-		Sortable.create(el, {
+	<script type="text/javascript" sec:authorize="hasRole('ROLE_ADMIN')" th:if="${page == 'topics'}">
+		let element = document.getElementById('topics');
+
+		Sortable.create(element, {
 			animation: 150,
 			onEnd: function (event) {
 				let draggedTopicId = $(event.item).data('id');
 				let relatedTopicId;
-				
+
 				if (event.newDraggableIndex > event.oldDraggableIndex) {
 					relatedTopicId = $('#topics').children().eq(event.newDraggableIndex - 1).data('id');
 				} else {
-					relatedTopicId = $('#topics').children().eq(event.newDraggableIndex + 1).data('id');			
+					relatedTopicId = $('#topics').children().eq(event.newDraggableIndex + 1).data('id');
 				}
-				
-				$.post(window.location.origin + `/admin/topics/drag/${draggedTopicId}/${relatedTopicId}`);
+
+				$.post(`${window.location.origin}/admin/topics/drag/${draggedTopicId}/${relatedTopicId}`);
 			}
 		});
 	</script>

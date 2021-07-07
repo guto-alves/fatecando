@@ -79,10 +79,12 @@
 	<script type="text/javascript" th:src="@{/js/quill-utils.js}"></script>
 	
 	<script type="text/javascript" th:inline="javascript">
-		var annotationEditor = new Quill('#annotationEditor', EditorOptions.TOPIC);
+		let annotationEditor = new Quill('#annotationEditor', EditorOptions.TOPIC);
 		
 		annotationEditor.on('text-change', function(eventName, ...args) {
-			$('#updateAnnotationButton').show();
+			if ($('#topic').val() !== '') {
+				$('#updateAnnotationButton').show();	
+			}
 		});
 	
 		$('.topic').click(function() {

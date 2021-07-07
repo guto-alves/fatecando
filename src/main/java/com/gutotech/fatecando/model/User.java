@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -15,6 +16,7 @@ public class User {
 	private Long id;
 
 	@NotBlank(message = "Por favor preencha seu nome completo.")
+	@Size(min = 2, message = "O tamanho mínino de caracteres é 2.")
 	private String fullName;
 
 	@NotBlank(message = "Por favor digite uma email válido.")
@@ -59,7 +61,7 @@ public class User {
 	}
 
 	public void setFullName(String fullName) {
-		this.fullName = fullName;
+		this.fullName = fullName.trim();
 	}
 
 	public String getEmail() {
