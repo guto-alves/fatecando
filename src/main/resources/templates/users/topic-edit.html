@@ -120,7 +120,7 @@
 			let topicStatus = /*[[${topic.status}]]*/null;
 
 			if (topicStatus === 'EDITABLE') {
-				var bodyEditor = new Quill('#body-editor', EditorOptions.TOPIC);
+				let bodyEditor = new Quill('#body-editor', EditorOptions.TOPIC);
 
 				$('form').submit(function(event) {
 					$('#bodyHtml').val(bodyEditor.root.innerHTML);
