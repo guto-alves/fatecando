@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org"
 	th:replace="~{fragments/layout :: base ('Tópico', ~{::body}, _, _, ~{::style})}">
+
 <head>
-<meta charset="utf-8">
-<style type="text/css">
-#editor-container {
-	height: 350px;
-}
-</style>
+	<meta charset="utf-8">
+	<style type="text/css">
+		#editor-container {
+			height: 350px;
+		}
+	</style>
 </head>
+
 <body>
 	<div class="container mt-4">
-		<div class="alert alert-success alert-dismissible fade show" role="alert"
-			th:if="${!#strings.isEmpty(message)}">
+		<div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${!#strings.isEmpty(message)}">
 			<span th:text=${message}></span>
 			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 		</div>
@@ -25,7 +26,8 @@
 					<div class="mb-3">
 						<label class="form-label fw-bold" for="name">Nome</label>
 
-						<input type="text" id="name" class="form-control" placeholder="Nome do Tópico" th:field="*{name}">
+						<input type="text" id="name" class="form-control" placeholder="Nome do Tópico"
+							th:field="*{name}">
 
 						<span class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Nome inválido</span>
 					</div>
@@ -112,8 +114,18 @@
 									<span class="fw-bold">Data de atualização:</span>
 									<span th:text="${#dates.format(topic.updateDate, 'dd/MM/yyyy às HH:mm:ss')}"></span>
 									<br>
-									<span class="fw-bold">Total de Likes:</span>
-									<span th:text="${topic.likes} == 0 ? 'Nenhum' : ${topic.likes}"></span>
+									<div class="d-flex justify-content-start">
+										<span class="fw-bold me-1">Reviews:</span>
+										<div class="d-flex justify-content-start" th:if="${topic.stars}">
+											<span class="fw-bold text-warning" th:text="${topic.stars}">5</span>
+											<div class="star-rating mx-1" data-rating-stars="5" data-rating-readonly="true" 
+												th:data-rating-value="${topic.stars}" data-rating-half="true"></div>
+											<span class="text-muted" th:text="|(${topic.totalReviews})|"></span>
+										</div>
+										<span th:if="${topic.stars <= 0}">
+											Nenhuma
+										</span>
+									</div>
 									<br>
 								</div>
 							</div>
@@ -135,11 +147,12 @@
 	</div>
 
 	<script type="text/javascript" th:src="@{/js/quill-utils.js}"></script>
+	<script th:src="@{/js/rating.js}"></script>
 
 	<script type="text/javascript">
-		var editor = new Quill('#editor-container', EditorOptions.TOPIC);
+		let editor = new Quill('#editor-container', EditorOptions.TOPIC);
 
-		$('form').submit(function(event) {
+		$('form').submit(function (event) {
 			$('#bodyHtml').val(editor.root.innerHTML);
 		});
 	</script>
