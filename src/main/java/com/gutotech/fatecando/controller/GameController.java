@@ -26,7 +26,7 @@ import com.gutotech.fatecando.service.SubjectService;
 import com.gutotech.fatecando.service.TopicService;
 
 @Controller
-@RequestMapping("game")
+@RequestMapping("games")
 public class GameController {
 
 	@Autowired
@@ -59,9 +59,9 @@ public class GameController {
 	@GetMapping
 	public String initGameCreationForm(Model model) {
 		model.addAttribute("game", new Game());
-		model.addAttribute("games", gameService.findAll());
-		model.addAttribute("topics", topicService.findAll());
 		model.addAttribute("subjects", subjectService.findAll());
+		model.addAttribute("topics", topicService.findAll());
+		model.addAttribute("games", gameService.findAll());
 		return "games/games";
 	}
 
@@ -78,19 +78,19 @@ public class GameController {
 
 		gameService.save(game);
 
-		return "redirect:/game/waiting-room";
+		return "redirect:/games/waiting-room";
 	}
 
 	@PostMapping("join/{id}")
 	public String joinGame(@PathVariable Long id) {
 		gameService.joinGame(id);
-		return "redirect:/game/waiting-room";
+		return "redirect:/games/waiting-room";
 	}
 
 	@PostMapping("leave")
 	public String leaveGame() {
 		gameService.leaveGame();
-		return "redirect:/game";
+		return "redirect:/games";
 	}
 
 	@GetMapping("waiting-room")
@@ -98,7 +98,7 @@ public class GameController {
 		Game game = gameService.find();
 
 		if (game == null) {
-			return "redirect:/game";
+			return "redirect:/games";
 		}
 
 		model.addAttribute("game", game);
@@ -111,7 +111,7 @@ public class GameController {
 		Game game = gameService.find();
 
 		if (game == null) {
-			return "redirect:/game";
+			return "redirect:/games";
 		}
 
 		model.addAttribute("game", game);

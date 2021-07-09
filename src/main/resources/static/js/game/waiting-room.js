@@ -1,7 +1,7 @@
 getGame();
 
 function getGame() {
-	$.get(window.location.origin + '/game/current', function(game) {
+	$.get('/games/current', function(game) {
 		let totalPlayers = game.totalPlayers - game.players.length;
 
 		if (totalPlayers > 1) {
@@ -11,7 +11,7 @@ function getGame() {
 		}
 
 		if (game.status === 'PLAYING') {
-			location.href = '/game/playing';
+			location.href = '/games/playing';
 		}
 
 		setTimeout(getGame, 3000);

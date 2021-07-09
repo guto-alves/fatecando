@@ -5,7 +5,7 @@ updateGame();
 let currentRound = -1;
 
 function updateGame() {
-	$.get(window.location.origin + '/game/current', function(game) {
+	$.get('/games/current', function(game) {
 		if (game.status === 'FINISHED') {
 			$('#question-container').hide();
 			$('#leave-game-button').show();
@@ -73,7 +73,7 @@ $('#answer-question-button').click(function() {
 	
 	$('#answer-question-button').hide();
 
-	$.post('/game/answer/' + alternativeId)
+	$.post('/games/answer/' + alternativeId)
 		.done(function(result) {
 			console.log(result);
 			let color = result.feedback.correct ? 'success' : 'danger';
