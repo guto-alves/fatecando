@@ -1,78 +1,80 @@
 <!DOCTYPE html>
 <html xmlns:th="www.thymeleaf.org"
 	th:replace="~{fragments/layout :: base(${topic.name}, ~{::body}, ~{::link}, _, ~{::style})}">
+
 <head>
-<meta charset="utf-8">
+	<meta charset="utf-8">
 
-<link rel="stylesheet" type="text/css" th:href="@{/css/nav-breadcrumb.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/nav-breadcrumb.css}">
 
-<style type="text/css" th:inline="css">
-#finish-btn.active {
-	background-color: #198754;
-	border-color: #198754
-}
+	<style type="text/css" th:inline="css">
+		#finish-btn.active {
+			background-color: #198754;
+			border-color: #198754
+		}
 
-.bg-initial-quiz {
-	background: url(/*[[@{/images/quiz-image.png}]]*/ "") no-repeat center
-		center;
-	width: 100%;
-	min-height: 190px;
-}
+		.bg-initial-quiz {
+			background: url(/*[[@{/images/quiz-image.png}]]*/ "") no-repeat center center;
+			width: 100%;
+			min-height: 190px;
+		}
 
-.form-check-input {
-	width: 2em;
-	height: 2em;
-}
+		.form-check-input {
+			width: 2em;
+			height: 2em;
+		}
 
-.form-check-input:checked {
-	background-color: green;
-	border-color: green;
-}
+		.form-check-input:checked {
+			background-color: green;
+			border-color: green;
+		}
 
-.sidenav {
-	height: 100%;
-	width: 0;
-	position: fixed;
-	z-index: 1;
-	top: 0;
-	left: 0;
-	background-color: rgb(0, 0, 0);
-	overflow-x: hidden;
-	transition: 0.5s;
-	padding-top: 50px;
-}
+		.sidenav {
+			height: 100%;
+			width: 0;
+			position: fixed;
+			z-index: 1;
+			top: 0;
+			left: 0;
+			background-color: rgb(0, 0, 0);
+			overflow-x: hidden;
+			transition: 0.5s;
+			padding-top: 50px;
+		}
 
-.sidenav a {
-	padding: 8px 8px 8px 8px;
-	text-decoration: none;
-	font-size: 25px;
-	color: #818181;
-	display: block;
-	transition: 0.3s;
-}
+		.sidenav a {
+			padding: 8px 8px 8px 8px;
+			text-decoration: none;
+			font-size: 25px;
+			color: #818181;
+			display: block;
+			transition: 0.3s;
+		}
 
-.sidenav a:hover {
-	color: #f1f1f1;
-}
+		.sidenav a:hover {
+			color: #f1f1f1;
+		}
 
-.sidenav .closebtn {
-	position: absolute;
-	top: 0;
-	right: 25px;
-	font-size: 36px;
-	margin-left: 50px;
-}
+		.sidenav .closebtn {
+			position: absolute;
+			top: 0;
+			right: 25px;
+			font-size: 36px;
+			margin-left: 50px;
+		}
 
-@media screen and (max-height: 450px) {
-	.sidenav {
-		padding-top: 28px;
-	}
-	.sidenav a {
-		font-size: 18px;
-	}
-}
-</style>
+		@media screen and (max-height: 450px) {
+			.sidenav {
+				padding-top: 28px;
+			}
+
+			.sidenav a {
+				font-size: 18px;
+			}
+		}
+	</style>
 </head>
+
 <body>
 	<div class="row">
 		<div class="bg-dark text-white">
@@ -81,10 +83,11 @@
 					<nav class="nav-breadcrumb dark" aria-label="breadcrumb">
 						<ol class="breadcrumb">
 							<li class="breadcrumb-item">
-								<a href="#" th:href="@{/dashboard}" th:text="${topic.subject.course.name}">Disciplina</a>
+								<a href="#" th:href="@{/dashboard}">ADS</a>
 							</li>
 							<li class="breadcrumb-item">
-								<a href="#" th:href="@{/subjects/{id}(id=${topic.subject.id})}" th:text="${topic.subject.name}">Fórum</a>
+								<a href="#" th:href="@{/subjects/{id}(id=${topic.subject.id})}"
+									th:text="${topic.subject.name}">Fórum</a>
 							</li>
 						</ol>
 					</nav>
@@ -148,8 +151,8 @@
 						<div class="card border border-1 border-secondary shadow">
 							<div class="card-body">
 
-								<form id="newQuestionForm" action="#" method="post" th:action="@{/topic/{t}/question(t=${topic.id})}"
-									th:object="${question}">
+								<form id="newQuestionForm" action="#" method="post"
+									th:action="@{/topic/{t}/question(t=${topic.id})}" th:object="${question}">
 									<div class="mb-3">
 										<label for="description" class="h5 form-label fw-bolder">Pergunta</label>
 
@@ -157,25 +160,31 @@
 										<input type="hidden" id="description" th:field="*{description}">
 									</div>
 
-									<div id="alternativesContainer" class="mb-3 p-3 border border-1 border-secondary rounded">
+									<div id="alternativesContainer"
+										class="mb-3 p-3 border border-1 border-secondary rounded">
 										<label class="h5 form-label fw-bolder ms-5">Alternativas</label>
 
 										<div id="alternatives">
 											<div class="new-alternative mb-3 d-flex justify-content-start align-items-center"
 												th:each="alternative, itemStat : *{alternatives}">
-												<span class="text-muted me-2" th:text="${itemStat.index + 1} + '.'">1.</span>
+												<span class="text-muted me-2"
+													th:text="${itemStat.index + 1} + '.'">1.</span>
 
 												<div class="container">
 													<textarea class="form-control me-5" rows="1"
-														th:field="*{alternatives[__${itemStat.index}__].description}" placeholder="Alternativa" required>Alternativa 1</textarea>
+														th:field="*{alternatives[__${itemStat.index}__].description}"
+														placeholder="Alternativa" required>Alternativa 1</textarea>
 													<input type="text" class="form-control"
-														th:field="*{alternatives[__${itemStat.index}__].feedback}" placeholder="Feedback da alternativa">
+														th:field="*{alternatives[__${itemStat.index}__].feedback}"
+														placeholder="Feedback da alternativa">
 												</div>
 												<div class="form-check me-3">
-													<input type="checkbox" class="is-correct-alternative form-check-input"
+													<input type="checkbox"
+														class="is-correct-alternative form-check-input"
 														th:field="*{alternatives[__${itemStat.index}__].correct}">
 												</div>
-												<button type="button" class="remove-alternative btn btn-outline-danger btn-sm">
+												<button type="button"
+													class="remove-alternative btn btn-outline-danger btn-sm">
 													<i class="fa fa-trash fa-lg" aria-hidden="true"></i>
 												</button>
 											</div>
@@ -191,13 +200,17 @@
 									</div>
 
 									<div class="mb-3">
-										<label for="type" class="h5 form-label fw-bold">Tipo de Questão (Dificuldade)</label>
-										<select class="form-select" aria-describedby="typeHelp" id="type" th:field="*{type}">
-											<option th:each="type : ${T(com.gutotech.fatecando.model.QuestionType).values()}"
+										<label for="type" class="h5 form-label fw-bold">Tipo de Questão
+											(Dificuldade)</label>
+										<select class="form-select" aria-describedby="typeHelp" id="type"
+											th:field="*{type}">
+											<option
+												th:each="type : ${T(com.gutotech.fatecando.model.QuestionType).values()}"
 												th:value="${type}" th:text="${type.displayName}"></option>
 										</select>
 										<div id="typeHelp" class="form-text">
-											O tipo da questão está relacionado com a dificuldade dela. <br> Por exemplo, ao escolher
+											O tipo da questão está relacionado com a dificuldade dela. <br> Por exemplo,
+											ao escolher
 											"Simulado" a questão só aparecerá em simulados que contém este tópico.
 										</div>
 									</div>
@@ -218,16 +231,19 @@
 		<h3>Conteúdo</h3>
 		<div id="contentCard" class="card my-3 shadow">
 			<div class="card-body" id="contentEditor" th:utext="${topic.bodyHtml}"></div>
-			
+
 			<div class="mt-2 mb-3 mx-3">
 				<span class="text-muted">Por</span>
-				<a class="text-decoration-none link-dark" target="_blank" href="#" th:href="@{/users/{id}(id=${topic.createdBy.id})}" th:text="${topic.createdBy.fullName}"></a>
+				<a class="text-decoration-none link-dark" target="_blank" href="#"
+					th:href="@{/users/{id}(id=${topic.createdBy.id})}" th:text="${topic.createdBy.fullName}"></a>
 			</div>
 
 			<div class="d-flex justify-content-center">
-				<button id="finishButton" class="btn btn-outline-success" th:classappend="${topic.user.finished} ? 'active'">
+				<button id="finishButton" class="btn btn-outline-success"
+					th:classappend="${topic.user.finished} ? 'active'">
 					<i class="fa fa-check"></i>
-					<span th:text="${topic.user.finished} ? 'Concluído' : 'Marcar como concluído'">Marcar como concluído</span>
+					<span th:text="${topic.user.finished} ? 'Concluído' : 'Marcar como concluído'">Marcar como
+						concluído</span>
 				</button>
 			</div>
 			<hr>
@@ -236,30 +252,34 @@
 					<h5 class="text-muted">Avalie este tópico</h5>
 					<div id="review-stars-container" style="font-size: 32px;"></div>
 				</div>
-				
+
 				<!-- Modal -->
 				<div class="modal fade" id="review-modal" tabindex="-1" aria-labelledby="reviewModalLabel"
 					aria-hidden="true">
 					<div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
 						<div class="modal-content">
 							<div class="modal-header">
-						        <h5 class="modal-title" id="reviewModalLabel">Avaliação - [[${topic.name}]]</h5>
-						        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-						    </div>
+								<h5 class="modal-title" id="reviewModalLabel">Avaliação - [[${topic.name}]]</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal"
+									aria-label="Close"></button>
+							</div>
 							<div class="modal-body">
-								<small class="d-flex text-muted mb-3">Sua avaliação é fundamental para conseguirmos melhorar e atualizar o conteúdo. 
-									Atualizamos os tópicos frequentemente com base nas críticas e/ou sugestões dos estudantes.</small>
+								<small class="d-flex text-muted mb-3">Sua avaliação é fundamental para conseguirmos
+									melhorar e atualizar o conteúdo.
+									Atualizamos os tópicos frequentemente com base nas críticas e/ou sugestões dos
+									estudantes.</small>
 								<div class="mb-3 row">
 									<label for="review-content" class="col-sm-2 col-form-label">Comentário</label>
 									<div class="col-sm-10">
 										<textarea class="form-control" id="review-content" rows="6"
-											placeholder="Deixe sua observação..." maxlength="500" 
+											placeholder="Deixe sua observação..." maxlength="500"
 											th:text="${topic.user.review?.content}"></textarea>
 									</div>
 								</div>
 							</div>
 							<div class="modal-footer">
-								<button type="button" id="save-review-button" class="btn btn-danger">Salvar <i class="bi bi-save2"></i></button>
+								<button type="button" id="save-review-button" class="btn btn-danger">Salvar <i
+										class="bi bi-save2"></i></button>
 							</div>
 						</div>
 					</div>
@@ -339,27 +359,27 @@
 
 	<script th:src="@{/js/quill-utils.js}"></script>
 	<script th:src="@{/js/rating.js}"></script>
-	
+
 	<script type="text/javascript" th:inline="javascript">
-		 $('#review-stars-container').rating({
-			 value: /*[[${topic.user.review?.stars ?: 0}]]*/0,
-	         click: function (event) {
-	        	 $('#review-modal').modal('show');
-	         }
-	    });
-	
-		$('#save-review-button').click(function() {
+		$('#review-stars-container').rating({
+			value: /*[[${topic.user.review?.stars ?: 0}]]*/0,
+			click: function (event) {
+				$('#review-modal').modal('show');
+			}
+		});
+
+		$('#save-review-button').click(function () {
 			let stars = $("#review-stars-container .fa-star").length;
 			let content = $("#review-content").val();
-			
+
 			$.ajax({
 				method: 'POST',
 				url: window.location.href + '/review',
-				data: JSON.stringify({ stars: stars, content: content }),
+				data: JSON.stringify({stars: stars, content: content}),
 				contentType: "application/json; charset=utf-8"
 			}).done(function () {
 				$('#review-modal').modal('hide');
-			}).fail(function(jqXHR, textStatus) {
+			}).fail(function (jqXHR, textStatus) {
 				alert('Request failed: ' + textStatus);
 			});
 		});
@@ -367,7 +387,7 @@
 
 	<script type="text/javascript">
 		let annotationEditor = new Quill('#annotationEditor',
-				EditorOptions.TOPIC);
+			EditorOptions.TOPIC);
 
 		function openNav() {
 			if ($('#annotationSideNav').hasClass('active')) {
@@ -393,7 +413,7 @@
 			saveAnnotation();
 		}
 
-		$(window).on('resize', function() {
+		$(window).on('resize', function () {
 			let window = $(this);
 
 			if ($('#annotationSideNav').hasClass('active')) {
@@ -409,10 +429,10 @@
 
 		function saveAnnotation() {
 			$.ajax({
-				method : 'POST',
-				url : window.location.href + '/annotation',
-				data : annotationEditor.root.innerHTML,
-				contentType : 'text/plain'
+				method: 'POST',
+				url: window.location.href + '/annotation',
+				data: annotationEditor.root.innerHTML,
+				contentType: 'text/plain'
 			});
 		}
 
@@ -427,8 +447,8 @@
 		let questionEditor = new Quill('#question', EditorOptions.READ_ONLY);
 
 		let newQuestionEditor = new Quill('#newQuestionEditor',
-				EditorOptions.QUESTION);
-		$('#newQuestionForm').submit(function(event) {
+			EditorOptions.QUESTION);
+		$('#newQuestionForm').submit(function (event) {
 			$('#description').val(newQuestionEditor.root.innerHTML);
 		});
 	</script>
@@ -437,4 +457,5 @@
 	<script type="text/javascript" th:src="@{/js/quiz.js}"></script>
 	<script type="text/javascript" th:src="@{/js/question.form.js}"></script>
 </body>
+
 </html>

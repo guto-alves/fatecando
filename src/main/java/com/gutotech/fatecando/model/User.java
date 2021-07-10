@@ -22,7 +22,6 @@ public class User {
 	@NotBlank(message = "Por favor digite uma email válido.")
 	private String email;
 
-	@NotBlank(message = "Por favor digite uma senha válida.")
 	private String password;
 
 	private boolean enabled;
@@ -34,8 +33,6 @@ public class User {
 	private Date birthDate;
 
 	private UserActivity userActivity;
-
-	private Course course;
 
 	private Date creationDate;
 
@@ -110,14 +107,6 @@ public class User {
 
 	public void setUserActivity(UserActivity userActivity) {
 		this.userActivity = userActivity;
-	}
-
-	public Course getCourse() {
-		return course;
-	}
-
-	public void setCourse(Course course) {
-		this.course = course;
 	}
 
 	public Date getCreationDate() {

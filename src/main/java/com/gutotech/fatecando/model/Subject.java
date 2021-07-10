@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
 public class Subject {
@@ -24,6 +26,8 @@ public class Subject {
 	@NotBlank
 	private String objective;
 
+	@Min(1)
+	@Max(12)
 	private int semester;
 
 	private long likes;
@@ -31,8 +35,6 @@ public class Subject {
 	private Set<Topic> topics = new HashSet<>();
 
 	private List<ForumThread> forum = new ArrayList<>();
-
-	private Course course;
 
 	private UserInfo user;
 
@@ -109,14 +111,6 @@ public class Subject {
 
 	public List<ForumThread> getForum() {
 		return forum;
-	}
-
-	public Course getCourse() {
-		return course;
-	}
-
-	public void setCourse(Course course) {
-		this.course = course;
 	}
 
 	public UserInfo getUser() {

@@ -48,14 +48,6 @@
 						</div>
 
 						<div class="mb-3">
-							<label class="form-label" for="course">Curso</label>
-
-							<select class="form-select" th:field="*{course.id}">
-								<option th:each="course : ${courses}" th:value="${course.id}" th:text="${course.name}"></option>
-							</select>
-						</div>
-
-						<div class="mb-3">
 							<label class="form-label" for="description">Ementa</label>
 
 							<textarea id="description" class="form-control" th:field="*{description}" rows="3" maxlength="1000">
@@ -126,21 +118,14 @@
 									<label class="form-label">Código</label>
 									<input id="updatedCode" type="text" class="form-control" maxlength="20" required>
 								</div>
-
+								
 								<div class="col-md-6 mb-3">
 									<label class="form-label" for="updatedSemester">Semestre</label>
 
 									<select class="form-select" id="updatedSemester">
-										<option th:each="i : ${#numbers.sequence(1, 10)}" th:value="${i}" th:text="${i}"></option>
+										<option th:each="i : ${#numbers.sequence(1, 8)}" th:value="${i}" th:text="${i}"></option>
 									</select>
 								</div>
-							</div>
-
-							<label class="form-label" for="updatedCourse">Curso</label>
-							<div class="mb-3">
-								<select class="form-select select2" data-width="100%" id="updatedCourse">
-									<option th:each="course : ${courses}" th:value="${course.id}" th:text="${course.name}"></option>
-								</select>
 							</div>
 
 							<div class="mb-3">
@@ -172,7 +157,6 @@
 		});
 
 		let subjects = /*[[${subjects}]]*/null;
-		let courses = /*[[${courses}]]*/null;
 
 		$('#subjectsModal').on('show.bs.modal', function() {
 			let subjectId = parseInt($(event.target).closest('tr').data('id'));
@@ -185,8 +169,6 @@
 					$('#updatedName').val(subject.name);
 					$('#updatedCode').val(subject.code);
 					$('#updatedSemester').val(subject.semester);
-					$('#updatedCourse').val(subject.course.id);
-					$('#updatedCourse').trigger('change');
 					$('#updatedDescription').text(subject.description);
 					$('#updatedObjective').text(subject.objective);
 					
@@ -196,18 +178,15 @@
 						let updatedName = $('#updatedName').val();
 						let updatedCode = $('#updatedCode').val();
 						let updatedSemester = $('#updatedSemester').val();
-						let updatedCourse = $('#updatedCourse').val();
 						let updatedDescription = $('#updatedDescription').val();
 						let updatedObjetive = $('#updatedObjective').val();
-						
-						let course = courses.find(c => c.id == updatedCourse);
+				
 						
 						let updatedSubject = {
 							id: subject.id,
 						    name: updatedName,
 						    code: updatedCode,
 						    semester: updatedSemester,
-						    course: course,
 						    description: updatedDescription,
 						    objective: updatedObjetive
 						};

@@ -24,7 +24,7 @@ public class UserAdminController {
 	}
 
 	@GetMapping
-	public String showCoursesPage() {
+	public String showUsersPage() {
 		return "admin/users";
 	}
 }

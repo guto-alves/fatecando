@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gutotech.fatecando.model.Subject;
-import com.gutotech.fatecando.service.CourseService;
 import com.gutotech.fatecando.service.SubjectService;
 
 @Controller
@@ -23,22 +22,19 @@ public class SubjectAdminController {
 	@Autowired
 	private SubjectService subjectService;
 
-	@Autowired
-	private CourseService courseService;
-
 	@GetMapping
 	public String initSubjectsAdminPage(Model model) {
-		model.addAttribute("subjects", subjectService.findAll());
 		model.addAttribute("subject", new Subject());
-		model.addAttribute("courses", courseService.findAll());
+		model.addAttribute("subjects", subjectService.findAll());
 		return "admin/subjects";
 	}
 
 	@PostMapping
-	public String processSubjectCreationForm(@Valid Subject subject, Model model, BindingResult bindingResult,
-			RedirectAttributes redirectAttributes) {
+	public String processSubjectCreationForm(@Valid Subject subject, BindingResult bindingResult,
+			RedirectAttributes redirectAttributes, Model model) {
 		if (bindingResult.hasErrors()) {
 			model.addAttribute(subject);
+			model.addAttribute("subjects", subjectService.findAll());
 			return "admin/subjects";
 		}
 

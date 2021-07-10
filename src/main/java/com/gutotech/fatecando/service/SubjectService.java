@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 
-import com.gutotech.fatecando.model.Course;
 import com.gutotech.fatecando.model.ForumThread;
 import com.gutotech.fatecando.model.Subject;
 import com.gutotech.fatecando.model.Topic;
@@ -36,11 +35,6 @@ public class SubjectService {
 	public List<Subject> findAllWithTopics() {
 		return restTemplate.getForObjects(URL + "?with-topics=true", new ParameterizedTypeReference<List<Subject>>() {
 		});
-	}
-
-	public List<Subject> findAllByCourse(Course course) {
-		return restTemplate.getForObjects(URL + "?course={courseId}", new ParameterizedTypeReference<List<Subject>>() {
-		}, course.getId());
 	}
 
 	public List<Topic> findAllTopicsBySubject(Subject subject) {
