@@ -1,19 +1,20 @@
 <!DOCTYPE html>
-<html xmlns:th="www.thymeleaf.org"
-	th:replace="~{fragments/layout :: base('Anotações', ~{::body}, _, _, ~{::style})}">
+<html xmlns:th="www.thymeleaf.org" th:replace="~{fragments/layout :: base('Anotações', ~{::body}, _, _, ~{::style})}">
+
 <head>
-<meta charset="utf-8">
+	<meta charset="utf-8">
 
-<style type="text/css">
-.list-card-item {
-	cursor: pointer;
-}
+	<style type="text/css">
+		.list-card-item {
+			cursor: pointer;
+		}
 
-.list-card-item:hover {
-	transform: scale(1.010);
-}
-</style>
+		.list-card-item:hover {
+			transform: scale(1.010);
+		}
+	</style>
 </head>
+
 <body>
 	<div class="container-fluid">
 		<div class="row">
@@ -23,14 +24,11 @@
 						<h4 class="card-title text-center fw-bolder mb-4">Minhas anotações ([[${#lists.size(topics)}]])</h4>
 
 						<div class="list-group">
-							<th:block th:each="topic : ${topics}">
-								<th:block th:with="prevIndex=${topicStat.index - 1}">
-									<h5
-										th:if="${topicStat.first or not topicStat.first and topics[__prevIndex__].subject.id != topic.subject.id}"
-										th:id="|subject-${topic.subject.id}|">[[${topic.subject.name}]]</h5>
-								</th:block>
+							<th:block th:each="element : ${subjectTopicsMap}">
+								<h5 th:id="|subject-${element.key}|">[[${element.key}]]</h5>
 
 								<div class="topic list-group-item list-card-item mb-3 border border-1 rounded"
+									th:each="topic : ${element.value}"
 									th:data-id="${topic.id}"
 									th:classappend="${topic.user.finished} ? 'border-success' : 'border-secondary'">
 									<div class="d-flex w-100 justify-content-between">
@@ -80,53 +78,53 @@
 	
 	<script type="text/javascript" th:inline="javascript">
 		let annotationEditor = new Quill('#annotationEditor', EditorOptions.TOPIC);
-		
-		annotationEditor.on('text-change', function(eventName, ...args) {
+
+		annotationEditor.on('text-change', function (eventName, ...args) {
 			if ($('#topic').val() !== '') {
-				$('#updateAnnotationButton').show();	
+				$('#updateAnnotationButton').show();
 			}
 		});
-	
-		$('.topic').click(function() {
+
+		$('.topic').click(function () {
 			let topicId = $(this).data('id');
-			
+
 			let topic = topics.find(t => t.id === topicId);
-			
+
 			showAnnotation(topic);
 			$('#updateAnnotationButton').hide();
-			
+
 			$('.topic[class*="active"]').removeClass('active');
 			$(this).addClass('active');
 		});
-		
-		$(document).keyup(function(event) {
+
+		$(document).keyup(function (event) {
 			if (!annotationEditor.hasFocus()) {
 				if (event.key === 'ArrowRight') {
 					let currentIndex = $('.topic').index($('.topic[class*="active"]').first());
-					
+
 					let nextIndex = (currentIndex + 1) % $('.topic').length;
-					
+
 					$('.topic').eq(nextIndex).click();
 				} else if (event.key === 'ArrowLeft') {
-					let currentIndex  = $('.topic').index($('.topic[class*="active"]').first());
-					
+					let currentIndex = $('.topic').index($('.topic[class*="active"]').first());
+
 					let previousIndex = currentIndex - 1;
-					
+
 					if (previousIndex < 0) {
-						previousIndex =  $('.topic').length - 1;
+						previousIndex = $('.topic').length - 1;
 					}
-					
-					$('.topic').eq(previousIndex).click(); 
+
+					$('.topic').eq(previousIndex).click();
 				}
 			}
 		});
-		
-		$('#updateAnnotationButton').click(function() {
+
+		$('#updateAnnotationButton').click(function () {
 			saveAnnotation();
 			$('#updateAnnotationButton').hide();
 			annotationEditor.blur();
 		});
-		
+
 		let topics = /*[[${topics}]]*/[];
 		$('.topic').first().click();
 
@@ -139,17 +137,17 @@
 			annotationEditor.clipboard.dangerouslyPasteHTML(0, topic.user.annotation);
 			annotationEditor.blur();
 		}
-		
+
 		function saveAnnotation() {
 			let topicId = $('#topic').val();
 			let newAnnotation = annotationEditor.root.innerHTML;
-			
+
 			$.ajax({
-				method : 'POST',
-				url : window.location.origin + `/topic/${topicId}/annotation`,
-				data : newAnnotation,
-				contentType : 'text/plain'
-			}).done(function() {
+				method: 'POST',
+				url: window.location.origin + `/topic/${topicId}/annotation`,
+				data: newAnnotation,
+				contentType: 'text/plain'
+			}).done(function () {
 				let topic = topics.find(t => t.id == topicId);
 				topic.user.annotation = newAnnotation;
 				$('#updateAnnotationButton').hide();

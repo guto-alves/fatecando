@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="www.thymeleaf.org" th:replace="~{fragments/layout :: base('Games', ~{::body}, _, _, _)}">
+
 <head>
-<meta charset="utf-8">
+	<meta charset="utf-8">
 </head>
+
 <body>
 	<div class="container">
 		<div class="accordion mt-3" id="accordionExample">
 			<div class="accordion-item">
 				<h2 class="accordion-header" id="headingTwo">
-					<button class="accordion-button collapsed bg-danger text-white" type="button" data-bs-toggle="collapse"
-						data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" style="height: 50px">
+					<button class="accordion-button collapsed bg-danger text-white" type="button"
+						data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false"
+						aria-controls="collapseTwo" style="height: 50px">
 						<h4>Criar Sala</h4>
 					</button>
 				</h2>
@@ -62,21 +65,14 @@
 									</div>
 
 									<div class="mb-3">
-										<label for="subjects" class="form-label">Disciplina</label>
-
-										<select id="subjects" class="form-select">
-											<option th:each="subject : ${subjects}" th:value="${subject.id}"
-												th:text="${subject.name}"></option>
-										</select>
-									</div>
-
-									<div class="mb-3">
 										<label for="topics" class="form-label">Tópicos</label>
 
 										<select id="topics" class="form-select select2" multiple="multiple" th:field="*{topics}"
 											th:classappend="${#fields.hasErrors('topics')}? 'is-invalid'" aria-describedby="topicsFeedback"
 											style="width: 100%;">
-											<option th:each="topic : ${topics}" th:value="${topic.id}" th:text="${topic.name}"></option>
+											<optgroup th:each="subjectTopicsMap : ${subjectTopicsMap}" th:label="${subjectTopicsMap.key}">											
+												<option th:each="topic : ${subjectTopicsMap.value}" th:value="${topic.id}" th:text="${topic.name}"></option>
+											</optgroup>
 										</select>
 
 										<div id="topicsFeedback" class="invalid-feedback" th:if="${#fields.hasErrors('topics')}"
@@ -136,7 +132,9 @@
 				<label class="form-label">Tópicos</label>
 
 				<select id="filter-topics" class="form-select select2" multiple="multiple">
-					<option th:each="topic : ${topics}" th:value="${topic.id}" th:text="${topic.name}"></option>
+					<optgroup th:each="subjectTopicsMap : ${subjectTopicsMap}" th:label="${subjectTopicsMap.key}">											
+						<option th:each="topic : ${subjectTopicsMap.value}" th:value="${topic.id}" th:text="${topic.name}"></option>
+					</optgroup>
 				</select>
 			</div>
 		</div>

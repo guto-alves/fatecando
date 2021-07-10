@@ -1,24 +1,26 @@
 <!DOCTYPE html>
 <html xmlns:th="www.thymeleaf.org"
 	th:replace="~{fragments/layout :: base('Meus favoritos', ~{::body}, _, _, ~{::style})}">
+
 <head>
-<meta charset="utf-8">
-<style type="text/css">
-.list-card-item {
-	cursor: pointer;
-}
+	<meta charset="utf-8">
+	<style type="text/css">
+		.list-card-item {
+			cursor: pointer;
+		}
 
-.list-card-item:hover {
-	transform: scale(1.010);
-}
+		.list-card-item:hover {
+			transform: scale(1.010);
+		}
 
-@media only screen and ( max-width : 550px) {
-	#sidebar {
-		margin-top: 20px !important;
-	}
-}
-</style>
+		@media only screen and (max-width : 550px) {
+			#sidebar {
+				margin-top: 20px !important;
+			}
+		}
+	</style>
 </head>
+
 <body>
 	<div class="container h-100">
 		<div class="row h-100 py-3">
@@ -27,13 +29,8 @@
 					<nav id="subjects-navbar" class="navbar navbar-light bg-light">
 						<a class="navbar-brand ms-3" href="#">Disciplinas</a>
 						<nav class="nav nav-pills flex-column">
-							<th:block th:each="topic : ${topics}">
-								<th:block th:with="prevIndex=${topicStat.index - 1}">
-									<a
-										th:if="${topicStat.first or not topicStat.first and topics[__prevIndex__].subject.id != topic.subject.id}"
-										th:href="|#subject-${topic.subject.id}|" class="nav-link subject-link" href="#">[[${topic.subject.name}]]</a>
-								</th:block>
-							</th:block>
+							<a th:each="element : ${subjectTopicsMap}" th:href="|#${element.key}|"
+								class="nav-link subject-link" href="#">[[${element.key}]]</a>
 						</nav>
 					</nav>
 				</div>
@@ -46,14 +43,11 @@
 				<div class="card">
 					<div class="card-body">
 						<div class="list-group">
-							<th:block th:each="topic : ${topics}">
-								<th:block th:with="prevIndex=${topicStat.index - 1}">
-									<h5
-										th:if="${topicStat.first or not topicStat.first and topics[__prevIndex__].subject.id != topic.subject.id}"
-										th:id="|subject-${topic.subject.id}|">[[${topic.subject.name}]]</h5>
-								</th:block>
+							<th:block th:each="element : ${subjectTopicsMap}">
+								<h5 th:id="|${element.key}|">[[${element.key}]]</h5>
 
 								<div class="list-group-item list-card-item mb-3 border"
+									th:each="topic : ${element.value}"
 									th:onclick="|location.href='/topic/' + ${topic.id}|"
 									th:classappend="${topic.user.finished} ? 'border-success' : 'border-secondary'">
 									<div class="d-flex w-100 justify-content-between">
@@ -65,11 +59,12 @@
 											th:classappend="${!topic.user.finished}? 'd-none'"></i>
 									</div>
 
-									<p class="mb-1 truncate" th:text="${topic.description}">Some placeholder content in a paragraph.</p>
+									<p class="mb-1 truncate" th:text="${topic.description}">Some placeholder content in
+										a paragraph.</p>
 
 									<div class="d-flex justify-content-end align-items-center" th:if="${topic.stars}">
 										<small class="fw-bold text-warning" th:text="${topic.stars}">5</small>
-										<div class="star-rating mx-1" data-rating-stars="5" data-rating-readonly="true" 
+										<div class="star-rating mx-1" data-rating-stars="5" data-rating-readonly="true"
 											th:data-rating-value="${topic.stars}" data-rating-half="true"></div>
 										<small class="text-muted" th:text="|(${topic.totalReviews})|"></small>
 									</div>
@@ -83,10 +78,11 @@
 	</div>
 	<script th:src="@{/js/rating.js}"></script>
 	<script type="text/javascript">
-		$('.subject-link').click(function() {
+		$('.subject-link').click(function () {
 			$('.subject-link[class*="active"]').removeClass('active');
 			$(this).addClass('active');
 		});
 	</script>
 </body>
+
 </html>

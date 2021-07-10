@@ -1,6 +1,8 @@
 package com.gutotech.fatecando.service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -67,6 +69,10 @@ public class TopicService {
 	public List<Question> getQuiz(Topic topic) {
 		return restTemplate.getForObjects(URL + "/{id}/quiz", new ParameterizedTypeReference<List<Question>>() {
 		}, topic.getId());
+	}
+	
+	public Map<String, List<Topic>> groupBySubject(List<Topic> topics) {
+		return topics.stream().collect(Collectors.groupingBy(topic -> topic.getSubject().getName()));
 	}
 
 }
