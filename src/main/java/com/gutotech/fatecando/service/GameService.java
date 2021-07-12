@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.gutotech.fatecando.model.Game;
 import com.gutotech.fatecando.model.RoundAnswer;
+import com.gutotech.fatecando.model.Topic;
 
 @Service
 public class GameService {
@@ -45,6 +46,11 @@ public class GameService {
 
 	public RoundAnswer answerGameQuestion(Long chosenAlternativeId) {
 		return restTemplate.postForObject(URL + "/answer/" + chosenAlternativeId, null, RoundAnswer.class);
+	}
+	
+	public List<Topic> findGameTopics() {
+		return restTemplate.getForObjects(URL + "/topics", new ParameterizedTypeReference<List<Topic>>() {
+		});
 	}
 
 }

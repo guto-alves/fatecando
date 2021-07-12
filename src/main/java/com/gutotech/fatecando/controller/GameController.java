@@ -1,7 +1,6 @@
 package com.gutotech.fatecando.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -55,9 +54,8 @@ public class GameController {
 
 	@GetMapping
 	public String initGameCreationForm(Model model) {
-		Map<String, List<Topic>> subjectTopicsMap = topicService.groupBySubject(topicService.findAll());
 		model.addAttribute("game", new Game());
-		model.addAttribute("subjectTopicsMap", subjectTopicsMap);
+		model.addAttribute("subjectTopicsMap", topicService.groupBySubject(gameService.findGameTopics()));
 		model.addAttribute("games", gameService.findAll());
 		return "games/games";
 	}
@@ -67,8 +65,8 @@ public class GameController {
 			Model model) {
 		if (bindingResult.hasErrors()) {
 			model.addAttribute(game);
+			model.addAttribute("subjectTopicsMap", topicService.groupBySubject(gameService.findGameTopics()));
 			model.addAttribute("games", gameService.findAll());
-			model.addAttribute("topics", topicService.findAll());
 			return "games/games";
 		}
 
