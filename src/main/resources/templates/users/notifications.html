@@ -1,0 +1,29 @@
+<html xmlns:th="www.thymeleaf.org" th:replace="~{fragments/layout :: base('Notificações', ~{::body}, _, _, _)}">
+
+<head>
+</head>
+
+<body>
+	<div class="container-fluid col-md-6 mt-4">
+
+		<h4 class="mb-3">Notificações</h4>
+		<hr>
+
+		<div class="list-group">
+			<a href="#" class="list-group-item list-group-item-action" th:each="notification : ${notifications}"
+				th:href="${notification.link}">
+				<div class="d-flex w-100 justify-content-between">
+					<h5 class="mb-1" th:text="${notification.text}">List group item heading</h5>
+					<small><input class="form-check-input me-1" type="checkbox" value="" th:value="${notification.id}"
+							th:checked="${notification.isRead}" aria-label="Marcar como lido"></small>
+				</div>
+				<small>
+					<time class="text-muted timeago" th:datetime="${#dates.formatISO(notification.date)}">1 dia atrás</time>
+				</small>
+			</a>
+		</div>
+		<div class="text-center" th:if="${#lists.isEmpty(notifications)}">Você não tem nenhuma notificação.</div>
+	</div>
+</body>
+
+</html>

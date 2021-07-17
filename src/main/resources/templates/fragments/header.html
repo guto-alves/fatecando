@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
-<meta charset="utf-8">
+	<meta charset="utf-8">
 </head>
 <header th:fragment="header">
 	<nav class="navbar navbar-expand-lg navbar-dark bg-danger">
@@ -29,8 +30,8 @@
 						<a class="nav-link" href="#" th:href="@{/ranking}">Ranking</a>
 					</li>
 					<li class="nav-item dropdown" sec:authorize="hasRole('ROLE_ADMIN')">
-						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-							aria-expanded="false">Opções do ADM</a>
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+							data-bs-toggle="dropdown" aria-expanded="false">Opções do ADM</a>
 						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 							<li>
 								<a class="dropdown-item" href="#" th:href="@{/admin/users}">Usuários</a>
@@ -58,30 +59,67 @@
 					<a class="btn btn-outline-light me-2" href="#" th:href="@{/join?register}"
 						sec:authorize="!isAuthenticated()">Cadastre-se</a>
 
-					<div class="btn-group me-3" sec:authorize="isAuthenticated()">
-						<button type="button" class="btn btn-outline-light dropdown-toggle" data-bs-toggle="dropdown"
-							aria-expanded="false">
-							<i class="fa fa-user-circle fa-lg" aria-hidden="true"></i>
-						</button>
+					<div class="d-flex me-3" sec:authorize="isAuthenticated()">
+						<div class="dropdown me-3">
+							<button type="button" class="btn btn-outline-light dropdown-toggle"
+								data-bs-toggle="dropdown" aria-expanded="false">
+								<i class="bi bi-bell-fill"></i>
+							</button>
 
-						<div class="dropdown-menu dropdown-menu-lg-end">
-							<div class="text-center">
-								<a class="link-danger fw-bolder" th:href="@{/users/{id}(id=${currentUser.id})}" th:text=${currentUser.fullName}></a>
+							<div class="dropdown-menu dropdown-menu-lg-end p-0" style="width: 300px;">
+								<div class="list-group">
+									<a href="#" class="list-group-item list-group-item-action"
+										th:each="notification : ${notifications}" th:href="${notification.link}">
+										<div class="d-flex w-100 justify-content-between">
+											<h6 class="mb-1" th:text="${notification.text}">List group item heading</h6>
+											<small><input class="form-check-input me-1" type="checkbox" value=""
+													th:value="${notification.id}" th:checked="${notification.isRead}"
+													aria-label="Marcar como lido"></small>
+										</div>
+										<small>
+											<time class="text-muted timeago" th:datetime="${#dates.formatISO(notification.date)}">3 days ago</time>
+										</small>
+									</a>
+								</div>
+								<div class="container" th:if="${not #lists.isEmpty(notifications)}">
+									<div class="dropdown-divider m-0"></div>
+									<div class="container">
+										<div class="row">
+											<button type="button" id="readall-notifications-btn" class="btn-outline-dark btn-sm col-md-8">Marcar todas como lidas</button>
+											<a href="#" th:href="@{/notifications}" class="btn btn-outline-dark btn-sm col-md-4">Ver todas</a>
+										</div>
+									</div>								
+								</div>
+								<div class="text-center" th:if="${#lists.isEmpty(notifications)}">Você não tem nenhuma notificação.</div>
 							</div>
-							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="#" th:href="@{/users/annotations}">Minhas Anotações</a>
-							<a class="dropdown-item" href="#" th:href="@{/users/favorites}">Meus Favoritos</a>
-							<h6 class="dropdown-header">Contribuições</h6>
-							<a class="dropdown-item" href="#" th:href="@{/users/topics}">Meus Tópicos</a>
-							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="#" th:href="@{/users/edit-profile}">Editar Perfil</a>
+						</div>
 
-							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="#" th:href="@{/user/messages}">Mensagens</a>
-							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="#" th:href="@{/support}">Suporte</a>
-							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="#" th:href="@{/logout}">Sair</a>
+						<div class="dropdown">
+							<button type="button" class="btn btn-outline-light dropdown-toggle"
+								data-bs-toggle="dropdown" aria-expanded="false">
+								<i class="fa fa-user-circle" aria-hidden="true"></i>
+							</button>
+
+							<div class="dropdown-menu dropdown-menu-lg-end">
+								<div class="text-center">
+									<a class="link-danger fw-bolder" th:href="@{/users/{id}(id=${currentUser.id})}"
+										th:text=${currentUser.fullName}></a>
+								</div>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="#" th:href="@{/users/annotations}">Minhas Anotações</a>
+								<a class="dropdown-item" href="#" th:href="@{/users/favorites}">Meus Favoritos</a>
+								<h6 class="dropdown-header">Contribuições</h6>
+								<a class="dropdown-item" href="#" th:href="@{/users/topics}">Meus Tópicos</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="#" th:href="@{/users/edit-profile}">Editar Perfil</a>
+
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="#" th:href="@{/user/messages}">Mensagens</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="#" th:href="@{/support}">Suporte</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="#" th:href="@{/logout}">Sair</a>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -89,4 +127,5 @@
 		</div>
 	</nav>
 </header>
+
 </html>

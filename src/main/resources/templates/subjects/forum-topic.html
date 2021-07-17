@@ -137,8 +137,6 @@
 		let forumId = /*[[${forumTopic.id}]]*/null;
 		let topicBodyEditor = new Quill('#topic-body-editor', EditorOptions.READ_ONLY);
 
-		$("time.timeago").timeago();
-
 		$('.comment-body').each(function() {
 			new Quill(this, EditorOptions.READ_ONLY);
 		});
