@@ -31,7 +31,7 @@
 				<div class="question" th:each="question : ${test.questions}" th:data-id="${question.id}">
 					<span class="fw-bold" th:text="|${questionStat.count}.|"></span>
 
-					<div class="mb-3" th:id="|question-editor-${question.id}|" th:utext="${question.description}"></div>
+					<div class="question-editor mb-3" th:utext="${question.description}"></div>
 
 					<div class="alternative mb-3" th:each="alternative : ${question.alternatives}">
 						<div class="form-check">
@@ -59,80 +59,79 @@
 	</div>
 
 	<script type="text/javascript" th:src="@{/js/quill-utils.js}"></script>
-	
-	<script type="text/javascript">
-		$('div[id*="question-editor"]').each(function() {
-			var editor = new Quill('#' + $(this).prop('id'), EditorOptions.READ_ONLY);
-		});
-	</script>
 
 	<script type="text/javascript" th:inline="javascript">
-		let questions = /*[[${test.questions}]]*/null;
+		(function () {
+			$('.question-editor').each(function() {
+				new Quill($(this).get(0), EditorOptions.READ_ONLY);
+			});
 		
-		$('#finishTest').click(function() {
-			if ($('input[type="radio"]:checked').length !== questions.length) {
-				return false;
-			}
+			let questions = /*[[${test.questions}]]*/null;
 			
-			$('#finishTest').remove();
-			$('#spinner').show();
-			
-			let feedbacks = [];
-			
-			$('input[type="radio"]:checked').each(function() {
-				let alternative = $(this);
+			$('#finishTest').click(function() {
+				if ($('input[type="radio"]:checked').length !== questions.length) {
+					return false;
+				}
 				
-				let chosenAlternative = alternative.val();
-				let question = alternative.closest('.question').data('id');
+				$('#finishTest').remove();
+				$('#spinner').show();
 				
-				$.post(
-					window.location.origin + '/questions/' + question + '/answer/' + chosenAlternative
-				).done(feedback => {
-					feedbacks.push(feedback);
-
-					let color = feedback.correct ? 'success' : 'danger';
-					let text = feedback.correct ? 'Correto' : 'Errado';
-
-					let htmlFeedback = `
-						<div class="border border-2 border- ` + color + ` p-2 mb-2 rounded ms-3">
-							<span>
-								<b class="text-` + color + `">` + text + `</b>
-								<br>
-								` + feedback.feedback + `
-							</span>
-						</div>
-					`;
-
-					alternative.closest('.alternative').append(htmlFeedback);
+				let feedbacks = [];
+				
+				$('input[type="radio"]:checked').each(function() {
+					let alternative = $(this);
 					
-					if (feedbacks.length == questions.length) {
-						let rightAnswers = feedbacks.reduce((total, feedback) => total + (feedback.correct ? 1 : 0), 0);
-						
-						let percent = rightAnswers / questions.length * 100;
-						
-						let result = `
-							<span class="${percent >= 60 ? 'text-success' : 'text-danger'}">${rightAnswers}/${questions.length}</span>
+					let chosenAlternative = alternative.val();
+					let question = alternative.closest('.question').data('id');
+					
+					$.post('/questions/' + question + '/answer/' + chosenAlternative)
+					.done(feedback => {
+						feedbacks.push(feedback);
+	
+						let color = feedback.correct ? 'success' : 'danger';
+						let text = feedback.correct ? 'Correto' : 'Errado';
+	
+						let htmlFeedback = `
+							<div class="border border-2 border- ` + color + ` p-2 mb-2 rounded ms-3">
+								<span>
+									<b class="text-` + color + `">` + text + `</b>
+									<br>
+									` + feedback.feedback + `
+								</span>
+							</div>
 						`;
+	
+						alternative.closest('.alternative').append(htmlFeedback);
 						
-						$('#ponctuation').html(result);
-						
-						setTimeout(() => {
-							$('#spinner').hide();
-							scrollToTop();
-						}, 1000);
-					}
-				}).fail(() => {
-					console.log('Error ao registrar resposta. Por favor, tente mais tarde.');
+						if (feedbacks.length == questions.length) {
+							let rightAnswers = feedbacks.reduce((total, feedback) => total + (feedback.correct ? 1 : 0), 0);
+							
+							let percent = rightAnswers / questions.length * 100;
+							
+							let result = `
+								<span class="${percent >= 60 ? 'text-success' : 'text-danger'}">${rightAnswers}/${questions.length}</span>
+							`;
+							
+							$('#ponctuation').html(result);
+							
+							setTimeout(() => {
+								$('#spinner').hide();
+								scrollToTop();
+							}, 1000);
+						}
+					}).fail(() => {
+						console.log('Error ao registrar resposta. Por favor, tente mais tarde.');
+					});
 				});
+				
+				$('#test-result-container').show();
 			});
 			
-			$('#test-result-container').show();
-		});
-		
-		function scrollToTop() {
-			document.body.scrollTop = 0; // For Safari
-		  	document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-		}
+			function scrollToTop() {
+				document.body.scrollTop = 0; // For Safari
+			  	document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+			}
+		})();
 	</script>
 </body>
 </html>

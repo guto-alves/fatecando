@@ -188,7 +188,7 @@ class QuillUtils {
 	}
 
 	static removeToolbar(editor) {
-		var toolbar = editor.getModule('toolbar');
+		let toolbar = editor.getModule('toolbar');
 		$(toolbar.container).remove(0);
 	}
 }
