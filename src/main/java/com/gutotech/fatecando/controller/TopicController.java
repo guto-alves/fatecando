@@ -62,7 +62,7 @@ public class TopicController {
 			model.addAttribute("question", question);
 			return "subjects/topic-details";
 		}
-
+		
 		question.setTopic(topic);
 
 		questionService.save(question);

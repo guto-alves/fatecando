@@ -86,14 +86,14 @@ function updateAlternatives() {
 		self.find('textarea').first().attr('name', `alternatives[${alternativeCount}].description`);
 
 		self.find('input[type="text"]').first()
-			.prop('id', `alternatives${alternativeCount}.feedback`)
-			.prop('name', `alternatives[${alternativeCount}].feedback`);
+			.prop('id', `alternatives${alternativeCount}.feedback.title`)
+			.prop('name', `alternatives[${alternativeCount}].feedback.title`);
 
 		self.find('input[type="checkbox"]').first()
-			.prop('id', `alternatives${alternativeCount}.correct1`)
-			.prop('name', `alternatives[${alternativeCount}].correct`);
+			.prop('id', `alternatives${alternativeCount}.feedback.correct1`)
+			.prop('name', `alternatives[${alternativeCount}].feedback.correct`);
 
-		self.find('input[type="hidden"]').first().prop('name', `_alternatives[${alternativeCount}].correct`);
+		self.find('input[type="hidden"]').first().prop('name', `_alternatives[${alternativeCount}].feedback.correct`);
 
 		alternativeCount++;
 	});
