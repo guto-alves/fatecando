@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 
+import com.gutotech.fatecando.model.Feedback;
 import com.gutotech.fatecando.model.Game;
-import com.gutotech.fatecando.model.RoundAnswer;
 import com.gutotech.fatecando.model.Topic;
 
 @Service
@@ -44,8 +44,8 @@ public class GameService {
 		restTemplate.delete(URL);
 	}
 
-	public RoundAnswer answerGameQuestion(Long chosenAlternativeId) {
-		return restTemplate.postForObject(URL + "/answer/" + chosenAlternativeId, null, RoundAnswer.class);
+	public Feedback answerGameQuestion(Long chosenAlternativeId) {
+		return restTemplate.postForObject(URL + "/answer/" + chosenAlternativeId, null, Feedback.class);
 	}
 	
 	public List<Topic> findGameTopics() {

@@ -1,60 +1,41 @@
 <!DOCTYPE html>
-<html xmlns:th="www.thymeleaf.org"
-	th:replace="~{fragments/layout :: base('Game', ~{::body}, _, _, ~{::style})}">
+<html xmlns:th="www.thymeleaf.org" th:replace="~{fragments/layout :: base('Game', ~{::body}, _, _, ~{::style})}">
+
 <head>
-<meta charset="utf-8">
+	<meta charset="utf-8">
 </head>
 <style>
-.right-icon {
-	font-size: 1.5rem;
-	color: green;
-	font-weight: bold;
-}
+	.right-answer-icon {
+		font-size: 2.5rem;
+		color: green;
+		font-weight: bold;
+	}
 
-.wrong-icon {
-	font-size: 1.5rem;
-	color: red;
-}
+	.wrong-answer-icon {
+		font-size: 2.5rem;
+		color: red;
+	}
+
+	.no-answer-icon {
+		font-size: 2.5rem;
+		color: lightgrey;
+	}
 </style>
+
 <body>
 	<div class="container">
 
-		<div class="card mt-3 shadow">
+		<div class="card mt-4 shadow">
 			<div class="card-body">
-				<h3 class="card-title text-center fw-bolder" th:text="${game.name}">Nome do Game</h3>
+				<h3 class="game-name card-title text-center fw-bolder mb-4" th:text="${game.name}">Nome do Game</h3>
 
-				<table class="table table-bordered table-sm text-center mb-3">
+				<table id="scoreboard" class="table table-bordered table-sm text-center mb-4">
 					<thead>
 						<tr>
 							<th>Jogador</th>
-							<th>Round 1</th>
-							<th>Round 2</th>
-							<th>Round 3</th>
 						</tr>
 					</thead>
-					<tbody>
-						<tr>
-							<td>Guto</td>
-							<td class="align-items-middle right-icon"><i class="bi bi-check2"></i></td>
-							<td class="right-icon"><i class="bi bi-check2"></i></td>
-							<td class="right-icon"><i class="bi bi-check2"></i></td>
-						</tr>
-						<tr>
-							<td>Raizer</td>
-							<td class="right-icon"><i class="bi bi-check2"></i></td>
-							<td class="wrong-icon"><i class="bi bi-x"></i></td>
-							<td class="right-icon"><i class="bi bi-check2"></i></td>
-						</tr>
-						<tr>
-							<td>Caique</td>
-							<td class="wrong-icon"><i class="bi bi-x"></i></td>
-							<td class="right-icon"><i class="bi bi-check2"></i></td>
-							<td class="wrong-icon"><i class="bi bi-x"></i></td>
-						</tr>
-					</tbody>
 				</table>
-
-				<hr>
 
 				<div id="question-container" class="p-2 rounded">
 					<div class="d-flex justify-content-center align-items-baseline">
@@ -66,13 +47,12 @@
 					</div>
 
 					<div class="progress">
-						<div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0"
-							aria-valuemax="100"></div>
+						<div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100"
+							aria-valuemin="0" aria-valuemax="100"></div>
 					</div>
 
-					<div id="question">The question is...</div>
+					<div id="question">...</div>
 
-					<!-- Answers -->
 					<div id="alternatives" class="my-4"></div>
 
 					<div class="d-grid col-6 mx-auto mt-3">
@@ -81,7 +61,7 @@
 				</div>
 
 				<form class="text-center" action="#" method="post" th:action="@{/games/leave}">
-					<button type="submit" id="leave-game-button" class="btn btn-danger btn-sm" style="display: none;">Sair
+					<button type="submit" id="leave-game-button" class="btn btn-danger" style="display: none;">Sair
 						do Game</button>
 				</form>
 			</div>
@@ -89,7 +69,11 @@
 
 	</div>
 
-	<script type="text/javascript" th:src="@{/js/quill-utils.js}"></script>
-	<script type="text/javascript" th:src="@{/js/game/playing.js}"></script>
+	<script th:inline="javascript">
+		const currentPlayerId = /*[[${currentUser.id}]]*/null;
+	</script>
+	<script th:src="@{/js/quill-utils.js}"></script>
+	<script th:src="@{/js/game/playing.js}"></script>
 </body>
+
 </html>

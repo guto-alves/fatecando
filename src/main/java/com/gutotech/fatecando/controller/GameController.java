@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.gutotech.fatecando.model.Feedback;
 import com.gutotech.fatecando.model.Game;
-import com.gutotech.fatecando.model.RoundAnswer;
 import com.gutotech.fatecando.model.Topic;
 import com.gutotech.fatecando.service.GameService;
 import com.gutotech.fatecando.service.TopicService;
@@ -128,7 +128,7 @@ public class GameController {
 
 	@ResponseBody
 	@PostMapping("answer/{alternativeId}")
-	public RoundAnswer answerGameQuestion(@PathVariable Long alternativeId) {
+	public Feedback answerGameQuestion(@PathVariable Long alternativeId) {
 		return gameService.answerGameQuestion(alternativeId);
 	}
 
