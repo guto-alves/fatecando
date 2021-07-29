@@ -1,4 +1,4 @@
-$('input:checkbox').click(function() {
+$('.isread-notification-input').click(function() {
 	$.post('/notifications/' + $(this).val() + '/read');
 });
 
