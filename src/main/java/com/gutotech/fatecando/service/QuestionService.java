@@ -38,10 +38,6 @@ public class QuestionService {
 		restTemplate.put(URL + "/{id}", question, question.getId());
 	}
 
-	public Question upload(Question question) {
-		return restTemplate.postForObject(URL + "/upload", question, Question.class);
-	}
-
 	public Feedback answer(Long question, Long alternative) {
 		return restTemplate.postForObject(URL + "/{question}/answer/{alternative}", null, Feedback.class, question,
 				alternative);
