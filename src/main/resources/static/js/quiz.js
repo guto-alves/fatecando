@@ -42,34 +42,33 @@ function nextQuestion() {
 }
 
 $('#answerQuestion').click(function() {
-	let alternativeId = $('input[name="alternativeRadio"]:checked').val();
+	const alternativeId = $('input[name="alternativeRadio"]:checked').val();
 	
 	if (alternativeId == null) {
 		return false;
 	}
 	
-	let questionId = questions[currentQuestionIndex].id;
+	const questionId = questions[currentQuestionIndex].id;
 
 	$.post(
 		'/questions/' + questionId + '/answer/' + alternativeId
 	).done(feedback => {
 		feedbacks.push(feedback);
 
-		let color = feedback.correct ? 'success' : 'danger';
-		let text = feedback.correct ? 'Correto' : 'Errado';
+		const color = feedback.correct ? 'success' : 'danger';
 
-		let htmlFeedback = `
-			<div class="border border-2 border- ` + color + ` p-2 mb-2 rounded ms-5">
+		const htmlFeedback = `
+			<div class="border border-2 border-${color} p-2 mb-2 rounded ms-5">
 				<span>
-					<b class="text-` + color + `">` + text + `</b>
+					<b class="text-${color}">${feedback.title ?? ''}</b>
 					<br>
-					` + feedback.feedback + `
+					${feedback.description ?? ''}
 				</span>
 			</div>
 		`;
 
 		$('input[name="alternativeRadio"]:checked').first().closest('.alternative').append(htmlFeedback);
-
+		
 		if (currentQuestionIndex + 1 == totalQuestions) { // Quiz is over
 			$('#answerQuestion').remove();
 			$('#nextQuestion').remove();
@@ -87,17 +86,15 @@ $('#finishQuiz').click(() => {
 	$('#finishQuiz').remove();
 	$('#questionContainer').remove();
 
-	let rightAnswers = feedbacks.reduce((total, feedback) => total + (feedback.correct ? 1 : 0), 0);
+	const rightAnswers = feedbacks.reduce((total, feedback) => total + (feedback.correct ? 1 : 0), 0);
 
-	let result = rightAnswers + '/' + totalQuestions;
+	const result = rightAnswers + '/' + totalQuestions;
 
-	$('#quizResult').append(
-		`
+	$('#quizResult').append(`
 		<span class="h1 fw-bolder">` + result + `</span>
 		<br>
 		<div class="text-muted text-right mt-3">Finalizado em: ${new Date().toLocaleString()}</div>
-		`
-	);
+	`);
 
 	$('#quizResult').show();
 });
