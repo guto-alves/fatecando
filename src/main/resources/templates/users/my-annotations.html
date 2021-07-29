@@ -139,8 +139,8 @@
 		}
 
 		function saveAnnotation() {
-			let topicId = $('#topic').val();
-			let newAnnotation = annotationEditor.root.innerHTML;
+			const topicId = $('#topic').val();
+			const newAnnotation = annotationEditor.root.innerHTML;
 
 			$.ajax({
 				method: 'POST',
@@ -148,7 +148,7 @@
 				data: newAnnotation,
 				contentType: 'text/plain'
 			}).done(function () {
-				let topic = topics.find(t => t.id == topicId);
+				const topic = topics.find(t => t.id == topicId);
 				topic.user.annotation = newAnnotation;
 				$('#updateAnnotationButton').hide();
 			});

@@ -449,7 +449,7 @@
 				});
 		});
 
-		var topicBodyEditor = new Quill('#topic-body-editor', EditorOptions.TOPIC);
+		const topicBodyEditor = new Quill('#topic-body-editor', EditorOptions.TOPIC);
 		$('#topic-form').submit(function (event) {
 			if (topicBodyEditor.root.innerText.trim() !== '') {
 				$('#topic-form #bodyHtml').val(topicBodyEditor.root.innerHTML);
@@ -464,7 +464,7 @@
 				closeOnSelect: false
 			});
 
-			let forumTopicBodyEditor = new Quill('#forum-topic-body-editor', EditorOptions.FORUM_TOPIC);
+			const forumTopicBodyEditor = new Quill('#forum-topic-body-editor', EditorOptions.FORUM_TOPIC);
 			$('#forum-topic-form').submit(function (event) {
 				if (forumTopicBodyEditor.root.innerText.trim() !== '') {
 					$('#forum-topic-form #bodyHtml').val(forumTopicBodyEditor.root.innerHTML);

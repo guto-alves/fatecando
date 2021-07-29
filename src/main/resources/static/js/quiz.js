@@ -1,9 +1,12 @@
+const questionEditor = new Quill('#question', EditorOptions.READ_ONLY);
+
 let currentQuestionIndex = -1;
-let totalQuestions = Object.keys(questions).length;
+const totalQuestions = questions.length;
 let feedbacks = [];
 
 $('#startQuiz').click(function() {
 	$(this).remove();
+
 	$('#quiz-container').removeClass('bg-initial-quiz');
 
 	nextQuestion();
@@ -43,11 +46,11 @@ function nextQuestion() {
 
 $('#answerQuestion').click(function() {
 	const alternativeId = $('input[name="alternativeRadio"]:checked').val();
-	
+
 	if (alternativeId == null) {
 		return false;
 	}
-	
+
 	const questionId = questions[currentQuestionIndex].id;
 
 	$.post(
@@ -68,7 +71,7 @@ $('#answerQuestion').click(function() {
 		`;
 
 		$('input[name="alternativeRadio"]:checked').first().closest('.alternative').append(htmlFeedback);
-		
+
 		if (currentQuestionIndex + 1 == totalQuestions) { // Quiz is over
 			$('#answerQuestion').remove();
 			$('#nextQuestion').remove();

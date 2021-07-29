@@ -2,7 +2,7 @@ getGame();
 
 function getGame() {
 	$.get('/games/current', function(game) {
-		let totalPlayers = game.totalPlayers - game.players.length;
+		const totalPlayers = game.totalPlayers - game.players.length;
 
 		if (totalPlayers > 1) {
 			$('#totalPlayers').text(`Faltam ${totalPlayers} jogadores para começar!`);

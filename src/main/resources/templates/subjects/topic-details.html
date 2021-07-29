@@ -6,71 +6,14 @@
 	<meta charset="utf-8">
 
 	<link rel="stylesheet" type="text/css" th:href="@{/css/nav-breadcrumb.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/sidebar.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/alternatives.css}">
 
-	<style type="text/css" th:inline="css">
-		#finish-btn.active {
-			background-color: #198754;
-			border-color: #198754
-		}
-
+	<style type="text/css">
 		.bg-initial-quiz {
-			background: url(/*[[@{/images/quiz-image.png}]]*/ "") no-repeat center center;
+			background: url('/images/quiz-image.png') no-repeat center center;
 			width: 100%;
 			min-height: 190px;
-		}
-
-		.form-check-input {
-			width: 2em;
-			height: 2em;
-		}
-
-		.form-check-input:checked {
-			background-color: green;
-			border-color: green;
-		}
-
-		.sidenav {
-			height: 100%;
-			width: 0;
-			position: fixed;
-			z-index: 1;
-			top: 0;
-			left: 0;
-			background-color: rgb(0, 0, 0);
-			overflow-x: hidden;
-			transition: 0.5s;
-			padding-top: 50px;
-		}
-
-		.sidenav a {
-			padding: 8px 8px 8px 8px;
-			text-decoration: none;
-			font-size: 25px;
-			color: #818181;
-			display: block;
-			transition: 0.3s;
-		}
-
-		.sidenav a:hover {
-			color: #f1f1f1;
-		}
-
-		.sidenav .closebtn {
-			position: absolute;
-			top: 0;
-			right: 25px;
-			font-size: 36px;
-			margin-left: 50px;
-		}
-
-		@media screen and (max-height: 450px) {
-			.sidenav {
-				padding-top: 28px;
-			}
-
-			.sidenav a {
-				font-size: 18px;
-			}
 		}
 	</style>
 </head>
@@ -96,7 +39,7 @@
 					<p th:text="${topic.description}"></p>
 
 					<div class="d-flex justify-content-end mt-3">
-						<button class="btn btn-outline-light me-3" type="button" onclick="openNav();">
+						<button id="open-sidebar" class="btn btn-outline-light me-3" type="button">
 							<i class="bi bi-pencil-square" style="font-size: 1.2rem;"></i>
 						</button>
 
@@ -114,7 +57,7 @@
 	</div>
 
 	<div id="annotationSideNav" class="sidenav">
-		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+		<a id="close-sidebar" href="javascript:void(0)" class="closebtn">&times;</a>
 
 		<h5 class="fw-bold text-white text-center mb-3">SUAS ANOTAÇÕES</h5>
 
@@ -383,79 +326,16 @@
 				alert('Request failed: ' + textStatus);
 			});
 		});
+
+		new Quill('#contentEditor', EditorOptions.READ_ONLY);
+		
+		const questions = /*[[${questions}]]*/null;
 	</script>
 
-	<script type="text/javascript">
-		let annotationEditor = new Quill('#annotationEditor',
-			EditorOptions.TOPIC);
-
-		function openNav() {
-			if ($('#annotationSideNav').hasClass('active')) {
-				closeNav();
-			} else {
-				$('#annotationSideNav').addClass('active');
-				saveAnnotation();
-
-				if ($(window).width() > 680) {
-					$('#annotationSideNav').css('width', '340px');
-					$('body').css('marginLeft', '340px');
-				} else {
-					$('#annotationSideNav').css('width', '100%');
-					$('body').css('marginLeft', '0px');
-				}
-			}
-		}
-
-		function closeNav() {
-			$('#annotationSideNav').removeClass('active');
-			$('#annotationSideNav').css('width', '0px');
-			$('body').css('marginLeft', '0px');
-			saveAnnotation();
-		}
-
-		$(window).on('resize', function () {
-			let window = $(this);
-
-			if ($('#annotationSideNav').hasClass('active')) {
-				if (window.width() <= 680) {
-					$('#annotationSideNav').css('width', '100%');
-					$('body').css('marginLeft', '0px');
-				} else if (window.width() > 680) {
-					$('#annotationSideNav').css('width', '340px');
-					$('body').css('marginLeft', '340px');
-				}
-			}
-		});
-
-		function saveAnnotation() {
-			$.ajax({
-				method: 'POST',
-				url: window.location.href + '/annotation',
-				data: annotationEditor.root.innerHTML,
-				contentType: 'text/plain'
-			});
-		}
-
-		setInterval(saveAnnotation, 60000);
-	</script>
-
-	<script type="text/javascript" th:inline="javascript">
-		let questions = /*[[${questions}]]*/null;
-
-		let contentEditor = new Quill('#contentEditor', EditorOptions.READ_ONLY);
-
-		let questionEditor = new Quill('#question', EditorOptions.READ_ONLY);
-
-		let newQuestionEditor = new Quill('#newQuestionEditor',
-			EditorOptions.QUESTION);
-		$('#newQuestionForm').submit(function (event) {
-			$('#description').val(newQuestionEditor.root.innerHTML);
-		});
-	</script>
-
-	<script type="text/javascript" th:src="@{/js/topic-fav-finish-buttons.js}"></script>
-	<script type="text/javascript" th:src="@{/js/quiz.js}"></script>
-	<script type="text/javascript" th:src="@{/js/question.form.js}"></script>
+	<script th:src="@{/js/annotations.js}"></script>
+	<script th:src="@{/js/favorite-and-completed-buttons.js}"></script>
+	<script th:src="@{/js/quiz.js}"></script>
+	<script th:src="@{/js/question.form.js}"></script>
 </body>
 
 </html>

@@ -175,7 +175,7 @@
 		
 		$('#send-message-button').click(function() {
 			if (selectedConversation != null) {
-				let message = {
+				const message = {
 					body : newMessageEditor.root.innerHTML,
 					to : {
 						email : selectedConversation.to.email

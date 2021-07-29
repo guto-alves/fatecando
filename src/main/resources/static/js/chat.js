@@ -1,11 +1,11 @@
 function connect() {
-	let socket = new SockJS('http://localhost:8081/secured/room');
+	const socket = new SockJS('http://localhost:8081/secured/room');
 	stompClient = Stomp.over(socket);
 	stompClient.debug = null;
-	let sessionId = "";
+	let sessionId = '';
 
 	stompClient.connect({}, function(frame) {
-		var url = stompClient.ws._transport.url;
+		let url = stompClient.ws._transport.url;
 		url = url.replace("ws://localhost:8081/secured/room/", "");
 		url = url.replace("/websocket", "");
 		url = url.replace(/^[0-9]+\//, "");

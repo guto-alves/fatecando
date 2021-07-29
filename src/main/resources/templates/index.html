@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html xmlns:th="www.thymeleaf.org" th:replace="~{fragments/layout :: base('', ~{::body}, _, ~{::style}, _)}">
-<head>
-<meta charset="utf-8">
-<style>
-body {
-	overflow-x: hidden;
-}
 
-.img-fluid {
-	max-width: 100%;
-	max-height: 400px;
-	object-fit: cover;
-	padding: 50px;
-}
-</style>
+<head>
+	<meta charset="utf-8">
+	<style>
+		body {
+			overflow-x: hidden;
+		}
+
+		.img-fluid {
+			max-width: 100%;
+			max-height: 400px;
+			object-fit: cover;
+			padding: 50px;
+		}
+	</style>
 </head>
+
 <body>
 	<div class="row">
 		<div class="col-sm-12 p-0">
@@ -104,7 +106,8 @@ body {
 							</div>
 
 							<div class="col-6">
-								<img alt="" src="../static/images/check.svg" th:src="@{/images/check.svg}" class="img-fluid">
+								<img alt="" src="../static/images/check.svg" th:src="@{/images/check.svg}"
+									class="img-fluid">
 							</div>
 						</div>
 					</div>
@@ -140,8 +143,10 @@ body {
 					<h3>Sabemos as dificuldades de ser um universitário</h3>
 					<p>
 						Já enfrentamos os obstáculos da vida acadêmica. Conteúdos espalhados pela Web, nem sempre de boa
-						qualidade e muitas vezes defasados. Por isso decidimos criar o <b class="text-danger">Fatecando</b>,
-						materiais separados por assuntos e dificuldades em um ambiente dinâmico, para auxiliar os estudantes em
+						qualidade e muitas vezes defasados. Por isso decidimos criar o <b
+							class="text-danger">Fatecando</b>,
+						materiais separados por assuntos e dificuldades em um ambiente dinâmico, para auxiliar os
+						estudantes em
 						qualquer momento unindo o conhecimento a prática.
 					</p>
 				</div>
@@ -176,11 +181,14 @@ body {
 	</div>
 
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-		integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+		integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+		crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
-		integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+		integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+		crossorigin="anonymous"></script>
 
 	<script>
 		function access() {
@@ -188,4 +196,5 @@ body {
 		}
 	</script>
 </body>
+
 </html>

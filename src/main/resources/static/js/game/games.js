@@ -3,7 +3,7 @@ $('.select2').select2({
 });
 
 $('#filter-game-input').keyup(function() {
-	let filter = $(this).val().toUpperCase();
+	const filter = $(this).val().toUpperCase();
 
 	$('.game').each(function() {
 		if ($(this).text().toUpperCase().indexOf(filter) > -1) {
