@@ -1,9 +1,13 @@
 package com.gutotech.fatecando.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 
+import com.gutotech.fatecando.model.Feedback;
 import com.gutotech.fatecando.model.Test;
 
 @Service
@@ -28,6 +32,12 @@ public class TestService {
 
 	public void finish() {
 		restTemplate.delete(URL);
+	}
+
+	public List<Feedback> checkAnswers(List<Long> alternativeIds) {
+		return restTemplate.postForObjects(URL + "/check", alternativeIds,
+				new ParameterizedTypeReference<List<Feedback>>() {
+				});
 	}
 
 }

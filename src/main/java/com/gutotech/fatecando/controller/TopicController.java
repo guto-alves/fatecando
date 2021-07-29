@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gutotech.fatecando.model.Alternative;
+import com.gutotech.fatecando.model.Feedback;
 import com.gutotech.fatecando.model.Question;
 import com.gutotech.fatecando.model.Review;
 import com.gutotech.fatecando.model.Topic;
@@ -47,8 +48,8 @@ public class TopicController {
 	public String showTopic(Topic topic, Model model) {
 		Question question = new Question();
 		question.getAlternatives().addAll(Arrays.asList( //
-				new Alternative("Alternativa 1", null, true), //
-				new Alternative("Alternativa 2", null, false)));
+				new Alternative("Alternativa 1", new Feedback(true)), //
+				new Alternative("Alternativa 2", new Feedback())));
 
 		model.addAttribute("question", question);
 		model.addAttribute("questions", topicService.getQuiz(topic));
@@ -64,7 +65,7 @@ public class TopicController {
 
 		question.setTopic(topic);
 
-		questionService.upload(question);
+		questionService.save(question);
 
 		redirectAttributes.addFlashAttribute("successMessage", "Obrigado pela contribuição!");
 
@@ -88,7 +89,7 @@ public class TopicController {
 		topicService.saveAnnotation(topic, annotation);
 		return ResponseEntity.noContent().build();
 	}
-	
+
 	@PostMapping("review")
 	public ResponseEntity<Void> saveReview(Topic topic, @RequestBody Review review) {
 		topicService.saveReview(topic, review);

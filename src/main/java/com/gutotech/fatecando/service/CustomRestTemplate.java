@@ -44,6 +44,13 @@ public class CustomRestTemplate {
 				.exchange(url, HttpMethod.POST, HttpEntityUtils.createHttpEntity(request), responseType, uriVariables)
 				.getBody();
 	}
+	
+	public <T> List<T> postForObjects(String url, Object request, ParameterizedTypeReference<List<T>> responseType,
+			Object... uriVariables) {
+		return restTemplate
+				.exchange(url, HttpMethod.POST, HttpEntityUtils.createHttpEntity(request), responseType, uriVariables)
+				.getBody();
+	}
 
 	// PUT
 	public void put(String url, @Nullable Object request, Object... uriVariables) {

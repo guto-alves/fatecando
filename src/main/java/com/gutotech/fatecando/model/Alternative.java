@@ -7,17 +7,14 @@ public class Alternative {
 
 	private String description;
 
-	private boolean correct;
-
-	private String feedback;
+	private Feedback feedback;
 
 	public Alternative() {
 	}
 
-	public Alternative(String description, String feedback, boolean correct) {
+	public Alternative(String description, Feedback feedback) {
 		this.description = description;
 		this.feedback = feedback;
-		this.correct = correct;
 	}
 
 	public Long getId() {
@@ -36,19 +33,11 @@ public class Alternative {
 		this.description = description;
 	}
 
-	public boolean isCorrect() {
-		return correct;
-	}
-
-	public void setCorrect(boolean correct) {
-		this.correct = correct;
-	}
-
-	public String getFeedback() {
+	public Feedback getFeedback() {
 		return feedback;
 	}
 
-	public void setFeedback(String feedback) {
+	public void setFeedback(Feedback feedback) {
 		this.feedback = feedback;
 	}
 

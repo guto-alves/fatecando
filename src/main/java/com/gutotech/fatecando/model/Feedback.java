@@ -1,19 +1,42 @@
 package com.gutotech.fatecando.model;
 
 public class Feedback {
-	private Long alternative;
+	private Long id;
+	private String title;
+	private String description;
 	private boolean correct;
-	private String feedback;
+
+	private Alternative alternative;
 
 	public Feedback() {
 	}
 
-	public Long getAlternative() {
-		return alternative;
+	public Feedback(boolean correct) {
+		this.correct = correct;
 	}
 
-	public void setAlternative(Long alternative) {
-		this.alternative = alternative;
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public boolean isCorrect() {
@@ -24,12 +47,12 @@ public class Feedback {
 		this.correct = correct;
 	}
 
-	public String getFeedback() {
-		return feedback;
+	public Alternative getAlternative() {
+		return alternative;
 	}
 
-	public void setFeedback(String feedback) {
-		this.feedback = feedback;
+	public void setAlternative(Alternative alternative) {
+		this.alternative = alternative;
 	}
 
 }
