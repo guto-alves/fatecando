@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: base ('Tópico', ~{::body}, _, _, _)}">
+
+<head>
+	<meta charset="utf-8">
+</head>
+
+<body>
+	<div class="container mt-4">
+		<div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${!#strings.isEmpty(message)}">
+			<span th:text=${message}></span>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+
+		<div class="card mt-3 border border-1 shadow">
+			<div class="card-body">
+				<h3 class="card-title text-center fw-bolder">Minhas Questões</h3>
+				<hr>
+
+				<table id="table" class="table table-sm cell-border compact order-column table-hover compact stripe">
+					<thead class="thead-dark text-center">
+						<tr>
+							<th>ID</th>
+							<th>Pergunta</th>
+							<th>Tipo</th>
+							<th>Tópico</th>
+							<th>Data de Envio</th>
+							<th>Status</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody class="align-middle">
+						<tr th:each="question : ${questions}" th:data-id="${question.id}">
+							<td class="fw-bold text-center" th:text="${question.id}"></td>
+							<td>
+								<p class="content truncate" th:text="${question.description}"></p>
+							</td>
+							<td class="text-center" th:text="${question.type.displayName}"></td>
+							<td th:text="${question.topic != null? question.topic.name : ''}"></td>
+							<td class="text-center" th:text="${#dates.format(question.creationDate, 'dd/MM/yyyy')}"></td>
+							<td class="text-center" th:text="${question.status.displayName}"></td>
+							<td class="text-center"><a class="btn btn-outline-dark btn-sm" href="#"
+									th:href="@{/questions/{id}(id=${question.id})}">Ver mais</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		$('#table').DataTable({
+			language: {
+				url: '//cdn.datatables.net/plug-ins/1.10.22/i18n/Portuguese-Brasil.json'
+			}
+		});
+
+		$('.content').each(function () {
+			$(this).html($(this).text());
+		});
+	</script>
+</body>
+</html>

@@ -1,46 +1,42 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org"
 	th:replace="~{fragments/layout :: base ('Question', ~{::body}, _, _, ~{::style})}">
+
 <head>
-<meta charset="utf-8">
-<style type="text/css">
-#editor-container {
-	height: 350px;
-}
+	<meta charset="utf-8">
+	<style type="text/css">
+		.form-check-input {
+			width: 2em;
+			height: 2em;
+		}
 
-.form-check-input {
-	width: 2em;
-	height: 2em;
-}
-
-.form-check-input:checked {
-	background-color: green;
-	border-color: green;
-}
-</style>
+		.form-check-input:checked {
+			background-color: green;
+			border-color: green;
+		}
+	</style>
 </head>
+
 <body>
 	<div class="container mt-4">
-		<div class="alert alert-success alert-dismissible fade show" role="alert"
-			th:if="${!#strings.isEmpty(message)}">
+		<div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${!#strings.isEmpty(message)}">
 			<span class="text-center" th:text=${message}></span>
 			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 		</div>
 
 		<div class="card mt-3">
 			<div class="card-body">
-				<h3 class="card-title text-center fw-bold" th:text="'Questão - #' + ${question.id}">Pergunta #146</h3>
+				<h3 class="card-title text-center fw-bold"
+					th:text="|Questão - #${question.id} - ${question.status.displayName}|">Questão #146</h3>
 
-				<form id="question-form" action="#" method="post" th:action="@{/admin/questions/{id}(id=${question.id})}"
+				<form id="question-form" action="#" method="post" th:action="@{/questions/{id}(id=${question.id})}"
 					th:object="${question}">
 					<div class="mb-3">
-						<label for="description" class="h5 form-label fw-bolder">Pergunta</label>
-
 						<div id="question-editor" th:utext="${question.description}"></div>
-						<input type="hidden" id="description" th:field="*{description}">
+						<input type="hidden" th:field="*{description}">
 					</div>
 
-					<div id="alternativesContainer" class="mb-3 p-3 border border-1 border-secondary rounded">
+					<div id="alternativesContainer" class="mb-4 p-3 border border-1 border-secondary rounded">
 						<label class="h5 form-label fw-bolder ms-5">Alternativas</label>
 
 						<div id="alternatives">
@@ -50,9 +46,11 @@
 
 								<div class="container">
 									<textarea class="form-control me-5" rows="1"
-										th:field="*{alternatives[__${itemStat.index}__].description}" placeholder="Alternativa" required>Alternativa 1</textarea>
-									<input type="text" class="form-control" th:field="*{alternatives[__${itemStat.index}__].feedback.title}"
-										placeholder="Feedback da alternativa">
+										th:field="*{alternatives[__${itemStat.index}__].description}"
+										placeholder="Alternativa" required>Alternativa 1</textarea>
+									<input type="text" class="form-control"
+										th:field="*{alternatives[__${itemStat.index}__].feedback.title}"
+										placeholder="Feedback da alternativa" required>
 								</div>
 								<div class="form-check me-3">
 									<input type="checkbox" class="is-correct-alternative form-check-input"
@@ -73,14 +71,14 @@
 						</div>
 					</div>
 
-
-					<div class="row mb-3">
+					<div class="row mb-4">
 						<div class="col-md-6">
 							<label class="form-label fw-bold h5" for="status">Disciplina</label>
 
 							<select id="subject-select" class="form-select">
-								<option th:each="subject : ${subjects}" th:value="${subject.id}" th:text="${subject.name}"
-									th:selected="${subject == question.topic.subject}"></option>
+								<option th:each="subject : ${subjects}" th:value="${subject.id}"
+									th:text="${subject.name}" th:selected="${subject == question.topic.subject}">
+								</option>
 							</select>
 						</div>
 
@@ -88,9 +86,9 @@
 							<label class="form-label fw-bold h5" for="status">Tópico</label>
 
 							<select class="form-select" th:field="*{topic.id}">
-								<option th:each="topic : ${topics}" th:if="${topic.subject.id == question.topic.subject.id}"
-									th:value="${topic.id}" th:text="${topic.name}"
-									th:selected="${topic == question.topic}"></option>
+								<option th:each="topic : ${topics}"
+									th:if="${topic.subject.id == question.topic.subject.id}" th:value="${topic.id}"
+									th:text="${topic.name}" th:selected="${topic == question.topic}"></option>
 							</select>
 						</div>
 					</div>
@@ -98,24 +96,18 @@
 					<div class="mb-3">
 						<label for="type" class="h5 form-label fw-bold">Tipo de Questão (Dificuldade)</label>
 						<select class="form-select" aria-describedby="typeHelp" id="type" th:field="*{type}">
-							<option th:each="type : ${T(com.gutotech.fatecando.model.QuestionType).values()}" th:value="${type}"
-								th:text="${type.displayName}"></option>
+							<option th:each="type : ${T(com.gutotech.fatecando.model.QuestionType).values()}"
+								th:value="${type}" th:text="${type.displayName}"></option>
 						</select>
 						<div id="typeHelp" class="form-text">
 							O tipo da questão está relacionado com a dificuldade dela.
 							<br>
-							Por exemplo, ao escolher "Simulado" a questão só aparecerá em simulados que contém este tópico.
+							Por exemplo, ao escolher "Simulado" a questão só aparecerá em simulados que contém o tópico
+							selecionado acima.
 						</div>
 					</div>
 
-					<div class="mb-3">
-						<label class="form-label fw-bold h5" for="status">Status</label>
-
-						<select class="form-select" id="status" name="status">
-							<option th:each="status : ${T(com.gutotech.fatecando.model.UploadStatus).values()}"
-								th:value="${status}" th:text="${status.displayName}" th:selected="${status == question.status}"></option>
-						</select>
-					</div>
+					<input type="hidden" th:field="*{status}">
 
 					<br>
 
@@ -170,24 +162,24 @@
 
 	<script type="text/javascript" th:inline="javascript">
 		(function () {
-			var questionEditor = new Quill('#question-editor', EditorOptions.QUESTION);
-			
-			$('form').submit(function(event) {
+			const questionEditor = new Quill('#question-editor', EditorOptions.QUESTION);
+
+			$('form').submit(function (event) {
 				$('#description').val(questionEditor.root.innerHTML);
 			});
-			
-			let topics = /*[[${topics}]]*/[];
 
-			$('#subject-select').change(function() {
+			const topics = /*[[${topics}]]*/[];
+
+			$('#subject-select').change(function () {
 				let selectedSubjectId = parseInt($(this).val());
 
 				let topicSelect = $('select[id*="topic"]').first();
 
 				topicSelect.empty();
 
-				topics.forEach(function(topic) {
+				topics.forEach(function (topic) {
 					if (topic.subject.id == selectedSubjectId) {
-						let option = `<option value="${topic.id}">${topic.name}</option>`;
+						const option = `<option value="${topic.id}">${topic.name}</option>`;
 						topicSelect.append(option);
 					}
 				});

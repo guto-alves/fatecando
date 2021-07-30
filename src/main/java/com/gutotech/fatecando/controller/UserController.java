@@ -80,7 +80,7 @@ public class UserController {
 
 	@GetMapping("topics")
 	public String showUserTopicsPage(Model model) {
-		model.addAttribute("topics", userService.findAllTopics());
+		model.addAttribute("topics", userService.findMyTopics());
 		return "users/my-topics";
 	}
 
@@ -112,7 +112,7 @@ public class UserController {
 
 		return "redirect:/users/topics";
 	}
-
+	
 	@ResponseBody
 	@GetMapping("search")
 	public List<User> search(@RequestParam String filter) {

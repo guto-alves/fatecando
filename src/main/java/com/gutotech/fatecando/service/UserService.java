@@ -8,6 +8,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.gutotech.fatecando.model.Question;
 import com.gutotech.fatecando.model.Subject;
 import com.gutotech.fatecando.model.Topic;
 import com.gutotech.fatecando.model.User;
@@ -62,8 +63,13 @@ public class UserService {
 		restTemplate.put(URL + "/{id}", user, user.getId());
 	}
 
-	public List<Topic> findAllTopics() {
+	public List<Topic> findMyTopics() {
 		return restTemplate.getForObjects(URL + "/me/topics", new ParameterizedTypeReference<List<Topic>>() {
+		});
+	}
+	
+	public List<Question> findMyQuestions() {
+		return restTemplate.getForObjects(URL + "/me/questions", new ParameterizedTypeReference<List<Question>>() {
 		});
 	}
 
