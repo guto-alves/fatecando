@@ -94,8 +94,18 @@
 								<span class="text-muted">Data de atualização:</span>
 								<span th:text="${#dates.format(topic.updateDate, 'dd/MM/yyyy HH:mm:ss')}"></span>
 								<br>
-								<span class="text-muted">Total de Likes:</span>
-								<span th:text="${topic.likes} == 0 ? 'Nenhum' : ${topic.likes}"></span>
+								<div class="d-flex justify-content-start">
+									<span class="text-muted me-1">Reviews:</span>
+									<div class="d-flex justify-content-start" th:if="${topic.stars}">
+										<span class="fw-bold text-warning" th:text="${topic.stars}">5</span>
+										<div class="star-rating mx-1" data-rating-stars="5" data-rating-readonly="true" 
+											th:data-rating-value="${topic.stars}" data-rating-half="true"></div>
+										<span class="text-muted" th:text="|(${topic.totalReviews})|"></span>
+									</div>
+									<span th:if="${topic.stars <= 0}">
+										Nenhuma
+									</span>
+								</div>
 								<br>
 							</div>
 						</div>
@@ -117,6 +127,7 @@
 	</div>
 
 	<script type="text/javascript" th:src="@{/js/quill-utils.js}"></script>
+	<script th:src="@{/js/rating.js}"></script>
 
 	<script type="text/javascript" th:inline="javascript">
 		(function () {
