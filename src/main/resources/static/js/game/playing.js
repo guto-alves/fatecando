@@ -1,8 +1,8 @@
 const questionEditor = new Quill('#question', EditorOptions.READ_ONLY);
 
-updateGame();
-
 let currentRound = -1;
+
+updateGame();
 
 function updateGame() {
 	$.get('/games/current', function(game) {
@@ -31,7 +31,13 @@ function updateGame() {
 						</div>
 					`);
 				});
+			}
 
+			const answer = round.answers.find(answer => answer.user.id == currentPlayerId);
+
+			if (answer != null) {
+				showFeedback(answer.feedback);
+			} else {
 				$('#answer-question-button').show();
 			}
 
@@ -52,9 +58,7 @@ function updateScoreboard(game) {
 
 	// Add the header row
 	const totalColumns = game.rounds.length + 1;
-
 	const thead = table.createTHead();
-
 	const headerRow = thead.insertRow();
 
 	for (let i = 0; i < totalColumns; i++) {
@@ -80,7 +84,6 @@ function updateScoreboard(game) {
 				td.innerText = player.fullName;
 			} else {
 				const round = game.rounds[column - 1];
-
 				const answer = round.answers.find(answer => answer.user.id == player.id);
 
 				if (answer == null) {
@@ -137,22 +140,30 @@ $('#answer-question-button').click(function() {
 	const alternativeId = alternative.find('input:checked').val();
 
 	$.post('/games/answer/' + alternativeId)
-		.done(function(feedback) {
-			const color = feedback.correct ? 'success' : 'danger';
-
-			alternative.append(`
-				<div class="border border-2 border-${color} p-2 mb-2 rounded ms-3">
-					<span>
-						<b class="text-${color}">${feedback.title ?? ''}</b>
-						<br>
-						${feedback.description ?? ''}
-					</span>
-				</div>
-			`);
-
-			$('.alternative input').prop("disabled", true);
-		})
+		.done(feedback => showFeedback(feedback))
 		.fail(function() {
 			$('#answer-question-button').show();
 		});
 });
+
+function showFeedback(feedback) {
+	if ($('.alternative:has(:disabled)').length != 0) {
+		return;
+	}
+
+	const color = feedback.correct ? 'success' : 'danger';
+
+	$('.alternative input[value="' + feedback.alternative.id + '"]').prop('checked', true);
+
+	$('.alternative:has(input:checked)').append(`
+		<div class="border border-2 border-${color} p-2 mb-2 rounded ms-3">
+			<span>
+				<b class="text-${color}">${feedback.title ?? ''}</b>
+				<br>
+				${feedback.description ?? ''}
+			</span>
+		</div>
+	`);
+
+	$('.alternative input').prop("disabled", true);
+}
