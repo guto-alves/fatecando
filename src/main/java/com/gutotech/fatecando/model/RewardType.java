@@ -4,7 +4,8 @@ public enum RewardType {
 	RIGHT_ANSWER("Resposta Certa"), 
 	WRONG_ANSWER("Resposta Errada"),
 	TEST_COMPLETED("Teste Concluído"),
-	GAME("Game Concluído");
+	GAME("Game Concluído"),
+	CONTRIBUTIONS("Contribuição de Conteúdo");
 
 	private final String displayName;
 
