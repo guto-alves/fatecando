@@ -20,8 +20,8 @@
 						<tr class="align-middle" th:each="reward : ${rewards}">
 							<td class="fw-bolder" th:text="${reward.type.displayName}">Quiz</td>
 							<td class="text-center text-success fw-bold">
-								<span th:text="${reward.type.coins} + ' Moedas'">25 Moedas</span><br> 
-								<span th:text="${reward.type.score} + ' Pontos de Score'">60 Pontos de score</span>
+								<div th:if="${reward.score}" th:text="${reward.score} + ' de Score'">60 de Score</div>
+								<div th:if="${reward.coins}" th:text="${reward.coins} + ' Moedas'">25 Moedas</div>
 							</td>
 							<td th:text="${#dates.format(reward.date, 'dd/MM/yyyy HH:mm:ss')}">08/03/2021</td>
 						</tr>

@@ -4,19 +4,12 @@ import java.util.Date;
 import java.util.Objects;
 
 public class Reward {
-	private Long id;
 	private RewardType type;
 	private Date date;
+	private int score;
+	private int coins;
 
 	public Reward() {
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public RewardType getType() {
@@ -35,9 +28,25 @@ public class Reward {
 		this.date = date;
 	}
 
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
+	}
+
+	public int getCoins() {
+		return coins;
+	}
+
+	public void setCoins(int coins) {
+		this.coins = coins;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		return Objects.hash(date);
 	}
 
 	@Override
@@ -49,7 +58,7 @@ public class Reward {
 			return false;
 		}
 		Reward other = (Reward) obj;
-		return Objects.equals(id, other.id);
+		return Objects.equals(date, other.date);
 	}
 
 }
