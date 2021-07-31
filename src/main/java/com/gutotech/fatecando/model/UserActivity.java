@@ -11,7 +11,9 @@ public class UserActivity {
 
 	private int gameLosses;
 
-	private int completeTests;
+	private int testsCompleted;
+	
+	private int gamesCompleted;
 
 	private int contentUploaded;
 
@@ -58,12 +60,20 @@ public class UserActivity {
 		this.gameLosses = gameLosses;
 	}
 
-	public int getCompleteTests() {
-		return completeTests;
+	public int getTestsCompleted() {
+		return testsCompleted;
 	}
 
-	public void setCompleteTests(int completeTests) {
-		this.completeTests = completeTests;
+	public void setTestsCompleted(int completeTests) {
+		this.testsCompleted = completeTests;
+	}
+	
+	public int getGamesCompleted() {
+		return gamesCompleted;
+	}
+	
+	public void setGamesCompleted(int gamesCompleted) {
+		this.gamesCompleted = gamesCompleted;
 	}
 
 	public int getContentUploaded() {

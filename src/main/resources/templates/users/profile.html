@@ -29,16 +29,12 @@
 									<span th:text="${user.userActivity.wrongAnswers}">10</span>
 								</div>
 								<div class="mb-1">
-									<span class="green">Vitórias Games:</span>
-									<span th:text="${user.userActivity.gameWins}">10</span>
-								</div>
-								<div class="mb-1">
-									<span class="text-danger">Derrotas Games:</span>
-									<span th:text="${user.userActivity.gameLosses}">10</span>
-								</div>
-								<div class="mb-1">
 									<span class="green">Testes Concluídos:</span>
-									<span th:text="${user.userActivity.completeTests}">10</span>
+									<span th:text="${user.userActivity.testsCompleted}">10</span>
+								</div>
+								<div class="mb-1">
+									<span class="green">Games Concluídos:</span>
+									<span th:text="${user.userActivity.gamesCompleted}">10</span>
 								</div>
 							</div>
 						</div>
