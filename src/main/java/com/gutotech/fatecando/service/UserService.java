@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.gutotech.fatecando.model.Question;
+import com.gutotech.fatecando.model.Reward;
 import com.gutotech.fatecando.model.Subject;
 import com.gutotech.fatecando.model.Topic;
 import com.gutotech.fatecando.model.User;
@@ -86,6 +87,11 @@ public class UserService {
 
 	public List<Topic> findAnnotatedTopics() {
 		return restTemplate.getForObjects(URL + "/me/topics/annotated", new ParameterizedTypeReference<List<Topic>>() {
+		});
+	}
+	
+	public List<Reward> findMyRewards() {
+		return restTemplate.getForObjects(URL + "/me/rewards", new ParameterizedTypeReference<List<Reward>>() {
 		});
 	}
 

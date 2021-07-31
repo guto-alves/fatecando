@@ -5,17 +5,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.gutotech.fatecando.service.RewardService;
+import com.gutotech.fatecando.service.UserService;
 
 @Controller
 public class RewardController {
-
+	
 	@Autowired
-	private RewardService rewardService;
+	private UserService userService;
 
 	@GetMapping("rewards")
 	public String showRewardsPage(Model model) {
-		model.addAttribute("rewards", rewardService.findAll());
+		model.addAttribute("rewards", userService.findMyRewards());
 		return "users/rewards";
 	}
 
