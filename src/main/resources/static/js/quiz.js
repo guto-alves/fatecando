@@ -5,6 +5,18 @@ const totalQuestions = questions.length;
 let feedbacks = [];
 
 $('#startQuiz').click(function() {
+	if (totalQuestions == 0) {
+		$('#noQuizQuestionsModal').modal('show');
+		$('#submitQuestionModalButton').click(function() {
+			$('#contributeAccordionButton.collapsed').click();
+			$('html,body').animate({
+				scrollTop: $('#contributeAccordionButton').offset().top
+			});
+			$('#noQuizQuestionsModal').modal('hide');
+		});
+		return;
+	}
+
 	$(this).remove();
 
 	$('#quiz-container').removeClass('bg-initial-quiz');

@@ -81,7 +81,7 @@
 		<div class="accordion my-5" id="uploadQuestion">
 			<div class="accordion-item">
 				<h6 class="accordion-header" id="headingTwo">
-					<button class="accordion-button collapsed bg-danger text-white fw-bold" type="button"
+					<button id="contributeAccordionButton" class="accordion-button collapsed bg-danger text-white fw-bold" type="button"
 						data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false"
 						aria-controls="collapseTwo" style="height: 50px">
 						<h6>Deseja compartilhar seu conhecimento ? Contribua agora!</h6>
@@ -280,6 +280,26 @@
 		</div>
 		<button id="startQuiz" class="btn btn-outline-danger btn-lg form-control shadow">Iniciar Quiz</button>
 
+		<div class="modal fade" id="noQuizQuestionsModal" tabindex="-1" aria-labelledby="noQuestionsModalLabel"
+			aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="noQuestionsModalLabel">Nenhuma Questão</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<p>Este tópico ainda não possui nenhuma questão que possa ser utilizada para Quiz.</p>
+						<p>Colabore agora mesmo com a comunidade Fatecando e submeta uma questão!</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Talvez depois</button>
+						<button type="button" id="submitQuestionModalButton" class="btn btn-primary">Sim, quero contribuir!</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<div class="row mt-5">
 			<div class="col-md-6">
 				<th:block th:if="${topic.previous != nul}">
@@ -328,7 +348,7 @@
 		});
 
 		new Quill('#contentEditor', EditorOptions.READ_ONLY);
-		
+
 		const questions = /*[[${questions}]]*/null;
 	</script>
 
