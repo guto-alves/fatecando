@@ -1,0 +1,21 @@
+<html>
+
+<body>
+	<th:block th:fragment="input (label, name, type, placeholder)">
+		<label class="form-label fw-bold" th:if="${!#strings.isEmpty(label)}" th:for="${name}" th:text="${label}">Label</label>
+
+		<th:block th:switch="${type}">
+			<input th:case="'text'" class="form-control" type="text" th:field="*{__${name}__}"
+				th:placeholder="${placeholder}" th:classappend="${#fields.hasErrors(name)} ? is-invalid : ''"/>
+			<input th:case="'date'" class="form-control" type="text" th:field="*{__${name}__}"
+				placeholder="YYYY-MM-DD" title="Enter a date in this format: YYYY-MM-DD"
+				pattern="(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))" />
+			
+			<input th:case="'hidden'" type="hidden" th:field="*{__${name}__}"/>
+		</th:block>
+
+		<div class="invalid-feedback d-flex" th:if="${#fields.hasErrors(name)}" th:errors="*{__${name}__}">Error</div>
+	</th:block>
+</body>
+
+</html>

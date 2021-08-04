@@ -1,6 +1,8 @@
 const newQuestionEditor = new Quill('#newQuestionEditor', EditorOptions.QUESTION);
 $('#newQuestionForm').submit(function(event) {
-	$('#description').val(newQuestionEditor.root.innerHTML);
+	if (newQuestionEditor.root.innerText.trim() !== '') {
+		$('#description').val(newQuestionEditor.root.innerHTML);		
+	}
 });
 
 $('#contribute').click(function(event) {

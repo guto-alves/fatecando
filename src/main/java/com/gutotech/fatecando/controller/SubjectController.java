@@ -78,6 +78,8 @@ public class SubjectController {
 	public String showSubject(Subject subject,
 			@RequestParam(value = "page", required = false, defaultValue = "topics") String page, Model model) {
 		model.addAttribute("page", page);
+		model.addAttribute("topic", new Topic());
+		model.addAttribute("topics", subjectService.findAllTopicsBySubject(subject));
 
 		switch (page) {
 		case "tests":
@@ -91,9 +93,6 @@ public class SubjectController {
 			model.addAttribute("page", "topics");
 			break;
 		}
-
-		model.addAttribute("topic", new Topic());
-		model.addAttribute("topics", subjectService.findAllTopicsBySubject(subject));
 
 		return "subjects/subject";
 	}

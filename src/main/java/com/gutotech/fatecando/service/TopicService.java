@@ -25,11 +25,16 @@ public class TopicService {
 		URL = url + "/topics";
 	}
 
-	public List<Topic> findAll() {
+	public List<Topic> findApproved() {
 		return restTemplate.getForObjects(URL, new ParameterizedTypeReference<List<Topic>>() {
 		});
 	}
 
+	public List<Topic> findAll() {
+		return restTemplate.getForObjects(URL + "/admin", new ParameterizedTypeReference<List<Topic>>() {
+		});
+	}
+	
 	public Topic findById(Long id) {
 		return restTemplate.getForObject(URL + "/" + id, Topic.class);
 	}

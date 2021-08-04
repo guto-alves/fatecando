@@ -2,10 +2,13 @@ package com.gutotech.fatecando.controller;
 
 import java.util.Arrays;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -56,18 +59,22 @@ public class TopicController {
 		return "subjects/topic-details";
 	}
 
-	@PostMapping("question")
-	public String addQuestion(Topic topic, Question question, RedirectAttributes redirectAttributes, Model model) {
-		if (question.getAlternatives().size() > 6) {
+	@PostMapping
+	public String addQuestion(Topic topic, @Valid Question question, BindingResult bindingResult,
+			RedirectAttributes redirectAttributes, Model model) {
+		if (bindingResult.hasErrors()) {
 			model.addAttribute("question", question);
+			model.addAttribute("questions", topicService.getQuiz(topic));
+			model.addAttribute("error", true);
 			return "subjects/topic-details";
 		}
-		
+
 		question.setTopic(topic);
 
 		questionService.save(question);
 
-		redirectAttributes.addFlashAttribute("successMessage", "Obrigado pela contribuição!");
+		redirectAttributes.addFlashAttribute("successMessage",
+				"Obrigado pela contribuição! A questão enviada será analisada pela nossa equipe e se tudo estiver certo será publicada o mais rápido possível.");
 
 		return "redirect:/topic/{topicId}";
 	}

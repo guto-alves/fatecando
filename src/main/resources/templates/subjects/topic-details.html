@@ -81,7 +81,8 @@
 		<div class="accordion my-5" id="uploadQuestion">
 			<div class="accordion-item">
 				<h6 class="accordion-header" id="headingTwo">
-					<button id="contributeAccordionButton" class="accordion-button collapsed bg-danger text-white fw-bold" type="button"
+					<button id="contributeAccordionButton"
+						class="accordion-button collapsed bg-danger text-white fw-bold" type="button"
 						data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false"
 						aria-controls="collapseTwo" style="height: 50px">
 						<h6>Deseja compartilhar seu conhecimento ? Contribua agora!</h6>
@@ -95,17 +96,23 @@
 							<div class="card-body">
 
 								<form id="newQuestionForm" action="#" method="post"
-									th:action="@{/topic/{t}/question(t=${topic.id})}" th:object="${question}">
+									th:action="@{/topic/{t}(t=${topic.id})}" th:object="${question}">
 									<div class="mb-3">
 										<label for="description" class="h5 form-label fw-bolder">Pergunta</label>
 
-										<div id="newQuestionEditor"></div>
-										<input type="hidden" id="description" th:field="*{description}">
+										<div id="newQuestionEditor" th:utext="${question.description}"></div>
+
+										<input
+											th:replace="~{fragments/inputField :: input ('', 'description', 'hidden', _)}" />
 									</div>
 
 									<div id="alternativesContainer"
 										class="mb-3 p-3 border border-1 border-secondary rounded">
 										<label class="h5 form-label fw-bolder ms-5">Alternativas</label>
+
+										<div class="invalid-feedback" th:if="${#fields.hasErrors('alternatives.*')}" th:errors="*{description}">
+											Descrição inválida
+										</div>
 
 										<div id="alternatives">
 											<div class="new-alternative mb-3 d-flex justify-content-start align-items-center"
@@ -348,6 +355,10 @@
 		});
 
 		new Quill('#contentEditor', EditorOptions.READ_ONLY);
+
+		if (/*[[${error}]]*/false) {
+			setTimeout(() => $('button[class*="accordion-button"]').click(), 300);
+		}
 
 		const questions = /*[[${questions}]]*/null;
 	</script>

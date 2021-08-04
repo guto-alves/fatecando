@@ -94,34 +94,26 @@
 								<form id="topic-form" action="#" method="post" th:action="@{/subjects/{id}(id=${subject.id})}"
 									th:object="${topic}">
 									<div class="mb-3 mt-2">
-										<label class="form-label fw-bold" for="name">Nome</label>
-
-										<input type="text" class="form-control" placeholder="Nome do tópico" th:field="*{name}"
-											maxlength="255" required>
-
-										<span class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Nome
-											inválido</span>
+										<input th:replace="~{fragments/inputField :: input ('Nome', 'name', 'text', 'Nome do Tópico')}" />
 									</div>
 
 									<div class="mb-3">
 										<label class="form-label fw-bold" for="description">Descrição</label>
 
-										<textarea id="description" class="form-control" placeholder="Uma breve descrição ..."
-											th:field="*{description}" rows="3" maxlength="1000" required></textarea>
+										<textarea class="form-control" placeholder="Uma breve descrição..."
+											th:field="*{description}" th:classappend="${#fields.hasErrors('description')} ? is-invalid : ''" rows="3" maxlength="1000" required></textarea>
 
-										<span class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Descrição
-											inválida</span>
+										<div class="invalid-feedback" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">
+											Descrição inválida
+										</div>
 									</div>
 
 									<div class="mb-3">
 										<label class="form-label fw-bold" for="bodyHtml">Conteúdo</label>
 
 										<div id="topic-body-editor" th:utext="${topic.bodyHtml}"></div>
-
-										<input type="hidden" th:field="*{bodyHtml}" aria-describedby="bodyHtmlFeedback">
-
-										<div id="bodyHtmlFeedback" class="invalid-feedback" th:if="${#fields.hasErrors('bodyHtml')}"
-											th:errors="*{bodyHtml}">Conteúdo inválido</div>
+										
+										<input th:replace="~{fragments/inputField :: input ('', 'bodyHtml', 'hidden', _)}" />
 									</div>
 
 									<div class="mb-3">

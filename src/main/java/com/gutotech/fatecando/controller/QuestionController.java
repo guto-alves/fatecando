@@ -45,7 +45,7 @@ public class QuestionController {
 	@GetMapping("{id}")
 	public String initUpdateForm(@PathVariable Long id, Model model) {
 		model.addAttribute("question", questionService.findById(id));
-		model.addAttribute("topics", topicService.findAll());
+		model.addAttribute("topics", topicService.findApproved());
 		model.addAttribute("subjects", subjectService.findAllWithTopics());
 		return "users/question-edit";
 	}
@@ -55,7 +55,7 @@ public class QuestionController {
 			RedirectAttributes redirectAttributes, Model model) {
 		if (bindingResult.hasErrors()) {
 			model.addAttribute(question);
-			model.addAttribute("topics", topicService.findAll());
+			model.addAttribute("topics", topicService.findApproved());
 			model.addAttribute("subjects", subjectService.findAllWithTopics());
 			return "users/question-edit";
 		}

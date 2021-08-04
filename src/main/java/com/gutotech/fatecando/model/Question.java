@@ -6,23 +6,21 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class Question {
 	private Long id;
 
-	@NotBlank
+	@NotBlank(message = "Por favor forneça uma pergunta válida.")
 	private String description;
 
 	private QuestionType type;
 
 	private UploadStatus status;
 
-	@Size(min = 2, max = 6)
+	@Size(min = 2, max = 6, message = "Quantidade de alternativas deve ser no mínino 2 e no máximo 6.")
 	private List<Alternative> alternatives = new ArrayList<>();
 
-	@NotNull
 	private Topic topic;
 
 	private User user;

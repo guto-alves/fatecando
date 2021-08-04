@@ -8,13 +8,13 @@ import javax.validation.constraints.NotBlank;
 public class Topic {
 	private Long id;
 
-	@NotBlank(message = "O campo Nome é obrigatório")
+	@NotBlank(message = "Por favor forneça um nome válido")
 	private String name;
 
-	@NotBlank(message = "O campo Descrição é obrigatório")
+	@NotBlank(message = "Por favor forneça uma descrição válida.")
 	private String description;
 
-	@NotBlank(message = "O campo Conteúdo é obrigatório")
+	@NotBlank(message = "Por favor forneça um conteúdo válido.")
 	private String bodyHtml;
 
 	private boolean required;
@@ -57,7 +57,7 @@ public class Topic {
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.name = name.trim();
 	}
 
 	public String getDescription() {
@@ -65,7 +65,7 @@ public class Topic {
 	}
 
 	public void setDescription(String description) {
-		this.description = description;
+		this.description = description.trim();
 	}
 
 	public String getBodyHtml() {

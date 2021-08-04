@@ -1,9 +1,15 @@
 package com.gutotech.fatecando.model;
 
+import javax.validation.constraints.NotBlank;
+
 public class Feedback {
 	private Long id;
+	
+	@NotBlank
 	private String title;
+	
 	private String description;
+	
 	private boolean correct;
 
 	private Alternative alternative;
@@ -28,7 +34,7 @@ public class Feedback {
 	}
 
 	public void setTitle(String title) {
-		this.title = title;
+		this.title = title.trim();
 	}
 
 	public String getDescription() {
