@@ -5,8 +5,14 @@
 <head>
 	<meta charset="utf-8">
 	<style type="text/css">
-		#editor-container {
-			height: 350px;
+		#topic-body-editor {
+			height: 600px;
+		}
+
+		@media screen and (max-height: 700px) {
+			#topic-body-editor {
+				height: 400px;
+			}
 		}
 	</style>
 </head>
@@ -57,7 +63,7 @@
 					<div class="mb-4">
 						<label class="form-label fw-bold" for="bodyHtml">Conteúdo</label>
 
-						<div id="body-editor" th:utext="${topic.bodyHtml}"></div>
+						<div id="topic-body-editor" th:utext="${topic.bodyHtml}"></div>
 
 						<input type="hidden" th:field="*{bodyHtml}">
 
@@ -134,13 +140,13 @@
 			const topicStatus = /*[[${topic.status}]]*/null;
 
 			if (topicStatus === 'EDITABLE') {
-				const bodyEditor = new Quill('#body-editor', EditorOptions.TOPIC);
+				const bodyEditor = new Quill('#topic-body-editor', EditorOptions.TOPIC);
 
 				$('form').submit(function (event) {
 					$('#bodyHtml').val(bodyEditor.root.innerHTML);
 				});
 			} else {
-				new Quill('#body-editor', EditorOptions.READ_ONLY);
+				new Quill('#topic-body-editor', EditorOptions.READ_ONLY);
 				$('input').prop('disabled', true);
 				$('textarea').prop('disabled', true);
 				$('select').prop('disabled', true);

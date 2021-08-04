@@ -5,8 +5,14 @@
 <head>
 	<meta charset="utf-8">
 	<style type="text/css">
-		#editor-container {
-			height: 350px;
+		#topic-body-editor {
+			height: 600px;
+		}
+
+		@media screen and (max-height: 700px) {
+			#topic-body-editor {
+				height: 400px;
+			}
 		}
 	</style>
 </head>
@@ -44,7 +50,7 @@
 					<div class="mb-3">
 						<label class="form-label fw-bold" for="bodyHtml">Conteúdo</label>
 
-						<div id="editor-container" th:utext="${topic.bodyHtml}"></div>
+						<div id="topic-body-editor" th:utext="${topic.bodyHtml}"></div>
 
 						<input type="hidden" th:field="*{bodyHtml}">
 
@@ -143,14 +149,13 @@
 				</form>
 			</div>
 		</div>
-
 	</div>
 
 	<script type="text/javascript" th:src="@{/js/quill-utils.js}"></script>
 	<script th:src="@{/js/rating.js}"></script>
 
 	<script type="text/javascript">
-		let editor = new Quill('#editor-container', EditorOptions.TOPIC);
+		const editor = new Quill('#topic-body-editor', EditorOptions.TOPIC);
 
 		$('form').submit(function (event) {
 			$('#bodyHtml').val(editor.root.innerHTML);

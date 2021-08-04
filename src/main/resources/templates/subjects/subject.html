@@ -16,6 +16,16 @@
 		.list-card-item:hover {
 			transform: scale(1.010);
 		}
+		
+		#topic-body-editor {
+			height: 600px;
+		}
+		
+		@media screen and (max-height: 700px) {
+			#topic-body-editor {
+				height: 400px;
+			}
+		}
 	</style>
 </head>
 
@@ -82,7 +92,7 @@
 
 						<div class="card border border-1 border-secondary shadow">
 							<div class="card-body">
-								<h4 class="card-title text-center" th:utext="'Sentiu falta de algum tópico/assunto interessante em ' + ${#strings.arraySplit(subject.name, ' ')[0]}  + '? <br> Manda pra gente!'">
+								<h4 class="card-title text-center" th:utext="'Sentiu falta de algum tópico interessante de ' + ${#strings.arraySplit(subject.name, ' ')[0]}  + '? <br> Manda pra gente!'">
 								</h4>
 
 								<div class="alert alert-danger alert-dismissible fade show m-3" role="alert" th:if="${error}">
