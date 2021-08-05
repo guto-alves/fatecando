@@ -98,7 +98,7 @@
 								<form id="newQuestionForm" action="#" method="post"
 									th:action="@{/topic/{t}(t=${topic.id})}" th:object="${question}">
 									<div class="mb-3">
-										<label for="description" class="h5 form-label fw-bolder">Pergunta</label>
+										<label for="description" class="h5 form-label fw-bolder">Questão</label>
 
 										<div id="newQuestionEditor" th:utext="${question.description}"></div>
 

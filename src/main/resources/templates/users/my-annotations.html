@@ -16,7 +16,7 @@
 </head>
 
 <body>
-	<div class="container-fluid">
+	<div class="container mt-4">
 		<div class="row">
 			<div class="col-md-4 my-3">
 				<div class="card shadow">
@@ -46,7 +46,7 @@
 				</div>
 			</div>
 			<div class="col-md-8">
-				<h4 id="subjectName" class="text-center mt-2">...</h4>
+				<h4 id="subjectName" class="fw-bold text-center mt-2">-</h4>
 
 				<div class="card shadow">
 					<div class="card-body">
@@ -86,9 +86,9 @@
 		});
 
 		$('.topic').click(function () {
-			let topicId = $(this).data('id');
+			const topicId = $(this).data('id');
 
-			let topic = topics.find(t => t.id === topicId);
+			const topic = topics.find(t => t.id === topicId);
 
 			showAnnotation(topic);
 			$('#updateAnnotationButton').hide();
@@ -100,13 +100,13 @@
 		$(document).keyup(function (event) {
 			if (!annotationEditor.hasFocus()) {
 				if (event.key === 'ArrowRight') {
-					let currentIndex = $('.topic').index($('.topic[class*="active"]').first());
+					const currentIndex = $('.topic').index($('.topic[class*="active"]').first());
 
-					let nextIndex = (currentIndex + 1) % $('.topic').length;
+					const nextIndex = (currentIndex + 1) % $('.topic').length;
 
 					$('.topic').eq(nextIndex).click();
 				} else if (event.key === 'ArrowLeft') {
-					let currentIndex = $('.topic').index($('.topic[class*="active"]').first());
+					const currentIndex = $('.topic').index($('.topic[class*="active"]').first());
 
 					let previousIndex = currentIndex - 1;
 

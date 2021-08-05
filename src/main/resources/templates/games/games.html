@@ -6,8 +6,8 @@
 </head>
 
 <body>
-	<div class="container">
-		<div class="accordion mt-3" id="accordionExample">
+	<div class="container mt-4">
+		<div class="accordion" id="newGameAccordion">
 			<div class="accordion-item">
 				<h2 class="accordion-header" id="headingTwo">
 					<button class="accordion-button collapsed bg-danger text-white" type="button"
@@ -17,7 +17,7 @@
 					</button>
 				</h2>
 				<div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
-					data-bs-parent="#accordionExample">
+					data-bs-parent="#newGameAccordion">
 					<div class="accordion-body">
 
 						<div class="card shadow">
@@ -33,8 +33,8 @@
 											th:errors="*{name}">Mensagem de erro</div>
 									</div>
 
-									<div class="row mb-3">
-										<div class="col-md-6">
+									<div class="row">
+										<div class="col-lg-4 mb-3">
 											<label class="form-label">Total de Jogadores</label>
 											<select class="form-select" th:field="*{totalPlayers}"
 												th:classappend="${#fields.hasErrors('totalPlayers')}? 'is-invalid'"
@@ -48,7 +48,7 @@
 												th:if="${#fields.hasErrors('totalPlayers')}" th:errors="*{totalPlayers}">Mensagem de erro</div>
 										</div>
 
-										<div class="col-md-6">
+										<div class="col-lg-4 mb-3">
 											<label for="totalRounds" class="form-label">Total de Rounds</label>
 
 											<select id="totalRounds" class="form-select" th:field="*{totalRounds}"
@@ -61,6 +61,23 @@
 
 											<div id="totalRoundsFeedback" class="invalid-feedback" th:if="${#fields.hasErrors('totalRounds')}"
 												th:errors="*{totalRounds}">Mensagem de erro</div>
+										</div>
+										
+										<div class="col-lg-4 mb-3">
+											<label for="answerTime" class="form-label">Tempo para responder cada questão</label>
+		
+											<select id="answerTime" class="form-select" th:field="*{answerTime}"
+												th:classappend="${#fields.hasErrors('answerTime')}? 'is-invalid'"
+												aria-describedby="answerTimeFeedback">
+												<option value="30">30 segundos</option>
+												<option value="60">1 minutos</option>
+												<option value="120">2 minutos</option>
+												<option value="180">3 minutos</option>
+												<option value="300">5 minutos</option>
+											</select>
+		
+											<div id="answerTimeFeedback" class="invalid-feedback" th:if="${#fields.hasErrors('answerTime')}"
+												th:errors="*{answerTime}">Mensagem de erro</div>
 										</div>
 									</div>
 
@@ -79,23 +96,6 @@
 											th:errors="*{topics}">Mensagem de erro</div>
 									</div>
 
-									<div class="mb-5">
-										<label for="answerTime" class="form-label">Tempo máximo para responder cada pergunta</label>
-
-										<select id="answerTime" class="form-select" th:field="*{answerTime}"
-											th:classappend="${#fields.hasErrors('answerTime')}? 'is-invalid'"
-											aria-describedby="answerTimeFeedback">
-											<option value="30">30 segundos</option>
-											<option value="60">1 minutos</option>
-											<option value="120">2 minutos</option>
-											<option value="180">3 minutos</option>
-											<option value="300">5 minutos</option>
-										</select>
-
-										<div id="answerTimeFeedback" class="invalid-feedback" th:if="${#fields.hasErrors('answerTime')}"
-											th:errors="*{answerTime}">Mensagem de erro</div>
-									</div>
-
 									<div class="d-grid col-6 mx-auto">
 										<button type="submit" class="btn btn-danger">Criar</button>
 									</div>
@@ -107,74 +107,68 @@
 				</div>
 			</div>
 		</div>
-	</div>
+		
+		<h2 class="text-center fw-bolder mt-5">Games alguém esperando para começar</h2>
 
-	<h2 class="text-center fw-bolder mt-5">Games alguém esperando para começar</h2>
+		<hr>
+		
+		<div class="row mb-3">
+			<div class="col-md-6">
+				<label for="filter-game-input" class="form-label">Pesquise pelo código ou nome do Game</label>
 
-	<hr>
-
-	<div class="row px-3">
-		<div class="col-3 px-1 order-2">
-			<div class="sticky-top">
-				<div class="my-3">
-					<label for="filter-game-input" class="form-label">Pesquise pelo código ou nome do Game</label>
-
-					<div class="input-group mb-3">
-						<input id="filter-game-input" type="text" class="form-control" placeholder="43#, 75#, Nome do Game, ...">
-						<div class="input-group-text text-danger">
-							<i class="bi bi-search"></i>
-						</div>
+				<div class="input-group mb-3">
+					<input id="filter-game-input" type="text" class="form-control" placeholder="43#, 75#, Nome do Game, ...">
+					<div class="input-group-text text-danger">
+						<i class="bi bi-search"></i>
 					</div>
 				</div>
 			</div>
-
-			<div class="mb-3">
+			<div class="col-md-6">
 				<label class="form-label">Tópicos</label>
 
-				<select id="filter-topics" class="form-select select2" multiple="multiple">
+				<select id="filter-topics" class="form-select select2" multiple="multiple" style="width: 100%;">
 					<optgroup th:each="subjectTopicsMap : ${subjectTopicsMap}" th:label="${subjectTopicsMap.key}">											
 						<option th:each="topic : ${subjectTopicsMap.value}" th:value="${topic.id}" th:text="${topic.name}"></option>
 					</optgroup>
 				</select>
 			</div>
 		</div>
+	
+		<div id="games-container" class="row row-cols-1 row-cols-md-3 g-4">
+			<div class="game col" th:each="game : ${games}">
+				<div class="card shadow">
+					<h5 class="card-header" th:text="|${game.name} - ${game.id}#|"></h5>
+					<div class="card-body">
+						<div class="d-grid gap-2 d-md-flex justify-content-md-start mb-2">
+							<a class="badge rounded-pill bg-dark link-light text-decoration-none" href="#" target="_blank" th:each="topic : ${game.topics}"
+								th:href="@{/topic/{id}(id=${topic.id})}" th:text="${topic.name}"></a>
+						</div>
 
-		<div class="col">
-			<div id="games-container" class="row row-cols-1 row-cols-md-2 g-4">
-				<div class="game col" th:each="game : ${games}">
-					<div class="card shadow">
-						<h5 class="card-header" th:text="|${game.name} - ${game.id}#|"></h5>
-						<div class="card-body">
-							<ul class="list-group mb-2">
-								<li class="list-group-item fw-bold " th:each="topic : ${game.topics}" th:text="${topic.name}"></li>
-							</ul>
+						<div class="d-flex align-items-baseline">
+							<small class="text-muted me-2">Total de Players:</small>
+							<span th:text="|${#lists.size(game.players)} de ${game.totalPlayers}|"></span>
+						</div>
 
-							<div class="d-flex">
-								<span class="text-muted me-1">Total de Players:</span>
-								<span th:text="|${#lists.size(game.players)} de ${game.totalPlayers}|"></span>
-							</div>
+						<div class="d-flex align-items-baseline">
+							<small class="text-muted me-2">Total de Rounds:</small>
+							<span th:text="${game.totalRounds}"></span>
+						</div>
 
-							<div class="d-flex">
-								<span class="text-muted me-1">Total de Rounds:</span>
-								<span th:text="${game.totalRounds}"></span>
-							</div>
+						<div class="d-flex align-items-baseline">
+							<small class="text-muted me-2">Tempo para Responder:</small>
+							<span
+								th:text="|${game.answerTime > 60 ? game.answerTime / 60 : game.answerTime} ${game.answerTime > 60 ? 'minutos' : 'segundos'}|"></span>
+						</div>
 
-							<div class="d-flex">
-								<span class="text-muted me-1">Tempo para Responder:</span>
-								<span
-									th:text="|${game.answerTime > 60 ? game.answerTime / 60 : game.answerTime} ${game.answerTime > 60 ? 'minutos' : 'segundos'}|"></span>
-							</div>
+						<div class="d-flex align-items-baseline">
+							<small class="text-muted me-2">Criado por:</small>
+							<a class="text-decoration-none text-danger" href="#" target="_blank" th:href="@{/users/{id}(id=${game.createdBy.id})}" th:text="${game.createdBy.fullName}"></a>
+						</div>
 
-							<div class="d-flex">
-								<span class="text-muted me-1">Criado por:</span>
-								<span th:text="${game.createdBy.fullName}"></span>
-							</div>
-
-							<div class="d-flex justify-content-end">
-								<form action="#" method="post" th:action="@{games/join/{id}(id=${game.id})}">
-									<button type="submit" class="btn btn-dark">Entrar</button>
-								</form>
-							</div>
+						<div class="d-flex justify-content-end mt-2">
+							<form action="#" method="post" th:action="@{games/join/{id}(id=${game.id})}">
+								<button type="submit" class="btn btn-outline-danger">Entrar</button>
+							</form>
 						</div>
 					</div>
 				</div>

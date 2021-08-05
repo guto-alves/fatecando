@@ -3,7 +3,7 @@
 
 	$('#open-sidebar').click(function openNav() {
 		if ($('#annotationSideNav').hasClass('active')) {
-			closeNav();
+			$('#close-sidebar').click();
 		} else {
 			$('#annotationSideNav').addClass('active');
 			saveAnnotation();

@@ -8,7 +8,7 @@
 <body>
 	<div class="container mt-4">
 		<div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${!#strings.isEmpty(message)}">
-			<span th:text=${message}></span>
+			<span th:utext=${message}></span>
 			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 		</div>
 
@@ -30,8 +30,8 @@
 						</tr>
 					</thead>
 					<tbody class="align-middle">
-						<tr th:each="question : ${questions}" th:data-id="${question.id}">
-							<td class="fw-bold text-center" th:text="${question.id}"></td>
+						<tr th:each="question : ${questions}">
+							<td class="text-center" th:text="${question.id}"></td>
 							<td>
 								<p class="content truncate" th:text="${question.description}"></p>
 							</td>
