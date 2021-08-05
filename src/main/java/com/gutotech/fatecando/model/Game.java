@@ -59,7 +59,7 @@ public class Game {
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.name = name != null ? name.trim() : null;
 	}
 
 	public List<Topic> getTopics() {
@@ -142,7 +142,7 @@ public class Game {
 		this.date = date;
 	}
 
-	@Override
+	@Override	
 	public int hashCode() {
 		return Objects.hash(id);
 	}
