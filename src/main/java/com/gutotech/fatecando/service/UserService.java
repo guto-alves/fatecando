@@ -5,11 +5,19 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import com.gutotech.fatecando.model.OAuth2AccessToken;
 import com.gutotech.fatecando.model.Question;
 import com.gutotech.fatecando.model.Reward;
+import com.gutotech.fatecando.model.Role;
 import com.gutotech.fatecando.model.Subject;
 import com.gutotech.fatecando.model.Topic;
 import com.gutotech.fatecando.model.User;
@@ -47,13 +55,44 @@ public class UserService {
 	}
 
 	public User register(User user) {
+		HttpHeaders headers = new HttpHeaders();
+		headers.setBasicAuth("fatecando", "123");
+		
 		RestTemplate restTemplate = new RestTemplate();
-		return restTemplate.postForObject(URL, user, User.class);
+		return restTemplate.postForObject(URL, new HttpEntity<>(user, headers), User.class);
 	}
 
 	public User login(String email, String password) {
 		return restTemplate //
 				.postForObject(URL + "/login?email={email}&password={password}", null, User.class, email, password);
+	}
+	
+	public String authenticate(String email, String password) { 
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+		headers.setBasicAuth("fatecando", "fatecando");
+		
+		MultiValueMap<String, String> map= new LinkedMultiValueMap<String, String>();
+		map.add("username", email);
+		map.add("password", password);
+		map.add("grant_type", "password");
+		
+		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
+		
+		OAuth2AccessToken result = 
+				new RestTemplate().postForObject(URL.split("/api")[0] + "/oauth/token", request, OAuth2AccessToken.class);
+		
+		return result.getAccess_token();
+	}
+	
+	public List<Role> getUserRoles(String token) {
+		HttpHeaders headers = new HttpHeaders();
+		headers.setBearerAuth(token);
+		
+		return new RestTemplate()
+				.exchange(URL+ "/me/roles", HttpMethod.GET, new HttpEntity<>(null, headers), 
+						new ParameterizedTypeReference<List<Role>>() {})
+				.getBody();
 	}
 
 	public User findCurrentUser() {

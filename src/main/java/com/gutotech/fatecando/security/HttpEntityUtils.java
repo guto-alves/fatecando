@@ -20,7 +20,7 @@ public class HttpEntityUtils {
 
 		if (authentication != null) {
 			HttpHeaders headers = new HttpHeaders();
-			headers.setBasicAuth(authentication.getName(), authentication.getCredentials().toString());
+			headers.setBearerAuth(authentication.getCredentials().toString());
 			return headers;
 		}
 

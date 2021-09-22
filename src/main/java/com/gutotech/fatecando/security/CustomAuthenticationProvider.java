@@ -9,7 +9,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 
-import com.gutotech.fatecando.model.User;
 import com.gutotech.fatecando.service.UserService;
 
 @Component
@@ -30,13 +29,13 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 			throw new AuthenticationCredentialsNotFoundException("Password was null or empty.");
 		}
 
-		User user = userService.login(name, password);
+		String token = userService.authenticate(name, password);
 
-		if (user == null) {
+		if (token == null) {
 			throw new BadCredentialsException("Bad credentials for user " + name);
 		}
-
-		return new UsernamePasswordAuthenticationToken(name, password, user.getRoles());
+		
+		return new UsernamePasswordAuthenticationToken(name, token, userService.getUserRoles(token));
 	}
 
 	@Override
