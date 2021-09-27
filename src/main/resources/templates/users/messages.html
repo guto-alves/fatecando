@@ -76,6 +76,7 @@
 
 
 	<script type="text/javascript" th:inline="javascript">
+		const accessToken = /*[[${accessToken}]]*/null;
 		const from = /*[[${#authentication.name}]]*/null;
 		
 		let conversations = /*[[${chats}]]*/null;

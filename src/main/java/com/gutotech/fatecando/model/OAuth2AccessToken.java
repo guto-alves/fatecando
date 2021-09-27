@@ -1,15 +1,13 @@
 package com.gutotech.fatecando.model;
 
 public class OAuth2AccessToken {
-
-	public String access_token;
-	public String token_type;
-	public String refresh_token;
-	public String expires_in;
-	public String scope;
+	private String access_token;
+	private String token_type;
+	private String refresh_token;
+	private String expires_in;
+	private String scope;
 
 	public OAuth2AccessToken() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public String getAccess_token() {
