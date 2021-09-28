@@ -13,8 +13,8 @@
 
 				<h2 id="ponctuation" class="text-success fw-bolder">3/3</h2>
 
-				<p>
-					<b>Tempo Total</b> = 10:56
+				<p class="h5">
+					<span>Tempo gasto = </span><b id="elapsedTime">10:56</b>
 				</p>
 
 				<form action="#" method="post" th:action="@{/test}">
@@ -27,6 +27,10 @@
 
 		<div class="card mt-3 shadow">
 			<h4 class="card-header text-center" th:text="${test.name}">Name</h4>
+			<div class="timer-container d-flex justify-content-end align-items-baseline me-3">
+				<i class="bi bi-alarm-fill text-primary" style="font-size: 1.5rem;"></i>
+				<h4 class="timer fw-bold ms-1"></h4>
+			</div>
 
 			<div class="card-body">
 				<div class="question" th:each="question : ${test.questions}" th:data-id="${question.id}">
@@ -61,6 +65,14 @@
 
 	<script th:src="@{/js/quill-utils.js}"></script>
 	<script th:src="@{/js/test.js}"></script>
+	<script th:inline="javascript">
+		const startTime = /*[[${test.startTime}]]*/0;
+		
+		let timer = setInterval(function() {
+			const elapsedTime = Date.now() - startTime;
+			$('.timer').text(new Date(elapsedTime).toISOString().substr(11, 8));
+		}, 1000);
+	</script>
 </body>
 
 </html>

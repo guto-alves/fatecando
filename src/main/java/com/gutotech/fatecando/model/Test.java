@@ -12,6 +12,8 @@ public class Test {
 
 	@NotBlank(message = "Por favor forneça um nome.")
 	private String name;
+	
+	private long startTime;
 
 	private User user;
 
@@ -43,6 +45,14 @@ public class Test {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public long getStartTime() {
+		return startTime;
+	}
+	
+	public void setStartTime(long startTime) {
+		this.startTime = startTime;
 	}
 
 	public User getUser() {

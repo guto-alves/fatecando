@@ -55,7 +55,12 @@
 		$('#ponctuation').html(
 			`<span class="${percent >= 60 ? 'text-success' : 'text-danger'}">${rightAnswers}/${totalQuestions}</span>`
 		);
-
+		
+		clearInterval(timer);
+		$('.timer-container').empty();
+		const elapsedTime = Date.now() - startTime;
+		$('#elapsedTime').text(new Date(elapsedTime).toISOString().substr(11, 8));
+		
 		$('html,body').animate({ scrollTop: 0 }, 4000, function() {
 			$('#test-result-container').show();
 			$('#spinner').hide();
