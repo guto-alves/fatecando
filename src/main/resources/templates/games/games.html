@@ -19,88 +19,85 @@
 				<div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
 					data-bs-parent="#newGameAccordion">
 					<div class="accordion-body">
-
-						<div class="card shadow">
-							<div class="card-body">
-								<form action="#" method="post" th:action="@{/games}" th:object="${game}">
-									<div class="mb-3">
-										<label for="name" class="form-label">Nome</label>
-										<input type="text" id="name" class="form-control" th:field="*{name}"
-											th:classappend="${#fields.hasErrors('name')}? 'is-invalid'" aria-describedby="nameFeedback"
-											maxlength="30">
-
-										<div id="nameFeedback" class="invalid-feedback" th:if="${#fields.hasErrors('name')}"
-											th:errors="*{name}">Mensagem de erro</div>
-									</div>
-
-									<div class="row">
-										<div class="col-lg-4 mb-3">
-											<label class="form-label">Total de Jogadores</label>
-											<select class="form-select" th:field="*{totalPlayers}"
-												th:classappend="${#fields.hasErrors('totalPlayers')}? 'is-invalid'"
-												aria-describedby="totalPlayersFeedback">
-												<option value="2">2</option>
-												<option value="3">3</option>
-												<option value="4">4</option>
-											</select>
-
-											<div id="totalPlayersFeedback" class="invalid-feedback"
-												th:if="${#fields.hasErrors('totalPlayers')}" th:errors="*{totalPlayers}">Mensagem de erro</div>
-										</div>
-
-										<div class="col-lg-4 mb-3">
-											<label for="totalRounds" class="form-label">Total de Rounds</label>
-
-											<select id="totalRounds" class="form-select" th:field="*{totalRounds}"
-												aria-describedby="totalRoundsFeedback">
-												<option value="3">3</option>
-												<option value="4">4</option>
-												<option value="5">5</option>
-												<option value="6">6</option>
-											</select>
-
-											<div id="totalRoundsFeedback" class="invalid-feedback" th:if="${#fields.hasErrors('totalRounds')}"
-												th:errors="*{totalRounds}">Mensagem de erro</div>
-										</div>
-										
-										<div class="col-lg-4 mb-3">
-											<label for="answerTime" class="form-label">Tempo para responder cada questão</label>
+						<div class="p-3">
+							<form action="#" method="post" th:action="@{/games}" th:object="${game}">
+								<div class="mb-3">
+									<label for="name" class="form-label">Nome</label>
+									<input type="text" id="name" class="form-control" th:field="*{name}"
+										th:classappend="${#fields.hasErrors('name')}? 'is-invalid'" aria-describedby="nameFeedback"
+										maxlength="30">
 		
-											<select id="answerTime" class="form-select" th:field="*{answerTime}"
-												th:classappend="${#fields.hasErrors('answerTime')}? 'is-invalid'"
-												aria-describedby="answerTimeFeedback">
-												<option value="30">30 segundos</option>
-												<option value="60">1 minutos</option>
-												<option value="120">2 minutos</option>
-												<option value="180">3 minutos</option>
-												<option value="300">5 minutos</option>
-											</select>
+									<div id="nameFeedback" class="invalid-feedback" th:if="${#fields.hasErrors('name')}"
+										th:errors="*{name}">Mensagem de erro</div>
+								</div>
 		
-											<div id="answerTimeFeedback" class="invalid-feedback" th:if="${#fields.hasErrors('answerTime')}"
-												th:errors="*{answerTime}">Mensagem de erro</div>
-										</div>
-									</div>
-
-									<div class="mb-3">
-										<label for="topics" class="form-label">Tópicos</label>
-
-										<select id="topics" class="form-select select2" multiple="multiple" th:field="*{topics}"
-											th:classappend="${#fields.hasErrors('topics')}? 'is-invalid'" aria-describedby="topicsFeedback"
-											style="width: 100%;">
-											<optgroup th:each="subjectTopicsMap : ${subjectTopicsMap}" th:label="${subjectTopicsMap.key}">											
-												<option th:each="topic : ${subjectTopicsMap.value}" th:value="${topic.id}" th:text="${topic.name}"></option>
-											</optgroup>
+								<div class="row">
+									<div class="col-lg-4 mb-3">
+										<label class="form-label">Total de Jogadores</label>
+										<select class="form-select" th:field="*{totalPlayers}"
+											th:classappend="${#fields.hasErrors('totalPlayers')}? 'is-invalid'"
+											aria-describedby="totalPlayersFeedback">
+											<option value="2">2</option>
+											<option value="3">3</option>
+											<option value="4">4</option>
 										</select>
-
-										<div id="topicsFeedback" class="invalid-feedback" th:if="${#fields.hasErrors('topics')}"
-											th:errors="*{topics}">Mensagem de erro</div>
+		
+										<div id="totalPlayersFeedback" class="invalid-feedback"
+											th:if="${#fields.hasErrors('totalPlayers')}" th:errors="*{totalPlayers}">Mensagem de erro</div>
 									</div>
-
-									<div class="d-grid col-6 mx-auto">
-										<button type="submit" class="btn btn-danger">Criar</button>
+		
+									<div class="col-lg-4 mb-3">
+										<label for="totalRounds" class="form-label">Total de Rounds</label>
+		
+										<select id="totalRounds" class="form-select" th:field="*{totalRounds}"
+											aria-describedby="totalRoundsFeedback">
+											<option value="3">3</option>
+											<option value="4">4</option>
+											<option value="5">5</option>
+											<option value="6">6</option>
+										</select>
+		
+										<div id="totalRoundsFeedback" class="invalid-feedback" th:if="${#fields.hasErrors('totalRounds')}"
+											th:errors="*{totalRounds}">Mensagem de erro</div>
 									</div>
-								</form>
-							</div>
+									
+									<div class="col-lg-4 mb-3">
+										<label for="answerTime" class="form-label">Tempo para responder cada questão</label>
+		
+										<select id="answerTime" class="form-select" th:field="*{answerTime}"
+											th:classappend="${#fields.hasErrors('answerTime')}? 'is-invalid'"
+											aria-describedby="answerTimeFeedback">
+											<option value="30">30 segundos</option>
+											<option value="60">1 minutos</option>
+											<option value="120">2 minutos</option>
+											<option value="180">3 minutos</option>
+											<option value="300">5 minutos</option>
+										</select>
+		
+										<div id="answerTimeFeedback" class="invalid-feedback" th:if="${#fields.hasErrors('answerTime')}"
+											th:errors="*{answerTime}">Mensagem de erro</div>
+									</div>
+								</div>
+		
+								<div class="mb-3">
+									<label for="topics" class="form-label">Tópicos</label>
+		
+									<select id="topics" class="form-select select2" multiple="multiple" th:field="*{topics}"
+										th:classappend="${#fields.hasErrors('topics')}? 'is-invalid'" aria-describedby="topicsFeedback"
+										style="width: 100%;">
+										<optgroup th:each="subjectTopicsMap : ${subjectTopicsMap}" th:label="${subjectTopicsMap.key}">											
+											<option th:each="topic : ${subjectTopicsMap.value}" th:value="${topic.id}" th:text="${topic.name}"></option>
+										</optgroup>
+									</select>
+		
+									<div id="topicsFeedback" class="invalid-feedback" th:if="${#fields.hasErrors('topics')}"
+										th:errors="*{topics}">Mensagem de erro</div>
+								</div>
+		
+								<div class="d-grid col-6 mx-auto">
+									<button type="submit" class="btn btn-danger">Criar</button>
+								</div>
+							</form>
 						</div>
 
 					</div>

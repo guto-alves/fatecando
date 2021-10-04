@@ -7,7 +7,7 @@
 </head>
 
 <body>
-	<div class="row">
+	<div class="row shadow mb-5">
 		<div class="card m-0 ps-0 bg-dark text-white">
 			<div class="row">
 				<div class="col-md-4">
@@ -29,13 +29,13 @@
 		</div>
 	</div>
 
-	<div class="container mt-4">
-		<div th:unless="${#lists.isEmpty(recentSubjects)}">
+	<div class="container">
+		<div class="mb-4" th:unless="${#lists.isEmpty(recentSubjects)}">
 			<h3 class="fw-bold">Continue de onde parou</h3>
 
 			<div class="row row-cols-1 row-cols-md-3 g-4">
 				<div class="col" th:each="subject : ${recentSubjects}" th:if="${subjectStat.count <= 3}">
-					<div class="btn-card card h-100 shadow" th:onclick="|showSubject('${subject.id}');|">
+					<div class="btn-card card h-100" th:onclick="|showSubject('${subject.id}');|">
 						<h5 class="card-header btn-card-header" th:text="${subject.name}"></h5>
 						<div class="card-body">
 							<p class="card-text text-truncate" th:text="${subject.description}">This is a wider card with
@@ -58,10 +58,11 @@
 			<br>
 		</div>
 
-		<div class="row justify-content-md-center mt-3">
+		<h3 class="fw-bold">Todas as Disciplinas</h3>
+		<div class="row justify-content-md-center">
 			<div class="col-md-8">
 				<label for="inputFilter" class="form-label">Pesquise por</label>
-				<input id="inputFilter" class="form-control" type="text" placeholder="Disciplina, Tópico, Palavra-chave, ...">
+				<input id="inputFilter" class="form-control" type="text" placeholder="Nome, Tópico, Palavra-chave, ...">
 			</div>
 			<div class="col-6 col-md-4">
 				<label for="semesterSelect" class="form-label">Semestre</label>
@@ -80,7 +81,7 @@
 		<!-- Subjects -->
 		<div id="subjectsContainer" class="row row-cols-1 row-cols-md-3 g-4 mt-3">
 			<div class="col" th:each="subject : ${subjects}" th:data-semester="${subject.semester}">
-				<div class="card btn-card h-100 shadow" th:onclick="'showSubject(\'' + ${subject.id} + '\');'">
+				<div class="card btn-card h-100" th:onclick="'showSubject(\'' + ${subject.id} + '\');'">
 					<h5 class="card-header btn-card-header" th:text="${subject.name}">Estrutura de Dados</h5>
 					<div class="card-body ">
 						<p class="card-text truncate" th:text="${subject.description}">This is a wider card with

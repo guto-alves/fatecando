@@ -10,7 +10,7 @@
 }
 </style>
 </head>
-<body onload="disconnect()">
+<body>
 	<div class="container text-white bg-dark py-3">
 		<h3>Mensagens ([[${#lists.size(chats)}]])</h3>
 	</div>
@@ -220,18 +220,19 @@
 		}
 
 		function showOutputMessage(message) {
-			let messageContainer = document.createElement('div');
+			const messageContainer = document.createElement('div');
+			messageContainer.classList.add('mt-2');
 			
 			let messageEditor = document.createElement('div');
-			messageEditor.classList.add('mb-1');
+			
 			messageEditor.innerHTML = message.body;
 			
 			if (message.from == null || message.from.email === from) {
 				messageEditor.classList.add('border', 'border-1', 'border-danger');	
 			}
 			
-			$(messageContainer).append(`<small class="text-muted"><time class="timeago" datetime="${message.date}"></time></small>`);
 			$(messageContainer).append(messageEditor);
+			$(messageContainer).append(`<small class="text-muted mb-1"><time class="timeago" datetime="${message.date}"></time></small>`);
 			
 			$('#messages').append(messageContainer);
 			

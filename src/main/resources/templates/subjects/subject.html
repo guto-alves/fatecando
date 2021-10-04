@@ -89,76 +89,71 @@
 				<div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
 					data-bs-parent="#newTopicContainer">
 					<div class="accordion-body">
+						<div class="p-1">
+							<h4 class="card-title text-center" th:utext="'Sentiu falta de algum tópico interessante de ' + ${#strings.arraySplit(subject.name, ' ')[0]}  + '? <br> Manda pra gente!'">
+							</h4>
 
-						<div class="card border border-1 border-secondary shadow">
-							<div class="card-body">
-								<h4 class="card-title text-center" th:utext="'Sentiu falta de algum tópico interessante de ' + ${#strings.arraySplit(subject.name, ' ')[0]}  + '? <br> Manda pra gente!'">
-								</h4>
+							<div class="alert alert-danger alert-dismissible fade show m-3" role="alert" th:if="${error}">
+								<span class="text-center">Houve um erro ao enviar o conteúdo. Verifique os dados e tente
+									novamente.</span>
+								<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+							</div>
 
-								<div class="alert alert-danger alert-dismissible fade show m-3" role="alert" th:if="${error}">
-									<span class="text-center">Houve um erro ao enviar o conteúdo. Verifique os dados e tente
-										novamente.</span>
-									<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+							<form id="topic-form" action="#" method="post" th:action="@{/subjects/{id}(id=${subject.id})}"
+								th:object="${topic}">
+								<div class="mb-3 mt-2">
+									<input th:replace="~{fragments/inputField :: input ('Nome', 'name', 'text', 'Nome do Tópico')}" />
 								</div>
 
-								<form id="topic-form" action="#" method="post" th:action="@{/subjects/{id}(id=${subject.id})}"
-									th:object="${topic}">
-									<div class="mb-3 mt-2">
-										<input th:replace="~{fragments/inputField :: input ('Nome', 'name', 'text', 'Nome do Tópico')}" />
+								<div class="mb-3">
+									<label class="form-label fw-bold" for="description">Descrição</label>
+
+									<textarea class="form-control" placeholder="Uma breve descrição..."
+										th:field="*{description}" th:classappend="${#fields.hasErrors('description')} ? is-invalid : ''" rows="3" maxlength="1000" required></textarea>
+
+									<div class="invalid-feedback" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">
+										Descrição inválida
 									</div>
+								</div>
 
-									<div class="mb-3">
-										<label class="form-label fw-bold" for="description">Descrição</label>
+								<div class="mb-3">
+									<label class="form-label fw-bold" for="bodyHtml">Conteúdo</label>
 
-										<textarea class="form-control" placeholder="Uma breve descrição..."
-											th:field="*{description}" th:classappend="${#fields.hasErrors('description')} ? is-invalid : ''" rows="3" maxlength="1000" required></textarea>
+									<div id="topic-body-editor" th:utext="${topic.bodyHtml}"></div>
+									
+									<input th:replace="~{fragments/inputField :: input ('', 'bodyHtml', 'hidden', _)}" />
+								</div>
 
-										<div class="invalid-feedback" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">
-											Descrição inválida
-										</div>
+								<div class="mb-3">
+									<label class="fw-bold">Você acha que esse novo conteúdo deveria ser adicionado ao conjunto
+										de tópicos "obrigatórios" para a conclusão da Disciplina?</label>
+
+									<div class="form-check">
+										<input class="form-check-input" type="radio" name="required" id="flexRadioDefault1" value="true"
+											th:field="*{required}">
+										<label class="form-check-label" for="flexRadioDefault1"> Sim, é este um dos principais
+											tópicos da disciplina.</label>
 									</div>
-
-									<div class="mb-3">
-										<label class="form-label fw-bold" for="bodyHtml">Conteúdo</label>
-
-										<div id="topic-body-editor" th:utext="${topic.bodyHtml}"></div>
-										
-										<input th:replace="~{fragments/inputField :: input ('', 'bodyHtml', 'hidden', _)}" />
+									<div class="form-check">
+										<input class="form-check-input" type="radio" name="required" id="flexRadioDefault2" value="false"
+											th:field="*{required}">
+										<label class="form-check-label" for="flexRadioDefault2"> Não, é apenas um conteúdo extra.</label>
 									</div>
+								</div>
 
-									<div class="mb-3">
-										<label class="fw-bold">Você acha que esse novo conteúdo deveria ser adicionado ao conjunto
-											de tópicos "obrigatórios" para a conclusão da Disciplina?</label>
-
-										<div class="form-check">
-											<input class="form-check-input" type="radio" name="required" id="flexRadioDefault1" value="true"
-												th:field="*{required}">
-											<label class="form-check-label" for="flexRadioDefault1"> Sim, é este um dos principais
-												tópicos da disciplina.</label>
-										</div>
-										<div class="form-check">
-											<input class="form-check-input" type="radio" name="required" id="flexRadioDefault2" value="false"
-												th:field="*{required}">
-											<label class="form-check-label" for="flexRadioDefault2"> Não, é apenas um conteúdo extra.</label>
-										</div>
-									</div>
-
-									<div class="d-grid gap-2 col-6 mx-auto">
-										<button type="submit" class="btn btn-warning btn-lg form-control mt-5 fw-bold">
-											Enviar <i class="fa fa-cloud-upload"></i>
-										</button>
-									</div>
-								</form>
-
-							</div>
+								<div class="d-grid gap-2 col-4 mx-auto">
+									<button type="submit" class="btn btn-warning form-control mt-5 fw-bold">
+										Enviar <i class="fa fa-cloud-upload"></i>
+									</button>
+								</div>
+							</form>
 						</div>
-
 					</div>
 				</div>
 			</div>
 		</div>
 
-		<div class="card shadow">
+		<div class="card">
 			<div class="card-header">
 				<ul class="nav nav-tabs fw-bolder">
 					<li class="nav-item">
@@ -181,7 +176,7 @@
 			<div class="card-body ">
 				<!-- Topics -->
 				<div id="topics" class="list-group" th:if="${#strings.equalsIgnoreCase(page, 'topics')}">
-					<div class="list-group-item list-card-item mb-3 border-1 shadow" th:each="topic : ${topics}"
+					<div class="list-group-item list-card-item mb-3 border-1" th:each="topic : ${topics}"
 						th:onclick="'showTopic(\'' + ${topic.id} + '\');'" th:data-id="${topic.id}"
 						th:classappend="${topic.user.finished} ? 'border-success' : 'border-secondary'">
 						<div class="d-flex w-100 justify-content-between">
@@ -208,8 +203,8 @@
 				<!-- Test -->
 				<div th:if="${#strings.equalsIgnoreCase(page, 'tests')}">
 
-					<div class="card border border-1 border-dark shadow">
-						<h4 class="card-header text-center">Novo Teste</h4>
+					<div class="card border border-1 border-dark">
+						<h4 class="card-header text-center">Teste/Simulado</h4>
 						<div class="card-body">
 							<form action="#" method="post" th:action="@{/subjects/{id}/test(id=${subject.id})}" th:object="${test}">
 								<div class="alert alert-danger alert-dismissible fade show" role="alert"
@@ -221,7 +216,7 @@
 								<div class="mb-3">
 									<label class="form-label">Dê um nome para o Teste</label>
 									<input type="text" class="form-control"
-										placeholder="Por exemplo: Treinamento para a P1, Teste para P1, Teste BD, ..."
+										placeholder="Por exemplo: Treinamento para a P1, Teste para P2, Teste BD, ..."
 										th:field="*{name}" th:classappend="${#fields.hasErrors('name')}? 'is-invalid'"
 										aria-describedby="nameFeedback" onclick="this.select();" required>
 									<div id="nameFeedback" class="invalid-feedback" th:if="${#fields.hasErrors('name')}"
@@ -383,7 +378,7 @@
 					</div>
 
 					<div id="forums" class="list-group" th:unless="${#lists.isEmpty(forumTopics)}">
-						<a href="#" class="list-group-item list-group-item-action list-card-item mb-3 border-1 shadow"
+						<a href="#" class="list-group-item list-group-item-action list-card-item mb-3 border-1"
 							th:each="topic : ${forumTopics}"
 							th:href="@{/subjects/{id}/forum-topics/{topicId}(id=${subject.id}, topicId=${topic.id})}">
 

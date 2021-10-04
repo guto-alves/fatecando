@@ -1,9 +1,12 @@
 (function() {
 	const annotationEditor = new Quill('#annotationEditor', EditorOptions.TOPIC);
 
-	$('#open-sidebar').click(function openNav() {
+	$('#open-sidebar').click(function () {
 		if ($('#annotationSideNav').hasClass('active')) {
-			$('#close-sidebar').click();
+			$('#annotationSideNav').removeClass('active');
+			$('#annotationSideNav').css('width', '0px');
+			$('body').css('marginLeft', '0px');
+			saveAnnotation();
 		} else {
 			$('#annotationSideNav').addClass('active');
 			saveAnnotation();
@@ -18,11 +21,8 @@
 		}
 	});
 
-	$('#close-sidebar').click(function closeNav() {
-		$('#annotationSideNav').removeClass('active');
-		$('#annotationSideNav').css('width', '0px');
-		$('body').css('marginLeft', '0px');
-		saveAnnotation();
+	$('#close-sidebar').click(function () {
+		$('#open-sidebar').click();
 	});
 
 	$(window).on('resize', function() {

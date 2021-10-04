@@ -39,39 +39,34 @@
 
 			<div class="col col-sm-9" id="main">
 				<h3 class="fw-bold border-5 border-start border-danger ps-3 my-4">Meus favoritos</h3>
+				<div class="list-group">
+					<th:block th:each="element : ${subjectTopicsMap}">
+						<h5 th:id="|${element.key}|">[[${element.key}]]</h5>
 
-				<div class="card">
-					<div class="card-body">
-						<div class="list-group">
-							<th:block th:each="element : ${subjectTopicsMap}">
-								<h5 th:id="|${element.key}|">[[${element.key}]]</h5>
-
-								<div class="list-group-item list-card-item mb-3 border"
-									th:each="topic : ${element.value}"
-									th:onclick="|location.href='/topic/' + ${topic.id}|"
-									th:classappend="${topic.user.finished} ? 'border-success' : 'border-secondary'">
-									<div class="d-flex w-100 justify-content-between">
-										<div class="d-flex align-items-center">
-											<h5 class="mb-1 fw-bolder" th:text="${topic.name}">Topic Name</h5>
-										</div>
-
-										<i class="fa fa-check-circle fa-2x green" aria-hidden="true"
-											th:classappend="${!topic.user.finished}? 'd-none'"></i>
-									</div>
-
-									<p class="mb-1 truncate" th:text="${topic.description}">Some placeholder content in
-										a paragraph.</p>
-
-									<div class="d-flex justify-content-end align-items-center" th:if="${topic.stars}">
-										<small class="fw-bold text-warning" th:text="${topic.stars}">5</small>
-										<div class="star-rating mx-1" data-rating-stars="5" data-rating-readonly="true"
-											th:data-rating-value="${topic.stars}" data-rating-half="true"></div>
-										<small class="text-muted" th:text="|(${topic.totalReviews})|"></small>
-									</div>
+						<div class="list-group-item list-card-item mb-3 border"
+							th:each="topic : ${element.value}"
+							th:onclick="|location.href='/topic/' + ${topic.id}|"
+							th:classappend="${topic.user.finished} ? 'border-success' : 'border-secondary'">
+							<div class="d-flex w-100 justify-content-between">
+								<div class="d-flex align-items-center">
+									<h5 class="mb-1 fw-bolder" th:text="${topic.name}">Topic Name</h5>
 								</div>
-							</th:block>
+
+								<i class="fa fa-check-circle fa-2x green" aria-hidden="true"
+									th:classappend="${!topic.user.finished}? 'd-none'"></i>
+							</div>
+
+							<p class="mb-1 truncate" th:text="${topic.description}">Some placeholder content in
+								a paragraph.</p>
+
+							<div class="d-flex justify-content-end align-items-center" th:if="${topic.stars}">
+								<small class="fw-bold text-warning" th:text="${topic.stars}">5</small>
+								<div class="star-rating mx-1" data-rating-stars="5" data-rating-readonly="true"
+									th:data-rating-value="${topic.stars}" data-rating-half="true"></div>
+								<small class="text-muted" th:text="|(${topic.totalReviews})|"></small>
+							</div>
 						</div>
-					</div>
+					</th:block>
 				</div>
 			</div>
 		</div>

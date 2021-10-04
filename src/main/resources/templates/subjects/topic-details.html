@@ -39,9 +39,10 @@
 					<p th:text="${topic.description}"></p>
 
 					<div class="d-flex justify-content-end mt-3">
-						<button id="open-sidebar" class="btn btn-outline-light me-3" type="button">
+						<input type="checkbox" class="btn-check" id="open-sidebar" autocomplete="off">
+						<label class="btn btn-outline-light me-3" for="open-sidebar">
 							<i class="bi bi-pencil-square" style="font-size: 1.2rem;"></i>
-						</button>
+						</label>
 
 						<div class="btn-group rounded-start" role="group" aria-label="Favorite toggle button">
 							<input type="checkbox" class="btn-check" id="fav-button" autocomplete="off"
@@ -91,86 +92,82 @@
 				<div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
 					data-bs-parent="#uploadQuestion">
 					<div class="accordion-body">
+						<div class="card-body">
+							<form id="newQuestionForm" action="#" method="post"
+								th:action="@{/topic/{t}(t=${topic.id})}" th:object="${question}">
+								<div class="mb-3">
+									<label for="description" class="h5 form-label fw-bolder">Questão</label>
 
-						<div class="card border border-1 border-secondary shadow">
-							<div class="card-body">
+									<div id="newQuestionEditor" th:utext="${question.description}"></div>
 
-								<form id="newQuestionForm" action="#" method="post"
-									th:action="@{/topic/{t}(t=${topic.id})}" th:object="${question}">
-									<div class="mb-3">
-										<label for="description" class="h5 form-label fw-bolder">Questão</label>
+									<input th:replace="~{fragments/inputField :: input ('', 'description', 'hidden', _)}" />
+								</div>
 
-										<div id="newQuestionEditor" th:utext="${question.description}"></div>
+								<div id="alternativesContainer" class="mb-3">
+									<label class="h5 form-label fw-bolder ms-5">Alternativas</label>
 
-										<input
-											th:replace="~{fragments/inputField :: input ('', 'description', 'hidden', _)}" />
+									<div class="invalid-feedback" th:if="${#fields.hasErrors('alternatives.*')}" th:errors="*{description}">
+										Descrição inválida
 									</div>
 
-									<div id="alternativesContainer"
-										class="mb-3 p-3 border border-1 border-secondary rounded">
-										<label class="h5 form-label fw-bolder ms-5">Alternativas</label>
+									<div id="alternatives">
+										<div class="new-alternative mb-3 d-flex justify-content-start align-items-center"
+											th:each="alternative, itemStat : *{alternatives}">
+											<span class="text-muted me-2"
+												th:text="${itemStat.index + 1} + '.'">1.</span>
 
-										<div class="invalid-feedback" th:if="${#fields.hasErrors('alternatives.*')}" th:errors="*{description}">
-											Descrição inválida
-										</div>
-
-										<div id="alternatives">
-											<div class="new-alternative mb-3 d-flex justify-content-start align-items-center"
-												th:each="alternative, itemStat : *{alternatives}">
-												<span class="text-muted me-2"
-													th:text="${itemStat.index + 1} + '.'">1.</span>
-
-												<div class="container">
-													<textarea class="form-control me-5" rows="1"
-														th:field="*{alternatives[__${itemStat.index}__].description}"
-														placeholder="Alternativa" required>Alternativa 1</textarea>
-													<input type="text" class="form-control"
-														th:field="*{alternatives[__${itemStat.index}__].feedback.title}"
-														placeholder="Feedback da alternativa" required>
-												</div>
-												<div class="form-check me-3">
-													<input type="checkbox"
-														class="is-correct-alternative form-check-input"
-														th:field="*{alternatives[__${itemStat.index}__].feedback.correct}">
-												</div>
-												<button type="button"
-													class="remove-alternative btn btn-outline-danger btn-sm">
-													<i class="fa fa-trash fa-lg" aria-hidden="true"></i>
-												</button>
+											<div class="container">
+												<textarea class="form-control me-5" rows="1"
+													th:field="*{alternatives[__${itemStat.index}__].description}"
+													placeholder="Alternativa" required>Alternativa 1</textarea>
+												<input type="text" class="form-control"
+													th:field="*{alternatives[__${itemStat.index}__].feedback.title}"
+													placeholder="Feedback da alternativa" required>
 											</div>
-										</div>
-
-										<hr>
-
-										<div class="d-grid gap-2 col-6 mx-auto">
-											<button type="button" id="addAlternative" class="btn btn-secondary">
-												Adicionar Alternativa <i class="fa fa-plus" aria-hidden="true"></i>
+											<div class="form-check me-3">
+												<input type="checkbox"
+													class="is-correct-alternative form-check-input"
+													th:field="*{alternatives[__${itemStat.index}__].feedback.correct}">
+											</div>
+											<button type="button"
+												class="remove-alternative btn btn-outline-danger btn-sm">
+												<i class="fa fa-trash fa-lg" aria-hidden="true"></i>
 											</button>
 										</div>
 									</div>
 
-									<div class="mb-3">
-										<label for="type" class="h5 form-label fw-bold">Tipo de Questão
-											(Dificuldade)</label>
-										<select class="form-select" aria-describedby="typeHelp" id="type"
-											th:field="*{type}">
-											<option
-												th:each="type : ${T(com.gutotech.fatecando.model.QuestionType).values()}"
-												th:value="${type}" th:text="${type.displayName}"></option>
-										</select>
-										<div id="typeHelp" class="form-text">
-											O tipo da questão está relacionado com a dificuldade dela. <br> Por exemplo,
-											ao escolher
-											"Simulado" a questão só aparecerá em simulados que contém este tópico.
-										</div>
-									</div>
+									<hr>
 
-									<button type="submit" class="btn btn-warning btn-lg form-control mt-5 fw-bold">
+									<div class="d-flex justify-content-end">
+										<button type="button" id="addAlternative" class="btn btn-secondary">
+											Adicionar Alternativa <i class="fa fa-plus" aria-hidden="true"></i>
+										</button>
+									</div>
+								</div>
+
+								<div class="mb-3">
+									<label for="type" class="h5 form-label fw-bold">Tipo de Questão
+										(Dificuldade)</label>
+									<select class="form-select" aria-describedby="typeHelp" id="type"
+										th:field="*{type}">
+										<option
+											th:each="type : ${T(com.gutotech.fatecando.model.QuestionType).values()}"
+											th:value="${type}" th:text="${type.displayName}"></option>
+									</select>
+									<div id="typeHelp" class="form-text">
+										O tipo da questão está relacionado com a dificuldade dela. <br> Por exemplo,
+										ao escolher
+										"Simulado" a questão só aparecerá em simulados que contém este tópico.
+									</div>
+								</div>
+								
+								<div class="d-grid gap-2 col-4 mx-auto">
+									<button type="submit" class="btn btn-warning mt-5 fw-bold">
 										Enviar <i class="fa fa-cloud-upload"></i>
 									</button>
-								</form>
+								</div>
+							</form>
 
-							</div>
 						</div>
 
 					</div>
@@ -179,7 +176,7 @@
 		</div>
 
 		<h3>Conteúdo</h3>
-		<div id="contentCard" class="card my-3 shadow">
+		<div id="contentCard" class="card my-3">
 			<div class="card-body" id="contentEditor" th:utext="${topic.bodyHtml}"></div>
 
 			<div class="mt-2 mb-3 mx-3">
@@ -240,7 +237,7 @@
 		<!-- Quiz -->
 		<div id="quiz-container" class="card mt-5 bg-danger bg-initial-quiz">
 			<div class="card-body">
-				<h4 class="card-title text-light" th:text="'Quiz - ' + ${topic.name}">Quiz</h4>
+				<h5 class="card-title text-light" th:text="'Quiz - ' + ${topic.name}">Quiz</h5>
 
 				<div id="quizResult" class="p-3 text-center text-danger bg-white rounded" style="display: none;">
 					<span class="h4">Resultado do Quiz</span>
@@ -285,7 +282,7 @@
 				</div>
 			</div>
 		</div>
-		<button id="startQuiz" class="btn btn-outline-danger btn-lg form-control shadow">Iniciar Quiz</button>
+		<button id="startQuiz" class="btn btn-outline-danger btn-lg form-control fw-bold">Iniciar Quiz</button>
 
 		<div class="modal fade" id="noQuizQuestionsModal" tabindex="-1" aria-labelledby="noQuestionsModalLabel"
 			aria-hidden="true">

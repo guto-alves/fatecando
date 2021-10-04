@@ -23,7 +23,7 @@ public class DashboardController {
 	public String home(Model model) {
 		model.addAttribute("subjects", subjectService.findAll());
 		model.addAttribute("recentSubjects", userService.findSubjectsAccessed());
-		return "subjects/subjects";
+		return "subjects/dashboard";
 	}
 
 }
