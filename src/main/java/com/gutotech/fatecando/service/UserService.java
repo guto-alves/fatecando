@@ -9,6 +9,9 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -103,6 +106,11 @@ public class UserService {
 		restTemplate.put(URL + "/{id}", user, user.getId());
 	}
 
+	public List<Subject> findMySubjects() {
+		return restTemplate.getForObjects(URL + "/me/subjects", new ParameterizedTypeReference<List<Subject>>() {
+		});
+	}
+	
 	public List<Topic> findMyTopics() {
 		return restTemplate.getForObjects(URL + "/me/topics", new ParameterizedTypeReference<List<Topic>>() {
 		});
@@ -134,4 +142,20 @@ public class UserService {
 		});
 	}
 
+	public boolean hasRoles(String... roles) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
+		return roles != null && auth != null && 
+				auth.getAuthorities().stream().anyMatch(a -> List.of(roles).contains(a.getAuthority()));
+	}
+	
+	public boolean isLoggedIn() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
+		if (auth != null && auth.isAuthenticated() && !(auth instanceof AnonymousAuthenticationToken)) {
+			return true;
+		}
+		
+		return false;
+	}
 }

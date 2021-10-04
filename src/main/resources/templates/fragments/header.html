@@ -29,9 +29,9 @@
 					<li class="nav-item">
 						<a class="nav-link" href="#" th:href="@{/ranking}">Ranking</a>
 					</li>
-					<li class="nav-item dropdown" sec:authorize="hasRole('ROLE_ADMIN')">
+					<li class="nav-item dropdown" sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_TEACHER')">
 						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-							data-bs-toggle="dropdown" aria-expanded="false">Opções do ADM</a>
+							data-bs-toggle="dropdown" aria-expanded="false">Gerenciamento</a>
 						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 							<li>
 								<a class="dropdown-item" href="#" th:href="@{/admin/users}">Usuários</a>
@@ -46,10 +46,10 @@
 								<h6 class="dropdown-header">Contribuições</h6>
 							</li>
 							<li>
-								<a class="dropdown-item" href="#" th:href="@{/admin/topics}">Gerenciar Tópicos</a>
+								<a class="dropdown-item" href="#" th:href="@{/admin/topics}">Tópicos</a>
 							</li>
 							<li>
-								<a class="dropdown-item" href="#" th:href="@{/admin/questions}">Gerenciar Questões</a>
+								<a class="dropdown-item" href="#" th:href="@{/admin/questions}">Questões</a>
 							</li>
 						</ul>
 					</li>

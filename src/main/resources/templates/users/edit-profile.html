@@ -30,7 +30,7 @@
 						<input type="text" id="email" class="form-control" th:field="*{email}" disabled>
 					</div>
 
-					<div class="row mb-5">
+					<div class="row mb-4">
 						<div class="col-md-6">
 							<label for="email" class="form-label">Data de Nascimento</label>
 							<input type="date" id="birthDate" class="form-control" th:field="*{birthDate}">
@@ -45,6 +45,26 @@
 							</select>
 						</div>
 					</div>
+					
+					<div class="mb-4">
+						<div class="form-check form-check-inline mb-2">
+							<input class="form-check-input" type="radio" th:field="*{teacher}" value="false">
+						  	<label class="form-check-label" for="inlineCheckbox1">Aluno</label>
+						</div>
+						<div class="form-check form-check-inline">
+						  	<input class="form-check-input" type="radio" th:field="*{teacher}" value="true">
+						  	<label class="form-check-label" for="inlineCheckbox2">Professor</label>
+						</div>
+						<div id="subjectsContainer" class="d-flex justify-content-center mb-5" th:class="${!user.isTeacher} ? 'd-none'">
+							<div class="mb-3">
+								<label for="subjects">Selecione as disciplinas que você deseja manter</label>
+								<select class="form-select select2" id="subjects" name="subjects" multiple="multiple" style="width: 100%;">
+									<option th:each="subject : ${allSubjects}" th:value="${subject.id}" 
+										th:text="${subject.name}" th:selected="${#lists.contains(mySubjects, subject)}"></option>
+								</select>
+							</div>
+						</div>
+					</div>
 
 					<div class="d-grid gap-2 col-6 mx-auto">
 						<button type="submit" class="btn btn-dark">Atualizar</button>
@@ -53,5 +73,16 @@
 			</div>
 		</div>
 	</div>
+	
+	<script>
+		$('.select2').select2({
+			closeOnSelect: false
+		});
+		
+		$('[name=teacher]').change(function() {
+			const isTeacher = $(this).val();
+			$('#subjectsContainer').toggleClass('d-none');
+		});
+	</script>
 </body>
 </html>

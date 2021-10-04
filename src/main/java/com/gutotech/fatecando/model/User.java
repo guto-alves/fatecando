@@ -31,7 +31,7 @@ public class User {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
 	private Date birthDate;
-
+	
 	private UserActivity userActivity;
 
 	private Date creationDate;
@@ -41,6 +41,10 @@ public class User {
 	private List<Role> roles = new ArrayList<>();
 
 	private long score;
+	
+	private boolean teacher;
+	
+	private List<Subject> subjects = new ArrayList<>();
 
 	public User() {
 	}
@@ -100,6 +104,18 @@ public class User {
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
 	}
+	
+	public boolean isTeacher() {
+		return teacher;
+	}
+	
+	public boolean getTeacher() {
+		return teacher;
+	}
+	
+	public void setTeacher(boolean isTeacher) {
+		this.teacher = isTeacher;
+	}
 
 	public UserActivity getUserActivity() {
 		return userActivity;
@@ -139,6 +155,14 @@ public class User {
 
 	public void setScore(long score) {
 		this.score = score;
+	}
+	
+	public List<Subject> getSubjects() {
+		return subjects;
+	}
+	
+	public void setSubjects(List<Subject> subjects) {
+		this.subjects = subjects;
 	}
 
 	@Override
