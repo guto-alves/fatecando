@@ -23,6 +23,10 @@ public class SignupController {
 
 	@GetMapping
 	public String initRegistrationForm(Model model) {
+		if (userService.isLoggedIn()) {
+			return "redirect:/dashboard";
+		}
+		
 		model.addAttribute("user", new User());
 		return "users/join";
 	}
