@@ -14,6 +14,7 @@ public class Game {
 	private Long id;
 
 	@NotBlank(message = "Por favor forneça um nome.")
+	@Size(max = 30)
 	private String name;
 
 	@Size(min = 2, max = 10, message = "Selecione no mínimo dois tópicos.")

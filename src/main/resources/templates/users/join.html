@@ -213,7 +213,7 @@ label.error {
 				<form id="formRegister" action="#" method="post" th:action="@{/join}" th:object="${user}">
 					<h2>CRIAR CONTA</h2>
 					<input type="text" th:field="*{fullName}" placeholder="Nome Completo" class="form-control"
-						pattern="[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$" required>
+						pattern="[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$" maxlength="40" required>
 					<input type="email" th:field="*{email}" placeholder="E-mail" class="form-control" required>
 					<input type="password" th:field="*{password}" placeholder="Senha" class="form-control" required>
 					<input type="submit" value="Registrar-se">

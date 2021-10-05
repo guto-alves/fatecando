@@ -16,7 +16,7 @@ public class User {
 	private Long id;
 
 	@NotBlank(message = "Por favor preencha seu nome completo.")
-	@Size(min = 2, message = "O tamanho mínino de caracteres é 2.")
+	@Size(min = 2, max = 40, message = "O tamanho mínino de caracteres é 2.")
 	private String fullName;
 
 	@NotBlank(message = "Por favor digite uma email válido.")

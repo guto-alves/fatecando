@@ -18,7 +18,7 @@
 				<form action="#" method="post" th:action="@{/users/edit-profile}" th:object="${user}">
 					<div class="mb-3">
 						<label for="fullName" class="form-label">Nome Completo</label>
-						<input type="text" id="fullName" class="form-control" th:field="*{fullName}"
+						<input type="text" id="fullName" class="form-control" maxlength="40" th:field="*{fullName}"
 							th:classappend="${#fields.hasErrors('fullName')}? 'is-invalid'" aria-describedby="nameFeedback" min="2">
 
 						<div id="nameFeedback" class="invalid-feedback" th:if="${#fields.hasErrors('fullName')}"
