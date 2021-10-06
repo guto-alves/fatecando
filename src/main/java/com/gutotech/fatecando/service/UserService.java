@@ -1,5 +1,6 @@
 package com.gutotech.fatecando.service;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -146,7 +147,7 @@ public class UserService {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		
 		return roles != null && auth != null && 
-				auth.getAuthorities().stream().anyMatch(a -> List.of(roles).contains(a.getAuthority()));
+				auth.getAuthorities().stream().anyMatch(a -> Arrays.asList(roles).contains(a.getAuthority()));
 	}
 	
 	public boolean isLoggedIn() {
