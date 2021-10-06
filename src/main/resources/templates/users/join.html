@@ -1,292 +1,220 @@
 <!DOCTYPE html>
 <html xmlns:th="www.thymeleaf.org">
+
 <head>
-<!-- Required meta tags -->
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!-- Bootstrap CSS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
-	integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+	<!-- Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+	<!-- jQuery -->
+	<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 
-<!-- jQuery Validation-->
-<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/additional-methods.min.js"></script>
+	<!-- jQuery Validation-->
+	<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/additional-methods.min.js"></script>
 
-<link rel="icon" th:href="@{/images/icon.png}">
-<title>Crie sua conta no Fatecando</title>
+	<link rel="icon" th:href="@{/images/icon.png}">
+	<title>Crie sua conta no Fatecando</title>
 
-<style>
-body {
-	height: 100vh;
-	min-height: 550px;
-	background: #f6f6f6;
-	position: relative;
-}
 
-a {
-	text-decoration: none;
-	color: #dc3545;
-}
+	<style>
+		a {
+			text-decoration: none;
+		}
 
-.login-reg-panel {
-	position: relative;
-	top: 50%;
-	transform: translateY(-50%);
-	text-align: center;
-	width: 80%;
-	height: 70%;
-	right: 0;
-	left: 0;
-	margin: auto;
-	background-color: #dc3545;
-	margin: auto;
-	right: 0;
-	left: 0;
-	left: 0;
-}
+		.btn {
+			min-width: 120px;
+		}
 
-.white-panel {
-	background-color: #ffffff;
-	height: 110%;
-	position: absolute;
-	top: -25px;
-	width: 50%;
-	right: calc(50% - 50px);
-	transition: .3s ease-in-out;
-	z-index: 0;
-	box-shadow: 0 0 15px 9px #00000096;
-}
+		.card {
+			box-shadow: 0 0 12px 6px #00000096;
+		}
 
-.login-reg-panel input[type="radio"] {
-	position: relative;
-	display: none;
-}
+		.form-control.error {
+			border-color: #e03838;
+		}
 
-.login-reg-panel {
-	color: #ffffff;
-}
-
-.login-reg-panel #label-login, .login-reg-panel #label-register {
-	border: 1px solid #f6f6f6;
-	background: #ffffff;
-	color: #dc3545;
-	padding: 5px 5px;
-	width: 150px;
-	display: block;
-	text-align: center;
-	border-radius: 10px;
-	cursor: pointer;
-	font-weight: 600;
-	font-size: 18px;
-	padding: 5px 5px;
-	color: #dc3545;
-}
-
-.login-info-box {
-	width: 30%;
-	padding: 0 50px;
-	top: 20%;
-	left: 0;
-	position: absolute;
-	text-align: left;
-}
-
-.register-info-box {
-	width: 30%;
-	padding: 0 50px;
-	top: 20%;
-	right: 0;
-	position: absolute;
-	text-align: left;
-}
-
-.right-log {
-	right: 50px !important;
-}
-
-.login-show, .register-show {
-	z-index: 1;
-	display: none;
-	opacity: 0;
-	transition: 0.3s ease-in-out;
-	color: #3d3d3d;
-	text-align: left;
-	padding: 50px;
-}
-
-.show-log-panel {
-	display: block;
-	opacity: 0.9;
-}
-
-.login-show input, .register-show input {
-	width: 100%;
-	display: block;
-	margin: 20px 0;
-	padding: 15px;
-	border: 1px solid #b5b5b5;
-	outline: none;
-}
-
-.login-show input[type="submit"], .register-show input[type="submit"] {
-	max-width: 150px;
-	width: 100%;
-	background: #565656;
-	color: #f9f9f9;
-	border: none;
-	padding: 10px;
-	text-transform: uppercase;
-	border-radius: 2px;
-	float: right;
-	cursor: pointer;
-}
-
-.login-show a {
-	display: inline-block;
-	padding: 10px 0;
-}
-
-.credit {
-	position: absolute;
-	bottom: 10px;
-	left: 10px;
-	color: #3B3B25;
-	margin: 0;
-	padding: 0;
-	font-family: Arial, sans-serif;
-	text-transform: uppercase;
-	font-size: 12px;
-	font-weight: bold;
-	letter-spacing: 1px;
-	z-index: 99;
-}
-
-.form-control.error {
-	border-color: #e03838;
-}
-
-label.error {
-	color: #e03838;
-}
-</style>
+		label.error {
+			color: #e03838;
+		}
+	</style>
 
 </head>
+
 <body>
 	<header th:replace="~{fragments/header :: header}"></header>
 
-	<div class="login-reg-panel">
-		<div class="login-info-box">
-			<h2>Já tem uma conta?</h2>
-			<p>Faça login no Fatecando agora mesmo!</p>
-			<label id="label-register" for="log-reg-show">Entrar</label>
-			<input type="radio" name="active-log-panel" id="log-reg-show" checked="checked">
-		</div>
+	<div class="container mt-5 bg-danger p-3">
 
-		<div class="register-info-box">
-			<h2>Não tem uma conta?</h2>
-			<p>Junte-se aos Fatecanos já!</p>
-			<label id="label-login" for="log-login-show">Registrar-se</label>
-			<input type="radio" name="active-log-panel" id="log-login-show">
-		</div>
+		<div class="row">
+			<div class="col-12 col-md-7">
 
-		<div class="white-panel">
-			<div class="login-show">
-				<form id="formLogin" action="#" th:action="@{/perform_login}" method="post">
-					<h2>LOGAR</h2>
-					<div class="alert alert-danger" role="alert" th:if="${param.error}">
-						E-mail ou senha inválidos.
-						<br>
-						Por favor, verifique os dados e tente novamente.
+				<div class="card m-3">
+					<div class="card-body">
+
+						<div class="login-form">
+							<form id="formLogin" action="#" th:action="@{/perform_login}" method="post">
+								<h2>LOGAR</h2>
+								<div class="alert alert-danger" role="alert" th:if="${param.error}">
+									E-mail ou senha inválidos.
+									<br>
+									Por favor, verifique os dados e tente novamente.
+								</div>
+
+								<div class="row">
+									<div class="col-12 my-2 input-group input-group-lg">
+										<input type="email" name="email" placeholder="E-mail" class="form-control w-100"
+											required>
+									</div>
+									<div class="col-12 my-2 input-group input-group-lg">
+										<input type="password" name="password" placeholder="Senha"
+											class="form-control w-100" required>
+									</div>
+
+									<div class="col-12 col-md-6 my-3">
+										<a href="" class="text-danger">Esqueceu a senha?</a>
+									</div>
+								</div>
+
+								<div class="row justify-content-around">
+									<div class="col-12 my-2">
+										<button type="button"
+											class="btn btn-secondary btn-register w-100 d-block d-md-none">Registrar-se</button>
+									</div>
+									<div class="col-12 my-2">
+										<button type="submit" class="btn btn-danger w-100">Entrar</button>
+									</div>
+								</div>
+							</form>
+						</div>
+
+						<div class="register-form d-none">
+							<form id="formRegister" action="#" method="post" th:action="@{/join}" th:object="${user}">
+								<h2>CRIAR CONTA</h2>
+								<div class="row">
+									<div class="col-12 my-2 input-group input-group-lg">
+										<input type="text" th:field="*{fullName}" placeholder="Nome Completo"
+											class="form-control w-100" maxlength="40"
+											pattern="[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$" required>
+									</div>
+									<div class="col-12 my-2 input-group input-group-lg">
+										<input type="email" th:field="*{email}" placeholder="E-mail"
+											class="form-control w-100" required>
+									</div>
+									<div class="col-12 my-2 input-group input-group-lg">
+										<input type="password" th:field="*{password}" placeholder="Senha"
+											class="form-control w-100" required>
+									</div>
+								</div>
+								<div class="row justify-content-around">
+									<div class="col-12 my-2">
+										<button type="button"
+											class="btn btn-secondary btn-enter w-100 d-block d-md-none">Entrar</button>
+									</div>
+									<div class="col-12 my-2">
+										<button type="submit" class="btn btn-danger w-100">Registrar-se</button>
+									</div>
+								</div>
+							</form>
+						</div>
+
 					</div>
-					<input type="email" name="email" placeholder="E-mail" class="form-control" required>
-					<input type="password" name="password" placeholder="Senha" class="form-control" required>
-					<br>
-					<input type="submit" value="Entrar">
-					<a href="">Esqueceu a senha?</a>
-				</form>
+				</div>
+
 			</div>
-			<div class="register-show">
-				<form id="formRegister" action="#" method="post" th:action="@{/join}" th:object="${user}">
-					<h2>CRIAR CONTA</h2>
-					<input type="text" th:field="*{fullName}" placeholder="Nome Completo" class="form-control"
-						pattern="[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$" maxlength="40" required>
-					<input type="email" th:field="*{email}" placeholder="E-mail" class="form-control" required>
-					<input type="password" th:field="*{password}" placeholder="Senha" class="form-control" required>
-					<input type="submit" value="Registrar-se">
-				</form>
+
+			<div class="d-none d-md-block col-md-5 m-auto">
+				<div class="login-message">
+					<div class="row">
+						<div class="col-12 text-white">
+							<h2>Não tem uma conta?</h2>
+							<p>Junte-se aos Fatecanos já!</p>
+						</div>
+						<div class="col-12 align-self-end">
+							<button type="button" class="btn btn-light text-danger btn-register">Registrar-se</button>
+						</div>
+					</div>
+				</div>
+
+				<div class="register-message d-none">
+					<div class="row">
+						<div class="col-12 text-white">
+							<h2>Já tem uma conta?</h2>
+							<p>Faça login no Fatecando agora mesmo!</p>
+						</div>
+						<div class="col-12 align-self-end">
+							<button type="button" class="btn btn-light text-danger btn-enter">Entrar</button>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
+
 	</div>
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+		integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+		crossorigin="anonymous"></script>
 
 	<script>
-		$(document).ready(function() {
-			$('.login-info-box').fadeOut();
-			$('.login-show').addClass('show-log-panel');
-		});
+		$(document).ready(function () {
+			$('.btn-register').on('click', function () {
+				$('.login-form').addClass("d-none");
+				$('.login-message').addClass("d-none");
+				$('.register-form').removeClass("d-none");
+				$('.register-message').removeClass("d-none");
+			})
 
-		$('.login-reg-panel input[type="radio"]').on('change', function() {
-			if ($('#log-login-show').is(':checked')) {
-				$('.register-info-box').fadeOut();
-				$('.login-info-box').fadeIn();
+			$('.btn-enter').on('click', function () {
+				$('.register-form').addClass("d-none");
+				$('.register-message').addClass("d-none");
+				$('.login-form').removeClass("d-none");
+				$('.login-message').removeClass("d-none");
+			})
 
-				$('.white-panel').addClass('right-log');
-				$('.register-show').addClass('show-log-panel');
-				$('.login-show').removeClass('show-log-panel');
-			} else if ($('#log-reg-show').is(':checked')) {
-				$('.register-info-box').fadeIn();
-				$('.login-info-box').fadeOut();
-
-				$('.white-panel').removeClass('right-log');
-
-				$('.login-show').addClass('show-log-panel');
-				$('.register-show').removeClass('show-log-panel');
+			if (location.search.indexOf('register') > -1) {
+				$('.btn-register').click();
 			}
 		});
 
 		jQuery
-				.extend(
-						jQuery.validator.messages,
-						{
-							required : "Este campo &eacute; obrigatório.",
-							remote : "Por favor, corrija este campo.",
-							email : "Por favor, forne&ccedil;a um endere&ccedil;o eletr&ocirc;nico v&aacute;lido.",
-							url : "Por favor, forne&ccedil;a uma URL v&aacute;lida.",
-							date : "Por favor, forne&ccedil;a uma data v&aacute;lida.",
-							dateISO : "Por favor, forne&ccedil;a uma data v&aacute;lida (ISO).",
-							number : "Por favor, forne&ccedil;a um n&uacute;mero v&aacute;lido.",
-							digits : "Por favor, forne&ccedil;a somente d&iacute;gitos.",
-							creditcard : "Por favor, forne&ccedil;a um cart&atilde;o de cr&eacute;dito v&aacute;lido.",
-							equalTo : "Por favor, forne&ccedil;a o mesmo valor novamente.",
-							accept : "Por favor, forne&ccedil;a um valor com uma extens&atilde;o v&aacute;lida.",
-							maxlength : jQuery.validator
-									.format("Por favor, forne&ccedil;a n&atilde;o mais que {0} caracteres."),
-							minlength : jQuery.validator
-									.format("Por favor, forne&ccedil;a ao menos {0} caracteres."),
-							rangelength : jQuery.validator
-									.format("Por favor, forne&ccedil;a um valor entre {0} e {1} caracteres de comprimento."),
-							range : jQuery.validator
-									.format("Por favor, forne&ccedil;a um valor entre {0} e {1}."),
-							max : jQuery.validator
-									.format("Por favor, forne&ccedil;a um valor menor ou igual a {0}."),
-							min : jQuery.validator
-									.format("Por favor, forne&ccedil;a um valor maior ou igual a {0}."),
-							pattern : "Formato inválido."
-						});
+			.extend(
+				jQuery.validator.messages,
+				{
+					required: "Este campo &eacute; obrigatório.",
+					remote: "Por favor, corrija este campo.",
+					email: "Por favor, forne&ccedil;a um endere&ccedil;o eletr&ocirc;nico v&aacute;lido.",
+					url: "Por favor, forne&ccedil;a uma URL v&aacute;lida.",
+					date: "Por favor, forne&ccedil;a uma data v&aacute;lida.",
+					dateISO: "Por favor, forne&ccedil;a uma data v&aacute;lida (ISO).",
+					number: "Por favor, forne&ccedil;a um n&uacute;mero v&aacute;lido.",
+					digits: "Por favor, forne&ccedil;a somente d&iacute;gitos.",
+					creditcard: "Por favor, forne&ccedil;a um cart&atilde;o de cr&eacute;dito v&aacute;lido.",
+					equalTo: "Por favor, forne&ccedil;a o mesmo valor novamente.",
+					accept: "Por favor, forne&ccedil;a um valor com uma extens&atilde;o v&aacute;lida.",
+					maxlength: jQuery.validator
+						.format("Por favor, forne&ccedil;a n&atilde;o mais que {0} caracteres."),
+					minlength: jQuery.validator
+						.format("Por favor, forne&ccedil;a ao menos {0} caracteres."),
+					rangelength: jQuery.validator
+						.format("Por favor, forne&ccedil;a um valor entre {0} e {1} caracteres de comprimento."),
+					range: jQuery.validator
+						.format("Por favor, forne&ccedil;a um valor entre {0} e {1}."),
+					max: jQuery.validator
+						.format("Por favor, forne&ccedil;a um valor menor ou igual a {0}."),
+					min: jQuery.validator
+						.format("Por favor, forne&ccedil;a um valor maior ou igual a {0}."),
+					pattern: "Formato inválido."
+				});
 
 		$("#formLogin").validate();
 
-		$("#formRegister").validate();
-		
-		if (location.search.indexOf('register') > -1) {
-			setTimeout(() => $('#log-login-show').click(), 500);
-		}	
+		$("#formRegister").validate();	
 	</script>
 </body>
+
 </html>
