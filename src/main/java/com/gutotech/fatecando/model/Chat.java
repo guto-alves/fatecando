@@ -7,10 +7,10 @@ import java.util.Set;
 
 public class Chat {
 	private Long id;
+	private String name;
 	private boolean pvt;
 	private boolean blocked;
 	private Message lastMessage;
-	private User to;
 	private Set<User> users = new HashSet<>();
 	private Date creationDate;
 
@@ -23,6 +23,14 @@ public class Chat {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public boolean isPvt() {
@@ -41,6 +49,14 @@ public class Chat {
 		this.blocked = blocked;
 	}
 
+	public Message getLastMessage() {
+		return lastMessage;
+	}
+
+	public void setLastMessage(Message lastMessage) {
+		this.lastMessage = lastMessage;
+	}
+
 	public Set<User> getUsers() {
 		return users;
 	}
@@ -55,22 +71,6 @@ public class Chat {
 
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
-	}
-
-	public Message getLastMessage() {
-		return lastMessage;
-	}
-
-	public void setLastMessage(Message lastMessage) {
-		this.lastMessage = lastMessage;
-	}
-
-	public User getTo() {
-		return to;
-	}
-
-	public void setTo(User to) {
-		this.to = to;
 	}
 
 	@Override

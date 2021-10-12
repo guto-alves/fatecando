@@ -1,15 +1,29 @@
-const newQuestionEditor = new Quill('#newQuestionEditor', EditorOptions.QUESTION);
-$('#newQuestionForm').submit(function(event) {
-	if (newQuestionEditor.root.innerText.trim() !== '') {
-		$('#description').val(newQuestionEditor.root.innerHTML);		
-	}
+$('.alternativeEditor').each(function() {
+	new Quill($(this).get(0), EditorOptions.QUESTION_ALTERNATIVE);
 });
 
-$('#contribute').click(function(event) {
-	if ($('button[class*="accordion-button"]').hasClass('collapsed')) {
-		event.preventDefault();
-		$('button[class*="accordion-button"]').click();
-		setTimeout(() => location.href = location.href.split('#')[0] + "#uploadQuestion", 200);
+$('.feedbackEditor').each(function() {
+	new Quill($(this).get(0), EditorOptions.QUESTION_ALTERNATIVE_FEEDBACK);
+});
+
+const newQuestionEditor = new Quill('#newQuestionEditor', EditorOptions.QUESTION);
+
+$('#newQuestionForm').submit(function() {
+	if (newQuestionEditor.root.innerText.trim() !== '') {
+		$('#description').val(newQuestionEditor.root.innerHTML);		
+	
+		$('.alternativeEditor').each(function () {
+			if ($(this).find('.ql-editor').prop('innerText').trim() !== '') {
+				const content = $(this).find('.ql-editor').prop('innerHTML');
+				$(this).closest('.new-alternative').find('.alternativeInput').first().val(content);
+			}
+		});
+		$('.feedbackEditor').each(function () {
+			if ($(this).find('.ql-editor').prop('innerText').trim() !== '') {
+				const content = $(this).find('.ql-editor').prop('innerHTML');
+				$(this).closest('.new-alternative').find('.feedbackInput').first().val(content);			
+			}
+		});
 	}
 });
 
@@ -18,28 +32,19 @@ $('.is-correct-alternative').change(function() {
 });
 
 $('#addAlternative').click(function() {
-	let totalAlternatives = $('#alternatives').children().length;
+	const totalAlternatives = $('#alternatives').children().length;
 
 	if (totalAlternatives >= 6) {
 		return false;
 	}
-
-	$('#alternatives').append(`
-		<div class="new-alternative mb-3 d-flex justify-content-start align-items-center">
-			<span class="text-muted me-2">${totalAlternatives + 1}.</span>
-			<div class="container">
-				<textarea class="form-control me-5" name="alternatives[${totalAlternatives}].description" rows="1">Alternativa ${totalAlternatives + 1}</textarea>
-				<input type="text" class="form-control" placeholder="Feedback da alternativa" id="alternatives${totalAlternatives}.feedback.title" name="alternatives[${totalAlternatives}].feedback.title" value="">
-			</div>
-			<div class="form-check me-3">
-				<input type="checkbox" class="is-correct-alternative form-check-input" id="alternatives${totalAlternatives}.feedback.correct1" name="alternatives[${totalAlternatives}].feedback.correct" value="true">
-				<input type="hidden" name="_alternatives[${totalAlternatives}].feedback.correct" value="on">
-			</div>
-			<button type="button" class="remove-alternative btn btn-outline-danger btn-sm">
-				<i class="fa fa-trash fa-lg" aria-hidden="true"></i>
-			</button>
-		</div>
-	`);
+	
+	const newAlternative = $('.new-alternative').first().clone();
+	newAlternative.find('.ql-editor,.ql-toolbar').remove();
+	new Quill(newAlternative.find('.alternativeEditor').get(0), EditorOptions.QUESTION_ALTERNATIVE);
+	new Quill(newAlternative.find('.feedbackEditor').get(0), EditorOptions.QUESTION_ALTERNATIVE_FEEDBACK);
+	newAlternative.find('.is-correct-alternative').prop('checked', false);
+	$('#alternatives').append(newAlternative);
+	updateAlternatives();
 
 	$('.is-correct-alternative').off('change');
 	$('.is-correct-alternative').change(function() {
@@ -70,7 +75,7 @@ function markAsRight(alternative) {
 
 function removeAlternative(alternative) {
 	if ($('#alternatives').children().length > 2 &&
-		!$(alternative).closest('.new-alternative').find('input[type*="checkbox"]').first().prop('checked')) {
+		!$(alternative).closest('.new-alternative').find('.is-correct-alternative').first().prop('checked')) {
 		$(alternative).closest('.new-alternative').remove();
 		return true;
 	}
@@ -81,15 +86,18 @@ function removeAlternative(alternative) {
 function updateAlternatives() {
 	let alternativeCount = 0;
 
-	$('#alternatives').children().each(function() {
-		let self = $(this);
+	$('#alternatives .new-alternative').each(function() {
+		const self = $(this);
 
-		self.find('span').text((alternativeCount + 1) + '.');
-		self.find('textarea').first().attr('name', `alternatives[${alternativeCount}].description`);
+		self.find('.alternative-number').first().text((alternativeCount + 1) + '.');
+		
+		self.find('.alternativeInput').first()
+			.prop('id', `alternatives${alternativeCount}.description`)
+			.prop('name', `alternatives[${alternativeCount}].description`);;
 
-		self.find('input[type="text"]').first()
-			.prop('id', `alternatives${alternativeCount}.feedback.title`)
-			.prop('name', `alternatives[${alternativeCount}].feedback.title`);
+		self.find('.feedbackInput').first()
+			.prop('id', `alternatives${alternativeCount}.feedback.description`)
+			.prop('name', `alternatives[${alternativeCount}].feedback.description`);
 
 		self.find('input[type="checkbox"]').first()
 			.prop('id', `alternatives${alternativeCount}.feedback.correct1`)
@@ -100,3 +108,11 @@ function updateAlternatives() {
 		alternativeCount++;
 	});
 }
+
+$('#contribute').click(function(event) {
+	if ($('button[class*="accordion-button"]').hasClass('collapsed')) {
+		event.preventDefault();
+		$('button[class*="accordion-button"]').click();
+		setTimeout(() => location.href = location.href.split('#')[0] + "#uploadQuestion", 200);
+	}
+});

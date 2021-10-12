@@ -32,7 +32,7 @@
 						</ul>
 						<div class="tab-content" id="myTabContent">
 							<div class="tab-pane fade show active" id="threads" role="tabpanel" aria-labelledby="threads-tab">
-								<div class="conversations list-group mt-2"></div>
+								<div class="chats list-group mt-2"></div>
 							</div>
 							<div class="tab-pane fade" id="users" role="tabpanel" aria-labelledby="users-tab">
 								<form id="search-form">
@@ -76,57 +76,66 @@
 
 
 	<script type="text/javascript" th:inline="javascript">
+		const fatecandoApiUrl = /*[[${@environment.getProperty('fatecando.api.base-url')}]]*/null;
 		const accessToken = /*[[${accessToken}]]*/null;
 		const from = /*[[${#authentication.name}]]*/null;
 		
-		let conversations = /*[[${chats}]]*/null;
-		let selectedConversation;
+		let chats = /*[[${chats}]]*/null;
+		chats = chats.map(function (chat) {
+			if (chat.name == null) {
+				chat.from = chat.lastMessage.from.email == from ? chat.lastMessage.to : chat.lastMessage.from;
+				chat.name = chat.from.fullName;					
+			}
+			return chat;
+		});
+		
+		let selectedChat = null;
 
 		let stompClient = null;
-		
-		let users = [];
-		
+		let currentChatSubscription = null;
+				
 		updateConversations();
 
 		// Conversations Tab
 		function updateConversations() {
-			$('.conversations').empty();
+			$('.chats').empty();
 			
-			conversations.forEach(conversation => {
-				$('.conversations').append(`
-					<button type="button" class="conversation list-group-item list-group-item-action" data-id="${conversation.id}">
+			chats.forEach(chat => {
+				$('.chats').append(`
+					<button type="button" class="chat list-group-item list-group-item-action" data-id="${chat.id}">
 						<div class="d-flex w-100 justify-content-between">
-							<span class="fw-bold mb-1">${conversation.to.fullName}</span>
-							<small><time class="timeago" datetime="${conversation.lastMessage.date}"></time></small>
+							<span class="fw-bold mb-1">${chat.name}</span>
+							<small><time class="timeago" datetime="${chat.lastMessage.date}"></time></small>
 						</div>
-						${conversation.lastMessage.body}
+						${chat.lastMessage.body}
 					</button>
 				`);
 				
-				if (selectedConversation != null && conversation.id === selectedConversation.id) {
-					toggleSelectedConversation('.conversation', $('.conversation').last());
+				if (selectedChat != null && chat.id === selectedChat.id) {
+					toggleSelectedChat('.chat', $('.chat').last());
 				}
 			});
 			
 			$("time.timeago").timeago();
 			
-			$('.conversation').click(function() {
-				let conversationId = $(this).data('id');
+			$('.chat').click(function() {
+				const chatId = $(this).data('id');
 				
-				selectedConversation = conversations.find(c => c.id === conversationId);
+				selectedChat = chats.find(c => c.id === chatId);
 				
 				updateChat();
 				
-				$.get('/user/messages/' + conversationId, function (messages) {
+				$.get('/user/messages/' + chatId, function (messages) {
 					updateMessages(messages);
 				});
 				
-				stompClient.subscribe('/secured/message/queue/chat-' + conversationId, function(data) {
-					let messages = JSON.parse(data.body);
+				currentChatSubscription?.unsubscribe({});
+				currentChatSubscription = stompClient.subscribe('/secured/message/queue/chat-' + chatId, function(data) {
+					const messages = JSON.parse(data.body);
 					updateMessages(messages);
 				});
 				
-				toggleSelectedConversation('.conversation', this);
+				toggleSelectedChat('.chat', this);
 			});
 		}
 		
@@ -138,7 +147,7 @@
 			$('#users-result').empty();
 			
 			$.get('/users/search', {filter: $('#user-filter').val()}, function (data) {
-				users = data;
+				const users = data;
 				
 				users.forEach(user => {
 					$('#users-result').append(`
@@ -152,14 +161,14 @@
 				$('.user').off('click');
 				
 				$('.user').click(function() {
-					toggleSelectedConversation('.user', this);
+					toggleSelectedChat('.user', this);
 					
-					let userEmail = $(this).data('user');
+					const userEmail = $(this).data('user');
+					const selectedUser = users.find(user => user.email === userEmail);
 					
-					let selectedUser = users.find(user => user.email === userEmail);
-					
-					selectedConversation = {
-						to: selectedUser,
+					selectedChat = {
+						name: selectedUser.fullName,
+						from: selectedUser,
 						pvt: true
 					};
 						
@@ -175,14 +184,14 @@
 		let newMessageEditor = new Quill('#new-message-editor', EditorOptions.MESSAGE);
 		
 		$('#send-message-button').click(function() {
-			if (selectedConversation != null) {
+			if (selectedChat != null) {
 				const message = {
 					body : newMessageEditor.root.innerHTML,
 					to : {
-						email : selectedConversation.to.email
+						email : selectedChat.from.email
 					},
 					chat: {
-						id: selectedConversation.id
+						id: selectedChat.id
 					}
 				};
 				
@@ -192,7 +201,7 @@
 			}
 		});
 		
-		function toggleSelectedConversation(selector, selectedDiv) {
+		function toggleSelectedChat(selector, selectedDiv) {
 			$(selector).each(function() {
 				$(this).removeClass([ 'active', 'bg-dark' ]);
 			});
@@ -201,10 +210,10 @@
 		}
 		
 		function updateChat() {
-			if (selectedConversation.pvt) {		 
-				$('#to').html(`<a class="text-decoration-none link-dark" href="/users/${selectedConversation.to.id}">${selectedConversation.to.fullName}</a>`);
+			if (selectedChat.pvt) {
+				$('#to').html(`<a class="text-decoration-none link-dark" target="_blank" href="/users/${selectedChat.from?.id}">${selectedChat.name}</a>`);
 			} else {
-				$('#to').text('Game');
+				$('#to').text(selectedChat.name);
 			}
 		}
 		
