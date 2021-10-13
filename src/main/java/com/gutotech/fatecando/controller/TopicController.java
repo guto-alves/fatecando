@@ -51,8 +51,8 @@ public class TopicController {
 	public String showTopic(Topic topic, Model model) {
 		Question question = new Question();
 		question.getAlternatives().addAll(Arrays.asList( //
-				new Alternative("Alternativa 1", new Feedback(true)), //
-				new Alternative("Alternativa 2", new Feedback())));
+				new Alternative(null, new Feedback(true)), //
+				new Alternative(null, new Feedback())));
 
 		model.addAttribute("question", question);
 		model.addAttribute("questions", topicService.getQuiz(topic));

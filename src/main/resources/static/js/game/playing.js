@@ -26,11 +26,15 @@ function updateGame() {
 						<div class="alternative mb-3">
 							<div class="form-check">
 								<input class="form-check-input" type="radio" id="alternative${alternative.id}" name="alternative" value="${alternative.id}">
-								<label class="form-check-label" for="alternative${alternative.id}">${alternative.description}</label>
+								<label class="form-check-label" for="alternative${alternative.id}"><div class="alternativeGameEditor">${alternative.description}</div></label>
 							</div>
 						</div>
 					`);
 				});
+				
+				$('.alternativeGameEditor').each(function() {
+					new Quill($(this).get(0), EditorOptions.READ_ONLY);
+				});;
 			}
 
 			const answer = round.answers.find(answer => answer.user.id == currentPlayerId);
@@ -159,11 +163,12 @@ function showFeedback(feedback) {
 		<div class="border border-2 border-${color} p-2 mb-2 rounded ms-3">
 			<span>
 				<b class="text-${color}">${feedback.title ?? ''}</b>
-				<br>
-				${feedback.description ?? ''}
+				<div id="feedbackGameEditor">${feedback.description ?? ''}</div>
 			</span>
 		</div>
 	`);
+	
+	new Quill($('#feedbackGameEditor').get(0), EditorOptions.READ_ONLY);
 
 	$('.alternative input').prop("disabled", true);
 }

@@ -37,28 +37,37 @@
 					</div>
 
 					<div id="alternativesContainer" class="mb-4 rounded">
-						<label class="h5 form-label fw-bolder ms-5">Alternativas</label>
+						<label class="h5 form-label fw-bolder ms-3">Alternativas</label>
 
 						<div id="alternatives">
-							<div class="new-alternative mb-3 d-flex justify-content-start align-items-center"
+							<div class="new-alternative mb-3 "
 								th:each="alternative, itemStat : *{alternatives}">
-								<span class="text-muted me-2" th:text="${itemStat.index + 1} + '.'">1.</span>
-
-								<div class="container">
-									<textarea class="form-control me-5" rows="1"
-										th:field="*{alternatives[__${itemStat.index}__].description}"
-										placeholder="Alternativa" required>Alternativa 1</textarea>
-									<input type="text" class="form-control"
-										th:field="*{alternatives[__${itemStat.index}__].feedback.title}"
-										placeholder="Feedback da alternativa" required>
+								<span class="alternative-number text-muted me-2"
+									th:text="${itemStat.count} + '.'">1.</span>
+									
+								<div class="alternative-container">
+									<input type="hidden" class="alternativeInput"
+										th:field="*{alternatives[__${itemStat.index}__].description}" required>
+									<div class="alternativeEditor"></div>
 								</div>
-								<div class="form-check me-3">
-									<input type="checkbox" class="is-correct-alternative form-check-input"
-										th:field="*{alternatives[__${itemStat.index}__].feedback.correct}">
+								
+								<div class="feedback-container">
+									<input type="hidden" class="feedbackInput"
+										th:field="*{alternatives[__${itemStat.index}__].feedback.description}" required>
+									<div class="feedbackEditor"></div>
 								</div>
-								<button type="button" class="remove-alternative btn btn-outline-danger btn-sm">
-									<i class="fa fa-trash fa-lg" aria-hidden="true"></i>
-								</button>
+								
+								<div class="d-flex justify-content-end align-items-center">
+									<button type="button"
+										class="remove-alternative btn btn-outline-danger btn-sm me-3">
+										<i class="fa fa-trash fa-lg" aria-hidden="true"></i>
+									</button>	
+									<div class="form-check">
+										<input type="checkbox"
+											class="is-correct-alternative form-check-input"
+											th:field="*{alternatives[__${itemStat.index}__].feedback.correct}">
+									</div>								
+								</div>
 							</div>
 						</div>
 
@@ -163,6 +172,16 @@
 	<script type="text/javascript" th:inline="javascript">
 		(function () {
 			const questionEditor = new Quill('#question-editor', EditorOptions.QUESTION);
+			
+			$('.alternative-container').each(function() {
+				const content = $(this).find('.alternativeInput:first').val();
+				$(this).find('.alternativeEditor').html(content);
+			});
+			
+			$('.feedback-container').each(function() {
+				const content = $(this).find('.feedbackInput:first').val();
+				$(this).find('.feedbackEditor').html(content);
+			});
 
 			$('form').submit(function (event) {
 				$('#description').val(questionEditor.root.innerHTML);
@@ -171,7 +190,7 @@
 			const topics = /*[[${topics}]]*/[];
 
 			$('#subject-select').change(function () {
-				let selectedSubjectId = parseInt($(this).val());
+				const selectedSubjectId = parseInt($(this).val());
 
 				let topicSelect = $('select[id*="topic"]').first();
 

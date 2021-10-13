@@ -2,6 +2,10 @@
 	$('.question-editor').each(function() {
 		new Quill($(this).get(0), EditorOptions.READ_ONLY);
 	});
+	
+	$('.alternativeEditor').each(function() {
+		new Quill($(this).get(0), EditorOptions.READ_ONLY);
+	});;
 
 	$('#finishTest').click(function() {
 		if ($('.question:not(:has(input:checked))').length > 0) {
@@ -25,6 +29,9 @@
 		})
 			.done(function(feedbacks) {
 				feedbacks.forEach(feedback => showFeedback(feedback));
+				$('.feedbackEditor').each(function() {
+					new Quill($(this).get(0), EditorOptions.READ_ONLY);
+				});;
 				showResult(feedbacks);
 			})
 			.fail(function(jqXHR, textStatus) {
@@ -38,8 +45,8 @@
 		$('.alternative:has(input[value=' + feedback.alternative.id + '])').append(
 			`<div class="border border-2 border-${color} p-2 mb-2 rounded ms-3">
 				<span>
-					<b class="text-${color}">${feedback.title ?? ''}</b><br>
-					${feedback.description ?? ''}
+					<b class="text-${color}">${feedback.title ?? ''}</b>
+					<div class="feedbackEditor">${feedback.description ?? ''}</div>
 				</span>
 			</div>`
 		);

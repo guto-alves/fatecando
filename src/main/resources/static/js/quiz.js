@@ -40,17 +40,21 @@ function nextQuestion() {
 
 	// Add new alternatives
 	currentQuestion.alternatives.forEach(alternative => {
-		let alternativeRadio = `
+		const alternativeRadio = `
 			<div class="alternative mb-3">
 				<div class="form-check d-flex">
-					<input class="form-check-input me-3" type="radio" name="alternativeRadio" value="` + alternative.id + `">
-					<label class="form-check-label align-self-center mt-1">` + alternative.description + `</label>
+					<input class="form-check-input me-3" type="radio" name="alternativeRadio" value="${alternative.id}">
+					<label class="form-check-label align-self-center mt-1"><div class="alternativeQuizEditor">${alternative.description}</div></label>
 				</div
 			</div>		
 		`;
 
 		$('#questionContainer').append(alternativeRadio);
 	});
+	
+	$('.alternativeQuizEditor').each(function() {
+		new Quill($(this).get(0), EditorOptions.READ_ONLY);
+	});;
 
 	$('#nextQuestion').hide();
 	$('#answerQuestion').show();
@@ -73,16 +77,16 @@ $('#answerQuestion').click(function() {
 		const color = feedback.correct ? 'success' : 'danger';
 
 		const htmlFeedback = `
-			<div class="border border-2 border-${color} p-2 mb-2 rounded ms-5">
+			<div class="border border-2 border-${color} mb-2 rounded ms-5">
 				<span>
-					<b class="text-${color}">${feedback.title ?? ''}</b>
-					<br>
-					${feedback.description ?? ''}
+					<b class="text-${color}">${'CERTO'}</b>
+					<div id="feedbackQuizEditor">${feedback.description ?? ''}</div>
 				</span>
 			</div>
 		`;
 
 		$('input[name="alternativeRadio"]:checked').first().closest('.alternative').append(htmlFeedback);
+		new Quill($('#feedbackQuizEditor').get(0), EditorOptions.READ_ONLY);
 
 		if (currentQuestionIndex + 1 == totalQuestions) { // Quiz is over
 			$('#answerQuestion').remove();

@@ -5,9 +5,9 @@ import javax.validation.constraints.NotBlank;
 public class Feedback {
 	private Long id;
 	
-	@NotBlank
 	private String title;
 	
+	@NotBlank
 	private String description;
 	
 	private boolean correct;

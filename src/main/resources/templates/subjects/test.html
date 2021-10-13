@@ -42,11 +42,13 @@
 						<div class="form-check">
 							<input class="form-check-input" type="radio" th:value="${alternative.id}"
 								th:name="${question.id}" required>
-							<label class="form-check-label" th:text="${alternative.description}">Alternative</label>
+							<label class="form-check-label">
+								<div class="alternativeEditor" th:utext="${alternative.description}"></div>
+							</label>
 						</div>
 					</div>
 
-					<div th:unless="${questionStat.last}" class="border border-bottom border-1 my-3 m-3"></div>
+					<div th:unless="${questionStat.last}" class="border border-bottom border-dark border-1 my-5 m-3"></div>
 				</div>
 			</div>
 		</div>

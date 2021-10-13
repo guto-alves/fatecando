@@ -9,22 +9,16 @@ $('.feedbackEditor').each(function() {
 const newQuestionEditor = new Quill('#newQuestionEditor', EditorOptions.QUESTION);
 
 $('#newQuestionForm').submit(function() {
-	if (newQuestionEditor.root.innerText.trim() !== '') {
-		$('#description').val(newQuestionEditor.root.innerHTML);		
-	
-		$('.alternativeEditor').each(function () {
-			if ($(this).find('.ql-editor').prop('innerText').trim() !== '') {
-				const content = $(this).find('.ql-editor').prop('innerHTML');
-				$(this).closest('.new-alternative').find('.alternativeInput').first().val(content);
-			}
-		});
-		$('.feedbackEditor').each(function () {
-			if ($(this).find('.ql-editor').prop('innerText').trim() !== '') {
-				const content = $(this).find('.ql-editor').prop('innerHTML');
-				$(this).closest('.new-alternative').find('.feedbackInput').first().val(content);			
-			}
-		});
-	}
+	$('#description').val(newQuestionEditor.root.innerHTML);		
+
+	$('.alternativeEditor').each(function () {
+		const content = $(this).find('.ql-editor').prop('innerHTML');
+		$(this).closest('.new-alternative').find('.alternativeInput').first().val(content);
+	});
+	$('.feedbackEditor').each(function () {
+		const content = $(this).find('.ql-editor').prop('innerHTML');
+		$(this).closest('.new-alternative').find('.feedbackInput').first().val(content);
+	});
 });
 
 $('.is-correct-alternative').change(function() {
