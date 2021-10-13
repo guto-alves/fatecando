@@ -37,6 +37,10 @@ public class QuestionService {
 	public void update(Question question) {
 		restTemplate.put(URL + "/{id}", question, question.getId());
 	}
+	
+	public void delete(Long questionId) {
+		restTemplate.delete(URL + "/{id}", questionId);
+	}
 
 	public Feedback answer(Long question, Long alternative) {
 		return restTemplate.postForObject(URL + "/{question}/answer/{alternative}", null, Feedback.class, question,

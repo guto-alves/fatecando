@@ -1,5 +1,6 @@
 package com.gutotech.fatecando.controller.admin;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,9 +64,18 @@ public class QuestionAdminController {
 		questionService.update(question);
 
 		redirectAttributes.addFlashAttribute("message",
-				String.format("A pergunta #%d foi atualizada com sucesso.", question.getId()));
+				String.format("A Questão #%d foi atualizada com sucesso.", question.getId()));
 
 		return "redirect:/admin/questions";
+	}
+
+	@PostMapping("{id}/delete")
+	public String deleteQuestion(@PathVariable Long id, RedirectAttributes redirectAttributes, HttpServletRequest request) {
+		 questionService.delete(id);
+
+		redirectAttributes.addFlashAttribute("message", String.format("A Questão #%d foi excluída com sucesso.", id));
+	
+		return "redirect:" + request.getHeader("Referer");
 	}
 
 }
