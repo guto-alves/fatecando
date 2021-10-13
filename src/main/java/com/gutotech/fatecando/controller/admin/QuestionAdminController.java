@@ -10,11 +10,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gutotech.fatecando.model.Question;
-import com.gutotech.fatecando.service.SubjectService;
+import com.gutotech.fatecando.model.Topic;
 import com.gutotech.fatecando.service.QuestionService;
+import com.gutotech.fatecando.service.SubjectService;
 import com.gutotech.fatecando.service.TopicService;
 
 @Controller
@@ -31,8 +33,12 @@ public class QuestionAdminController {
 	private SubjectService subjectService;
 
 	@GetMapping
-	public String showAllQuestions(Model model) {
-		model.addAttribute("questions", questionService.findAll());
+	public String showAllQuestions(@RequestParam(name = "topic", required = false) Long topicId, Model model) {
+		if (topicId != null) {
+			model.addAttribute("questions", topicService.findQuestions(new Topic(topicId)));
+		} else {
+			model.addAttribute("questions", questionService.findAll());
+		}
 		return "admin/questions";
 	}
 

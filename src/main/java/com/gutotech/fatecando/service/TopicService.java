@@ -76,6 +76,11 @@ public class TopicService {
 		}, topic.getId());
 	}
 	
+	public List<Question> findQuestions(Topic topic) {
+		return restTemplate.getForObjects(URL + "/{id}/questions", new ParameterizedTypeReference<List<Question>>() {
+		}, topic.getId());
+	}
+	
 	public Map<String, List<Topic>> groupBySubject(List<Topic> topics) {
 		return topics.stream().collect(Collectors.groupingBy(topic -> topic.getSubject().getName()));
 	}

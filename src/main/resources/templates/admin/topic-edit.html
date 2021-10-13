@@ -57,6 +57,10 @@
 						<span class="text-danger" th:if="${#fields.hasErrors('bodyHtml')}" th:errors="*{bodyHtml}">Conteúdo
 							inválido</span>
 					</div>
+					
+					<div class="mb-3 d-flex justify-content-end">
+						<a class="btn btn-outline-primary btn-sm" target="_blank" href="#" th:href="@{/admin/questions(topic=${topic.id})}">Ver questões deste tópico</a>
+					</div>
 
 					<div class="mb-3">
 						<label class="form-label fw-bold" for="status">Disciplina</label>
