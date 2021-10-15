@@ -13,7 +13,7 @@
 		</div>
 		
 		<div class="card mt-3 border border-1">
-			<h4 class="card-header text-center">Gerenciar Questões</h4>
+			<h4 class="card-header text-center">Todas as Questões [[${topic != null} ? 'de ' + ${topic.name} : '']]</h4>
 			<div class="card-body">
 				<table id="table" class="table table-sm cell-border compact order-column table-hover compact stripe">
 					<thead class="thead-dark text-center">
@@ -37,7 +37,7 @@
 							<td class="align-middle fw-bold text-center" th:text="${question.status.displayName}"></td>
 							<td class="align-middle">
 								<div class="d-flex justify-content-center">
-									<form class="me-2" action="#" th:action="@{/admin/questions/{id}/delete(id=${question.id})}" method="post">
+									<form class="me-3" action="#" th:action="@{/admin/questions/{id}/delete(id=${question.id})}" method="post">
 										<button type="submit" class="btn btn-sm btn-outline-danger">
 											<i class="fa fa-trash fa-lg" aria-hidden="true"></i>
 										</button>

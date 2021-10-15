@@ -29,6 +29,8 @@ public class Subject {
 	@Min(1)
 	@Max(12)
 	private int semester;
+	
+	private boolean enabled;
 
 	private long likes;
 
@@ -95,6 +97,14 @@ public class Subject {
 
 	public void setSemester(int semester) {
 		this.semester = semester;
+	}
+	
+	public boolean isEnabled() {
+		return enabled;
+	}
+	
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 
 	public long getLikes() {

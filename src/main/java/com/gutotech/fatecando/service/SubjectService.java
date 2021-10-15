@@ -18,7 +18,7 @@ public class SubjectService {
 	private CustomRestTemplate restTemplate;
 
 	private final String URL;
-	
+
 	public SubjectService(@Value("${fatecando.api.base-url}") String url) {
 		URL = url + "/subjects";
 	}

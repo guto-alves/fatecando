@@ -36,7 +36,9 @@ public class QuestionAdminController {
 	@GetMapping
 	public String showAllQuestions(@RequestParam(name = "topic", required = false) Long topicId, Model model) {
 		if (topicId != null) {
-			model.addAttribute("questions", topicService.findQuestions(new Topic(topicId)));
+			Topic topic = topicService.findById(topicId);
+			model.addAttribute("topic", topic);
+			model.addAttribute("questions", topicService.findQuestions(topic));
 		} else {
 			model.addAttribute("questions", questionService.findAll());
 		}
@@ -66,7 +68,7 @@ public class QuestionAdminController {
 		redirectAttributes.addFlashAttribute("message",
 				String.format("A Questão #%d foi atualizada com sucesso.", question.getId()));
 
-		return "redirect:/admin/questions";
+		return "redirect:/admin/questions?topic=" + question.getTopic().getId();
 	}
 
 	@PostMapping("{id}/delete")

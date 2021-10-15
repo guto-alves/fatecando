@@ -85,6 +85,7 @@
 							<th>Código</th>
 							<th>Nome</th>
 							<th>Semestre</th>
+							<th>Ativa</th>
 						</tr>
 					</thead>
 	
@@ -93,7 +94,8 @@
 							data-bs-target="#subjectsModal">
 							<td id="codeTd" class="align-middle" th:text="${subject.code}"></td>
 							<td id="nameTd" class="align-middle" th:text="${subject.name}"></td>
-							<td id="semesterTd" class="align-middle" th:text="${subject.semester}"></td>
+							<td id="semesterTd" class="align-middle text-center" th:text="${subject.semester}"></td>
+							<td id="enabledTd" class="align-middle text-center" th:text="${subject.enabled ? 'Sim' : 'Não'}"></td>
 						</tr>
 					</tbody>
 				</table>
@@ -120,12 +122,21 @@
 										<input id="updatedCode" type="text" class="form-control" maxlength="20" required>
 									</div>
 									
-									<div class="col-md-6 mb-3">
+									<div class="col-md-4 mb-3">
 										<label class="form-label" for="updatedSemester">Semestre</label>
 	
 										<select class="form-select" id="updatedSemester">
 											<option th:each="i : ${#numbers.sequence(1, 8)}" th:value="${i}" th:text="${i}"></option>
 										</select>
+									</div>
+									<div class="col-md-2 d-flex justify-content-center align-items-center">
+										<div class="form-check align-middle mt-3" style="font-size: 1.2rem;">
+											<input class="form-check-input bg-success" type="checkbox" value="" id="updatedEnabled" 
+												title="Com está opção desmarcada a disciplina não ficará visivél para os alunos.">
+										  	<label class="form-check-label" for="updatedEnabled">
+										    	Ativa? 
+										  	</label>
+										</div>
 									</div>
 								</div>
 	
@@ -165,32 +176,37 @@
 
 			for (let i = 0; i < subjects.length; i++) {
 				let subject = subjects[i];
-
+				
 				if (subject.id == subjectId) {
+					const index = i;
 					$('#modalTitle').html('Disciplina <br><b>' + subject.name + '</b>');
 					$('#updatedName').val(subject.name);
 					$('#updatedCode').val(subject.code);
 					$('#updatedSemester').val(subject.semester);
 					$('#updatedDescription').text(subject.description);
 					$('#updatedObjective').text(subject.objective);
+					$('#updatedEnabled').prop('checked', subject.enabled);
+					
+					$('#deleteSubjectForm').prop('action', '/admin/subjects/' + subject.id + '/delete');
 					
 					$('#updateSubject').off('click');
 					
 					$('#updateSubject').click(() => {
-						let updatedName = $('#updatedName').val();
-						let updatedCode = $('#updatedCode').val();
-						let updatedSemester = $('#updatedSemester').val();
-						let updatedDescription = $('#updatedDescription').val();
-						let updatedObjetive = $('#updatedObjective').val();
-				
+						const updatedName = $('#updatedName').val();
+						const updatedCode = $('#updatedCode').val();
+						const updatedSemester = $('#updatedSemester').val();
+						const updatedDescription = $('#updatedDescription').val();
+						const updatedObjetive = $('#updatedObjective').val();
+						const updatedEnabled = $('#updatedEnabled').prop('checked');
 						
-						let updatedSubject = {
+						const updatedSubject = {
 							id: subject.id,
 						    name: updatedName,
 						    code: updatedCode,
 						    semester: updatedSemester,
 						    description: updatedDescription,
-						    objective: updatedObjetive
+						    objective: updatedObjetive,
+						    enabled: updatedEnabled
 						};
 						
 						$.ajax({
@@ -206,8 +222,9 @@
 						    $(rowSelector).find('#codeTd').first().text(updatedCode);
 						    $(rowSelector).find('#nameTd').first().text(updatedName);
 						    $(rowSelector).find('#semesterTd').first().text(updatedSemester);
+						    $(rowSelector).find('#enabledTd').first().text(updatedEnabled ? "Sim" : "Não");
 						    
-						    subject = updatedSubject;
+						    subjects[index] = updatedSubject;
 						}).fail(function (jqXHR, textStatus ) {
 						    console.log("Erro ao atualizar a disciplina. Status: " + textStatus);
 						}).always(function() {
