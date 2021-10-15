@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+
+<html xmlns:th="www.thymeleaf.org" th:replace="~{fragments/layout :: base('Ação inválida', ~{::body}, _, _, _)}">
+
+  <body>
+  	<div class="container p-2">
+	    <img th:src="@{/images/icon.png}"/>
+	    <h2>Ação inválida...</h2>
+	    <p th:text="${message}">Exception message</p>
+  	</div>
+  </body>
+
+</html>
