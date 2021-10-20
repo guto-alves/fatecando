@@ -6,9 +6,16 @@
 
 <footer class="mt-auto text-center py-3 mx-2" th:fragment="footer">
 	<hr>
-	<a class="text-decoration-none" th:href="@{/}">
-		<img th:src="@{/images/icon.png}" width="45" height="32">
-	</a>
-	<small class="text-muted">© 2021 Fatecando, Inc.</small>
+	<div class="d-flex justify-content-center">
+		<div class="me-5">
+			<a class="text-decoration-none" th:href="@{/}">
+				<img th:src="@{/images/icon.png}" width="45" height="32">
+			</a>
+			<small class="text-muted">© 2021 Fatecando, Inc.</small>
+		</div>
+		<div>
+			<iframe src="https://ghbtns.com/github-btn.html?user=guto-alves&repo=fatecando-web&type=star&count=true&size=large" frameborder="0" scrolling="0" width="170" height="30" title="GitHub"></iframe>
+		</div>
+	</div>
 </footer>
 </html>
