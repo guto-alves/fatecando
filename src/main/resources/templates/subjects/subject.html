@@ -37,11 +37,11 @@
 
 				<div class="col-10 offset-1">
 					<div class="mb-3">
-						<h5 class="d-inline">Ementa:</h5>
+						<h6 class="d-inline">Ementa:</h6>
 						<span th:text="${subject.description}"></span>
 					</div>
 
-					<h5 class="d-inline">Objetivo:</h5>
+					<h6 class="d-inline">Objetivo:</h6>
 					<span th:text="${subject.objective}"></span>
 
 					<div class="d-flex justify-content-end mt-3">
@@ -83,15 +83,16 @@
 					<button class="accordion-button collapsed bg-danger text-white fw-bold" type="button"
 						data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false"
 						aria-controls="collapseTwo" style="height: 50px">
-						<h6>Deseja compartilhar seu conhecimento? Crie um novo tópico!</h6>
+						<h6>Deseja compartilhar seu conhecimento? Crie um novo Tópico!</h6>
 					</button>
 				</h6>
 				<div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
 					data-bs-parent="#newTopicContainer">
 					<div class="accordion-body">
 						<div class="p-1">
-							<h4 class="card-title text-center" th:utext="'Sentiu falta de algum tópico interessante de ' + ${#strings.arraySplit(subject.name, ' ')[0]}  + '? <br> Manda pra gente!'">
-							</h4>
+							<h5 class="card-title text-center" 
+								th:utext="'Sentiu falta de algum tópico interessante de ' + ${#strings.arraySplit(subject.name, ' ')[0]}  + '? <br> Manda pra gente!'">
+							</h5>
 
 							<div class="alert alert-danger alert-dismissible fade show m-3" role="alert" th:if="${error}">
 								<span class="text-center">Houve um erro ao enviar o conteúdo. Verifique os dados e tente

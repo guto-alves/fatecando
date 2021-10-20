@@ -5,8 +5,8 @@
 </head>
 <body>
 	<div class="container mt-4">
-		<div class="card">
-			<h4 class="card-header fw-bold text-center">Recompensas</h4>
+		<div class="card" style="border-top-left-radius: 25px; border-top-right-radius: 25px;">
+			<h4 class="card-header rounded-pill fw-bold text-center bg-dark text-white">Recompensas</h4>
 			<div class="card-body">
 				<table class="table table-sm table-bordered table-stripped text-center">
 					<thead>
@@ -27,6 +27,7 @@
 						</tr>
 					</tbody>
 				</table>
+				<div class="text-center" th:if="${#lists.isEmpty(rewards)}">Você ainda não recebeu nenhuma recompensa.</div>
 			</div>
 		</div>
 	</div>

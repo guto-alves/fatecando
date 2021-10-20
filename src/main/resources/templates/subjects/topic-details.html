@@ -86,7 +86,7 @@
 						class="accordion-button collapsed bg-danger text-white fw-bold" type="button"
 						data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false"
 						aria-controls="collapseTwo" style="height: 50px">
-						<h6>Deseja compartilhar seu conhecimento? Crie uma nova questão!</h6>
+						<h6>Deseja compartilhar seu conhecimento? Crie uma nova Questão!</h6>
 					</button>
 				</h6>
 				<div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
@@ -117,15 +117,15 @@
 												th:text="${itemStat.count} + '.'">1.</span>
 												
 											<div class="alternative-container">
-												<input type="hidden" class="alternativeInput"
+												<input type="hidden" class="alternative-input"
 													th:field="*{alternatives[__${itemStat.index}__].description}" required>
-												<div class="alternativeEditor"></div>											
+												<div class="alternative-editor"></div>											
 											</div>
 											
 											<div class="feedback-container">
-												<input type="hidden" class="feedbackInput"
+												<input type="hidden" class="feedback-input"
 													th:field="*{alternatives[__${itemStat.index}__].feedback.description}" required>
-												<div class="feedbackEditor"></div>
+												<div class="feedback-editor"></div>
 											</div>
 											
 											<div class="d-flex justify-content-end align-items-center">
@@ -145,7 +145,7 @@
 									<hr>
 
 									<div class="d-flex justify-content-end">
-										<button type="button" id="addAlternative" class="btn btn-secondary">
+										<button type="button" id="addAlternative" class="btn btn-secondary btn-sm">
 											Adicionar Alternativa <i class="fa fa-plus" aria-hidden="true"></i>
 										</button>
 									</div>
