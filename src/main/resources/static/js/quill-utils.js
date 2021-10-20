@@ -44,7 +44,6 @@ const EditorOptions = {
 		modules: {
 			syntax: true,
 			toolbar: [
-				[{ 'size': ['small', false, 'large', 'huge'] }], // custom dropdown
 				['bold', 'italic', 'underline', 'strike'], // toggled buttons
 				[{ 'header': 1 }, { 'header': 2 }], // custom button values
 				[{ 'header': [1, 2, 3, false] }],

@@ -61,7 +61,7 @@ public class UserService {
 	public User register(User user) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setBasicAuth("fatecando", "123");
-		
+
 		RestTemplate restTemplate = new RestTemplate();
 		return restTemplate.postForObject(URL, new HttpEntity<>(user, headers), User.class);
 	}
@@ -70,33 +70,32 @@ public class UserService {
 		return restTemplate //
 				.postForObject(URL + "/login?email={email}&password={password}", null, User.class, email, password);
 	}
-	
-	public String authenticate(String email, String password) { 
+
+	public String authenticate(String email, String password) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 		headers.setBasicAuth("fatecando", "fatecando");
-		
-		MultiValueMap<String, String> map= new LinkedMultiValueMap<String, String>();
+
+		MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
 		map.add("username", email);
 		map.add("password", password);
 		map.add("grant_type", "password");
-		
+
 		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
-		
-		OAuth2AccessToken result = 
-				new RestTemplate().postForObject(URL.split("/api")[0] + "/oauth/token", request, OAuth2AccessToken.class);
-		
+
+		OAuth2AccessToken result = new RestTemplate().postForObject(URL.split("/api")[0] + "/oauth/token", request,
+				OAuth2AccessToken.class);
+
 		return result.getAccess_token();
 	}
-	
+
 	public List<Role> getUserRoles(String token) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setBearerAuth(token);
-		
-		return new RestTemplate()
-				.exchange(URL+ "/me/roles", HttpMethod.GET, new HttpEntity<>(null, headers), 
-						new ParameterizedTypeReference<List<Role>>() {})
-				.getBody();
+
+		return new RestTemplate().exchange(URL + "/me/roles", HttpMethod.GET, new HttpEntity<>(null, headers),
+				new ParameterizedTypeReference<List<Role>>() {
+				}).getBody();
 	}
 
 	public User findCurrentUser() {
@@ -111,12 +110,12 @@ public class UserService {
 		return restTemplate.getForObjects(URL + "/me/subjects", new ParameterizedTypeReference<List<Subject>>() {
 		});
 	}
-	
+
 	public List<Topic> findMyTopics() {
 		return restTemplate.getForObjects(URL + "/me/topics", new ParameterizedTypeReference<List<Topic>>() {
 		});
 	}
-	
+
 	public List<Question> findMyQuestions() {
 		return restTemplate.getForObjects(URL + "/me/questions", new ParameterizedTypeReference<List<Question>>() {
 		});
@@ -137,7 +136,7 @@ public class UserService {
 		return restTemplate.getForObjects(URL + "/me/topics/annotated", new ParameterizedTypeReference<List<Topic>>() {
 		});
 	}
-	
+
 	public List<Reward> findMyRewards() {
 		return restTemplate.getForObjects(URL + "/me/rewards", new ParameterizedTypeReference<List<Reward>>() {
 		});
@@ -145,18 +144,18 @@ public class UserService {
 
 	public boolean hasRoles(String... roles) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		
-		return roles != null && auth != null && 
-				auth.getAuthorities().stream().anyMatch(a -> Arrays.asList(roles).contains(a.getAuthority()));
+
+		return roles != null && auth != null
+				&& auth.getAuthorities().stream().anyMatch(a -> Arrays.asList(roles).contains(a.getAuthority()));
 	}
-	
+
 	public boolean isLoggedIn() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		
+
 		if (auth != null && auth.isAuthenticated() && !(auth instanceof AnonymousAuthenticationToken)) {
 			return true;
 		}
-		
+
 		return false;
 	}
 }

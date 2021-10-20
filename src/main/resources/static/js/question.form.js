@@ -1,23 +1,30 @@
-$('.alternativeEditor').each(function() {
-	new Quill($(this).get(0), EditorOptions.QUESTION_ALTERNATIVE);
-});
-
-$('.feedbackEditor').each(function() {
-	new Quill($(this).get(0), EditorOptions.QUESTION_ALTERNATIVE_FEEDBACK);
-});
-
 const newQuestionEditor = new Quill('#newQuestionEditor', EditorOptions.QUESTION);
 
-$('#newQuestionForm').submit(function() {
-	$('#description').val(newQuestionEditor.root.innerHTML);		
+$('.alternative-container').each(function() {
+	const content = $(this).find('.alternative-input:first').val();
+	const alternativeEditorDiv = $(this).find('.alternative-editor:first');
+	alternativeEditorDiv.html(content);
+	new Quill($(alternativeEditorDiv).get(0), EditorOptions.QUESTION_ALTERNATIVE);
+});
 
-	$('.alternativeEditor').each(function () {
+$('.feedback-container').each(function() {
+	const content = $(this).find('.feedback-input:first').val();
+	const feedbackEditorDiv = $(this).find('.feedback-editor:first');
+	feedbackEditorDiv.html(content);
+	new Quill($(feedbackEditorDiv).get(0), EditorOptions.QUESTION_ALTERNATIVE_FEEDBACK);
+});
+
+$('#newQuestionForm').submit(function() {
+	$('#description').val(newQuestionEditor.root.innerHTML);
+
+	$('.alternative-editor').each(function() {
 		const content = $(this).find('.ql-editor').prop('innerHTML');
-		$(this).closest('.new-alternative').find('.alternativeInput').first().val(content);
+		console.log(content);
+		$(this).closest('.new-alternative').find('.alternative-input').first().val(content);
 	});
-	$('.feedbackEditor').each(function () {
+	$('.feedback-editor').each(function() {
 		const content = $(this).find('.ql-editor').prop('innerHTML');
-		$(this).closest('.new-alternative').find('.feedbackInput').first().val(content);
+		$(this).closest('.new-alternative').find('.feedback-input').first().val(content);
 	});
 });
 
@@ -31,11 +38,11 @@ $('#addAlternative').click(function() {
 	if (totalAlternatives >= 6) {
 		return false;
 	}
-	
+
 	const newAlternative = $('.new-alternative').first().clone();
 	newAlternative.find('.ql-editor,.ql-toolbar').remove();
-	new Quill(newAlternative.find('.alternativeEditor').get(0), EditorOptions.QUESTION_ALTERNATIVE);
-	new Quill(newAlternative.find('.feedbackEditor').get(0), EditorOptions.QUESTION_ALTERNATIVE_FEEDBACK);
+	new Quill(newAlternative.find('.alternative-editor').get(0), EditorOptions.QUESTION_ALTERNATIVE);
+	new Quill(newAlternative.find('.feedback-editor').get(0), EditorOptions.QUESTION_ALTERNATIVE_FEEDBACK);
 	newAlternative.find('.is-correct-alternative').prop('checked', false);
 	$('#alternatives').append(newAlternative);
 	updateAlternatives();
@@ -84,12 +91,12 @@ function updateAlternatives() {
 		const self = $(this);
 
 		self.find('.alternative-number').first().text((alternativeCount + 1) + '.');
-		
-		self.find('.alternativeInput').first()
-			.prop('id', `alternatives${alternativeCount}.description`)
-			.prop('name', `alternatives[${alternativeCount}].description`);;
 
-		self.find('.feedbackInput').first()
+		self.find('.alternative-input').first()
+			.prop('id', `alternatives${alternativeCount}.description`)
+			.prop('name', `alternatives[${alternativeCount}].description`);
+
+		self.find('.feedback-input').first()
 			.prop('id', `alternatives${alternativeCount}.feedback.description`)
 			.prop('name', `alternatives[${alternativeCount}].feedback.description`);
 
@@ -97,7 +104,7 @@ function updateAlternatives() {
 			.prop('id', `alternatives${alternativeCount}.feedback.correct1`)
 			.prop('name', `alternatives[${alternativeCount}].feedback.correct`);
 
-		self.find('input[type="hidden"]').first().prop('name', `_alternatives[${alternativeCount}].feedback.correct`);
+		self.find('.form-check input[type="hidden"]').first().prop('name', `_alternatives[${alternativeCount}].feedback.correct`);
 
 		alternativeCount++;
 	});

@@ -22,7 +22,7 @@
 						<tr>
 							<th>ID</th>
 							<th>Pergunta</th>
-							<th>Tipo</th>
+							<th>Tipos</th>
 							<th>Tópico</th>
 							<th>Data de Envio</th>
 							<th>Status</th>
@@ -35,7 +35,7 @@
 							<td>
 								<p class="content truncate" th:text="${question.description}"></p>
 							</td>
-							<td class="text-center" th:text="${question.type.displayName}"></td>
+							<td class="text-center" th:text="${#strings.listJoin(question.types, ', ')}"></td>
 							<td th:text="${question.topic != null? question.topic.name : ''}"></td>
 							<td class="text-center" th:text="${#dates.format(question.creationDate, 'dd/MM/yyyy')}"></td>
 							<td class="text-center" th:text="${question.status.displayName}"></td>

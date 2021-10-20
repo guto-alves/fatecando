@@ -14,7 +14,8 @@ public class Question {
 	@NotBlank(message = "Por favor forneça uma pergunta válida.")
 	private String description;
 
-	private QuestionType type;
+	@Size(min = 1, message = "A questão precisa ser de pelo menos um dos tipos (QUIZ, TEST OU GAME).")
+	private List<QuestionType> types = new ArrayList<>();
 
 	private UploadStatus status;
 
@@ -30,15 +31,6 @@ public class Question {
 	private Date updateDate;
 
 	public Question() {
-	}
-
-	public Question(String description, QuestionType type, UploadStatus status, List<Alternative> alternatives,
-			Topic topic, User user) {
-		this.description = description;
-		this.type = type;
-		this.status = status;
-		this.topic = topic;
-		this.user = user;
 	}
 
 	public Long getId() {
@@ -57,12 +49,12 @@ public class Question {
 		this.description = description;
 	}
 
-	public QuestionType getType() {
-		return type;
+	public List<QuestionType> getTypes() {
+		return types;
 	}
 
-	public void setType(QuestionType type) {
-		this.type = type;
+	public void setTypes(List<QuestionType> types) {
+		this.types = types;
 	}
 
 	public UploadStatus getStatus() {

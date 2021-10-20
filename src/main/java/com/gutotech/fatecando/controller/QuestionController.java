@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gutotech.fatecando.model.Feedback;
 import com.gutotech.fatecando.model.Question;
+import com.gutotech.fatecando.model.QuestionType;
 import com.gutotech.fatecando.service.QuestionService;
 import com.gutotech.fatecando.service.SubjectService;
 import com.gutotech.fatecando.service.TopicService;
@@ -35,7 +36,7 @@ public class QuestionController {
 
 	@Autowired
 	private UserService userService;
-	
+
 	@GetMapping
 	public String showMyQuestions(Model model) {
 		model.addAttribute("questions", userService.findMyQuestions());
@@ -45,6 +46,7 @@ public class QuestionController {
 	@GetMapping("{id}")
 	public String initUpdateForm(@PathVariable Long id, Model model) {
 		model.addAttribute("question", questionService.findById(id));
+		model.addAttribute("questionTypes", QuestionType.getAllTypes());
 		model.addAttribute("topics", topicService.findApproved());
 		model.addAttribute("subjects", subjectService.findAllWithTopics());
 		return "users/question-edit";
@@ -54,7 +56,9 @@ public class QuestionController {
 	public String processUpdateForm(@Valid Question question, BindingResult bindingResult,
 			RedirectAttributes redirectAttributes, Model model) {
 		if (bindingResult.hasErrors()) {
-			model.addAttribute(question);
+			question.setTopic(topicService.findById(question.getTopic().getId()));
+			model.addAttribute("question", question);
+			model.addAttribute("questionTypes", QuestionType.getAllTypes());
 			model.addAttribute("topics", topicService.findApproved());
 			model.addAttribute("subjects", subjectService.findAllWithTopics());
 			return "users/question-edit";

@@ -29,19 +29,19 @@
 
 		<div class="card mt-3">
 			<div class="card-body">
-				<h3 class="card-title text-center fw-bold" th:text="'Questão - #' + ${question.id}">Pergunta #146</h3>
+				<h4 class="card-title text-center fw-bold" th:text="'Questão - #' + ${question.id}">Pergunta #146</h4>
 
-				<form id="question-form" action="#" method="post" th:action="@{/admin/questions/{id}(id=${question.id})}"
+				<form id="newQuestionForm" action="#" method="post" th:action="@{/admin/questions/{id}(id=${question.id})}"
 					th:object="${question}">
 					<div class="mb-3">
 						<label for="description" class="h5 form-label fw-bolder">Pergunta</label>
 
-						<div id="question-editor" th:utext="${question.description}"></div>
+						<div id="newQuestionEditor" th:utext="${question.description}"></div>
 						<input type="hidden" id="description" th:field="*{description}">
 					</div>
 
-					<div id="alternativesContainer" class="mb-3 p-3 border border-1 border-secondary rounded">
-						<label class="h5 form-label fw-bolder ms-5">Alternativas</label>
+					<div id="alternativesContainer" class="mb-3">
+						<label class="h5 form-label fw-bolder ms-3">Alternativas</label>
 
 						<div id="alternatives">
 							<div class="new-alternative mb-3 "
@@ -50,15 +50,15 @@
 									th:text="${itemStat.count} + '.'">1.</span>
 									
 								<div class="alternative-container">
-									<input type="hidden" class="alternativeInput"
+									<input type="hidden" class="alternative-input"
 										th:field="*{alternatives[__${itemStat.index}__].description}" required>
-									<div class="alternativeEditor"></div>
+									<div class="alternative-editor"></div>
 								</div>
 								
 								<div class="feedback-container">
-									<input type="hidden" class="feedbackInput"
+									<input type="hidden" class="feedback-input"
 										th:field="*{alternatives[__${itemStat.index}__].feedback.description}" required>
-									<div class="feedbackEditor"></div>
+									<div class="feedback-editor"></div>
 								</div>
 								
 								<div class="d-flex justify-content-end align-items-center">
@@ -77,13 +77,12 @@
 
 						<hr>
 
-						<div class="d-grid gap-2 col-6 mx-auto">
-							<button type="button" id="addAlternative" class="btn btn-secondary">
+						<div class="d-flex justify-content-end">
+							<button type="button" id="addAlternative" class="btn btn-secondary btn-sm">
 								Adicionar alternativa <i class="fa fa-plus" aria-hidden="true"></i>
 							</button>
 						</div>
 					</div>
-
 
 					<div class="row mb-3">
 						<div class="col-md-6">
@@ -108,9 +107,8 @@
 
 					<div class="mb-3">
 						<label for="type" class="h5 form-label fw-bold">Tipo de Questão (Dificuldade)</label>
-						<select class="form-select" aria-describedby="typeHelp" id="type" th:field="*{type}">
-							<option th:each="type : ${T(com.gutotech.fatecando.model.QuestionType).values()}" th:value="${type}"
-								th:text="${type.displayName}"></option>
+						<select class="form-select select2" aria-describedby="typeHelp" th:field="*{types}" multiple>
+							<option th:each="type : ${questionTypes}" th:value="${type.name}" th:text="${type.name}"></option>
 						</select>
 						<div id="typeHelp" class="form-text">
 							O tipo da questão está relacionado com a dificuldade dela.
@@ -139,14 +137,15 @@
 									<div class="card-body">
 										<h6 class="card-title fw-bold">Pergunta enviado por</h6>
 										<hr>
+										<input type="hidden" th:field="*{user.id}">
 										<span class="fw-bold">ID:</span>
-										<span th:text="${question.user.id}"></span>
+										<span th:text="${question?.user?.id}"></span>
 										<br>
 										<span class="fw-bold">Nome:</span>
-										<span th:text="${question.user.fullName}"></span>
+										<span th:text="${question?.user?.fullName}"></span>
 										<br>
 										<span class="fw-bold">Email:</span>
-										<span th:text="${question.user.email}"></span>
+										<span th:text="${question?.user?.email}"></span>
 										<br>
 									</div>
 								</div>
@@ -156,7 +155,7 @@
 									<div class="card-body">
 										<h6 class="card-title fw-bold">Informações Extras</h6>
 										<hr>
-										<span class="fw-bold">Data do envio:</span>
+										<span class="fw-bold">Data de envio:</span>
 										<span th:text="${#dates.format(question.creationDate, 'dd/MM/yyy HH:mm:ss')}"></span>
 										<br>
 										<span class="fw-bold">Data de atualização:</span>
@@ -181,26 +180,14 @@
 
 	<script type="text/javascript" th:inline="javascript">
 		(function () {
-			const questionEditor = new Quill('#question-editor', EditorOptions.QUESTION);
-			
-			$('.alternative-container').each(function() {
-				const content = $(this).find('.alternativeInput:first').val();
-				$(this).find('.alternativeEditor').html(content);
+			$('.select2').select2({
+				closeOnSelect: false
 			});
 			
-			$('.feedback-container').each(function() {
-				const content = $(this).find('.feedbackInput:first').val();
-				$(this).find('.feedbackEditor').html(content);
-			});
-			
-			$('form').submit(function(event) {
-				$('#description').val(questionEditor.root.innerHTML);
-			});
-			
-			let topics = /*[[${topics}]]*/[];
+			const topics = /*[[${topics}]]*/[];
 
 			$('#subject-select').change(function() {
-				let selectedSubjectId = parseInt($(this).val());
+				const selectedSubjectId = parseInt($(this).val());
 
 				let topicSelect = $('select[id*="topic"]').first();
 

@@ -1,10 +1,12 @@
 package com.gutotech.fatecando.controller;
 
 import java.util.Arrays;
+import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +24,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.gutotech.fatecando.model.Alternative;
 import com.gutotech.fatecando.model.Feedback;
 import com.gutotech.fatecando.model.Question;
+import com.gutotech.fatecando.model.QuestionType;
 import com.gutotech.fatecando.model.Review;
 import com.gutotech.fatecando.model.Topic;
 import com.gutotech.fatecando.service.QuestionService;
@@ -43,8 +46,25 @@ public class TopicController {
 	}
 
 	@InitBinder("topic")
-	public void initSubjectBinder(WebDataBinder dataBinder) {
+	public void initTopicBinder(WebDataBinder dataBinder) {
 		dataBinder.setDisallowedFields("id");
+	}
+	
+	@InitBinder
+	public void initBinder(WebDataBinder binder) throws Exception {
+		CustomCollectionEditor topicsEditor = new CustomCollectionEditor(List.class) {
+			@Override
+			protected Object convertElement(Object element) {
+				if (element instanceof String) {
+					String name = (String) element;
+					QuestionType type = new QuestionType(name);
+					return type;
+				}
+				throw new RuntimeException("Invalid element");
+			}
+		};
+
+		binder.registerCustomEditor(List.class, "questionTypes", topicsEditor);
 	}
 
 	@GetMapping
@@ -54,6 +74,7 @@ public class TopicController {
 				new Alternative(null, new Feedback(true)), //
 				new Alternative(null, new Feedback())));
 
+		model.addAttribute("questionTypes", QuestionType.getAllTypes());
 		model.addAttribute("question", question);
 		model.addAttribute("questions", topicService.getQuiz(topic));
 		return "subjects/topic-details";
@@ -64,6 +85,7 @@ public class TopicController {
 			RedirectAttributes redirectAttributes, Model model) {
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("question", question);
+			model.addAttribute("questionTypes", QuestionType.getAllTypes());
 			model.addAttribute("questions", topicService.getQuiz(topic));
 			model.addAttribute("error", true);
 			return "subjects/topic-details";

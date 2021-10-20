@@ -154,11 +154,10 @@
 								<div class="mb-3">
 									<label for="type" class="h5 form-label fw-bold">Tipo de Questão
 										(Dificuldade)</label>
-									<select class="form-select" aria-describedby="typeHelp" id="type"
-										th:field="*{type}">
-										<option
-											th:each="type : ${T(com.gutotech.fatecando.model.QuestionType).values()}"
-											th:value="${type}" th:text="${type.displayName}"></option>
+									<select class="form-select select2" aria-describedby="typeHelp"
+										name="types" id="types" multiple style="width: 100%;">
+										<option th:each="type : ${questionTypes}"
+											th:value="${type.name}" th:text="${type.name}"></option>
 									</select>
 									<div id="typeHelp" class="form-text">
 										O tipo da questão está relacionado com a dificuldade dela. <br> Por exemplo,
@@ -334,6 +333,10 @@
 	<script th:src="@{/js/rating.js}"></script>
 
 	<script type="text/javascript" th:inline="javascript">
+		$('.select2').select2({
+			closeOnSelect: false
+		});
+		
 		$('#review-stars-container').rating({
 			value: /*[[${topic.user.review?.stars ?: 0}]]*/0,
 			click: function (event) {

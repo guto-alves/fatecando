@@ -31,7 +31,7 @@
 						<tr th:each="question : ${questions}" th:data-id="${question.id}">
 							<td class="align-middle fw-bold text-center" th:text="${question.id}"></td>
 							<td class="align-middle"><p class="content truncate" th:text="${question.description}"></p></td>
-							<td class="align-middle text-center" th:text="${question.type.displayName}"></td>
+							<td class="align-middle text-center" th:text="${#strings.listJoin(question.types, ', ')}"></td>
 							<td class="align-middle" th:text="${question.topic != null? question.topic.name : ''}"></td>
 							<td class="align-middle text-center" th:text="${#dates.format(question.creationDate, 'dd/MM/yyyy')}"></td>
 							<td class="align-middle fw-bold text-center" th:text="${question.status.displayName}"></td>

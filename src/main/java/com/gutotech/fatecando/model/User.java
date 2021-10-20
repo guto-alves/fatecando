@@ -9,6 +9,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.util.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -62,7 +63,7 @@ public class User {
 	}
 
 	public void setFullName(String fullName) {
-		this.fullName = fullName.trim();
+		this.fullName = StringUtils.trimWhitespace(fullName);
 	}
 
 	public String getEmail() {
