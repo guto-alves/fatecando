@@ -110,6 +110,11 @@ public class UserService {
 		return restTemplate.getForObjects(URL + "/me/subjects", new ParameterizedTypeReference<List<Subject>>() {
 		});
 	}
+	
+	public List<Subject> findMySubjects(User user) {
+		return restTemplate.getForObjects(URL + "/{id}/subjects", new ParameterizedTypeReference<List<Subject>>() {
+		}, user.getId());
+	}
 
 	public List<Topic> findMyTopics() {
 		return restTemplate.getForObjects(URL + "/me/topics", new ParameterizedTypeReference<List<Topic>>() {

@@ -23,6 +23,7 @@
 							<th>Nome</th>
 							<th>E-mail</th>
 							<th>Sexo</th>
+							<th>Professor</th>
 							<th>Data de criação</th>
 							<th>Último login</th>
 						</tr>
@@ -30,9 +31,10 @@
 					<tbody>
 						<tr class="text-center align-middle" th:each="user : ${users}" th:data-id="${user.id}">
 							<td th:text="${user.id}"></td>
-							<td th:text="${user.fullName}"></td>
+							<td><a class="link-dark" href="#" th:href="@{/admin/users/{id}(id=${user.id})}" th:text="${user.fullName}"></a></td>
 							<td th:text="${user.email}"></td>
 							<td th:text="${user.gender?.displayName}"></td>
+							<td th:text="${user.authorizedTeacher ? 'Sim' : user.teacher ? 'Solicitação' : 'Não' }"></td>
 							<td th:text="${#dates.format(user.creationDate, 'dd/MM/yyyy HH:mm')}"></td>
 							<td th:text="${#dates.format(user.lastLogin, 'dd/MM/yyyy HH:mm')}"></td>
 						</tr>

@@ -45,6 +45,8 @@ public class User {
 	
 	private boolean teacher;
 	
+	private boolean authorizedTeacher;
+	
 	private List<Subject> subjects = new ArrayList<>();
 
 	public User() {
@@ -116,6 +118,14 @@ public class User {
 	
 	public void setTeacher(boolean isTeacher) {
 		this.teacher = isTeacher;
+	}
+	
+	public boolean isAuthorizedTeacher() {
+		return authorizedTeacher;
+	}
+	
+	public void setAuthorizedTeacher(boolean authorizedTeacher) {
+		this.authorizedTeacher = authorizedTeacher;
 	}
 
 	public UserActivity getUserActivity() {

@@ -82,6 +82,8 @@ public class UserController {
 			RedirectAttributes redirectAttributes, Model model) {
 		if (bindingResult.hasErrors()) {
 			model.addAttribute(user);
+			model.addAttribute("mySubjects", userService.findMySubjects());
+			model.addAttribute("allSubjects", subjectService.findAll());
 			return "users/edit-profile";
 		}
 
