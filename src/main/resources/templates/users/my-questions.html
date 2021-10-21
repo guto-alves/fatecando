@@ -13,11 +13,9 @@
 		</div>
 
 		<div class="card mt-3">
+			<h4 class="card-header text-center bg-white fw-bolder">Minhas Questões</h4>
 			<div class="card-body">
-				<h3 class="card-title text-center fw-bolder">Minhas Questões</h3>
-				<hr>
-
-				<table id="table" class="table table-sm cell-border compact order-column table-hover compact stripe">
+				<table id="table" class="table table-sm cell-border compact order-column table-hover compact">
 					<thead class="thead-dark text-center">
 						<tr>
 							<th>ID</th>
@@ -36,11 +34,19 @@
 								<p class="content truncate" th:text="${question.description}"></p>
 							</td>
 							<td class="text-center" th:text="${#strings.listJoin(question.types, ', ')}"></td>
-							<td th:text="${question.topic != null? question.topic.name : ''}"></td>
+							<td>
+								<a class="text-decoration-none text-dark" href="#"
+									th:if="${question.topic != null}"
+									th:href="@{/topic/{id}(id=${question.topic.id})}" th:text="${question.topic.name}">Nome
+								</a>
+							</td>
 							<td class="text-center" th:text="${#dates.format(question.creationDate, 'dd/MM/yyyy')}"></td>
 							<td class="text-center" th:text="${question.status.displayName}"></td>
-							<td class="text-center"><a class="btn btn-outline-dark btn-sm" href="#"
-									th:href="@{/questions/{id}(id=${question.id})}">Ver mais</a></td>
+							<td class="text-center">
+								<a class="btn btn-outline-dark btn-sm" href="#" th:href="@{/questions/{id}(id=${question.id})}">
+									<i class="bi bi-search"></i>
+								</a>
+							</td>
 						</tr>
 					</tbody>
 				</table>

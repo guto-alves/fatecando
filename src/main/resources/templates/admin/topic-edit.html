@@ -59,7 +59,10 @@
 					</div>
 					
 					<div class="mb-3 d-flex justify-content-end">
-						<a class="btn btn-outline-primary btn-sm" target="_blank" href="#" th:href="@{/admin/questions(topic=${topic.id})}">Ver questões deste tópico</a>
+						<a class="btn btn-outline-primary btn-sm" target="_blank" href="#" 
+							th:href="@{/admin/questions(topic=${topic.id})}">
+							Ver questões deste tópico <i class="bi bi-caret-right-fill"></i>
+						</a>
 					</div>
 
 					<div class="mb-3">

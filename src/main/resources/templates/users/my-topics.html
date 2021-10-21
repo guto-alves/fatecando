@@ -13,11 +13,9 @@
 		</div>
 
 		<div class="card mt-3">
+			<h4 class="card-header text-center bg-white fw-bolder">Meus Tópicos</h4>
 			<div class="card-body">
-				<h3 class="card-title text-center fw-bolder">Meus Tópicos</h3>
-				<hr>
-
-				<table id="table" class="table table-hover cell-border compact order-column">
+				<table id="table" class="table table-sm table-hover cell-border compact order-column">
 					<thead class="thead-dark text-center">
 						<tr>
 							<th>ID</th>
@@ -34,7 +32,7 @@
 							<td class="text-center" th:text="${topic.id}"></td>
 							<td class="fw-bold">
 								<a class="text-decoration-none text-dark" href="#"
-									th:href="@{/users/topic/{id}(id=${topic.id})}" th:text="${topic.name}">Nome
+									th:href="@{/topic/{id}(id=${topic.id})}" th:text="${topic.name}">Nome
 								</a>
 							</td>
 							<td class="text-center">
@@ -45,8 +43,12 @@
 							<td class="text-center" th:text="${topic.required} ? 'Sim' : 'Não'"></td>
 							<td class="text-center" th:text="${#dates.format(topic.creationDate, 'dd/MM/yyyy')}"></td>
 							<td class="text-center fw-bold" th:text="${topic.status.displayName}"></td>
-							<td class="text-center"><a class="btn btn-outline-dark button-sm" href="#"
-									th:href="@{/users/topic/{id}(id=${topic.id})}">Ver mais</a></td>
+							<td class="text-center">
+								<a class="btn btn-outline-dark btn-sm" href="#"
+									th:href="@{/users/topic/{id}(id=${topic.id})}">
+									<i class="bi bi-search"></i>
+								</a>
+							</td>
 						</tr>
 					</tbody>
 				</table>
