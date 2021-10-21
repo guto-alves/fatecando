@@ -25,9 +25,9 @@
 							th:errors="*{fullName}">Mensagem de erro</div>
 					</div>
 
-					<div class="mb-3">
+					<div class="mb-3 d-none">
 						<label for="email" class="form-label">Email</label>
-						<input type="text" id="email" class="form-control" th:field="*{email}" disabled>
+						<input type="hidden" id="email" class="form-control" th:field="*{email}" disabled>
 					</div>
 
 					<div class="row mb-4">

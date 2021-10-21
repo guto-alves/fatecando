@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.gutotech.fatecando.model.PasswordForm;
 import com.gutotech.fatecando.model.Subject;
 import com.gutotech.fatecando.model.Topic;
 import com.gutotech.fatecando.model.User;
@@ -37,10 +38,10 @@ public class UserController {
 
 	@Autowired
 	private TopicService topicService;
-	
+
 	@Autowired
 	private SubjectService subjectService;
-	
+
 	@InitBinder
 	public void initBinder(WebDataBinder binder) throws Exception {
 		CustomCollectionEditor topicsEditor = new CustomCollectionEditor(List.class) {
@@ -63,7 +64,7 @@ public class UserController {
 	public User getUser() {
 		return userService.findCurrentUser();
 	}
-	
+
 	@GetMapping("{id}")
 	public String showUserProfilePage(@PathVariable Long id, Model model) {
 		model.addAttribute("user", userService.findById(id));
@@ -89,9 +90,29 @@ public class UserController {
 
 		userService.update(user);
 
-		redirectAttributes.addFlashAttribute("message", "Perfil atualizado com sucesso");
+		redirectAttributes.addFlashAttribute("message", "Perfil atualizado com sucesso.");
 
 		return "redirect:/users/edit-profile";
+	}
+
+	@GetMapping("account")
+	public String showPasswordUpdatePage(Model model) {
+		model.addAttribute("form", new PasswordForm());
+		return "users/account";
+	}
+
+	@PostMapping("account")
+	public String proccessPasswordUpdate(@Valid PasswordForm passwordForm, BindingResult bindingResult,
+			RedirectAttributes redirectAttributes, Model model) {
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("form", passwordForm);
+			return "users/account";
+		}
+		
+		userService.updatePassword(passwordForm);
+
+		redirectAttributes.addFlashAttribute("successMessage", "Senha atualizada com sucesso.");
+		return "redirect:/users/account";
 	}
 
 	@GetMapping("favorites")
@@ -142,7 +163,7 @@ public class UserController {
 
 		return "redirect:/users/topics";
 	}
-	
+
 	@ResponseBody
 	@GetMapping("search")
 	public List<User> search(@RequestParam String filter) {

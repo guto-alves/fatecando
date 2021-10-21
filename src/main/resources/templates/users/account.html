@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="https://thymeleaf.org" th:replace="~{fragments/layout :: base('Editar Perfil', ~{::body}, _, _, _)}">
+
+<head>
+	<meta charset="utf-8">
+</head>
+
+<body>
+	<div class="container-fluid col-md-6 mt-4">
+		<div class="alert alert-success alert-dismissible fade show" role="alert"
+			th:if="${!#strings.isEmpty(successMessage)}">
+			<span th:text=${successMessage}></span>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+
+		<div class="card mt-3">
+			<div class="card-body">
+				<div class="card-title text-center">
+					<div class="h4 fw-bold">Conta</div>
+					<div>Edite suas configurações de conta e altere sua senha aqui.</div>
+				</div>
+				<hr>
+				<form action="#" method="post" th:action="@{/users/account}" th:object="${form}">
+					<div class="mb-3">
+						<label for="email" class="form-label">Email</label>
+						<input type="text" id="email" class="form-control" th:value="${currentUser.email}" disabled>
+					</div>
+
+					<hr>
+
+					<div class="mb-3">
+						<label for="password" class="form-label">Senha</label>
+
+						<input type="password" class="form-control" maxlength="255" placeholder="Digite a senha atual"
+							th:field="*{password}" th:classappend="${#fields.hasErrors('password')} ? is-invalid : ''"
+							required>
+
+						<div class="invalid-feedback d-flex" th:if="${#fields.hasErrors('password')}"
+							th:errors="*{password}">Error</div>
+					</div>
+
+					<div class="mb-3">
+						<input type="password" class="form-control" maxlength="255" min="4"
+							placeholder="Digite a nova senha" th:field="*{newPassword}"
+							th:classappend="${#fields.hasErrors('newPassword')} ? is-invalid : ''" required>
+
+						<div class="invalid-feedback d-flex" th:if="${#fields.hasErrors('newPassword')}"
+							th:errors="*{newPassword}">Error</div>
+					</div>
+
+					<div class="mb-4">
+						<input type="password" class="form-control" maxlength="255" min="4"
+							placeholder="Confirme a nova senha" th:field="*{confirmNewPassword}"
+							th:classappend="${#fields.hasErrors('confirmNewPassword')} ? is-invalid : ''" required>
+
+						<div class="invalid-feedback d-flex" th:if="${#fields.hasErrors('confirmNewPassword')}"
+							th:errors="*{confirmNewPassword}">Error</div>
+					</div>
+
+					<div class="d-grid gap-2 col-4 mx-auto">
+						<button type="submit" class="btn btn-dark">Alterar a senha</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+</body>
+
+</html>

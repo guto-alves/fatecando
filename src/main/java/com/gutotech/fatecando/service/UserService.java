@@ -22,6 +22,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import com.gutotech.fatecando.model.OAuth2AccessToken;
+import com.gutotech.fatecando.model.PasswordForm;
 import com.gutotech.fatecando.model.Question;
 import com.gutotech.fatecando.model.Reward;
 import com.gutotech.fatecando.model.Role;
@@ -72,6 +73,10 @@ public class UserService {
 	public User login(String email, String password) {
 		return restTemplate //
 				.postForObject(URL + "/login?email={email}&password={password}", null, User.class, email, password);
+	}
+	
+	public void updatePassword(PasswordForm passwordForm) {
+		restTemplate.put(URL + "/password", passwordForm);
 	}
 
 	public String authenticate(String email, String password) {
