@@ -27,6 +27,7 @@ import com.gutotech.fatecando.model.Subject;
 import com.gutotech.fatecando.model.Test;
 import com.gutotech.fatecando.model.Topic;
 import com.gutotech.fatecando.model.UploadStatus;
+import com.gutotech.fatecando.security.Roles;
 import com.gutotech.fatecando.service.ForumThreadService;
 import com.gutotech.fatecando.service.SubjectService;
 import com.gutotech.fatecando.service.TestService;
@@ -98,7 +99,8 @@ public class SubjectController {
 			break;
 		}
 
-		model.addAttribute("isTeacher", userService.findMySubjects().contains(subject));
+		model.addAttribute("isTeacher", userService.hasRoles(Roles.ADMIN)
+				|| (userService.hasRoles(Roles.TEACHER) && userService.findMySubjects().contains(subject)));
 
 		return "subjects/subject";
 	}
