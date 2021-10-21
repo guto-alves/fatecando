@@ -183,7 +183,8 @@
 						<div class="d-flex w-100 justify-content-between">
 							<div class="d-flex align-items-center">
 								<h5 class="mb-1 fw-bolder" th:text="${topic.name}">Topic Name</h5>
-								<i class="bi bi-grip-horizontal ms-2" style="font-size: 1.5rem;" sec:authorize="hasRole('ROLE_ADMIN')"></i>
+								<i class="bi bi-grip-horizontal ms-2" style="font-size: 1.5rem;" 
+									sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_TEACHER')" th:if="${isTeacher}"></i>
 							</div>
 
 							<i class="fa fa-check-circle fa-2x green" aria-hidden="true"
@@ -479,7 +480,8 @@
 		}
 	</script>
 
-	<script type="text/javascript" sec:authorize="hasRole('ROLE_ADMIN')" th:if="${page == 'topics'}">
+	<script type="text/javascript" th:if="${isTeacher and page == 'topics'}" 
+			sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_TEACHER')">
 		let element = document.getElementById('topics');
 
 		Sortable.create(element, {

@@ -31,6 +31,7 @@ import com.gutotech.fatecando.service.ForumThreadService;
 import com.gutotech.fatecando.service.SubjectService;
 import com.gutotech.fatecando.service.TestService;
 import com.gutotech.fatecando.service.TopicService;
+import com.gutotech.fatecando.service.UserService;
 
 @Controller
 @RequestMapping("subjects/{subjectId}")
@@ -44,6 +45,9 @@ public class SubjectController {
 
 	@Autowired
 	private TopicService topicService;
+
+	@Autowired
+	private UserService userService;
 
 	@ModelAttribute("subject")
 	public Subject findSubject(@PathVariable("subjectId") Long subjectId) {
@@ -93,6 +97,8 @@ public class SubjectController {
 			model.addAttribute("page", "topics");
 			break;
 		}
+
+		model.addAttribute("isTeacher", userService.findMySubjects().contains(subject));
 
 		return "subjects/subject";
 	}
