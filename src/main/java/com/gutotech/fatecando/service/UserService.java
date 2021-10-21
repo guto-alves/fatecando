@@ -1,5 +1,6 @@
 package com.gutotech.fatecando.service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -11,7 +12,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -104,13 +107,24 @@ public class UserService {
 
 	public void update(User user) {
 		restTemplate.put(URL + "/{id}", user, user.getId());
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+		List<GrantedAuthority> updatedAuthorities = new ArrayList<>(auth.getAuthorities());
+		updatedAuthorities.clear();
+		updatedAuthorities.addAll(getUserRoles(auth.getCredentials().toString()));
+		
+		Authentication newAuth = new UsernamePasswordAuthenticationToken(auth.getPrincipal(), auth.getCredentials(),
+				updatedAuthorities);
+
+		SecurityContextHolder.getContext().setAuthentication(newAuth);
 	}
 
 	public List<Subject> findMySubjects() {
 		return restTemplate.getForObjects(URL + "/me/subjects", new ParameterizedTypeReference<List<Subject>>() {
 		});
 	}
-	
+
 	public List<Subject> findMySubjects(User user) {
 		return restTemplate.getForObjects(URL + "/{id}/subjects", new ParameterizedTypeReference<List<Subject>>() {
 		}, user.getId());
