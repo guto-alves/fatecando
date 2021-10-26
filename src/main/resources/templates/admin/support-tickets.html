@@ -22,6 +22,7 @@
 							<th>Categoria</th>
 							<th>Status</th>
 							<th>Atualização</th>
+							<th>Criação</th>
 							<th>Usuário</th>
 						</tr>
 					</thead>
@@ -34,6 +35,7 @@
 							<td th:text="${ticket.category.displayName}"></td>
 							<td th:text="${ticket.status.displayName}"></td>
 							<td th:text="${#dates.format(ticket.updateDate, 'dd/MM/yyyy HH:mm')}"></td>
+							<td th:text="${#dates.format(ticket.creationDate, 'dd/MM/yyyy HH:mm')}"></td>
 							<td>
 								<a href="#" class="link-dark" target="_blank" th:href="@{/users/{id}(id=${ticket.user.id})}"
 									th:text="${ticket.user.fullName}"></a>
