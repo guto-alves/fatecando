@@ -49,4 +49,8 @@ public class TicketService {
 		return restTemplate.postForObject(URL + "/{id}/responses", response, TicketResponse.class, ticket.getId());
 	}
 
+	public void updateStatus(Ticket.Status newStatus, Ticket ticket) {
+		restTemplate.put(URL + "/{id}/status", newStatus, ticket.getId());
+	}
+
 }

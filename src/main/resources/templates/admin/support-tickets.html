@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: base('Tópico', ~{::body}, _, _, _)}">
+
+<head>
+	<meta charset="utf-8">
+</head>
+
+<body>
+	<div class="container mt-4">
+		<div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${!#strings.isEmpty(message)}">
+			<span th:text=${message}></span>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+		
+		<div class="card mt-3 border border-1">
+			<h4 class="card-header text-center bg-white fw-bolder">Tickets de Suporte</h4>
+			<div class="card-body">
+				<table id="table" class="table table-sm table-hover cell-border compact order-column">
+					<thead class="thead-dark text-center">
+						<tr>
+							<th>Assunto</th>
+							<th>Categoria</th>
+							<th>Status</th>
+							<th>Atualização</th>
+							<th>Usuário</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="align-middle" th:each="ticket : ${tickets}">
+							<td>
+								<a href="#" class="link-dark" th:href="@{/admin/support/ticket/{id}(id=${ticket.id})}"
+									th:text="|#${ticket.id} - ${ticket.title}|"></a>
+							</td>
+							<td th:text="${ticket.category.displayName}"></td>
+							<td th:text="${ticket.status.displayName}"></td>
+							<td th:text="${#dates.format(ticket.updateDate, 'dd/MM/yyyy HH:mm')}"></td>
+							<td>
+								<a href="#" class="link-dark" target="_blank" th:href="@{/users/{id}(id=${ticket.user.id})}"
+									th:text="${ticket.user.fullName}"></a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		$('#table').DataTable({
+			responsive: true,
+			language: {
+				url: '//cdn.datatables.net/plug-ins/1.10.22/i18n/Portuguese-Brasil.json'
+			}
+		});
+	</script>
+</body>
+
+</html>

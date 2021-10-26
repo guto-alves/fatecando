@@ -27,6 +27,7 @@ import com.gutotech.fatecando.model.Question;
 import com.gutotech.fatecando.model.Reward;
 import com.gutotech.fatecando.model.Role;
 import com.gutotech.fatecando.model.Subject;
+import com.gutotech.fatecando.model.Ticket;
 import com.gutotech.fatecando.model.Topic;
 import com.gutotech.fatecando.model.User;
 
@@ -142,6 +143,11 @@ public class UserService {
 
 	public List<Question> findMyQuestions() {
 		return restTemplate.getForObjects(URL + "/me/questions", new ParameterizedTypeReference<List<Question>>() {
+		});
+	}
+	
+	public List<Ticket> findMyTickets() {
+		return restTemplate.getForObjects(URL + "/me/tickets", new ParameterizedTypeReference<List<Ticket>>() {
 		});
 	}
 
