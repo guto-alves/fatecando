@@ -13,7 +13,8 @@
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item">
 							<a href="#" class="link-dark" th:href="@{/support}" th:unless="${adminMode}">Suporte</a>
-							<a href="#" class="link-dark" th:href="@{/admin/support}" th:if="${adminMode}">Tickets de Suporte</a>
+							<a href="#" class="link-dark" th:href="@{/admin/support}" th:if="${adminMode}">Tickets de
+								Suporte</a>
 						</li>
 						<li class="breadcrumb-item active" aria-current="page">Ticket</li>
 					</ol>
@@ -28,28 +29,27 @@
 				<div class="card mb-3">
 					<div class="card-body">
 						<div class="row mb-3">
-							<div class="col">
-								<span class="text-muted col-sm-2 col-form-label">Categoria</span>
-								<div class="col-sm-10">
-									<span class="form-control" th:text="${ticket.category.displayName}"></span>
-								</div>
-							</div>
-							<div class="col" th:if="${adminMode}">
-								<label class="text-muted" for="ticketStatusSelect">Status</label>
-								<select id="ticketStatusSelect" class="form-select" aria-label="Default select example">
-									<option th:each="s : ${status}" th:value="${s}" th:text="${s.displayName}" th:selected="${s == ticket.status}"></option>
-								</select>
-							</div>
-						</div>
-						<div class="row mb-2">
 							<span class="text-muted col-sm-2 col-form-label">Assunto</span>
 							<div class="col-sm-10">
 								<span class="form-control " th:text="${ticket.title}"></span>
 							</div>
 						</div>
-						<div class="mb-2">
+						<div class="mb-3">
 							<span class="text-muted">Descrição</span>
 							<div id="descriptionEditor" th:utext="${ticket.description}"></div>
+						</div>
+						<div class="row mb-3">
+							<div class="col">
+								<span class="text-muted">Categoria</span>
+								<span class="form-control" th:text="${ticket.category.displayName}"></span>
+							</div>
+							<div class="col">
+								<label class="text-muted" for="ticketStatusSelect">Status</label>
+								<select id="ticketStatusSelect" class="form-select" th:disabled="${adminMode == null}">
+									<option th:each="s : ${status}" th:value="${s}" th:text="${s.displayName}"
+										th:selected="${s == ticket.status}"></option>
+								</select>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -72,7 +72,7 @@
 
 				<div class="mt-3" th:if="${not isClosed}">
 					<form id="response-form" action="#" method="post"
-						th:action="@{/support/ticket/{id}(id=${ticket.id})}" th:object="${response}">
+						th:action="@{{admin}/support/ticket/{id}(id=${ticket.id}, admin=${adminMode} ? '/admin': '')}" th:object="${response}">
 						<label for="content">Sua resposta</label>
 						<textarea rows="2" class="form-control mb-3" th:field="*{content}" required></textarea>
 
@@ -90,26 +90,26 @@
 	<script>
 		new Quill('#descriptionEditor', EditorOptions.READ_ONLY);
 	</script>
-	
+
 	<script th:if="${adminMode}">
 		$('#ticketStatusSelect').change(function () {
 			$.ajax({
-			    url: location.href + '/status',
-			    data: $(this).find('option:selected').val(),
-			    contentType: 'text/plain',
-			    type: 'POST',
-			    async: true,
-			    statusCode: {
-			        404: function (response) {
-			            alert(404);
-			        },
-			        200: function (response) {
-			            alert(response);
-			        }
-			    },
-			    error: function (jqXHR, status, errorThrown) {
-			        alert('error');
-			    }
+				url: location.href + '/status',
+				data: $(this).find('option:selected').val(),
+				contentType: 'text/plain',
+				type: 'POST',
+				async: true,
+				statusCode: {
+					404: function (response) {
+						alert(404);
+					},
+					200: function (response) {
+						alert(response);
+					}
+				},
+				error: function (jqXHR, status, errorThrown) {
+					alert('error');
+				}
 			});
 		});
 	</script>

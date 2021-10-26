@@ -69,6 +69,7 @@ public class SupportController {
 		model.addAttribute("responses", ticketService.findResponses(id));
 		model.addAttribute("isClosed", ticket.getStatus() == Status.CLOSED);
 		model.addAttribute("response", new TicketResponse());
+		model.addAttribute("status", Ticket.Status.values());
 		return "support/ticket-view";
 	}
 
