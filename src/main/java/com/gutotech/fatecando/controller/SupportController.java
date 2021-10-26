@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gutotech.fatecando.model.Ticket;
 import com.gutotech.fatecando.model.Ticket.Category;
+import com.gutotech.fatecando.model.Ticket.Status;
 import com.gutotech.fatecando.model.TicketResponse;
 import com.gutotech.fatecando.service.TicketService;
 
@@ -43,7 +44,7 @@ public class SupportController {
 	}
 
 	@PostMapping("ticket")
-	public String processCreationTicketForm(@Valid Ticket ticket, BindingResult bindingResult,
+	public String processTicketCreationForm(@Valid Ticket ticket, BindingResult bindingResult,
 			RedirectAttributes redirectAttributes, Model model) {
 		if (bindingResult.hasErrors()) {
 			model.addAttribute(ticket);
@@ -59,9 +60,11 @@ public class SupportController {
 
 	@GetMapping("ticket/{id}")
 	public String showTicketPage(@PathVariable Long id, Model model) {
-		model.addAttribute("response", new TicketResponse());
-		model.addAttribute("ticket", ticketService.findById(id));
+		Ticket ticket = ticketService.findById(id);
+		model.addAttribute("ticket", ticket);
 		model.addAttribute("responses", ticketService.findResponses(id));
+		model.addAttribute("isClosed", ticket.getStatus() == Status.CLOSED);
+		model.addAttribute("response", new TicketResponse());
 		return "support/ticket-view";
 	}
 

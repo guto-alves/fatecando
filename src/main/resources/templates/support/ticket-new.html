@@ -21,7 +21,7 @@
 
 				<hr>
 
-				<form id="ticket-form" action="#" method="post" th:object="${ticket}">
+				<form id="ticket-form" action="#" method="post" th:action="@{/support/ticket}" th:object="${ticket}">
 					<div class="mb-3">
 						<label for="category" class="form-label">Categoria</label>
 						<select class="form-control" th:field="*{category}" required>
