@@ -18,9 +18,10 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr  th:each="user : ${users}" th:class="${userStat.index < 3}? 'table-warning fw-bolder'">
+						<tr th:each="user : ${users}" 
+							th:classappend="|${user == currentUser ? 'table-primary' : ''} ${userStat.index < 3 and user != currentUser ? 'table-warning fw-bolder': 'fw-bolder'}|">
 							<td th:text="${userStat.count}">1</td>
-							<td><a class="text-decoration-none text-dark" href="#" th:href="@{/users/{id}(id=${user.id})}">[[${user.fullName}]]</a></td>
+							<td><a class="text-decoration-none text-dark" target="_blank" href="#" th:href="@{/users/{id}(id=${user.id})}">[[${user.fullName}]]</a></td>
 							<td th:text="${user.score}">91561</td>
 						</tr>
 					</tbody>
