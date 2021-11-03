@@ -69,7 +69,7 @@
 							<div class="dropdown-menu dropdown-menu-lg-end p-0" style="width: 300px;">
 								<div class="list-group">
 									<a href="#" class="list-group-item list-group-item-action"
-										th:each="notification : ${notifications}" th:href="${notification.link}">
+										th:each="notification : ${notifications}" th:href="'/' + ${notification.link}">
 										<div class="d-flex w-100 justify-content-between">
 											<h6 class="mb-1" th:text="${notification.text}">List group item heading</h6>
 											<small><input class="isread-notification-input form-check-input me-1" type="checkbox" value=""
