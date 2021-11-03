@@ -24,6 +24,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.gutotech.fatecando.model.PasswordForm;
 import com.gutotech.fatecando.model.Subject;
 import com.gutotech.fatecando.model.Topic;
+import com.gutotech.fatecando.model.UploadStatus;
 import com.gutotech.fatecando.model.User;
 import com.gutotech.fatecando.service.SubjectService;
 import com.gutotech.fatecando.service.TopicService;
@@ -145,6 +146,7 @@ public class UserController {
 		}
 
 		model.addAttribute("topic", topic);
+		model.addAttribute("subjects", subjectService.findAll());
 		return "users/topic-edit";
 	}
 
@@ -153,13 +155,15 @@ public class UserController {
 			RedirectAttributes redirectAttributes, Model model) {
 		if (bindingResult.hasErrors()) {
 			model.addAttribute(topic);
+			model.addAttribute("subjects", subjectService.findAll());
 			return "users/topic-edit";
 		}
 
+		topic.setStatus(UploadStatus.EDITED);
 		topicService.update(topic);
 
 		redirectAttributes.addFlashAttribute("message",
-				String.format("O tópido <b>%s</b> foi atualizado com sucesso.", topic.getName()));
+				String.format("O tópico #%d - <b>%s</b> foi atualizado com sucesso.", topic.getId(), topic.getName()));
 
 		return "redirect:/users/topics";
 	}

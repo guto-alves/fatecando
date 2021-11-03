@@ -54,7 +54,7 @@ public class TopicAdminController {
 		topicService.update(topic);
 
 		redirectAttributes.addFlashAttribute("message",
-				String.format("O tópido #%d foi atualizado com sucesso.", topic.getId()));
+				String.format("O tópico #%d - %s foi atualizado com sucesso.", topic.getId(), topic.getName()));
 
 		return "redirect:/admin/topics";
 	}

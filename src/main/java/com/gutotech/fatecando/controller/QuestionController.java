@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.gutotech.fatecando.model.Feedback;
 import com.gutotech.fatecando.model.Question;
 import com.gutotech.fatecando.model.QuestionType;
+import com.gutotech.fatecando.model.UploadStatus;
 import com.gutotech.fatecando.service.QuestionService;
 import com.gutotech.fatecando.service.SubjectService;
 import com.gutotech.fatecando.service.TopicService;
@@ -64,6 +65,7 @@ public class QuestionController {
 			return "users/question-edit";
 		}
 
+		question.setStatus(UploadStatus.EDITED);
 		questionService.update(question);
 
 		redirectAttributes.addFlashAttribute("message",
