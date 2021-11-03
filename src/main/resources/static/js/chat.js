@@ -22,8 +22,6 @@ function connect() {
 				return chat;
 			});
 			updateConversations();
-			$(document.body)
-				.append('<audio autoplay><source src="http://narutogame.com.br/images/media/battle.wav" type="audio/wav" /></audio>');
 		});
 	});
 }

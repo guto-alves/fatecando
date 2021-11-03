@@ -11,8 +11,8 @@
 </style>
 </head>
 <body>
-	<div class="container text-white bg-dark py-3">
-		<h3>Mensagens ([[${#lists.size(chats)}]])</h3>
+	<div class="container text-white bg-dark py-3 rounded">
+		<h4>Conversas ([[${#lists.size(chats)}]])</h4>
 	</div>
 
 	<div class="container mt-4">
@@ -53,9 +53,10 @@
 			</div>
 			<div class="col-md-8">
 				<div class="card">
-					<div id="to" class="card-header fw-bold">...</div>
+					<div id="to" class="card-header bg-white fw-bold">...</div>
 					<div class="card-body">
-						<div id="messages" class="mb-3 pb-3 border-bottom"></div>
+						<div id="messages" class="mb-3 pb-3"></div>
+						<hr>
 						<div id="new-message-editor"></div>
 						<div class="d-grid col-md-6 mx-auto mt-2">
 							<button class="btn btn-sm border border-1" id="send-message-button">
@@ -77,7 +78,7 @@
 
 	<script type="text/javascript" th:inline="javascript">
 		const fatecandoApiUrl = /*[[${@environment.getProperty('fatecando.api.base-url')}]]*/null;
-		const accessToken = /*[[${accessToken}]]*/null;
+		const accessToken = /*[[${#authentication.credentials}]]*/null;
 		const from = /*[[${#authentication.name}]]*/null;
 		
 		let chats = /*[[${chats}]]*/null;
@@ -198,6 +199,11 @@
 				sendMessage(message);
 				
 				QuillUtils.setContent(newMessageEditor, '');
+				
+				if (selectedChat.id == null) {
+					$('#threads-tab').click();
+					setTimeout(() => $('.chat:first').click(), 500);
+				}
 			}
 		});
 		
@@ -211,7 +217,7 @@
 		
 		function updateChat() {
 			if (selectedChat.pvt) {
-				$('#to').html(`<a class="text-decoration-none link-dark" target="_blank" href="/users/${selectedChat.from?.id}">${selectedChat.name}</a>`);
+				$('#to').html(`<a class="text-decoration-none link-dark" target="_blank" href="/users/${selectedChat.from?.id}"><i class="bi bi-person-circle"></i> ${selectedChat.name}</a>`);
 			} else {
 				$('#to').text(selectedChat.name);
 			}
@@ -237,7 +243,10 @@
 			messageEditor.innerHTML = message.body;
 			
 			if (message.from == null || message.from.email === from) {
-				messageEditor.classList.add('border', 'border-1', 'border-danger');	
+				messageEditor.classList.add('border', 'border-1', 'border-danger');
+				messageContainer.classList.add('ms-5', 'pe-3');	
+			} else {
+				messageContainer.classList.add('me-5');	
 			}
 			
 			$(messageContainer).append(messageEditor);
@@ -249,7 +258,7 @@
 		}
 		
 		function scrollToBottom() {
-			let messagesDiv = $('#messages');
+			const messagesDiv = $('#messages');
 			messagesDiv.prop("scrollTop", messagesDiv.prop("scrollHeight"));
 		}
 	</script>

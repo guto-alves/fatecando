@@ -3,7 +3,6 @@ package com.gutotech.fatecando.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,8 +21,6 @@ public class MessageController {
 	public String showMessagesPage(Model model) {
 		model.addAttribute("messages", "Hello world!");
 		model.addAttribute("chats", chatService.findChats());
-		model.addAttribute("accessToken", SecurityContextHolder.getContext().getAuthentication()
-					.getCredentials().toString());
 		return "users/messages";
 	}
 

@@ -22,9 +22,47 @@
 	<script th:src="@{/js/notifications.js}"></script>
 	<script th:src="@{/js/timeago/timeago.js}"></script>
 	<script th:src="@{/js/timeago/jquery.timeago.pt-br.js}"></script>
+	<script src="/webjars/sockjs-client/sockjs.min.js"></script>
+	<script src="/webjars/stomp-websocket/stomp.min.js"></script>
 	
-	<script type="text/javascript">
+	<script type="text/javascript" th:inline="javascript">
 		$("time.timeago").timeago();
+		
+		function connect() {
+			const fatecandoApiUrl = /*[[${@environment.getProperty('fatecando.api.base-url')}]]*/null;
+			const accessToken = /*[[${#authentication.credentials}]]*/null;
+			const from = /*[[${#authentication.name}]]*/null;
+		
+			const socket = new SockJS(fatecandoApiUrl + '/secured/room/?access_token=' + accessToken);
+			stompClient = Stomp.over(socket);
+			stompClient.debug = null;
+			let sessionId = '';
+		
+			stompClient.connect({}, function(frame) {
+				let url = stompClient.ws._transport.url;
+				url = url.replace('ws' + fatecandoApiUrl.split('http')[1] + '/secured/room/' , '');
+				url = url.replace('/websocket', '');
+				url = url.replace(/^[0-9]+\//, '');
+				url = url.substring(0, url.indexOf('?'));
+				sessionId = url;
+		
+				stompClient.subscribe('/secured/user/queue/specific-user-user' + sessionId, function(data) {
+					$('#userOptionsButton').append(`<span class="position-absolute top-0 start-100 translate-middle p-2 bg-dark border border-light rounded-circle">
+												   	 	<span class="visually-hidden">New alerts</span>
+												  	</span>`);
+  					$('#messagesDropdownItem').text('Mensagens');
+					$('#messagesDropdownItem').append(`<span class="ms-2 badge bg-dark">1</span>`);
+					
+					$(document.body)
+						.append('<audio autoplay><source src="http://narutogame.com.br/images/media/battle.wav" type="audio/wav" /></audio>');
+				});
+			});
+		}
+		
+		if (location.href.indexOf('messages') < 0) {
+			connect();
+		}
+		
 	</script>
 </body>
 </html>
