@@ -14,7 +14,7 @@ import com.gutotech.fatecando.model.Message;
 import com.gutotech.fatecando.service.ChatService;
 
 @Controller
-@RequestMapping("user/messages")
+@RequestMapping("messages")
 public class MessageController {
 
 	@GetMapping

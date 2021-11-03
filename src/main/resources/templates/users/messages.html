@@ -126,7 +126,7 @@
 				
 				updateChat();
 				
-				$.get('/user/messages/' + chatId, function (messages) {
+				$.get('/messages/' + chatId, function (messages) {
 					updateMessages(messages);
 				});
 				
@@ -175,7 +175,7 @@
 						
 					updateChat();
 					
-					$.get('/user/messages/private/' + selectedUser.email, function (messages) {
+					$.get('/messages/private/' + selectedUser.email, function (messages) {
 						updateMessages(messages);
 					});
 				});
