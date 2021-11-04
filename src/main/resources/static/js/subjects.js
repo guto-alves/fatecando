@@ -62,4 +62,9 @@ function showSubject(subjectId) {
 	location.href = '/subjects/' + subjectId;
 }
 
+const semester = localStorage.getItem('semester');
+if (semester !== null) {
+	$(`#semesterSelect option[value=${semester}]`).prop('selected', true);
+}
+		
 filterSubjectsBySemester($('#semesterSelect').val());
