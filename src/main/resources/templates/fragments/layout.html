@@ -30,7 +30,6 @@
 		
 		function connect() {
 			const fatecandoApiUrl = /*[[${@environment.getProperty('fatecando.api.base-url')}]]*/null;
-			const accessToken = /*[[${#authentication.credentials}]]*/null;
 			const from = /*[[${#authentication.name}]]*/null;
 		
 			const socket = new SockJS(fatecandoApiUrl + '/secured/room/?access_token=' + accessToken);
@@ -59,10 +58,10 @@
 			});
 		}
 		
-		if (location.href.indexOf('messages') < 0) {
+		const accessToken = /*[[${#authentication.credentials}]]*/null;
+		if (location.href.indexOf('messages') < 0 && accessToken !== '') {
 			connect();
 		}
-		
 	</script>
 </body>
 </html>
