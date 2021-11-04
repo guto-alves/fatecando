@@ -5,6 +5,7 @@ $('#inputFilter').keyup(function() {
 
 $('#semesterSelect').change(function() {
 	let selectedSemester = $(this).val();
+	localStorage.setItem('semester', selectedSemester);
 	filterSubjectsBySemester(selectedSemester);
 });
 
@@ -61,7 +62,4 @@ function showSubject(subjectId) {
 	location.href = '/subjects/' + subjectId;
 }
 
-setTimeout(() => {
-	filterSubjectsBySemester($('#semesterSelect').val());
-}, 500);
-
+filterSubjectsBySemester($('#semesterSelect').val());

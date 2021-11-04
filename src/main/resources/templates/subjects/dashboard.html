@@ -60,11 +60,11 @@
 
 		<h3 class="fw-bold">Todas as Disciplinas</h3>
 		<div class="row justify-content-md-center">
-			<div class="col-md-8">
+			<div class="col-md-8 mb-2">
 				<label for="inputFilter" class="form-label">Pesquise por</label>
 				<input id="inputFilter" class="form-control" type="text" placeholder="Nome, Tópico, Palavra-chave, ...">
 			</div>
-			<div class="col-6 col-md-4">
+			<div class="col-md-4 mb-4">
 				<label for="semesterSelect" class="form-label">Semestre</label>
 				<select id="semesterSelect" class="form-select">
 					<option value="0">Todos</option>
@@ -79,7 +79,7 @@
 		</div>
 
 		<!-- Subjects -->
-		<div id="subjectsContainer" class="row row-cols-1 row-cols-md-3 g-4 mt-3">
+		<div id="subjectsContainer" class="row row-cols-1 row-cols-md-3 g-4">
 			<div class="col" th:each="subject : ${subjects}" th:data-semester="${subject.semester}">
 				<div class="card btn-card h-100" th:onclick="'showSubject(\'' + ${subject.id} + '\');'">
 					<h5 class="card-header btn-card-header" th:text="${subject.name}">Estrutura de Dados</h5>

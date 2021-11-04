@@ -17,9 +17,9 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr class="align-middle" th:each="reward : ${rewards}">
+						<tr class="align-middle fw-bold" th:each="reward : ${rewards}" th:classappend="${reward?.score > 0 ? 'text-success' : 'text-danger'}">
 							<td class="fw-bolder" th:text="${reward.type.displayName}">Quiz</td>
-							<td class="text-center text-success fw-bold">
+							<td class="text-center">
 								<div th:if="${reward.score}" th:text="${reward.score} + ' de Score'">60 de Score</div>
 								<div th:if="${reward.coins}" th:text="${reward.coins} + ' Moedas'">25 Moedas</div>
 							</td>

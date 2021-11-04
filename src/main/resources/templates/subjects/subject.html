@@ -80,10 +80,10 @@
 		<div class="accordion my-5" id="newTopicContainer">
 			<div class="accordion-item">
 				<h6 class="accordion-header" id="headingTwo">
-					<button class="accordion-button collapsed bg-danger text-white fw-bold" type="button"
+					<button class="accordion-button collapsed bg-danger text-white" type="button"
 						data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false"
-						aria-controls="collapseTwo" style="height: 50px">
-						<h6>Deseja compartilhar seu conhecimento? Crie um novo Tópico!</h6>
+						aria-controls="collapseTwo">
+						Deseja compartilhar seu conhecimento? Crie um novo Tópico!
 					</button>
 				</h6>
 				<div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
@@ -155,268 +155,263 @@
 		</div>
 
 		<div class="card">
-			<div class="card-header">
-				<ul class="nav nav-tabs fw-bolder">
-					<li class="nav-item">
-						<a class="nav-link" href="#"
-							th:classappend="|${page == 'topics'? 'active': ''} ${page == 'topics'? 'text-danger' : 'text-dark'}|"
-							th:href="@{/subjects/{id}(id=${subject.id}, page='topics')}">Tópicos</a>
+			<div class="card-body ">
+				<ul class="nav nav-tabs fw-bolder" id="myTab" role="tablist">
+					<li class="nav-item" role="presentation">
+						<button class="nav-link active" id="topics-tab" data-bs-toggle="tab" data-bs-target="#topics" type="button"
+								role="tab" aria-controls="topics" aria-selected="true">Tópicos</button>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#"
-							th:classappend="|${page == 'tests'? 'active': ''} ${page == 'tests'? 'text-danger' : 'text-dark'}|"
-							th:href="@{/subjects/{id}(id=${subject.id}, page='tests')}">Teste</a>
+					<li class="nav-item" role="presentation">
+						<button class="nav-link" id="test-tab" data-bs-toggle="tab" data-bs-target="#test" type="button"
+								role="tab" aria-controls="test" aria-selected="false">Simulado</button>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#"
-							th:classappend="|${page == 'forum'? 'active': ''} ${page == 'forum'? 'text-danger' : 'text-dark'}|"
-							th:href="@{/subjects/{id}(id=${subject.id}, page='forum')}">Fórum</a>
+					<li class="nav-item" role="presentation">
+						<button class="nav-link" id="forum-tab" data-bs-toggle="tab" data-bs-target="#forum" type="button"
+								role="tab" aria-controls="forum" aria-selected="false">Fórum</button>
 					</li>
 				</ul>
-			</div>
-			<div class="card-body ">
-				<!-- Topics -->
-				<div id="topics" class="list-group" th:if="${#strings.equalsIgnoreCase(page, 'topics')}">
-					<div class="list-group-item list-card-item mb-3 border-1" th:each="topic : ${topics}"
-						th:onclick="'showTopic(\'' + ${topic.id} + '\');'" th:data-id="${topic.id}"
-						th:classappend="${topic.user.finished} ? 'border-success' : 'border-secondary'">
-						<div class="d-flex w-100 justify-content-between">
-							<div class="d-flex align-items-center">
-								<h5 class="mb-1 fw-bolder" th:text="${topic.name}">Topic Name</h5>
-								<i class="bi bi-grip-horizontal ms-2" style="font-size: 1.5rem;" th:if="${isTeacher}"></i>
+				<div class="tab-content" id="myTabContent">
+					<!-- Topics -->
+					<div class="tab-pane fade show active mt-3" id="topics" role="tabpanel" aria-labelledby="topics-tab">
+						<div class="list-group">
+							<div class="list-group-item list-card-item mb-3 border-1" th:each="topic : ${topics}"
+								th:onclick="'showTopic(\'' + ${topic.id} + '\');'" th:data-id="${topic.id}"
+								th:classappend="${topic.user.finished} ? 'border-success' : 'border-secondary'">
+								<div class="d-flex w-100 justify-content-between">
+									<div class="d-flex align-items-center">
+										<h5 class="mb-1 fw-bolder" th:text="${topic.name}">Topic Name</h5>
+										<i class="bi bi-grip-horizontal ms-2" style="font-size: 1.5rem;" th:if="${isTeacher}"></i>
+									</div>
+		
+									<i class="fa fa-check-circle fa-2x green" aria-hidden="true"
+										th:classappend="${!topic.user.finished}? 'd-none'"></i>
+								</div>
+		
+								<p class="mb-1 truncate" th:text="${topic.description}">Some placeholder content in a paragraph.</p>
+		
+								<div class="d-flex justify-content-end align-items-center" th:if="${topic.stars}">
+									<small class="fw-bold text-warning" th:text="${topic.stars}">5</small>
+									<div class="star-rating mx-1" data-rating-stars="5" data-rating-readonly="true" 
+										th:data-rating-value="${topic.stars}" data-rating-half="true"></div>
+									<small class="text-muted" th:text="|(${topic.totalReviews})|"></small>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<!-- Test -->
+					<div class="tab-pane fade mt-3" id="test" role="tabpanel" aria-labelledby="test-tab">
+						<form action="#" method="post" th:action="@{/subjects/{id}/test(id=${subject.id})}" th:object="${test}">
+							<div class="alert alert-danger alert-dismissible fade show" role="alert"
+								th:if="${#fields.hasErrors('name') || #fields.hasErrors('topics')}">
+								<span class="text-center">Erro ao criar teste. Verifique os campos e tente novamente!</span>
+								<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 							</div>
 
-							<i class="fa fa-check-circle fa-2x green" aria-hidden="true"
-								th:classappend="${!topic.user.finished}? 'd-none'"></i>
-						</div>
+							<div class="mb-3">
+								<label class="form-label">Dê um nome para o Teste</label>
+								<input type="text" class="form-control"
+									placeholder="Por exemplo: Treinamento para a P1, Teste para P2, Teste BD, ..."
+									th:field="*{name}" th:classappend="${#fields.hasErrors('name')}? 'is-invalid'"
+									aria-describedby="nameFeedback" onclick="this.select();" required>
+								<div id="nameFeedback" class="invalid-feedback" th:if="${#fields.hasErrors('name')}"
+									th:errors="*{name}">Mensagem de erro</div>
+							</div>
 
-						<p class="mb-1 truncate" th:text="${topic.description}">Some placeholder content in a paragraph.</p>
+							<div class="mb-4">
+								<label class="form-label">Tópicos</label>
+								<select class="form-select select2" multiple="multiple" th:field="*{topics}"
+									th:classappend="${#fields.hasErrors('topics')}? 'is-invalid'" aria-describedby="topicsFeedback"
+									style="width: 100%;">
+									<option th:each="topic : ${topics}" th:value="${topic.id}" th:text="${topic.name}"></option>
+								</select>
 
-						<div class="d-flex justify-content-end align-items-center" th:if="${topic.stars}">
-							<small class="fw-bold text-warning" th:text="${topic.stars}">5</small>
-							<div class="star-rating mx-1" data-rating-stars="5" data-rating-readonly="true" 
-								th:data-rating-value="${topic.stars}" data-rating-half="true"></div>
-							<small class="text-muted" th:text="|(${topic.totalReviews})|"></small>
-						</div>
+								<div id="topicsFeedback" class="invalid-feedback" th:if="${#fields.hasErrors('topics')}"
+									th:errors="*{topics}">Mensagem de erro</div>
+							</div>
+
+							<div class="d-grid gap-2 col-6 mx-auto">
+								<button type="submit" class="btn btn-dark fw-bold">Iniciar</button>
+							</div>
+
+							<hr class="mt-5">
+							<h5>Como funciona o Teste Rápido?</h5>
+							<p>
+								O <b>Teste Rápido</b> é mais uma das formas que o Fatecando possui para práticar o conteúdo estudo.
+								Desta maneira, você só precisar dar um nome para o teste e selecionar os tópicos que deseja treinar e
+								iniciar. Ao iniciar, você será direcionado para uma página onde terá que responder as questões para
+								finalizá-lo.
+							</p>
+						</form>
 					</div>
-				</div>
-
-				<!-- Test -->
-				<div th:if="${#strings.equalsIgnoreCase(page, 'tests')}">
-
-					<div class="card border border-1 border-dark">
-						<h4 class="card-header text-center">Teste/Simulado</h4>
-						<div class="card-body">
-							<form action="#" method="post" th:action="@{/subjects/{id}/test(id=${subject.id})}" th:object="${test}">
-								<div class="alert alert-danger alert-dismissible fade show" role="alert"
-									th:if="${#fields.hasErrors('name') || #fields.hasErrors('topics')}">
-									<span class="text-center">Erro ao criar teste. Verifique os campos e tente novamente!</span>
-									<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-								</div>
-
-								<div class="mb-3">
-									<label class="form-label">Dê um nome para o Teste</label>
-									<input type="text" class="form-control"
-										placeholder="Por exemplo: Treinamento para a P1, Teste para P2, Teste BD, ..."
-										th:field="*{name}" th:classappend="${#fields.hasErrors('name')}? 'is-invalid'"
-										aria-describedby="nameFeedback" onclick="this.select();" required>
-									<div id="nameFeedback" class="invalid-feedback" th:if="${#fields.hasErrors('name')}"
-										th:errors="*{name}">Mensagem de erro</div>
-								</div>
-
-								<div class="mb-4">
-									<label class="form-label">Tópicos</label>
-									<select class="form-select select2" multiple="multiple" th:field="*{topics}"
-										th:classappend="${#fields.hasErrors('topics')}? 'is-invalid'" aria-describedby="topicsFeedback">
-										<option th:each="topic : ${topics}" th:value="${topic.id}" th:text="${topic.name}"></option>
-									</select>
-
-									<div id="topicsFeedback" class="invalid-feedback" th:if="${#fields.hasErrors('topics')}"
-										th:errors="*{topics}">Mensagem de erro</div>
-								</div>
-
-								<div class="d-grid gap-2 col-6 mx-auto">
-									<button type="submit" class="btn btn-dark fw-bold">Iniciar</button>
-								</div>
-
-								<hr class="mt-5">
-								<h5>Como funciona os Teste Rápido</h5>
-								<p>
-									O <b>Teste Rápido</b> é mais uma das formas que o Fatecando possui para práticar o conteúdo estudo.
-									Desta maneira, você só precisar dar um nome para o teste e selecionar os tópicos que deseja treinar e
-									iniciar. Ao iniciar, você será direcionado para uma página onde terá que responder as questões para
-									finalizá-lo.
-								</p>
-							</form>
-						</div>
-					</div>
-				</div>
-
-				<!-- Forum -->
-				<div th:if="${#strings.equalsIgnoreCase(page, 'forum')}">
-					<div class="card">
-						<div class="card-body">
-							<span>Precisa de Ajuda?</span>
-
-							<!-- Button trigger modal -->
-							<button type="button" class="btn btn-outline-dark fw-bold" data-bs-toggle="modal"
-								data-bs-target="#forumTopicModal">Criar um novo Tópico</button>
-
-							<!-- Modal -->
-							<div class="modal fade" id="forumTopicModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-								aria-hidden="true">
-								<div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-									<div class="modal-content">
-										<div class="modal-header">
-											<h5 class="modal-title" id="exampleModalLabel"
-												th:text="${subject.code} + ' - Novo Tópico para o Fórum'">Novo Tópico Fórum</h5>
-											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	
+					<!-- Forum -->
+					<div class="tab-pane fade mt-3" id="forum" role="tabpanel" aria-labelledby="forum-tab">
+						<div class="card">
+							<div class="card-body">
+								<span>Precisa de Ajuda?</span>
+	
+								<!-- Button trigger modal -->
+								<button type="button" class="btn btn-outline-dark fw-bold ms-3" data-bs-toggle="modal"
+									data-bs-target="#forumTopicModal">Criar um novo Tópico</button>
+	
+								<!-- Modal -->
+								<div class="modal fade" id="forumTopicModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+									aria-hidden="true">
+									<div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title" id="exampleModalLabel"
+													th:text="${subject.code} + ' - Novo Tópico para o Fórum'">Novo Tópico Fórum</h5>
+												<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+											</div>
+											<div class="modal-body">
+												<form id="forum-topic-form" action="#" method="post"
+													th:action="@{/subjects/{id}/forum-topics(id=${subject.id})}" th:object="${forumTopic}">
+													<div>
+														<div class="mb-3">
+															<label for="title">Título</label>
+															<small class="d-flex text-muted">Seja específico e imagine que você está fazendo esta
+																pergunta para outra pessoa</small>
+															<input id="title" type="text" class="form-control" required th:field="*{title}">
+														</div>
+	
+														<div class="mb-3">
+															<label for="forum-topic-body-editor">Descrição</label>
+															<small class="d-flex text-muted">Inclua todas as informações que alguém precisaria para
+																responder sua pergunta</small>
+															<div id="forum-topic-body-editor"></div>
+															<input type="hidden" id="bodyHtml" th:field="*{bodyHtml}" required></input>
+														</div>
+	
+														<div class="mb-3">
+															<label for="topics">Tópicos de Tag</label>
+															<small class="d-flex text-muted">Adicione um ou mais tópicos relacionados à sua pergunta</small>
+															<select class="form-select select2-tags" multiple th:field="*{tags}"
+																th:classappend="${#fields.hasErrors('tags')}? 'is-invalid'" aria-describedby="topicsFeedback"
+																style="width: 100%;">
+																<option th:each="topic : ${topics}" th:value="${topic.id}" th:text="${topic.name}"></option>
+															</select>
+	
+															<div id="topicsFeedback" class="invalid-feedback" th:if="${#fields.hasErrors('tags')}"
+																th:errors="*{tags}">Mensagem de erro</div>
+														</div>
+													</div>
+												</form>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+												<button type="submit" class="btn btn-danger" onclick="$('#forum-topic-form').submit();">Criar</button>
+											</div>
 										</div>
-										<div class="modal-body">
-											<form id="forum-topic-form" action="#" method="post"
-												th:action="@{/subjects/{id}/forum-topics(id=${subject.id})}" th:object="${forumTopic}">
-												<div>
-													<div class="mb-3">
-														<label for="title">Título</label>
-														<small class="d-flex text-muted">Seja específico e imagine que você está fazendo esta
-															pergunta para outra pessoa</small>
-														<input id="title" type="text" class="form-control" required th:field="*{title}">
-													</div>
-
-													<div class="mb-3">
-														<label for="forum-topic-body-editor">Descrição</label>
-														<small class="d-flex text-muted">Inclua todas as informações que alguém precisaria para
-															responder sua pergunta</small>
-														<div id="forum-topic-body-editor"></div>
-														<input type="hidden" id="bodyHtml" th:field="*{bodyHtml}" required></input>
-													</div>
-
-													<div class="mb-3">
-														<label for="topics">Tópicos de Tag</label>
-														<small class="d-flex text-muted">Adicione um ou mais tópicos relacionados à sua pergunta</small>
-														<select class="form-select select2-tags" multiple th:field="*{tags}"
-															th:classappend="${#fields.hasErrors('tags')}? 'is-invalid'" aria-describedby="topicsFeedback"
-															style="width: 100%;">
-															<option th:each="topic : ${topics}" th:value="${topic.id}" th:text="${topic.name}"></option>
-														</select>
-
-														<div id="topicsFeedback" class="invalid-feedback" th:if="${#fields.hasErrors('tags')}"
-															th:errors="*{tags}">Mensagem de erro</div>
-													</div>
+									</div>
+								</div>
+	
+							</div>
+						</div>
+	
+						<div class="p-4">
+							<button id="expand-filters" class="btn btn-secondary mb-3" type="button" data-bs-toggle="collapse"
+								data-bs-target="#filters-collapse" aria-expanded="false" aria-controls="filters-collapse">
+								Filtros <i class="bi bi-arrows-angle-expand ms-1"></i>
+							</button>
+	
+							<div id="filters-collapse" class="collapse border border-secondary p-4">
+								<form id="filters-form">
+									<div class="row">
+										<div class="col-md-6 mb-3">
+											<fieldset>
+												<legend>Filtrar por</legend>
+												<div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+													<input type="checkbox" class="btn-check" id="no-answer-btncheck" name="filter" value="NoAnswer"
+														autocomplete="off">
+													<label class="btn btn-outline-dark btn-sm" for="no-answer-btncheck">Sem resposta</label>
+	
+													<input type="checkbox" class="btn-check" id="no-accepted-answer--btncheck" name="filter"
+														value="NoAcceptedAnswer" autocomplete="off">
+													<label class="btn btn-outline-dark btn-sm" for="no-accepted-answer--btncheck">Sem resposta
+														aceita</label>
 												</div>
-											</form>
+											</fieldset>
 										</div>
-										<div class="modal-footer">
-											<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-											<button type="submit" class="btn btn-danger" onclick="$('#forum-topic-form').submit();">Criar</button>
+	
+										<div class="col-md-6 mb-3">
+											<fieldset>
+												<legend>Classificar por</legend>
+												<div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+													<input type="radio" class="btn-check" name="sort" id="newest-btnradio" value="Newest"
+														autocomplete="off" checked>
+													<label class="btn btn-outline-dark btn-sm" for="newest-btnradio">Mais recentes</label>
+	
+													<input type="radio" class="btn-check" name="sort" id="votes-btnradio" value="Votes"
+														autocomplete="off">
+													<label class="btn btn-outline-dark btn-sm" for="votes-btnradio">Mais votos</label>
+	
+													<input type="radio" class="btn-check" name="sort" id="visits-btnradio" value="Visits"
+														autocomplete="off">
+													<label class="btn btn-outline-dark btn-sm" for="visits-btnradio">Mais visitas</label>
+												</div>
+											</fieldset>
 										</div>
-									</div>
-								</div>
-							</div>
-
-						</div>
-					</div>
-
-					<div class="p-4">
-						<button id="expand-filters" class="btn btn-secondary mb-3" type="button" data-bs-toggle="collapse"
-							data-bs-target="#filters-collapse" aria-expanded="false" aria-controls="filters-collapse">
-							Filtros <i class="bi bi-arrows-angle-expand ms-1"></i>
-						</button>
-
-						<div id="filters-collapse" class="collapse border border-secondary p-4">
-							<form id="filters-form">
-								<div class="row">
-									<div class="col-md-6">
-										<fieldset>
-											<legend>Filtrar por</legend>
-											<div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
-												<input type="checkbox" class="btn-check" id="no-answer-btncheck" name="filter" value="NoAnswer"
-													autocomplete="off">
-												<label class="btn btn-outline-dark btn-sm" for="no-answer-btncheck">Sem resposta</label>
-
-												<input type="checkbox" class="btn-check" id="no-accepted-answer--btncheck" name="filter"
-													value="NoAcceptedAnswer" autocomplete="off">
-												<label class="btn btn-outline-dark btn-sm" for="no-accepted-answer--btncheck">Sem resposta
-													aceita</label>
+	
+										<div class="col sort">
+											<div class="mb-3">
+												<label for="topics">Tópicos de Tag</label>
+												<select name="topic" id="topic" class="form-select select2-filter-tags" multiple
+													style="width: 100%;">
+													<option th:each="topic : ${topics}" th:value="${topic.id}" th:text="${topic.name}"></option>
+												</select>
 											</div>
-										</fieldset>
-									</div>
-
-									<div class="col-md-6 mb-2">
-										<fieldset>
-											<legend>Classificar por</legend>
-											<div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-												<input type="radio" class="btn-check" name="sort" id="newest-btnradio" value="Newest"
-													autocomplete="off" checked>
-												<label class="btn btn-outline-dark btn-sm" for="newest-btnradio">Mais recentes</label>
-
-												<input type="radio" class="btn-check" name="sort" id="votes-btnradio" value="Votes"
-													autocomplete="off">
-												<label class="btn btn-outline-dark btn-sm" for="votes-btnradio">Mais votos</label>
-
-												<input type="radio" class="btn-check" name="sort" id="visits-btnradio" value="Visits"
-													autocomplete="off">
-												<label class="btn btn-outline-dark btn-sm" for="visits-btnradio">Mais visitas</label>
-											</div>
-										</fieldset>
-									</div>
-
-									<div class="sort col">
-										<div class="mb-3">
-											<label for="topics">Tópicos de Tag</label>
-											<select name="topic" id="topic" class="form-select select2-filter-tags" multiple
-												style="width: 100%;">
-												<option th:each="topic : ${topics}" th:value="${topic.id}" th:text="${topic.name}"></option>
-											</select>
 										</div>
 									</div>
-								</div>
-								<div class="d-grid gap-2 col-4 mx-auto">
-									<button id="apply-filters" type="button" class="btn btn-danger btn-sm">Aplicar</button>
-								</div>
-							</form>
-						</div>
-					</div>
-
-					<div id="forums" class="list-group" th:unless="${#lists.isEmpty(forumTopics)}">
-						<a href="#" class="list-group-item list-group-item-action list-card-item mb-3 border-1"
-							th:each="topic : ${forumTopics}"
-							th:href="@{/subjects/{id}/forum-topics/{topicId}(id=${subject.id}, topicId=${topic.id})}">
-
-							<div class="d-flex">
-								<div class="me-4 text-center align-self-center">
-									<div class="mb-1">
-										<small class="d-block text-muted">votos</small> <small th:text="${topic.voteCount}">1</small>
+									<div class="d-grid gap-2 col-4 mx-auto">
+										<button id="apply-filters" type="button" class="btn btn-danger btn-sm">Aplicar</button>
 									</div>
-									<div class="mb-1" th:classappend="${topic.answered} ? 'badge bg-success'">
-										<small class="d-block" th:classappend="${not topic.answered} ? 'text-muted'">respostas</small> <small
-											th:text="${topic.totalComments}">1</small>
-									</div>
-									<div class="mb-1">
-										<small class="d-block text-muted">visitas</small> <small th:text="${topic.viewCount}">1</small>
-									</div>
-								</div>
-								<div class="flex-fill">
-									<div class="d-flex w-100 justify-content-between">
-										<h5 class="mb-1" th:text="${topic.title}">Topic Title</h5>
-										<time class="text-muted timeago" th:datetime="${#dates.formatISO(topic.creationDate)}">3 days
-											ago</time>
-									</div>
-									<div class="mb-1 truncate" th:utext="${topic.bodyHtml}">Some placeholder content in a
-										paragraph.</div>
-
-									<div class="d-flex justify-content-between align-items-center">
-										<div class="tags align-self-center">
-											<span class="badge rounded-pill bg-dark me-2" th:each="tag : ${topic.tags}" th:text="${tag.name}"></span>
-										</div>
-
-										<small th:text="'Criado por ' + ${topic.user.fullName}">Criado por Gustavo Alves.</small>
-									</div>
-								</div>
+								</form>
 							</div>
-						</a>
+						</div>
+	
+						<div id="forums" class="list-group" th:unless="${#lists.isEmpty(forumTopics)}">
+							<a href="#" class="list-group-item list-group-item-action list-card-item mb-3 border-1"
+								th:each="topic : ${forumTopics}"
+								th:href="@{/subjects/{id}/forum-topics/{topicId}(id=${subject.id}, topicId=${topic.id})}">
+	
+								<div class="d-flex">
+									<div class="me-4 text-center align-self-center">
+										<div class="mb-1">
+											<small class="d-block text-muted">votos</small> <small th:text="${topic.voteCount}">1</small>
+										</div>
+										<div class="mb-1" th:classappend="${topic.answered} ? 'badge bg-success'">
+											<small class="d-block" th:classappend="${not topic.answered} ? 'text-muted'">respostas</small> <small
+												th:text="${topic.totalComments}">1</small>
+										</div>
+										<div class="mb-1">
+											<small class="d-block text-muted">visitas</small> <small th:text="${topic.viewCount}">1</small>
+										</div>
+									</div>
+									<div class="flex-fill">
+										<div class="d-flex w-100 justify-content-between">
+											<h5 class="mb-1" th:text="${topic.title}">Topic Title</h5>
+											<time class="text-muted timeago" th:datetime="${#dates.formatISO(topic.creationDate)}">3 days
+												ago</time>
+										</div>
+										<div class="mb-1 truncate" th:utext="${topic.bodyHtml}">Some placeholder content in a
+											paragraph.</div>
+	
+										<div class="d-flex justify-content-between align-items-center">
+											<div class="tags align-self-center">
+												<span class="badge rounded-pill bg-dark me-2" th:each="tag : ${topic.tags}" th:text="${tag.name}"></span>
+											</div>
+	
+											<small th:text="'Criado por ' + ${topic.user.fullName}">Criado por Gustavo Alves.</small>
+										</div>
+									</div>
+								</div>
+							</a>
+						</div>
 					</div>
 				</div>
+				
 			</div>
 		</div>
 	</div>
@@ -454,21 +449,21 @@
 			}
 		});
 
-		if (page === 'forum') {
-			$('.select2-tags').select2({
-				dropdownParent: $("#forumTopicModal")
-			});
-			$('.select2-filter-tags').select2({
-				closeOnSelect: false
-			});
+		
+		$('.select2-tags').select2({
+			dropdownParent: $("#forumTopicModal")
+		});
+		$('.select2-filter-tags').select2({
+			closeOnSelect: false
+		});
 
-			const forumTopicBodyEditor = new Quill('#forum-topic-body-editor', EditorOptions.FORUM_TOPIC);
-			$('#forum-topic-form').submit(function (event) {
-				if (forumTopicBodyEditor.root.innerText.trim() !== '') {
-					$('#forum-topic-form #bodyHtml').val(forumTopicBodyEditor.root.innerHTML);
-				}
-			});
-		}
+		const forumTopicBodyEditor = new Quill('#forum-topic-body-editor', EditorOptions.FORUM_TOPIC);
+		$('#forum-topic-form').submit(function (event) {
+			if (forumTopicBodyEditor.root.innerText.trim() !== '') {
+				$('#forum-topic-form #bodyHtml').val(forumTopicBodyEditor.root.innerHTML);
+			}
+		});
+		
 
 		if (/*[[${error}]]*/false) {
 			setTimeout(() => $('button[class*="accordion-button"]').click(), 300);
@@ -477,9 +472,15 @@
 		function showTopic(topicId) {
 			location.href = '/topic/' + topicId;
 		}
+		
+		const url = new URL(window.location.href);
+   		const paramValue = url.searchParams.get("page");
+   		if (paramValue === 'forum') {
+			setTimeout(() => $('#forum-tab').click(), 300);
+		}
 	</script>
 
-	<script type="text/javascript" th:if="${isTeacher and page == 'topics'}">
+	<script type="text/javascript" th:if="${isTeacher}">
 		let element = document.getElementById('topics');
 
 		Sortable.create(element, {

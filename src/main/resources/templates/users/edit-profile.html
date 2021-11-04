@@ -36,7 +36,7 @@
 							<input type="date" id="birthDate" class="form-control" th:field="*{birthDate}">
 						</div>
 
-						<div class="col-md-6">
+						<div class="col-md-6 mb-3">
 							<label for="gender" class="form-label">Sexo</label>
 
 							<select class="form-select" id="gender" name="gender">
@@ -46,7 +46,7 @@
 						</div>
 					</div>
 					
-					<div class="mb-3">
+					<div class="mb-4">
 						<label for="description" class="form-label">Biografia</label>
 						<textarea class="form-control" maxlength="100" th:field="*{description}"
 							th:classappend="${#fields.hasErrors('description')}? 'is-invalid'" aria-describedby="descriptionFeedback"></textarea>

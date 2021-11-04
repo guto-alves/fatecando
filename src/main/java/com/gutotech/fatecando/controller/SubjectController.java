@@ -80,25 +80,15 @@ public class SubjectController {
 	}
 
 	@GetMapping
-	public String showSubject(Subject subject,
-			@RequestParam(value = "page", required = false, defaultValue = "topics") String page, Model model) {
-		model.addAttribute("page", page);
+	public String showSubject(Subject subject, Model model) {
 		model.addAttribute("topic", new Topic());
 		model.addAttribute("topics", subjectService.findAllTopicsBySubject(subject));
-
-		switch (page) {
-		case "tests":
-			model.addAttribute("test", new Test(subject.getName()));
-			break;
-		case "forum":
-			model.addAttribute("forumTopic", new ForumThread());
-			model.addAttribute("forumTopics", subjectService.findAllForumTopicsBySubject(subject));
-			break;
-		default:
-			model.addAttribute("page", "topics");
-			break;
-		}
-
+		
+		model.addAttribute("test", new Test(subject.getName()));
+		
+		model.addAttribute("forumTopic", new ForumThread());
+		model.addAttribute("forumTopics", subjectService.findAllForumTopicsBySubject(subject));
+		
 		model.addAttribute("isTeacher", userService.hasRoles(Roles.ADMIN)
 				|| (userService.hasRoles(Roles.TEACHER) && userService.findMySubjects().contains(subject)));
 

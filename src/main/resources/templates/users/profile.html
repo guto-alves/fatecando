@@ -7,12 +7,12 @@
 	<div class="container-fluid col-md-10 mt-5">
 		<div class="card">
 			<div class="card-body">
-				<div class="row text-center">
-					<div class="col-md-4">
+				<div class="row text-center pt-3">
+					<div class="col-md-4 mb-3">
 						<div class="card h-100">
 							<div class="card-body">
 								<i class="bi bi-person-circle" style="font-size: 110px;"></i>
-								<h5 class="card-title text-center border-top pt-3" th:text="${user.fullName}">Nome</h5>
+								<h5 class="card-title text-center border-top pt-3 fw-bolder" th:text="${user.fullName}">Nome</h5>
 								<div th:if="${currentUser != user}">							
 									<hr>
 									<a class="btn btn-sm btn-danger" href="#" th:href="@{/messages(user=${user.email})}">Enviar mensagem</a>
@@ -21,7 +21,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-md-4 fw-bold">
+					<div class="col-md-4 mb-3 fw-bold">
 						<div class="card h-100">
 							<div class="card-header bg-white">Resumo</div>
 							<div class="card-body">
@@ -44,7 +44,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-md-4 fw-bold">
+					<div class="col-md-4 mb-3 fw-bold">
 						<div class="card h-100">
 							<div class="card-header bg-white">Outras informações</div>
 							<div class="card-body">
