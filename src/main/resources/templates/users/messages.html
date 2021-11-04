@@ -38,8 +38,8 @@
 								<form id="search-form">
 									<div class="input-group mt-2">
 										<input type="text" id="user-filter" class="form-control" placeholder="Pesquisar"
-											aria-describedby="search-button">
-										<button class="btn btn-outline-secondary" type="submit" id="search-button">
+											aria-describedby="searchButton">
+										<button class="btn btn-dark" type="submit" id="searchButton">
 											<i class="bi bi-search"></i>
 										</button>
 									</div>
@@ -262,6 +262,21 @@
 			messagesDiv.prop("scrollTop", messagesDiv.prop("scrollHeight"));
 		}
 	</script>
+	
+	<script>
+		const url = new URL(window.location.href);
+   		const paramValue = url.searchParams.get("user");
+   		if (paramValue != null) {
+			setTimeout(() => {
+				$('#users-tab').click();
+				setTimeout(() => {
+					$('#user-filter').val(paramValue);
+					$('#searchButton').click();
+				}, 300);
+			}, 300);
+		} 
+	</script>
+	
 	<script type="text/javascript" th:src="@{/js/chat.js}"></script>
 </body>
 </html>
