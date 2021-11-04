@@ -19,6 +19,9 @@ public class User {
 	@NotBlank(message = "Por favor preencha seu nome completo.")
 	@Size(min = 2, max = 40, message = "O tamanho mínino de caracteres é 2.")
 	private String fullName;
+	
+	@Size(max = 100, message = "O tamanho máximo de caracteres é 255.")
+	private String description;
 
 	@NotBlank(message = "Por favor digite uma email válido.")
 	private String email;
@@ -66,6 +69,14 @@ public class User {
 
 	public void setFullName(String fullName) {
 		this.fullName = StringUtils.trimWhitespace(fullName);
+	}
+	
+	public String getDescription() {
+		return description;
+	}
+	
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public String getEmail() {
