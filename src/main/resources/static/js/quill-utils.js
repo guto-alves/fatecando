@@ -12,15 +12,15 @@ const EditorOptions = {
 			syntax: true,
 			toolbar: [
 				[{ 'font': [] }],
-				[{ 'size': ['small', false, 'large', 'huge'] }], // custom dropdown
-				['bold', 'italic', 'underline', 'strike'], // toggled buttons
+				[{ 'size': ['small', false, 'large' /*, 'huge'*/ ] }], // custom dropdown
 				[{ 'header': 1 }, { 'header': 2 }], // custom button values
 				[{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+				['bold', 'italic', 'underline', 'strike'], // toggled buttons
 				[{ 'color': [] }, { 'background': [] }], // dropdown with defaults from theme
 				[{ 'align': '' }, { 'align': 'center' }, { 'align': 'right' }, { 'align': 'justify' }],
+				[{ 'indent': '-1' }, { 'indent': '+1' }], // outdent/indent
 				[{ 'script': 'sub' }, { 'script': 'super' }], // superscript/subscript
 				[{ 'list': 'ordered' }, { 'list': 'bullet' }],
-				[{ 'indent': '-1' }, { 'indent': '+1' }], // outdent/indent
 				[{ 'direction': 'rtl' }], // text direction
 				['blockquote', 'code-block'],
 				['link', 'image', 'video', 'formula'],

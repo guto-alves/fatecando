@@ -79,7 +79,7 @@ $('#answerQuestion').click(function() {
 		const htmlFeedback = `
 			<div class="border border-2 border-${color} mb-2 rounded ms-5">
 				<span>
-					<b class="text-${color}">${'CERTO'}</b>
+					<b class="text-${color}">${feedback.correct ? 'CERTO' : 'ERRADO'}</b>
 					<div id="feedbackQuizEditor">${feedback.description ?? ''}</div>
 				</span>
 			</div>

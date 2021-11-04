@@ -19,7 +19,6 @@ $('#newQuestionForm').submit(function() {
 
 	$('.alternative-editor').each(function() {
 		const content = $(this).find('.ql-editor').prop('innerHTML');
-		console.log(content);
 		$(this).closest('.new-alternative').find('.alternative-input').first().val(content);
 	});
 	$('.feedback-editor').each(function() {
