@@ -72,7 +72,7 @@
 									</div>
 									<div class="col-12 my-2 input-group input-group-lg">
 										<input type="password" name="password" placeholder="Senha"
-											class="form-control w-100" required>
+											class="form-control w-100" minlength="4" required>
 									</div>
 
 									<div class="col-12 col-md-6 my-3">
@@ -106,7 +106,7 @@
 											class="form-control w-100" required>
 									</div>
 									<div class="col-12 my-2 input-group input-group-lg">
-										<input type="password" th:field="*{password}" placeholder="Senha"
+										<input type="password" minlength="4" th:field="*{password}" placeholder="Senha"
 											class="form-control w-100" required>
 									</div>
 								</div>
