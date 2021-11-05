@@ -225,7 +225,7 @@
 								<select class="form-select select2" multiple="multiple" th:field="*{topics}"
 									th:classappend="${#fields.hasErrors('topics')}? 'is-invalid'" aria-describedby="topicsFeedback"
 									style="width: 100%;">
-									<option th:each="topic : ${topics}" th:value="${topic.id}" th:text="${topic.name}"></option>
+									<option th:each="topic : ${testTopics}" th:value="${topic.id}" th:text="${topic.name}"></option>
 								</select>
 
 								<div id="topicsFeedback" class="invalid-feedback" th:if="${#fields.hasErrors('topics')}"
@@ -477,7 +477,9 @@
 		
 		const url = new URL(window.location.href);
    		const paramValue = url.searchParams.get("page");
-   		if (paramValue === 'forum') {
+   		if (paramValue === 'test' || page === 'test') {
+			setTimeout(() => $('#test-tab').click(), 300);
+		} else if (paramValue === 'forum' || page === 'forum') {
 			setTimeout(() => $('#forum-tab').click(), 300);
 		}
 	</script>

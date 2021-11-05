@@ -41,6 +41,11 @@ public class SubjectService {
 		return restTemplate.getForObjects(URL + "/{id}/topics", new ParameterizedTypeReference<List<Topic>>() {
 		}, subject.getId());
 	}
+	
+	public List<Topic> findTestTopics(Subject subject) {
+		return restTemplate.getForObjects(URL + "/{id}/topics/test", new ParameterizedTypeReference<List<Topic>>() {
+		}, subject.getId());
+	}
 
 	public List<ForumThread> findAllForumTopicsBySubject(Subject subject) {
 		return restTemplate.getForObjects(URL + "/{id}/forum-topics",

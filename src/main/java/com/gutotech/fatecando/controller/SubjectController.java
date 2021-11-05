@@ -85,6 +85,7 @@ public class SubjectController {
 		model.addAttribute("topics", subjectService.findAllTopicsBySubject(subject));
 		
 		model.addAttribute("test", new Test(subject.getName()));
+		model.addAttribute("testTopics", subjectService.findTestTopics(subject));
 		
 		model.addAttribute("forumTopic", new ForumThread());
 		model.addAttribute("forumTopics", subjectService.findAllForumTopicsBySubject(subject));
@@ -176,10 +177,20 @@ public class SubjectController {
 			RedirectAttributes redirectAttributes, Model model) {
 		if (bindingResult.hasErrors()) {
 			model.addAttribute(test);
+			model.addAttribute("testTopics", subjectService.findTestTopics(subject));
+
 			model.addAttribute("subject", subject);
 			model.addAttribute("topics", subjectService.findAllTopicsBySubject(subject));
-			model.addAttribute("page", "tests");
+			
 			model.addAttribute("topic", new Topic());
+			model.addAttribute("topics", subjectService.findAllTopicsBySubject(subject));
+			
+			model.addAttribute("forumTopic", new ForumThread());
+			model.addAttribute("forumTopics", subjectService.findAllForumTopicsBySubject(subject));
+			
+			model.addAttribute("isTeacher", userService.hasRoles(Roles.ADMIN)
+					|| (userService.hasRoles(Roles.TEACHER) && userService.findMySubjects().contains(subject)));
+			model.addAttribute("page", "test");
 			return "subjects/subject";
 		}
 
