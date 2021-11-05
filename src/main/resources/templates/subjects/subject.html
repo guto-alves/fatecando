@@ -50,12 +50,12 @@
 						<div class="btn-group rounded-start" role="group" aria-label="Like toggle button">
 							<input type="checkbox" class="btn-check" id="likeButton" autocomplete="off"
 								th:checked="${subject.user.liked}">
-							<label id="likeStatus" class="btn btn-outline-primary p-2" for="likeButton">
+							<label id="likeStatus" class="btn btn-outline-primary p-1" for="likeButton">
 								Curtir <i class="fa fa-thumbs-up"></i>
 							</label>
 						</div>
 						<span id="totalLikes"
-							class="fw-bolder text-primary border border-1 border-start-0 border-primary p-2 rounded-end"
+							class="fw-bolder text-primary border border-1 border-start-0 border-primary p-1 rounded-end"
 							th:classappend="${subject.user.liked} ? 'bg-white'" th:text="${subject.likes}"></span>
 					</div>
 				</div>
@@ -161,15 +161,15 @@
 				<ul class="nav nav-tabs fw-bolder" id="myTab" role="tablist">
 					<li class="nav-item" role="presentation">
 						<button class="nav-link active" id="topics-tab" data-bs-toggle="tab" data-bs-target="#topics" type="button"
-								role="tab" aria-controls="topics" aria-selected="true">Tópicos</button>
+								role="tab" aria-controls="topics" aria-selected="true"><i class="bi bi-journals"></i> Tópicos</button>
 					</li>
 					<li class="nav-item" role="presentation">
 						<button class="nav-link" id="test-tab" data-bs-toggle="tab" data-bs-target="#test" type="button"
-								role="tab" aria-controls="test" aria-selected="false">Simulado</button>
+								role="tab" aria-controls="test" aria-selected="false"><i class="bi bi-card-checklist"></i> Simulado</button>
 					</li>
 					<li class="nav-item" role="presentation">
 						<button class="nav-link" id="forum-tab" data-bs-toggle="tab" data-bs-target="#forum" type="button"
-								role="tab" aria-controls="forum" aria-selected="false">Fórum</button>
+								role="tab" aria-controls="forum" aria-selected="false"><i class="bi bi-chat-dots"></i> Fórum</button>
 					</li>
 				</ul>
 				<div class="tab-content" id="myTabContent">
@@ -313,10 +313,12 @@
 						</div>
 	
 						<div class="p-4">
-							<button id="expand-filters" class="btn btn-secondary mb-3" type="button" data-bs-toggle="collapse"
-								data-bs-target="#filters-collapse" aria-expanded="false" aria-controls="filters-collapse">
-								Filtros <i class="bi bi-arrows-angle-expand ms-1"></i>
-							</button>
+							<div class="d-flex justify-content-end">
+								<button id="expand-filters" class="btn btn-secondary mb-3" type="button" data-bs-toggle="collapse"
+									data-bs-target="#filters-collapse" aria-expanded="false" aria-controls="filters-collapse">
+									Filtros <i class="bi bi-arrows-angle-expand ms-1"></i>							
+								</button>
+							</div>
 	
 							<div id="filters-collapse" class="collapse border border-secondary p-4">
 								<form id="filters-form">

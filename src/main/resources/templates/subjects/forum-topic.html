@@ -20,7 +20,7 @@
 
 		<div class="card mt-3 mb-5">
 			<div class="card-body">
-				<h3 class="card-title" th:text="${forumTopic.title}">Título</h3>
+				<h4 class="card-title" th:text="${forumTopic.title}">Título</h4>
 
 				<span class="card-text">
 					<span class="text-muted">Criado</span>
@@ -51,7 +51,7 @@
 						<div id="topic-body-editor" class="flex-fill" th:utext="${forumTopic.bodyHtml}"></div>
 					</div>
 				</div>
-				<div class="tags d-grid gap-2 d-md-flex justify-content-md-end mt-2">
+				<div class="tags d-grid gap-2 d-sm-flex justify-content-sm-end mt-2">
 					<a class="badge rounded-pill bg-dark link-light text-decoration-none" th:each="tag : ${forumTopic.tags}"
 						th:href="@{/topic/{id}(id=${tag.id})}" th:text="${tag.name}"> </a>
 				</div>

@@ -49,6 +49,6 @@ $('#apply-filters').click(function() {
 	});
 });
 
-function openThread(thread) {
-	location.href = '/subjects/ ' + subjectId + '/forum-topics/' + thread.id;
+function openThread(threadId) {
+	location.href = '/subjects/' + subjectId + '/forum-topics/' + threadId;
 }

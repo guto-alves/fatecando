@@ -40,8 +40,8 @@
 
 					<div class="d-flex justify-content-end mt-3">
 						<input type="checkbox" class="btn-check" id="open-sidebar" autocomplete="off">
-						<label class="btn btn-outline-light me-3" for="open-sidebar">
-							<i class="bi bi-pencil-square" style="font-size: 1.2rem;"></i>
+						<label class="btn btn-outline-light p-2 me-3" for="open-sidebar">
+							<i class="bi bi-pencil-square" style="font-size: 1rem;"></i>
 						</label>
 
 						<div class="btn-group rounded-start" role="group" aria-label="Favorite toggle button">
@@ -309,11 +309,11 @@
 			</div>
 		</div>
 
-		<div class="row mt-5">
+		<div class="row mt-4">
 			<div class="col-md-6">
 				<th:block th:if="${topic.previous != nul}">
 					<small class="d-flex text-muted mb-1 ms-3">Anterior</small>
-					<a class="btn btn-outline-dark" href="#" th:href="@{/topic/{id}(id=${topic.previous.id})}">
+					<a class="btn btn-outline-dark btn-sm" href="#" th:href="@{/topic/{id}(id=${topic.previous.id})}">
 						<i class="bi bi-caret-left-fill"></i> [[${topic.previous.name}]]
 					</a>
 				</th:block>
@@ -321,7 +321,7 @@
 			<div class="col-md-6 text-end">
 				<th:block th:if="${topic.next != nul}">
 					<small class="d-flex justify-content-end text-muted mb-1 me-3">Próximo</small>
-					<a class="btn btn-outline-dark" href="#" th:href="@{/topic/{id}(id=${topic.next.id})}">
+					<a class="btn btn-outline-dark btn-sm" href="#" th:href="@{/topic/{id}(id=${topic.next.id})}">
 						[[${topic.next.name}]] <i class="bi bi-caret-right-fill"></i>
 					</a>
 				</th:block>
@@ -369,10 +369,10 @@
 		const questions = /*[[${questions}]]*/null;
 	</script>
 
-	<script th:src="@{/js/annotations.js}"></script>
 	<script th:src="@{/js/favorite-and-completed-buttons.js}"></script>
-	<script th:src="@{/js/quiz.js}"></script>
+	<script th:src="@{/js/annotations.js}"></script>
 	<script th:src="@{/js/question.form.js}"></script>
+	<script th:src="@{/js/quiz.js}"></script>
 </body>
 
 </html>
