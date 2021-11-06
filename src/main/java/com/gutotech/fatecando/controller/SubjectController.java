@@ -1,6 +1,7 @@
 package com.gutotech.fatecando.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -42,10 +43,13 @@ public class SubjectController {
 	private SubjectService subjectService;
 
 	@Autowired
-	private ForumThreadService forumThreadService;
+	private TopicService topicService;
 
 	@Autowired
-	private TopicService topicService;
+	private TestService testService;
+
+	@Autowired
+	private ForumThreadService forumThreadService;
 
 	@Autowired
 	private UserService userService;
@@ -82,14 +86,18 @@ public class SubjectController {
 	@GetMapping
 	public String showSubject(Subject subject, Model model) {
 		model.addAttribute("topic", new Topic());
-		model.addAttribute("topics", subjectService.findTopicsBySubject(subject));
-		
+
+		List<Topic> topics = subjectService.findTopicsBySubject(subject);
+		model.addAttribute("topics", topics);
+		model.addAttribute("requiredTopics", topics.stream().filter(Topic::isRequired).collect(Collectors.toList()));
+		model.addAttribute("extraTopics", topics.stream().filter(t -> !t.isRequired()).collect(Collectors.toList()));
+
 		model.addAttribute("test", new Test(subject.getName()));
 		model.addAttribute("testTopics", subjectService.findTestTopics(subject));
-		
+
 		model.addAttribute("forumTopic", new ForumThread());
 		model.addAttribute("forumTopics", subjectService.findForumTopicsBySubject(subject));
-		
+
 		model.addAttribute("isTeacher", userService.hasRoles(Roles.ADMIN)
 				|| (userService.hasRoles(Roles.TEACHER) && userService.findMySubjects().contains(subject)));
 
@@ -100,6 +108,65 @@ public class SubjectController {
 	public ResponseEntity<Void> toggleLike(Subject subject) {
 		subjectService.toggleLike(subject);
 		return ResponseEntity.noContent().build();
+	}
+
+	@PostMapping
+	public String processTopicCreationForm(Subject subject, @Valid Topic topic, BindingResult bindingResult,
+			RedirectAttributes redirectAttributes, Model model) {
+		if (bindingResult.hasErrors()) {
+			model.addAttribute(topic);
+			List<Topic> topics = subjectService.findTopicsBySubject(subject);
+			model.addAttribute("topics", topics);
+			model.addAttribute("requiredTopics",
+					topics.stream().filter(Topic::isRequired).collect(Collectors.toList()));
+			model.addAttribute("extraTopics",
+					topics.stream().filter(t -> !t.isRequired()).collect(Collectors.toList()));
+			model.addAttribute("page", "topics");
+			model.addAttribute("error", true);
+			return "subjects/subject";
+		}
+
+		topic.setSubject(subject);
+		topic.setStatus(UploadStatus.WAITING_FOR_RESPONSE);
+		topicService.save(topic);
+
+		redirectAttributes.addFlashAttribute("message",
+				"Obrigado pela contribuição! O conteúdo enviado será analisado pela nossa equipe e se tudo estiver certo ele será publicado o mais rápido possível.");
+
+		return "redirect:/subjects/{subjectId}";
+	}
+
+	@PostMapping("test")
+	public String processTestCreationForm(Subject subject, @Valid Test test, BindingResult bindingResult,
+			RedirectAttributes redirectAttributes, Model model) {
+		if (bindingResult.hasErrors()) {
+			model.addAttribute(test);
+			model.addAttribute("testTopics", subjectService.findTestTopics(subject));
+
+			model.addAttribute("subject", subject);
+
+			model.addAttribute("topic", new Topic());
+			List<Topic> topics = subjectService.findTopicsBySubject(subject);
+			model.addAttribute("topics", topics);
+			model.addAttribute("requiredTopics",
+					topics.stream().filter(Topic::isRequired).collect(Collectors.toList()));
+			model.addAttribute("extraTopics",
+					topics.stream().filter(t -> !t.isRequired()).collect(Collectors.toList()));
+
+			model.addAttribute("forumTopic", new ForumThread());
+			model.addAttribute("forumTopics", subjectService.findForumTopicsBySubject(subject));
+
+			model.addAttribute("isTeacher", userService.hasRoles(Roles.ADMIN)
+					|| (userService.hasRoles(Roles.TEACHER) && userService.findMySubjects().contains(subject)));
+			model.addAttribute("page", "test");
+			return "subjects/subject";
+		}
+
+		test.setSubject(subject);
+
+		testService.save(test);
+
+		return "redirect:/test";
 	}
 
 	@PostMapping("forum-topics")
@@ -146,59 +213,6 @@ public class SubjectController {
 		redirectAttributes.addFlashAttribute("message", "Comentário adicionado com sucesso.");
 
 		return "redirect:/subjects/{subjectId}/forum-topics/{topicId}";
-	}
-
-	@PostMapping
-	public String processTopicCreationForm(Subject subject, @Valid Topic topic, BindingResult bindingResult,
-			RedirectAttributes redirectAttributes, Model model) {
-		if (bindingResult.hasErrors()) {
-			model.addAttribute(topic);
-			model.addAttribute("topics", subjectService.findTopicsBySubject(subject));
-			model.addAttribute("page", "topics");
-			model.addAttribute("error", true);
-			return "subjects/subject";
-		}
-
-		topic.setSubject(subject);
-		topic.setStatus(UploadStatus.WAITING_FOR_RESPONSE);
-		topicService.save(topic);
-
-		redirectAttributes.addFlashAttribute("message",
-				"Obrigado pela contribuição! O conteúdo enviado será analisado pela nossa equipe e se tudo estiver certo ele será publicado o mais rápido possível.");
-
-		return "redirect:/subjects/{subjectId}";
-	}
-
-	@Autowired
-	private TestService testService;
-
-	@PostMapping("test")
-	public String processTestCreationForm(Subject subject, @Valid Test test, BindingResult bindingResult,
-			RedirectAttributes redirectAttributes, Model model) {
-		if (bindingResult.hasErrors()) {
-			model.addAttribute(test);
-			model.addAttribute("testTopics", subjectService.findTestTopics(subject));
-
-			model.addAttribute("subject", subject);
-			model.addAttribute("topics", subjectService.findTopicsBySubject(subject));
-			
-			model.addAttribute("topic", new Topic());
-			model.addAttribute("topics", subjectService.findTopicsBySubject(subject));
-			
-			model.addAttribute("forumTopic", new ForumThread());
-			model.addAttribute("forumTopics", subjectService.findForumTopicsBySubject(subject));
-			
-			model.addAttribute("isTeacher", userService.hasRoles(Roles.ADMIN)
-					|| (userService.hasRoles(Roles.TEACHER) && userService.findMySubjects().contains(subject)));
-			model.addAttribute("page", "test");
-			return "subjects/subject";
-		}
-
-		test.setSubject(subject);
-
-		testService.save(test);
-
-		return "redirect:/test";
 	}
 
 	@ResponseBody

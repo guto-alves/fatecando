@@ -173,12 +173,17 @@
 					</li>
 				</ul>
 				<div class="tab-content" id="myTabContent">
+					<div class="alert alert-warning alert-dismissible fade show mt-3" role="alert" th:if="${#lists.isEmpty(topics)}">	
+					  	Essa disciplina não possui nenhum tópico ainda.
+					  	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+					</div>
+					
 					<!-- Topics -->
 					<div class="tab-pane fade show active mt-3" id="topics" role="tabpanel" aria-labelledby="topics-tab">
-						<div class="list-group">
-							<div class="list-group-item list-card-item mb-3 border-1" th:each="topic : ${topics}"
+						<div class="list-group" id="requiredTopics">
+							<div class="list-group-item list-card-item mb-3 border-2 rounded-3" th:each="topic : ${requiredTopics}"
 								th:onclick="'showTopic(\'' + ${topic.id} + '\');'" th:data-id="${topic.id}"
-								th:classappend="${topic.userStats.finished} ? 'border-success' : 'border-secondary'">
+								th:classappend="${topic.userStats.finished} ? 'border-success'">
 								<div class="d-flex w-100 justify-content-between">
 									<div class="d-flex align-items-center">
 										<h5 class="mb-1 fw-bolder" th:text="${topic.name}">Topic Name</h5>
@@ -196,6 +201,35 @@
 									<div class="star-rating mx-1" data-rating-stars="5" data-rating-readonly="true" 
 										th:data-rating-value="${topic.stars}" data-rating-half="true"></div>
 									<small class="text-muted" th:text="|(${topic.totalReviews})|"></small>
+								</div>
+							</div>
+						</div>
+						
+						<div th:if="${not #lists.isEmpty(extraTopics)}">
+							<hr>
+							<h5>Tópicos extras</h5>
+							<div class="list-group" id="extraTopics">
+								<div class="list-group-item list-card-item mb-3 border-1 rounded-3" th:each="topic : ${extraTopics}"
+									th:onclick="'showTopic(\'' + ${topic.id} + '\');'" th:data-id="${topic.id}"
+									th:classappend="${topic.userStats.finished} ? 'border-success'">
+									<div class="d-flex w-100 justify-content-between">
+										<div class="d-flex align-items-center">
+											<h5 class="mb-1 fw-bolder" th:text="${topic.name}">Topic Name</h5>
+											<i class="bi bi-grip-horizontal ms-2" style="font-size: 1.5rem;" th:if="${isTeacher}"></i>
+										</div>
+			
+										<i class="fa fa-check-circle fa-2x green" aria-hidden="true"
+											th:classappend="${!topic.userStats.finished}? 'd-none'"></i>
+									</div>
+			
+									<p class="mb-1 truncate" th:text="${topic.description}">Some placeholder content in a paragraph.</p>
+			
+									<div class="d-flex justify-content-end align-items-center" th:if="${topic.stars}">
+										<small class="fw-bold text-warning" th:text="${topic.stars}">5</small>
+										<div class="star-rating mx-1" data-rating-stars="5" data-rating-readonly="true" 
+											th:data-rating-value="${topic.stars}" data-rating-half="true"></div>
+										<small class="text-muted" th:text="|(${topic.totalReviews})|"></small>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -487,21 +521,39 @@
 	</script>
 
 	<script type="text/javascript" th:if="${isTeacher}">
-		let element = document.getElementById('topics');
-
-		Sortable.create(element, {
+		Sortable.create($('#requiredTopics').get(0), {
 			animation: 150,
 			onEnd: function (event) {
 				let draggedTopicId = $(event.item).data('id');
 				let relatedTopicId;
 
 				if (event.newDraggableIndex > event.oldDraggableIndex) {
-					relatedTopicId = $('#topics').children().eq(event.newDraggableIndex - 1).data('id');
+					relatedTopicId = $('#requiredTopics').children().eq(event.newDraggableIndex - 1).data('id');
 				} else {
-					relatedTopicId = $('#topics').children().eq(event.newDraggableIndex + 1).data('id');
+					relatedTopicId = $('#requiredTopics').children().eq(event.newDraggableIndex + 1).data('id');
 				}
+				
+				if (relatedTopicId != null) {
+					$.post(`${window.location.origin}/admin/topics/drag/${draggedTopicId}/${relatedTopicId}`);					
+				}
+			}
+		});
+		
+		Sortable.create($('#extraTopics').get(0), {
+			animation: 150,
+			onEnd: function (event) {
+				let draggedTopicId = $(event.item).data('id');
+				let relatedTopicId;
 
-				$.post(`${window.location.origin}/admin/topics/drag/${draggedTopicId}/${relatedTopicId}`);
+				if (event.newDraggableIndex > event.oldDraggableIndex) {
+					relatedTopicId = $('#extraTopics').children().eq(event.newDraggableIndex - 1).data('id');
+				} else {
+					relatedTopicId = $('#extraTopics').children().eq(event.newDraggableIndex + 1).data('id');
+				}
+				
+				if (relatedTopicId != null) {
+					$.post(`${window.location.origin}/admin/topics/drag/${draggedTopicId}/${relatedTopicId}`);					
+				}
 			}
 		});
 	</script>
