@@ -49,19 +49,19 @@
 					<div class="d-flex justify-content-end mt-3">
 						<div class="btn-group rounded-start" role="group" aria-label="Like toggle button">
 							<input type="checkbox" class="btn-check" id="likeButton" autocomplete="off"
-								th:checked="${subject.user.liked}">
+								th:checked="${subject.userStats.liked}">
 							<label id="likeStatus" class="btn btn-outline-primary p-1" for="likeButton">
 								Curtir <i class="fa fa-thumbs-up"></i>
 							</label>
 						</div>
 						<span id="totalLikes"
 							class="fw-bolder text-primary border border-1 border-start-0 border-primary p-1 rounded-end"
-							th:classappend="${subject.user.liked} ? 'bg-white'" th:text="${subject.likes}"></span>
+							th:classappend="${subject.userStats.liked} ? 'bg-white'" th:text="${subject.likes}"></span>
 					</div>
 				</div>
 			</div>
 
-			<div class="progress text-center" style="height: 25px;" th:with="progress=${subject.user.progress}">
+			<div class="progress text-center" style="height: 25px;" th:with="progress=${subject.userStats.progress}">
 				<div class="progress-bar progress-bar-striped progress-bar-animated fw-bolder" role="progressbar"
 					aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 55%"
 					th:style="'width: ' + ${progress} + '%'"
@@ -178,7 +178,7 @@
 						<div class="list-group">
 							<div class="list-group-item list-card-item mb-3 border-1" th:each="topic : ${topics}"
 								th:onclick="'showTopic(\'' + ${topic.id} + '\');'" th:data-id="${topic.id}"
-								th:classappend="${topic.user.finished} ? 'border-success' : 'border-secondary'">
+								th:classappend="${topic.userStats.finished} ? 'border-success' : 'border-secondary'">
 								<div class="d-flex w-100 justify-content-between">
 									<div class="d-flex align-items-center">
 										<h5 class="mb-1 fw-bolder" th:text="${topic.name}">Topic Name</h5>
@@ -186,7 +186,7 @@
 									</div>
 		
 									<i class="fa fa-check-circle fa-2x green" aria-hidden="true"
-										th:classappend="${!topic.user.finished}? 'd-none'"></i>
+										th:classappend="${!topic.userStats.finished}? 'd-none'"></i>
 								</div>
 		
 								<p class="mb-1 truncate" th:text="${topic.description}">Some placeholder content in a paragraph.</p>

@@ -82,13 +82,13 @@ public class SubjectController {
 	@GetMapping
 	public String showSubject(Subject subject, Model model) {
 		model.addAttribute("topic", new Topic());
-		model.addAttribute("topics", subjectService.findAllTopicsBySubject(subject));
+		model.addAttribute("topics", subjectService.findTopicsBySubject(subject));
 		
 		model.addAttribute("test", new Test(subject.getName()));
 		model.addAttribute("testTopics", subjectService.findTestTopics(subject));
 		
 		model.addAttribute("forumTopic", new ForumThread());
-		model.addAttribute("forumTopics", subjectService.findAllForumTopicsBySubject(subject));
+		model.addAttribute("forumTopics", subjectService.findForumTopicsBySubject(subject));
 		
 		model.addAttribute("isTeacher", userService.hasRoles(Roles.ADMIN)
 				|| (userService.hasRoles(Roles.TEACHER) && userService.findMySubjects().contains(subject)));
@@ -153,7 +153,7 @@ public class SubjectController {
 			RedirectAttributes redirectAttributes, Model model) {
 		if (bindingResult.hasErrors()) {
 			model.addAttribute(topic);
-			model.addAttribute("topics", subjectService.findAllTopicsBySubject(subject));
+			model.addAttribute("topics", subjectService.findTopicsBySubject(subject));
 			model.addAttribute("page", "topics");
 			model.addAttribute("error", true);
 			return "subjects/subject";
@@ -180,13 +180,13 @@ public class SubjectController {
 			model.addAttribute("testTopics", subjectService.findTestTopics(subject));
 
 			model.addAttribute("subject", subject);
-			model.addAttribute("topics", subjectService.findAllTopicsBySubject(subject));
+			model.addAttribute("topics", subjectService.findTopicsBySubject(subject));
 			
 			model.addAttribute("topic", new Topic());
-			model.addAttribute("topics", subjectService.findAllTopicsBySubject(subject));
+			model.addAttribute("topics", subjectService.findTopicsBySubject(subject));
 			
 			model.addAttribute("forumTopic", new ForumThread());
-			model.addAttribute("forumTopics", subjectService.findAllForumTopicsBySubject(subject));
+			model.addAttribute("forumTopics", subjectService.findForumTopicsBySubject(subject));
 			
 			model.addAttribute("isTeacher", userService.hasRoles(Roles.ADMIN)
 					|| (userService.hasRoles(Roles.TEACHER) && userService.findMySubjects().contains(subject)));

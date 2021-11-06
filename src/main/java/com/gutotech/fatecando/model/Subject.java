@@ -38,7 +38,7 @@ public class Subject {
 
 	private List<ForumThread> forum = new ArrayList<>();
 
-	private UserInfo user;
+	private UserStats userStats;
 
 	public Subject() {
 	}
@@ -123,12 +123,12 @@ public class Subject {
 		return forum;
 	}
 
-	public UserInfo getUser() {
-		return user;
+	public UserStats getUserStats() {
+		return userStats;
 	}
 
-	public void setUser(UserInfo user) {
-		this.user = user;
+	public void setUserStats(UserStats userStats) {
+		this.userStats = userStats;
 	}
 
 	@Override
@@ -148,14 +148,14 @@ public class Subject {
 		return Objects.equals(id, other.id);
 	}
 
-	public class UserInfo {
+	public class UserStats {
 		private Date accessDate;
 
 		private boolean liked;
 
 		private int progress;
 
-		public UserInfo() {
+		public UserStats() {
 		}
 
 		public Date getAccessDate() {

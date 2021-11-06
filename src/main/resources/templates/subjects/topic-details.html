@@ -46,7 +46,7 @@
 
 						<div class="btn-group rounded-start" role="group" aria-label="Favorite toggle button">
 							<input type="checkbox" class="btn-check" id="fav-button" autocomplete="off"
-								th:checked="${topic.user.favorite}">
+								th:checked="${topic.userStats.favorite}">
 							<label class="btn btn-outline-primary p-2" for="fav-button">
 								<i class="bi bi-star-fill"></i>
 							</label>
@@ -64,7 +64,7 @@
 
 		<div class="card shadow m-3">
 			<div class="card-body">
-				<div id="annotationEditor" th:utext="${topic.user.annotation}"></div>
+				<div id="annotationEditor" th:utext="${topic.userStats.annotation}"></div>
 			</div>
 		</div>
 
@@ -192,9 +192,9 @@
 
 			<div class="d-flex justify-content-center">
 				<button id="finishButton" class="btn btn-outline-success"
-					th:classappend="${topic.user.finished} ? 'active'">
+					th:classappend="${topic.userStats.finished} ? 'active'">
 					<i class="fa fa-check"></i>
-					<span th:text="${topic.user.finished} ? 'Concluído' : 'Marcar como concluído'">Marcar como
+					<span th:text="${topic.userStats.finished} ? 'Concluído' : 'Marcar como concluído'">Marcar como
 						concluído</span>
 				</button>
 			</div>
@@ -225,7 +225,7 @@
 									<div class="col-sm-10">
 										<textarea class="form-control" id="review-content" rows="6"
 											placeholder="Deixe sua observação..." maxlength="500"
-											th:text="${topic.user.review?.content}"></textarea>
+											th:text="${topic.userStats.review?.content}"></textarea>
 									</div>
 								</div>
 							</div>
@@ -338,7 +338,7 @@
 		});
 		
 		$('#review-stars-container').rating({
-			value: /*[[${topic.user.review?.stars ?: 0}]]*/0,
+			value: /*[[${topic.userStats.review?.stars ?: 0}]]*/0,
 			click: function (event) {
 				$('#review-modal').modal('show');
 			}

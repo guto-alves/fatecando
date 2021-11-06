@@ -35,7 +35,7 @@ public class Topic {
 
 	private Date updateDate;
 
-	private TopicUser user;
+	private TopicUser userStats;
 
 	private Topic previous;
 
@@ -152,12 +152,12 @@ public class Topic {
 		this.updateDate = updateDate;
 	}
 
-	public TopicUser getUser() {
-		return user;
+	public TopicUser getUserStats() {
+		return userStats;
 	}
 
-	public void setUser(TopicUser user) {
-		this.user = user;
+	public void setUserStats(TopicUser userStats) {
+		this.userStats = userStats;
 	}
 
 	public Topic getPrevious() {

@@ -47,14 +47,14 @@
 						<div class="list-group-item list-card-item mb-3 border"
 							th:each="topic : ${element.value}"
 							th:onclick="|location.href='/topic/' + ${topic.id}|"
-							th:classappend="${topic.user.finished} ? 'border-success' : 'border-secondary'">
+							th:classappend="${topic.userStats.finished} ? 'border-success' : 'border-secondary'">
 							<div class="d-flex w-100 justify-content-between">
 								<div class="d-flex align-items-center">
 									<h5 class="mb-1 fw-bolder" th:text="${topic.name}">Topic Name</h5>
 								</div>
 
 								<i class="fa fa-check-circle fa-2x green" aria-hidden="true"
-									th:classappend="${!topic.user.finished}? 'd-none'"></i>
+									th:classappend="${!topic.userStats.finished}? 'd-none'"></i>
 							</div>
 
 							<p class="mb-1 truncate" th:text="${topic.description}">Some placeholder content in

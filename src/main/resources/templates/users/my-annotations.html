@@ -30,14 +30,14 @@
 								<div class="topic list-group-item list-card-item mb-3 border border-1 rounded"
 									th:each="topic : ${element.value}"
 									th:data-id="${topic.id}"
-									th:classappend="${topic.user.finished} ? 'border-success' : 'border-secondary'">
+									th:classappend="${topic.userStats.finished} ? 'border-success' : 'border-secondary'">
 									<div class="d-flex w-100 justify-content-between">
 										<div class="d-flex align-items-center">
 											<h6 class="mb-1 fw-bolder" th:text="${topic.name}">Topic Name</h6>
 										</div>
 
 										<i class="fa fa-check-circle fa-lg green" aria-hidden="true"
-											th:classappend="${!topic.user.finished}? 'd-none'"></i>
+											th:classappend="${!topic.userStats.finished}? 'd-none'"></i>
 									</div>
 								</div>
 							</th:block>
@@ -134,7 +134,7 @@
 			$('#topicName').text(topic.name);
 			$('#showTopicButton').prop('href', window.location.origin + `/topic/${topic.id}`);
 			annotationEditor.setContents([]);
-			annotationEditor.clipboard.dangerouslyPasteHTML(0, topic.user.annotation);
+			annotationEditor.clipboard.dangerouslyPasteHTML(0, topic.userStats.annotation);
 			annotationEditor.blur();
 		}
 
@@ -149,7 +149,7 @@
 				contentType: 'text/plain'
 			}).done(function () {
 				const topic = topics.find(t => t.id == topicId);
-				topic.user.annotation = newAnnotation;
+				topic.userStats.annotation = newAnnotation;
 				$('#updateAnnotationButton').hide();
 			});
 		}
