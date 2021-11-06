@@ -21,15 +21,15 @@
 			<div class="col-md-4 my-3">
 				<div class="card">
 					<div class="card-body">
-						<h4 class="card-title text-center fw-bolder mb-4">Minhas anotações ([[${#lists.size(topics)}]])</h4>
+						<h4 class="card-title text-center fw-bolder mb-4">Minhas anotações ([[${#lists.size(topics)}]])
+						</h4>
 
 						<div class="list-group">
 							<th:block th:each="element : ${subjectTopicsMap}">
 								<h5 th:id="|subject-${element.key}|">[[${element.key}]]</h5>
 
 								<div class="topic list-group-item list-card-item mb-3 border border-1 rounded"
-									th:each="topic : ${element.value}"
-									th:data-id="${topic.id}"
+									th:each="topic : ${element.value}" th:data-id="${topic.id}"
 									th:classappend="${topic.userStats.finished} ? 'border-success' : 'border-secondary'">
 									<div class="d-flex w-100 justify-content-between">
 										<div class="d-flex align-items-center">
@@ -55,15 +55,28 @@
 						<span class="text-muted">Anotações sobre:</span>
 						<div class="d-flex justify-content-between align-items-center">
 							<h4 id="topicName" class="card-title fw-bold">Anotações</h4>
-							<a id="showTopicButton" type="button" class="btn btn-outline-danger btn-sm mb-1" href="#">Acessar
+							<a id="showTopicButton" type="button" class="btn btn-outline-danger btn-sm mb-1"
+								href="#">Acessar
 								conteúdo</a>
 						</div>
 
 						<div id="annotationEditor" style="height: 300px;"></div>
-
-						<div class="d-grid mx-auto col-6">
-							<button id="updateAnnotationButton" type="button" class="btn btn-dark btn-sm fw-bold text-center mt-3"
-								style="display: none;">ATUALIZAR</button>
+						
+						<div class="row">
+							<div class="col-md-7">
+								<div class="d-flex justify-content-end">
+									<button id="updateAnnotationButton" type="button"
+										class="btn btn-dark btn-lg btn-sm fw-bold mt-3"
+										style="display: none;"><i class="bi bi-pencil"></i> Atualizar</button>
+								</div>
+							</div>
+							<div class="col-md-5">
+								<div class="d-flex justify-content-end">
+									<button id="deleteAnnotationButton" type="button" class="btn btn-danger btn-sm mt-3">
+										<i class="bi bi-trash"></i>
+									</button>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -75,7 +88,7 @@
 	</div>
 
 	<script type="text/javascript" th:src="@{/js/quill-utils.js}"></script>
-	
+
 	<script type="text/javascript" th:inline="javascript">
 		let annotationEditor = new Quill('#annotationEditor', EditorOptions.TOPIC);
 
@@ -132,7 +145,7 @@
 			$('#subjectName').text(topic.subject.name);
 			$('#topic').val(topic.id);
 			$('#topicName').text(topic.name);
-			$('#showTopicButton').prop('href', window.location.origin + `/topic/${topic.id}`);
+			$('#showTopicButton').prop('href', `/topic/${topic.id}`);
 			annotationEditor.setContents([]);
 			annotationEditor.clipboard.dangerouslyPasteHTML(0, topic.userStats.annotation);
 			annotationEditor.blur();
@@ -144,7 +157,7 @@
 
 			$.ajax({
 				method: 'POST',
-				url: window.location.origin + `/topic/${topicId}/annotation`,
+				url: `/topic/${topicId}/annotation`,
 				data: newAnnotation,
 				contentType: 'text/plain'
 			}).done(function () {
@@ -153,6 +166,22 @@
 				$('#updateAnnotationButton').hide();
 			});
 		}
+
+		$('#deleteAnnotationButton').click(function () {
+			const topicId = $('#topic').val();
+			
+			if (topicId == null || topicId === '') {
+				return;	
+			}
+			
+			$.ajax({
+				method: 'DELETE',
+				url: `/topic/${topicId}/annotation`
+			}).done(function () {
+				location.reload();
+			});
+		});
 	</script>
 </body>
+
 </html>

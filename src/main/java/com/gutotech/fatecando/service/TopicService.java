@@ -62,6 +62,10 @@ public class TopicService {
 	public void saveAnnotation(Topic topic, String annotation) {
 		restTemplate.put(URL + "/{id}/annotation", annotation, topic.getId());
 	}
+	
+	public void deleteAnnotation(Topic topic) {
+		restTemplate.delete(URL + "/{id}/annotation", topic.getId());
+	}
 
 	public void saveReview(Topic topic, Review review) {
 		restTemplate.put(URL + "/{id}/review", review, topic.getId());

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.apache.http.util.TextUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -115,7 +117,17 @@ public class TopicController {
 
 	@PostMapping("annotation")
 	public ResponseEntity<Void> saveAnnotation(Topic topic, @RequestBody String annotation) {
-		topicService.saveAnnotation(topic, annotation);
+		if (TextUtils.isBlank(annotation) || annotation.equals("<p><br></p>")) {
+			topicService.deleteAnnotation(topic);
+		} else {			
+			topicService.saveAnnotation(topic, annotation);
+		}
+		return ResponseEntity.noContent().build();
+	}
+	
+	@DeleteMapping("annotation")
+	public ResponseEntity<Void> deleteAnnotation(Topic topic) {
+		topicService.deleteAnnotation(topic);
 		return ResponseEntity.noContent().build();
 	}
 
