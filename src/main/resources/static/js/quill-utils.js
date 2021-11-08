@@ -150,10 +150,9 @@ const EditorOptions = {
 		modules: {
 			syntax: true,
 			toolbar: [
+				[{ 'header': 2 }, { 'header': 2 }], // custom button values
 				['bold', 'italic', 'underline'], // toggled buttons
-				[{ 'header': 1 }, { 'header': 2 }, { 'header': 2 }], // custom button values
 				[{ 'color': [] }, { 'background': [] }], // dropdown with defaults from theme
-				[{ 'align': '' }, { 'align': 'center' }, { 'align': 'right' }, { 'align': 'justify' }],
 				[{ 'script': 'sub' }, { 'script': 'super' }], // superscript/subscript
 				[{ 'list': 'ordered' }, { 'list': 'bullet' }],
 				[{ 'indent': '-1' }, { 'indent': '+1' }], // outdent/indent

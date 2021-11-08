@@ -4,17 +4,17 @@
 <meta charset="utf-8">
 </head>
 
-<footer class="mt-auto text-center py-3 mx-2" th:fragment="footer">
+<footer class="container-fluid mt-auto text-center py-3" th:fragment="footer">
 	<hr>
-	<div class="row justify-content-center">
-		<div class="col-md-6 text-center ms-5 mb-3">
+	<div>
+		<div class="text-center ms-5 mb-3">
 			<iframe src="https://ghbtns.com/github-btn.html?user=guto-alves&repo=fatecando-web&type=star&count=true&size=large" frameborder="0" scrolling="0" width="170" height="30" title="GitHub"></iframe>
 		</div>
-		<div class="col-md-6">
+		<div>
 			<a class="text-decoration-none" th:href="@{/}">
 				<img th:src="@{/images/icon.png}" width="45" height="32">
 			</a>
-			<small class="text-muted">© 2021 Fatecando, Inc.</small>
+			<small>© 2021 Fatecando, Inc.</small>
 		</div>
 	</div>
 </footer>
