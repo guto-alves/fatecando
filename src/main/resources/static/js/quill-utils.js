@@ -44,15 +44,12 @@ const EditorOptions = {
 		modules: {
 			syntax: true,
 			toolbar: [
-				[{ 'header': 2 }, { 'header': 3 }], // custom button values
-				[{ 'header': [1, 2, 3, false] }],
+				[{ 'header': [2, 3, false] }],
 				['bold', 'italic', 'underline', 'strike'], // toggled buttons
 				[{ 'color': [] }, { 'background': [] }], // dropdown with defaults from theme
-				[{ 'align': '' }, { 'align': 'center' }, { 'align': 'right' }, { 'align': 'justify' }],
 				[{ 'script': 'sub' }, { 'script': 'super' }], // superscript/subscript
 				[{ 'list': 'ordered' }, { 'list': 'bullet' }],
 				[{ 'indent': '-1' }, { 'indent': '+1' }], // outdent/indent
-				[{ 'direction': 'rtl' }], // text direction
 				['blockquote', 'code-block'],
 				['link', 'image', 'video', 'formula'],
 				['clean'] // remove formatting button
@@ -73,7 +70,6 @@ const EditorOptions = {
 		modules: {
 			syntax: true,
 			toolbar: [
-				[{ 'header': 2 }, { 'header': 3 }], // custom button values
 				['bold', 'italic', 'underline', 'strike'], // toggled buttons
 				[{ 'color': [] }, { 'background': [] }], // dropdown with defaults from theme
 				[{ 'script': 'sub' }, { 'script': 'super' }], // superscript/subscript
@@ -99,10 +95,9 @@ const EditorOptions = {
 			syntax: true,
 			toolbar: [
 				['bold', 'italic', 'underline', 'strike'], // toggled buttons
-				[{ 'header': 1 }, { 'header': 2 }], // custom button values
 				[{ 'color': [] }, { 'background': [] }], // dropdown with defaults from theme
 				[{ 'script': 'sub' }, { 'script': 'super' }], // superscript/subscript
-				['blockquote', 'code-block'],
+				['code-block'],
 				['link', 'image', 'video', 'formula'],
 				['clean'] // remove formatting button
 			],
@@ -124,9 +119,7 @@ const EditorOptions = {
 			syntax: true,
 			toolbar: [
 				['bold', 'italic', 'underline'], // toggled buttons
-				[{ 'header': 1 }, { 'header': 2 }], // custom button values
 				[{ 'color': [] }, { 'background': [] }], // dropdown with defaults from theme
-				[{ 'align': '' }, { 'align': 'center' }, { 'align': 'right' }, { 'align': 'justify' }],
 				[{ 'script': 'sub' }, { 'script': 'super' }], // superscript/subscript
 				[{ 'list': 'ordered' }, { 'list': 'bullet' }],
 				[{ 'indent': '-1' }, { 'indent': '+1' }], // outdent/indent
@@ -150,7 +143,6 @@ const EditorOptions = {
 		modules: {
 			syntax: true,
 			toolbar: [
-				[{ 'header': 2 }, { 'header': 2 }], // custom button values
 				['bold', 'italic', 'underline'], // toggled buttons
 				[{ 'color': [] }, { 'background': [] }], // dropdown with defaults from theme
 				[{ 'script': 'sub' }, { 'script': 'super' }], // superscript/subscript

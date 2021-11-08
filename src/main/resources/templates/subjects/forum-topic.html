@@ -23,7 +23,6 @@
 				<h4 class="card-title" th:text="${forumTopic.title}">Título</h4>
 
 				<span class="card-text">
-					<span class="text-muted">Criado</span>
 					<time class="timeago" th:datetime="${#dates.formatISO(forumTopic.creationDate)}"></time>
 				</span>
 				<hr>
@@ -37,7 +36,8 @@
 								<i class="bi bi-caret-up-fill" style="font-size: 16px;"></i>
 							</label>
 						</div>
-						<div id="vote-count" class="text-center fw-bold" th:text="${forumTopic.voteCount}">3</div>
+						<div id="vote-count" class="text-center fw-bold" title="Total de votos" 
+							th:text="${forumTopic.voteCount}">0</div>
 						<div class="btn-group" role="group" data-bs-toggle="tooltip" data-bs-placement="right"
 							title="Este post não mostra nenhum esforço de pesquisa; ele não é claro ou não é útil">
 							<input type="checkbox" class="btn-check" id="downvote-button" autocomplete="off"
@@ -56,9 +56,9 @@
 						th:href="@{/topic/{id}(id=${tag.id})}" th:text="${tag.name}"> </a>
 				</div>
 			</div>
-			<div class="card-footer">
+			<div class="card-footer bg-white">
 				<span class="text-muted">Criado por</span>
-				<span th:text="'' + ${forumTopic.user.fullName}">Gustavo Alves</span>
+				<a class="text-decoration-none link-dark" target="_blank" href="#" th:href="@{/users/{id}(id=${forumTopic.user.id})}" th:text="${forumTopic.user.fullName}">Gustavo Alves</a>
 
 				<span class="text-muted">em</span>
 				<span th:text="${#dates.format(forumTopic.creationDate, 'dd/MM/yyyy HH:mm')}"></span>
@@ -70,27 +70,38 @@
 			Respostas</h5>
 
 		<div class="card mb-3" th:each="comment : ${comments}"
-			th:classappend="${forumTopic.user.email != #authentication.name and comment.accepted} ? 'border-3 border-success'"
-			title="O autor da pergunta aceitou esta como a melhor resposta">
+			th:classappend="${forumTopic.user.email != #authentication.name and comment.accepted} ? 'border-3 border-success'">
+			<div class="card-header bg-white">
+				<a class="text-decoration-none link-dark" target="_blank" href="#" 
+					th:href="@{/users/{id}(id=${comment.user.id})}" th:text="${comment.user.fullName}">Gustavo Alves</a>
+				<br>
+				<small class="text-muted">
+					<time class="timeago" th:datetime="${#dates.formatISO(comment.creationDate)}"></time>
+				</small>
+			</div>
 			<div class="card-body">
-				<div class="d-flex p-2">
-					<div class="me-3 text-center ">
+				<div class="d-flex">
+					<div class="me-3 text-center">
 						<div class="upvote-comment-button btn-group" role="group" data-bs-toggle="tooltip"
-							data-bs-placement="right" title="Esta resposta é útil" th:data-id="${comment.id}">
+							data-bs-placement="right" title="Esta resposta é útil" th:data-id="${comment.id}"
+							th:if="${comment.user != currentUser}">
 							<input type="checkbox" class="btn-check" autocomplete="off" th:checked="${comment.me.upvoted}">
 							<label class="btn btn-outline-dark btn-sm">
 								<i class="bi bi-caret-up-fill fs-8"></i>
 							</label>
 						</div>
-						<div class="vote-count text-center fw-bold" th:text="${comment.voteCount}">3</div>
+						<div class="vote-count text-center fw-bold" title="Total de votos" th:text="${comment.voteCount}"
+							 th:classappend="${comment.user == currentUser} ? 'mt-2'">0</div>
 						<div class="downvote-comment-button btn-group" role="group" data-bs-toggle="tooltip"
-							data-bs-placement="right" title="Esta resposta não é útil" th:data-id="${comment.id}">
+							data-bs-placement="right" title="Esta resposta não é útil" th:data-id="${comment.id}"
+							th:if="${comment.user != currentUser}">
 							<input type="checkbox" class="btn-check" autocomplete="off" th:checked="${comment.me.downvoted}">
 							<label class="btn btn-outline-secondary btn-sm">
 								<i class="bi bi-caret-down-fill fs-8"></i>
 							</label>
 						</div>
-						<div class="btn-group d-block mt-3" role="group" aria-label="Basic checkbox toggle button group"
+						<div class="btn-group d-block mt-3" role="group" aria-label="Basic checkbox toggle button group" 
+							title="Marcar como resposta certa"
 							th:if="${forumTopic.user.email == #authentication.name}">
 							<input type="checkbox" class="btn-check accept-button" th:id="|comment-${comment.id}|"
 								autocomplete="off" th:checked="${comment.accepted}" th:data-id="${comment.id}">
@@ -103,14 +114,6 @@
 						<div class="comment-body" th:utext="${comment.bodyHtml}"></div>
 					</div>
 				</div>
-			</div>
-			<div class="card-footer d-flex justify-content-between">
-				<div>
-					<span class="text-muted">Respondido por</span>
-					<span th:text="'' + ${forumTopic.user.fullName}">Gustavo Alves</span>
-				</div>
-
-				<time class="timeago" th:datetime="${#dates.formatISO(comment.creationDate)}"></time>
 			</div>
 		</div>
 
@@ -141,8 +144,7 @@
 			new Quill(this, EditorOptions.READ_ONLY);
 		});
 
-		let commentBodyEditor = new Quill('#comment-body-editor',
-				EditorOptions.FORUM_TOPIC_COMMENT);
+		let commentBodyEditor = new Quill('#comment-body-editor', EditorOptions.FORUM_TOPIC_COMMENT);
 		$('#comment-form').submit(function(event) {
 			if (commentBodyEditor.root.innerText.trim() !== '') {
 				$('#comment-form #bodyHtml').val(

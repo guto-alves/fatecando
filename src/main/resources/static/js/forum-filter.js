@@ -29,7 +29,7 @@ $('#apply-filters').click(function() {
 								<h5 class="mb-1">${thread.title}</h5>
 								<time class="text-muted timeago" datetime="${thread.creationDate}"></time>
 							</div>
-							<div class="mb-1 truncate">${thread.bodyHtml}</div>
+							<div class="forum-thread-body mb-1 truncate">${thread.bodyHtml}</div>
 
 							<div class="d-flex justify-content-between align-items-center">
 								<div class="tags align-self-center">
@@ -42,6 +42,10 @@ $('#apply-filters').click(function() {
 					</div>
 				</div>
 			`);
+		});
+		
+		$('.forum-thread-body').each(function() {
+			$(this).html($(this).text());
 		});
 
 		$("time.timeago").timeago();
