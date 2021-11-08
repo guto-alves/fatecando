@@ -67,6 +67,10 @@
 				</div>
 			</div>
 		</div>
+		
+		<div id="meet" class="mt-4">
+			
+		</div>
 	</div>
 
 	<script type="text/javascript" th:src="@{/js/timeago/timeago.js}"></script>
@@ -74,7 +78,7 @@
 	<script src="/webjars/sockjs-client/sockjs.min.js"></script>
 	<script src="/webjars/stomp-websocket/stomp.min.js"></script>
 	<script type="text/javascript" th:src="@{/js/quill-utils.js}"></script>
-
+	<script src='https://meet.jit.si/external_api.js'></script>
 
 	<script type="text/javascript" th:inline="javascript">
 		const fatecandoApiUrl = /*[[${@environment.getProperty('fatecando.api.base-url')}]]*/null;
@@ -124,7 +128,7 @@
 				
 				selectedChat = chats.find(c => c.id === chatId);
 				
-				updateChat();
+				updateChatHeader();
 				
 				$.get('/messages/' + chatId, function (messages) {
 					updateMessages(messages);
@@ -173,10 +177,18 @@
 						pvt: true
 					};
 						
-					updateChat();
+					updateChatHeader();
 					
 					$.get('/messages/private/' + selectedUser.email, function (messages) {
 						updateMessages(messages);
+					});
+					
+					$.get('/messages/chat/private/' + selectedUser.email, function (chat) {
+						if (chat != '') {
+							selectedChat = chat;
+							selectedChat.name = selectedUser.fullName;
+							selectedChat.from = selectedUser;							
+						}
 					});
 				});
 			});
@@ -215,9 +227,48 @@
 			$(selectedDiv).addClass([ 'active', 'bg-dark' ]);
 		}
 		
-		function updateChat() {
+		function updateChatHeader() {
 			if (selectedChat.pvt) {
-				$('#to').html(`<a class="text-decoration-none link-dark" target="_blank" href="/users/${selectedChat.from?.id}"><i class="bi bi-person-circle"></i> ${selectedChat.name}</a>`);
+				$('#to').html(`
+					<div class="d-flex justify-content-between align-items-center">
+						<a class="text-decoration-none link-dark" target="_blank" href="/users/${selectedChat.from?.id}">
+							<i class="bi bi-person-circle"></i>  ${selectedChat.name}
+						</a>				
+						<div><button class="btn btn-sm btn-ligth" type="button" id="callButton" title="Entrar na chamada"><i class="bi bi-telephone"></i></button></div>
+					</div>
+				`);
+				
+				$('#callButton').click(function () {
+					if (selectedChat.id == null) {
+						alert('Nâo é possível entrar em uma chamada sem ter iniciado uma conversa com o usuário.');
+						return;
+					}
+					
+					$('#meet').empty();
+					
+					const roomName = selectedChat.id + selectedChat.creationDate.replaceAll('-', '').replaceAll(':', '');
+					const domain = 'meet.jit.si';
+					const options = {
+					    roomName: roomName,
+					    width: $(window).width() - 300,
+					    height: $(window).height() - 100,
+					    parentNode: document.querySelector('#meet'),
+					    userInfo: {
+					        email: /*[[${currentUser.email}]]*/null,
+					        displayName: /*[[${currentUser.fullName}]]*/null
+					    }
+					};
+					const api = new JitsiMeetExternalAPI(domain, options);			
+					sendMessage({
+						body : /*[[${currentUser.fullName + ' entrou na chamada!'}]]*/'',
+						to : {
+							email : selectedChat.from.email
+						},
+						chat: {
+							id: selectedChat.id
+						}
+					});
+				});
 			} else {
 				$('#to').text(selectedChat.name);
 			}

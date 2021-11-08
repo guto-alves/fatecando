@@ -182,7 +182,7 @@ const EditorOptions = {
 				[{ 'color': [] }, { 'background': [] }], // dropdown with defaults from theme
 				[{ 'script': 'sub' }, { 'script': 'super' }], // superscript/subscript
 				[{ 'list': 'ordered' }, { 'list': 'bullet' }],
-				['blockquote', 'code-block'],
+				['code-block'],
 				['link', 'image', 'video', 'formula'],
 				['emoji'],
 				['clean'] // remove formatting button

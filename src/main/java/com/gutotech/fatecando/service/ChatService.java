@@ -26,10 +26,14 @@ public class ChatService {
 		return restTemplate.getForObjects(URL, new ParameterizedTypeReference<List<Chat>>() {
 		});
 	}
+	
+	public Chat findPrivateChat(String email) {
+		return restTemplate.getForObject(URL + "/private/{email}", Chat.class, email);
+	}
 
 	public List<Message> findMessages(Long chatId) {
-		return restTemplate.getForObjects(URL + "/" + chatId, new ParameterizedTypeReference<List<Message>>() {
-		});
+		return restTemplate.getForObjects(URL + "/{chatId}/messages", new ParameterizedTypeReference<List<Message>>() {
+		}, chatId);
 	}
 
 	public List<Message> findPrivateMessages(String email) {

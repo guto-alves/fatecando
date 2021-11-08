@@ -46,9 +46,10 @@
 				sessionId = url;
 		
 				stompClient.subscribe('/secured/user/queue/specific-user-user' + sessionId, function(data) {
-					$('#userOptionsButton').append(`<span class="position-absolute top-0 start-100 translate-middle p-2 bg-dark border border-light rounded-circle">
-												   	 	<span class="visually-hidden">New alerts</span>
-												  	</span>`);
+					$('#userOptionsButton')
+						.append(`<span class="position-absolute top-0 start-100 translate-middle p-2 bg-dark border border-light rounded-circle">
+							   	 	<span class="visually-hidden">New alerts</span>
+							  	</span>`);
   					$('#messagesDropdownItem').text('Mensagens');
 					$('#messagesDropdownItem').append(`<span class="ms-2 badge bg-dark">1</span>`);
 					

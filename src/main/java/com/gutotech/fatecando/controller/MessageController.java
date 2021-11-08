@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.gutotech.fatecando.model.Chat;
 import com.gutotech.fatecando.model.Message;
 import com.gutotech.fatecando.service.ChatService;
 
@@ -39,4 +40,9 @@ public class MessageController {
 		return chatService.findPrivateMessages(anotherUserEmail);
 	}
 
+	@ResponseBody
+	@GetMapping("chat/private/{email}")
+	public Chat getPrivateChat(@PathVariable String email) {
+		return chatService.findPrivateChat(email);
+	}
 }
