@@ -37,6 +37,13 @@
 
 					<h2 class="card-title text-center fw-bolder" th:text="${topic.name}">Topic Name</h2>
 					<p th:text="${topic.description}"></p>
+					
+					<div class="d-flex align-items-center" th:if="${topic.stars}">
+						<small class="fw-bold text-warning" th:text="${topic.stars}">5</small>
+						<div class="star-rating mx-1" data-rating-stars="5" data-rating-readonly="true" 
+							th:data-rating-value="${topic.stars}" data-rating-half="true"></div>
+						<small th:text="|(${topic.totalReviews} ${topic.totalReviews > 1 ? 'avaliações' : 'avaliação'})|"></small>
+					</div>
 
 					<div class="d-flex justify-content-end mt-3">
 						<input type="checkbox" class="btn-check" id="open-sidebar" autocomplete="off">

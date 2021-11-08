@@ -87,7 +87,7 @@
 						<p class="card-text truncate" th:text="${subject.description}">This is a wider card with
 							supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
 						<div class="d-flex justify-content-end ">
-							<p class="mb-0 pb-0 text-secondary" th:text="'Semestre '+ ${subject.semester}">Semestre: x</p>
+							<p class="mb-0 pb-0 text-secondary" th:text="${subject.semester} + 'º semestre '">Semestre: x</p>
 							<span class="ms-3 text-primary">
 								<i class="fa fa-thumbs-o-up" th:text="' ' + ${subject.likes}"> 0</i>
 							</span>
