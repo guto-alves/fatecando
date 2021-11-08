@@ -75,7 +75,7 @@ public class UserService {
 		return restTemplate //
 				.postForObject(URL + "/login?email={email}&password={password}", null, User.class, email, password);
 	}
-	
+
 	public void updatePassword(PasswordForm passwordForm) {
 		restTemplate.put(URL + "/password", passwordForm);
 	}
@@ -92,10 +92,14 @@ public class UserService {
 
 		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
 
-		OAuth2AccessToken result = new RestTemplate().postForObject(URL.split("/api")[0] + "/oauth/token", request,
-				OAuth2AccessToken.class);
+		try {
+			OAuth2AccessToken result = new RestTemplate().postForObject(URL.split("/api")[0] + "/oauth/token", request,
+					OAuth2AccessToken.class);
+			return result.getAccess_token();
+		} catch (Exception e) {
+		}
 
-		return result.getAccess_token();
+		return null;
 	}
 
 	public List<Role> getUserRoles(String token) {
@@ -119,7 +123,7 @@ public class UserService {
 		List<GrantedAuthority> updatedAuthorities = new ArrayList<>(auth.getAuthorities());
 		updatedAuthorities.clear();
 		updatedAuthorities.addAll(getUserRoles(auth.getCredentials().toString()));
-		
+
 		Authentication newAuth = new UsernamePasswordAuthenticationToken(auth.getPrincipal(), auth.getCredentials(),
 				updatedAuthorities);
 
@@ -145,7 +149,7 @@ public class UserService {
 		return restTemplate.getForObjects(URL + "/me/questions", new ParameterizedTypeReference<List<Question>>() {
 		});
 	}
-	
+
 	public List<Ticket> findMyTickets() {
 		return restTemplate.getForObjects(URL + "/me/tickets", new ParameterizedTypeReference<List<Ticket>>() {
 		});

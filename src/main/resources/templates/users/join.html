@@ -46,9 +46,15 @@
 
 <body>
 	<header th:replace="~{fragments/header :: header}"></header>
+	
+	<div class="container mt-4" th:if="${successMessage}">	
+		<div class="alert alert-success alert-dismissible fade show" role="alert">
+		  	[[${successMessage}]]
+		  	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	</div>
 
 	<div class="container mt-5 bg-danger p-3">
-
 		<div class="row">
 			<div class="col-12 col-md-7">
 
@@ -58,10 +64,11 @@
 						<div class="login-form">
 							<form id="formLogin" action="#" th:action="@{/perform_login}" method="post">
 								<h2>LOGAR</h2>
-								<div class="alert alert-danger" role="alert" th:if="${param.error}">
+								<div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${param.error}">
 									E-mail ou senha inválidos.
 									<br>
 									Por favor, verifique os dados e tente novamente.
+									<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 								</div>
 
 								<div class="row">
@@ -75,7 +82,7 @@
 									</div>
 
 									<div class="col-12 col-md-6 my-3">
-										<a href="" class="text-danger">Esqueceu a senha?</a>
+										<a href="#" class="text-danger">Esqueceu a senha?</a>
 									</div>
 								</div>
 
@@ -97,7 +104,7 @@
 								<div class="row">
 									<div class="col-12 my-2 input-group input-group-lg">
 										<input type="text" th:field="*{fullName}" placeholder="Nome Completo"
-											class="form-control w-100" maxlength="40"
+											class="form-control w-100" minlength="2" maxlength="40"
 											pattern="[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$" required>
 									</div>
 									<div class="col-12 my-2 input-group input-group-lg">
@@ -120,7 +127,6 @@
 								</div>
 							</form>
 						</div>
-
 					</div>
 				</div>
 
@@ -166,14 +172,14 @@
 				$('.login-message').addClass("d-none");
 				$('.register-form').removeClass("d-none");
 				$('.register-message').removeClass("d-none");
-			})
+			});
 
 			$('.btn-enter').on('click', function () {
 				$('.register-form').addClass("d-none");
 				$('.register-message').addClass("d-none");
 				$('.login-form').removeClass("d-none");
 				$('.login-message').removeClass("d-none");
-			})
+			});
 
 			if (location.search.indexOf('register') > -1) {
 				$('.btn-register').click();

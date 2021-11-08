@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -19,11 +20,11 @@ public class User {
 	@NotBlank(message = "Por favor preencha seu nome completo.")
 	@Size(min = 2, max = 40, message = "O tamanho mínino de caracteres é 2.")
 	private String fullName;
-	
+
 	@Size(max = 100, message = "O tamanho máximo de caracteres é 255.")
 	private String description;
 
-	@NotBlank(message = "Por favor digite uma email válido.")
+	@Email(message = "Por favor digite uma email válido.")
 	private String email;
 
 	private String password;
@@ -35,7 +36,7 @@ public class User {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
 	private Date birthDate;
-	
+
 	private UserActivity userActivity;
 
 	private Date creationDate;
@@ -45,11 +46,11 @@ public class User {
 	private List<Role> roles = new ArrayList<>();
 
 	private long score;
-	
+
 	private boolean teacher;
-	
+
 	private boolean authorizedTeacher;
-	
+
 	private List<Subject> subjects = new ArrayList<>();
 
 	public User() {
@@ -70,11 +71,11 @@ public class User {
 	public void setFullName(String fullName) {
 		this.fullName = StringUtils.trimWhitespace(fullName);
 	}
-	
+
 	public String getDescription() {
 		return description;
 	}
-	
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
@@ -118,23 +119,23 @@ public class User {
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
 	}
-	
+
 	public boolean isTeacher() {
 		return teacher;
 	}
-	
+
 	public boolean getTeacher() {
 		return teacher;
 	}
-	
+
 	public void setTeacher(boolean isTeacher) {
 		this.teacher = isTeacher;
 	}
-	
+
 	public boolean isAuthorizedTeacher() {
 		return authorizedTeacher;
 	}
-	
+
 	public void setAuthorizedTeacher(boolean authorizedTeacher) {
 		this.authorizedTeacher = authorizedTeacher;
 	}
@@ -178,11 +179,11 @@ public class User {
 	public void setScore(long score) {
 		this.score = score;
 	}
-	
+
 	public List<Subject> getSubjects() {
 		return subjects;
 	}
-	
+
 	public void setSubjects(List<Subject> subjects) {
 		this.subjects = subjects;
 	}
