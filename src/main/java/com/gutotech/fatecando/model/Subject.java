@@ -29,7 +29,7 @@ public class Subject {
 	@Min(1)
 	@Max(12)
 	private int semester;
-	
+
 	private boolean enabled;
 
 	private long likes;
@@ -39,6 +39,8 @@ public class Subject {
 	private List<ForumThread> forum = new ArrayList<>();
 
 	private UserStats userStats;
+
+	private List<User> teachers = new ArrayList<>();
 
 	public Subject() {
 	}
@@ -98,11 +100,11 @@ public class Subject {
 	public void setSemester(int semester) {
 		this.semester = semester;
 	}
-	
+
 	public boolean isEnabled() {
 		return enabled;
 	}
-	
+
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
@@ -129,6 +131,14 @@ public class Subject {
 
 	public void setUserStats(UserStats userStats) {
 		this.userStats = userStats;
+	}
+
+	public List<User> getTeachers() {
+		return teachers;
+	}
+
+	public void setTeachers(List<User> teachers) {
+		this.teachers = teachers;
 	}
 
 	@Override
