@@ -1,5 +1,6 @@
 package com.gutotech.fatecando.controller;
 
+import java.util.Calendar;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -63,7 +64,12 @@ public class UserController {
 
 	@ModelAttribute("user")
 	public User getUser() {
-		return userService.findCurrentUser();
+		User user = userService.findCurrentUser();
+		Calendar calendar = Calendar.getInstance(); 
+		calendar.setTime(user.getBirthDate()); 
+		calendar.add(Calendar.DATE, 1);
+		user.setBirthDate(calendar.getTime());
+		return user;
 	}
 
 	@GetMapping("{id}")
