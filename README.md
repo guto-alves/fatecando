@@ -10,7 +10,7 @@ Fatecando is a [Spring Boot](https://spring.io/guides/gs/spring-boot) applicatio
 
 ```
 git clone https://github.com/guto-alves/fatecando-web.git
-cd everyone
+cd fatecando-web
 ./mvnw package
 java -jar target/*.jar
 ```
@@ -22,6 +22,9 @@ Or you can run it from Maven directly using the Spring Boot Maven plugin. If you
 ```
 ./mvnw spring-boot:run
 ```
+
+## In case you find a bug/suggested improvement for Fatecando
+Our issue tracker is available here: https://github.com/guto-alves/fatecando-web/issues
 
 ## Working with Fatecando in your IDE
 
