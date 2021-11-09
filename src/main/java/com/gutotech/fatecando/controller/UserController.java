@@ -147,6 +147,7 @@ public class UserController {
 
 		model.addAttribute("topic", topic);
 		model.addAttribute("subjects", subjectService.findAll());
+		model.addAttribute("reviews", topicService.findReviews(topic));
 		return "users/topic-edit";
 	}
 

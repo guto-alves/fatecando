@@ -211,6 +211,7 @@
 	<script th:src="@{/js/rating.js}"></script>
 	<script type="text/javascript" th:src="@{/js/timeago/timeago.js}"></script>
 	<script type="text/javascript" th:src="@{/js/timeago/jquery.timeago.pt-br.js}"></script>
+	<script type="text/javascript" th:src="@{/js/topic-reviews.js}"></script>
 
 	<script type="text/javascript">
 		const editor = new Quill('#topic-body-editor', EditorOptions.TOPIC);
@@ -218,34 +219,6 @@
 		$('form').submit(function (event) {
 			$('#bodyHtml').val(editor.root.innerHTML);
 		});
-		
-		$("time.timeago").timeago();
-		
-		$('#searchReviewForm').submit(function () {
-			search();
-			event.preventDefault();
-		});
-		
-		$('#starsReviewsSelect').change(function () {
-			search();
-		});
-		
-		function search() {
-			let searchedText = $('#searchInput').val();
-			let selectedStars = $('#starsReviewsSelect option:selected').val();
-			
-			$('.review').each(function () {
-				$(this).hide();
-			});
-			
-			$('.review').each(function () {
-				const starsReview = $(this).find('.star-rating').first().data('rating-value');
-				if ((searchedText === '' || $(this).text().toUpperCase().indexOf(searchedText.toUpperCase())) > 0 && 
-						(selectedStars === '' || selectedStars == starsReview)) {
-					$(this).show();
-				}
-			});
-		}
 	</script>
 </body>
 

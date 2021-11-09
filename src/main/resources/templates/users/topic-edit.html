@@ -119,7 +119,7 @@
 					</div>
 
 					<div class="text-center mx-auto mt-5">
-						<button type="submit" class="btn btn-danger fw-bold mb-2">
+						<button type="submit" id="sendTopicButton" class="btn btn-danger fw-bold mb-2">
 							<i class="bi bi-pencil"></i> Enviar alterações
 						</button>
 						<br>
@@ -130,11 +130,55 @@
 				</form>
 			</div>
 		</div>
-
+		
+		<div class="container mt-5 me-5 pe-5" th:if="${not #lists.isEmpty(reviews)}">
+			<h4 class="fw-bold mb-3">Avaliações</h4>
+			<div class="row mb-3">
+				<div class="col-md-6">
+					<form id="searchReviewForm">
+						<div class="input-group mb-2">
+							<input type="text" id="searchInput" class="form-control" placeholder="Pesquisar avaliações"
+								aria-describedby="searchButton">
+							<button class="btn btn-dark" type="submit" id="searchButton">
+								<i class="bi bi-search"></i>
+							</button>
+						</div>
+					</form>				
+				</div>
+				<div class="col-md-6">
+					<select id="starsReviewsSelect" class="form-select" required>
+						<option value="">Todas as classificações</option>
+						<option value="5">Cinco estrelas</option>
+						<option value="4">Quatro estrelas</option>
+						<option value="3">Três estrelas</option>
+						<option value="2">Duas estrelas</option>
+						<option value="1">Uma estrela</option>
+					</select>
+				</div>
+			</div>
+			<div class="review" th:each="review : ${reviews}">
+				<div class="mb-2">
+					<a class="fw-bold link-dark" target="_blank" href="#" th:href="@{/users/{id}(id=${review.user.id})}"
+						th:text="${review.user.fullName}"></a>				
+				</div>
+				<div class="d-flex align-items-center mb-2">
+					<div class="star-rating me-2" data-rating-stars="5" data-rating-readonly="true"
+						th:data-rating-value="${review.stars}" data-rating-half="true"></div>	
+					<small class="text-muted">
+						<time class="timeago" th:datetime="${#dates.formatISO(review.date)}"></time>
+					</small>
+				</div>
+				<div th:text="${review.content}"></div>
+				<hr>
+			</div>
+		</div>
 	</div>
 
 	<script type="text/javascript" th:src="@{/js/quill-utils.js}"></script>
+	<script type="text/javascript" th:src="@{/js/timeago/timeago.js}"></script>
+	<script type="text/javascript" th:src="@{/js/timeago/jquery.timeago.pt-br.js}"></script>
 	<script th:src="@{/js/rating.js}"></script>
+	<script type="text/javascript" th:src="@{/js/topic-reviews.js}"></script>
 
 	<script type="text/javascript" th:inline="javascript">
 		(function () {
@@ -148,7 +192,7 @@
 				});
 			} else {
 				new Quill('#topic-body-editor', EditorOptions.READ_ONLY);
-				$('button[type="submit"]').closest('div').remove();
+				$('#sendTopicButton').remove();
 			}
 		})();
 	</script>
