@@ -39,6 +39,7 @@ public class TopicAdminController {
 		Topic topic = topicService.findById(id);
 		model.addAttribute("topic", topic);
 		model.addAttribute("subjects", subjectService.findAll());
+		model.addAttribute("reviews", topicService.findReviews(topic));
 		return "admin/topic-edit";
 	}
 

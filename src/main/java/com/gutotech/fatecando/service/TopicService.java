@@ -70,6 +70,11 @@ public class TopicService {
 	public void saveReview(Topic topic, Review review) {
 		restTemplate.put(URL + "/{id}/review", review, topic.getId());
 	}
+	
+	public List<Review> findReviews(Topic topic) {
+		return restTemplate.getForObjects(URL + "/{id}/reviews", new ParameterizedTypeReference<List<Review>>() {
+		}, topic.getId());
+	}
 
 	public void dragTopic(Long draggedTopicId, Long relatedTopicId) {
 		restTemplate.put(URL + "/drag/{draggedTopicId}/{relatedTopicId}", null, draggedTopicId, relatedTopicId);

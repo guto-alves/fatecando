@@ -35,15 +35,18 @@
 						<input type="text" id="name" class="form-control" placeholder="Nome do Tópico"
 							th:field="*{name}">
 
-						<span class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Nome inválido</span>
+						<span class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Nome
+							inválido</span>
 					</div>
 
 					<div class="mb-3">
 						<label class="form-label fw-bold" for="description">Descrição</label>
 
-						<textarea id="description" class="form-control" th:field="*{description}" rows="3" maxlength="1000"></textarea>
+						<textarea id="description" class="form-control" th:field="*{description}" rows="3"
+							maxlength="1000"></textarea>
 
-						<span class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Descrição
+						<span class="text-danger" th:if="${#fields.hasErrors('description')}"
+							th:errors="*{description}">Descrição
 							inválida</span>
 					</div>
 
@@ -54,12 +57,13 @@
 
 						<input type="hidden" th:field="*{bodyHtml}">
 
-						<span class="text-danger" th:if="${#fields.hasErrors('bodyHtml')}" th:errors="*{bodyHtml}">Conteúdo
+						<span class="text-danger" th:if="${#fields.hasErrors('bodyHtml')}"
+							th:errors="*{bodyHtml}">Conteúdo
 							inválido</span>
 					</div>
-					
+
 					<div class="mb-3 d-flex justify-content-end">
-						<a class="btn btn-outline-primary btn-sm" target="_blank" href="#" 
+						<a class="btn btn-outline-primary btn-sm" target="_blank" href="#"
 							th:href="@{/admin/questions(topic=${topic.id})}">
 							Ver questões deste tópico <i class="bi bi-caret-right-fill"></i>
 						</a>
@@ -90,7 +94,8 @@
 						<select class="form-select" id="status" name="status">
 							<option th:each="status : ${T(com.gutotech.fatecando.model.UploadStatus).values()}"
 								th:unless="${status == T(com.gutotech.fatecando.model.UploadStatus).EDITED and status != topic.status}"
-								th:value="${status}" th:text="${status.displayName}" th:selected="${status == topic.status}"></option>
+								th:value="${status}" th:text="${status.displayName}"
+								th:selected="${status == topic.status}"></option>
 						</select>
 					</div>
 
@@ -122,7 +127,8 @@
 									<h6 class="card-title fw-bold">Informações Extras</h6>
 									<hr>
 									<span class="fw-bold">Data do envio:</span>
-									<span th:text="${#dates.format(topic.creationDate, 'dd/MM/yyy às HH:mm:ss')}"></span>
+									<span
+										th:text="${#dates.format(topic.creationDate, 'dd/MM/yyy às HH:mm:ss')}"></span>
 									<br>
 									<span class="fw-bold">Data de atualização:</span>
 									<span th:text="${#dates.format(topic.updateDate, 'dd/MM/yyyy às HH:mm:ss')}"></span>
@@ -131,8 +137,9 @@
 										<span class="fw-bold me-1">Reviews:</span>
 										<div class="d-flex justify-content-start" th:if="${topic.stars}">
 											<span class="fw-bold text-warning" th:text="${topic.stars}">5</span>
-											<div class="star-rating mx-1" data-rating-stars="5" data-rating-readonly="true" 
-												th:data-rating-value="${topic.stars}" data-rating-half="true"></div>
+											<div class="star-rating mx-1" data-rating-stars="5"
+												data-rating-readonly="true" th:data-rating-value="${topic.stars}"
+												data-rating-half="true"></div>
 											<span class="text-muted" th:text="|(${topic.totalReviews})|"></span>
 										</div>
 										<span th:if="${topic.stars <= 0}">
@@ -156,10 +163,54 @@
 				</form>
 			</div>
 		</div>
+
+		<div class="container mt-5 me-5 pe-5">
+			<h4 class="fw-bold mb-3">Avaliações</h4>
+			<div class="row mb-3">
+				<div class="col-md-6">
+					<form id="searchReviewForm">
+						<div class="input-group mb-2">
+							<input type="text" id="searchInput" class="form-control" placeholder="Pesquisar avaliações"
+								aria-describedby="searchButton">
+							<button class="btn btn-dark" type="submit" id="searchButton">
+								<i class="bi bi-search"></i>
+							</button>
+						</div>
+					</form>				
+				</div>
+				<div class="col-md-6">
+					<select id="starsReviewsSelect" class="form-select" required>
+						<option value="">Todas as classificações</option>
+						<option value="5">Cinco estrelas</option>
+						<option value="4">Quatro estrelas</option>
+						<option value="3">Três estrelas</option>
+						<option value="2">Duas estrelas</option>
+						<option value="1">Uma estrela</option>
+					</select>
+				</div>
+			</div>
+			<div class="review" th:each="review : ${reviews}">
+				<div class="mb-2">
+					<a class="fw-bold link-dark" target="_blank" href="#" th:href="@{/users/{id}(id=${review.user.id})}"
+						th:text="${review.user.fullName}"></a>				
+				</div>
+				<div class="d-flex align-items-center mb-2">
+					<div class="star-rating me-2" data-rating-stars="5" data-rating-readonly="true"
+						th:data-rating-value="${review.stars}" data-rating-half="true"></div>	
+					<small class="text-muted">
+						<time class="timeago" th:datetime="${#dates.formatISO(review.date)}"></time>
+					</small>
+				</div>
+				<div th:text="${review.content}"></div>
+				<hr>
+			</div>
+		</div>
 	</div>
 
 	<script type="text/javascript" th:src="@{/js/quill-utils.js}"></script>
 	<script th:src="@{/js/rating.js}"></script>
+	<script type="text/javascript" th:src="@{/js/timeago/timeago.js}"></script>
+	<script type="text/javascript" th:src="@{/js/timeago/jquery.timeago.pt-br.js}"></script>
 
 	<script type="text/javascript">
 		const editor = new Quill('#topic-body-editor', EditorOptions.TOPIC);
@@ -167,6 +218,35 @@
 		$('form').submit(function (event) {
 			$('#bodyHtml').val(editor.root.innerHTML);
 		});
+		
+		$("time.timeago").timeago();
+		
+		$('#searchReviewForm').submit(function () {
+			search();
+			event.preventDefault();
+		});
+		
+		$('#starsReviewsSelect').change(function () {
+			search();
+		});
+		
+		function search() {
+			let searchedText = $('#searchInput').val();
+			let selectedStars = $('#starsReviewsSelect option:selected').val();
+			
+			$('.review').each(function () {
+				$(this).hide();
+			});
+			
+			$('.review').each(function () {
+				const starsReview = $(this).find('.star-rating').first().data('rating-value');
+				if ((searchedText === '' || $(this).text().toUpperCase().indexOf(searchedText.toUpperCase())) > 0 && 
+						(selectedStars === '' || selectedStars == starsReview)) {
+					$(this).show();
+				}
+			});
+		}
 	</script>
 </body>
+
 </html>
