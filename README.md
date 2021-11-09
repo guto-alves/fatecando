@@ -1,4 +1,4 @@
-# fatecando-web
+# Fatecando Application
 
 Warning: <b>client only</b>. Use REST API from back-end [fatecando-api](https://github.com/guto-alves/fatecando-api) project. You need to start the back-end server before starting the front-end application.
 
@@ -6,22 +6,13 @@ Warning: <b>client only</b>. Use REST API from back-end [fatecando-api](https://
 <img width="1042" alt="everyone-screenshot" src="https://user-images.githubusercontent.com/48946749/121783471-2a8e7480-cb85-11eb-9995-2afdd36d8291.png">
 
 ## Running Fatecando locally
-Fatecando is a [Spring Boot](https://spring.io/guides/gs/spring-boot) application built using [Maven](https://spring.io/guides/gs/maven/). You can build a jar file and run it from the command line:
-
+Fatecando is a [Spring Boot](https://spring.io/guides/gs/spring-boot) application built using [Maven](https://spring.io/guides/gs/maven/). You can run it from the command line:
 ```
 git clone https://github.com/guto-alves/fatecando-web.git
 cd fatecando-web
-./mvnw package
-java -jar target/*.jar
+mvn spring-boot:run -Dspring-boot.run.profiles=dev
 ```
-
-You can then access fatecando here: http://localhost:8080
-
-Or you can run it from Maven directly using the Spring Boot Maven plugin. If you do this it will pick up changes that you make in the project immediately (changes to Java source files require a compile as well - most people use an IDE for this):
-
-```
-./mvnw spring-boot:run
-```
+You can then access Fatecando here: http://localhost:8080
 
 ## In case you find a bug/suggested improvement for Fatecando
 Our issue tracker is available here: https://github.com/guto-alves/fatecando-web/issues
