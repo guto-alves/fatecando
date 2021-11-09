@@ -3,7 +3,7 @@
 Warning: <b>client only</b>. Use REST API from back-end [fatecando-api](https://github.com/guto-alves/fatecando-api) project. You need to start the back-end server before starting the front-end application.
 
 ## Screenshot
-<img width="1042" alt="everyone-screenshot" src="https://user-images.githubusercontent.com/48946749/121783471-2a8e7480-cb85-11eb-9995-2afdd36d8291.png">
+<img width="1042" alt="everyone-screenshot" src="https://user-images.githubusercontent.com/48946749/140944337-07f98804-6fc6-4671-8f2a-9673247f6dd8.png">
 
 ## Running Fatecando locally
 Fatecando is a [Spring Boot](https://spring.io/guides/gs/spring-boot) application built using [Maven](https://spring.io/guides/gs/maven/). You can run it from the command line:
