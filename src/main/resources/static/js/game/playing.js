@@ -23,7 +23,7 @@ function updateGame() {
 
 				round.question.alternatives.forEach(function(alternative) {
 					$('#alternatives').append(`
-						<div class="alternative mb-3">
+						<div class="alternative mb-2">
 							<div class="form-check">
 								<input class="form-check-input" type="radio" id="alternative${alternative.id}" name="alternative" value="${alternative.id}">
 								<label class="form-check-label" for="alternative${alternative.id}"><div class="alternativeGameEditor">${alternative.description}</div></label>

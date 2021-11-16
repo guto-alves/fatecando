@@ -43,7 +43,7 @@ function nextQuestion() {
 		const alternativeRadio = `
 			<div class="alternative mb-3">
 				<div class="form-check d-flex">
-					<input class="form-check-input me-3" type="radio" name="alternativeRadio" value="${alternative.id}">
+					<input class="form-check-input me-2" type="radio" name="alternativeRadio" value="${alternative.id}">
 					<label class="form-check-label align-self-center mt-1"><div class="alternativeQuizEditor">${alternative.description}</div></label>
 				</div
 			</div>		

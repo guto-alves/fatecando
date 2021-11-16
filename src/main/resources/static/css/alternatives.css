@@ -1,9 +1,19 @@
-.form-check-input {
+.alternative input {
 	width: 2em;
 	height: 2em;
 }
 
-.form-check-input:checked {
+.alternative input:checked {
+	background-color: green;
+	border-color: green;
+}
+
+.is-correct-alternative {
+	width: 2em;
+	height: 2em;
+}
+
+.is-correct-alternative:checked {
 	background-color: green;
 	border-color: green;
 }

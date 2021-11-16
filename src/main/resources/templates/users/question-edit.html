@@ -1,20 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org"
-	th:replace="~{fragments/layout :: base ('Question', ~{::body}, _, _, ~{::style})}">
+	th:replace="~{fragments/layout :: base ('Question', ~{::body}, ~{::link}, _, _)}">
 
 <head>
 	<meta charset="utf-8">
-	<style type="text/css">
-		.form-check-input {
-			width: 2em;
-			height: 2em;
-		}
-
-		.form-check-input:checked {
-			background-color: green;
-			border-color: green;
-		}
-	</style>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/alternatives.css}">
 </head>
 
 <body>

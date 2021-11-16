@@ -1,21 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org"
-	th:replace="~{fragments/layout :: base ('Question', ~{::body}, _, _, ~{::style})}">
+	th:replace="~{fragments/layout :: base ('Question', ~{::body}, ~{::link}, _, ~{::style})}">
 <head>
 <meta charset="utf-8">
+<link rel="stylesheet" type="text/css" th:href="@{/css/alternatives.css}">
+
 <style type="text/css">
 #editor-container {
 	height: 350px;
-}
-
-.form-check-input {
-	width: 2em;
-	height: 2em;
-}
-
-.form-check-input:checked {
-	background-color: green;
-	border-color: green;
 }
 </style>
 </head>
