@@ -27,6 +27,17 @@
 	
 	<script type="text/javascript" th:inline="javascript">
 		$("time.timeago").timeago();
+	
+		const notifications = /*[[${notifications}]]*/null;
+		for (let i = 0; i < notifications.length; i++) {
+			if (!notifications[i].read) {
+				$('#showNotificationsButton')
+					.append(`<span class="position-absolute top-0 start-100 translate-middle p-2 bg-dark border border-light rounded-circle">
+						   	 	<span class="visually-hidden">New alerts</span>
+						  	</span>`);;
+				break;
+			}
+		}
 		
 		function connect() {
 			const fatecandoApiUrl = /*[[${@environment.getProperty('fatecando.api.base-url')}]]*/null;

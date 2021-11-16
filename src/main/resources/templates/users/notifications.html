@@ -13,9 +13,12 @@
 			<a href="#" class="list-group-item list-group-item-action" th:each="notification : ${notifications}"
 				th:href="${notification.link}">
 				<div class="d-flex w-100 justify-content-between">
-					<h5 class="mb-1" th:text="${notification.text}">List group item heading</h5>
-					<small><input class="form-check-input me-1" type="checkbox" value="" th:value="${notification.id}"
-							th:checked="${notification.isRead}" aria-label="Marcar como lido"></small>
+					<h6 class="mb-1 fw-bold" th:text="${notification.text}">List group item heading</h6>
+					<small th:if="${not notification.isRead}">
+						<input type="radio" class="mark-notification-as-read-input form-check-input me-1" 
+							value="" th:value="${notification.id}" th:checked="${not notification.isRead}"
+							title="Marcar como lido">
+					</small>
 				</div>
 				<small>
 					<time class="text-muted timeago" th:datetime="${#dates.formatISO(notification.date)}">1 dia atrás</time>

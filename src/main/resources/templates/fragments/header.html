@@ -62,30 +62,32 @@
 					<div class="d-flex me-3" sec:authorize="isAuthenticated()">
 						<div class="dropdown me-3">
 							<button type="button" class="btn btn-outline-light dropdown-toggle"
-								data-bs-toggle="dropdown" aria-expanded="false">
+								id="showNotificationsButton" data-bs-toggle="dropdown" aria-expanded="false">
 								<i class="bi bi-bell-fill"></i>
 							</button>
 
 							<div class="dropdown-menu dropdown-menu-lg-end p-0" style="width: 300px;">
 								<div class="list-group">
 									<a href="#" class="list-group-item list-group-item-action"
-										th:each="notification : ${notifications}" th:href="'/' + ${notification.link}">
+										th:each="notification : ${notifications}" th:href="${notification.link}">
 										<div class="d-flex w-100 justify-content-between">
-											<h6 class="mb-1" th:text="${notification.text}">List group item heading</h6>
-											<small><input class="isread-notification-input form-check-input me-1" type="checkbox" value=""
-													th:value="${notification.id}" th:checked="${notification.isRead}"
-													aria-label="Marcar como lido"></small>
+											<small class="fw-bold mb-1" th:text="${notification.text}">List group item heading</small>
+											<small th:if="${not notification.isRead}">
+												<input type="radio" class="mark-notification-as-read-input form-check-input me-1" 
+													value="" th:value="${notification.id}" th:checked="${not notification.isRead}"
+													title="Marcar como lido">
+											</small>
 										</div>
 										<small>
 											<time class="text-muted timeago" th:datetime="${#dates.formatISO(notification.date)}">3 days ago</time>
 										</small>
 									</a>
 								</div>
-								<div class="container" th:if="${not #lists.isEmpty(notifications)}">
+								<div th:if="${not #lists.isEmpty(notifications)}">
 									<div class="dropdown-divider m-0"></div>
-									<div class="container">
+									<div class="container-fluid">
 										<div class="row">
-											<button type="button" id="readall-notifications-btn" class="btn-outline-dark btn-sm col-md-8">Marcar todas como lidas</button>
+											<button type="button" id="readallNotificationsButton" class="btn-outline-dark btn-sm col-md-8">Marcar todas como lidas</button>
 											<a href="#" th:href="@{/notifications}" class="btn btn-outline-dark btn-sm col-md-4">Ver todas</a>
 										</div>
 									</div>								
