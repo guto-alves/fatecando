@@ -65,10 +65,14 @@ public class UserController {
 	@ModelAttribute("user")
 	public User getUser() {
 		User user = userService.findCurrentUser();
-		Calendar calendar = Calendar.getInstance(); 
-		calendar.setTime(user.getBirthDate()); 
-		calendar.add(Calendar.DATE, 1);
-		user.setBirthDate(calendar.getTime());
+		
+		if (user.getBirthDate() != null) {
+			Calendar calendar = Calendar.getInstance(); 
+			calendar.setTime(user.getBirthDate()); 
+			calendar.add(Calendar.DATE, 1);
+			user.setBirthDate(calendar.getTime());
+		}
+		
 		return user;
 	}
 
