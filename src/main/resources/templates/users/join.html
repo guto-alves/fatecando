@@ -87,11 +87,14 @@
 								</div>
 
 								<div class="row justify-content-around">
-									<div class="col-12 my-2">
-										<button type="submit" class="btn btn-danger w-100">Entrar</button>
+									<div class="col-12 my-2 text-center">
+										<button type="submit" id="loginButton" class="btn btn-danger w-100">Entrar</button>
+										<div id="loginButtonSpinner" class="spinner-border text-danger" role="status" style="display: none;">
+										  <span class="visually-hidden">Loading...</span>
+										</div>
 									</div>
 									<div class="col-12 my-2">
-										<button type="button"
+										<button type="button" 
 											class="btn btn-secondary btn-register w-100 d-block d-md-none">Registrar-se</button>
 									</div>
 								</div>
@@ -117,8 +120,11 @@
 									</div>
 								</div>
 								<div class="row justify-content-around">
-									<div class="col-12 my-2">
-										<button type="submit" class="btn btn-danger w-100">Registrar-se</button>
+									<div class="col-12 my-2 text-center">
+										<button type="submit" id="registerButton" class="btn btn-danger w-100">Registrar-se</button>
+										<div id="registerButtonSpinner" class="spinner-border text-danger" role="status" style="display: none;">
+										  <span class="visually-hidden">Loading...</span>
+										</div>
 									</div>
 									<div class="col-12 my-2">
 										<button type="button"
@@ -219,6 +225,16 @@
 		$("#formLogin").validate();
 
 		$("#formRegister").validate();	
+		
+		$('#loginButton').click(function() {
+			$(this).hide();
+			$('#loginButtonSpinner').show();
+		});
+		
+		$('#registerButton').click(function() {
+			$(this).hide();
+			$('#registerButtonSpinner').show();
+		});
 	</script>
 </body>
 
