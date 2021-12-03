@@ -192,4 +192,15 @@ public class UserService {
 
 		return false;
 	}
+
+	public boolean isValidVerificationToken(String token) {
+		try {
+			new RestTemplate().exchange(URL + "/registration-confirm/" + token, HttpMethod.POST,
+					new HttpEntity<>(token, null), Void.class);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 }

@@ -1,0 +1,21 @@
+<html>
+<html xmlns:th="www.thymeleaf.org"
+	th:replace="~{fragments/layout :: base('Fatecando | Confirmação de Conta', ~{::body}, _, _, _)}">
+
+<head>
+<meta charset="utf-8">
+</head>
+<body>
+	<div
+		class="container col-md-6 mt-5 bg-danger text-center rounded text-white p-4">
+		<div class="d-flex justify-content-center mb-3">
+			<img class="me-3" th:src="@{/images/icon.png}" width="60" height="50">
+			<h2 class="fw-bold mt-1">Há um pequeno problema</h2>
+		</div>
+		
+		<hr>
+		<p>Este link de confirmação não é válido. Talvez você já tenha
+			usado?</p>
+	</div>
+</body>
+</html>

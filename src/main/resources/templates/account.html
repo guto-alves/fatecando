@@ -1,0 +1,37 @@
+<html>
+<html xmlns:th="www.thymeleaf.org"
+	th:replace="~{fragments/layout :: base('Fatecando | Confirmação de Conta', ~{::body}, _, _, _)}">
+
+<head>
+<meta charset="utf-8">
+</head>
+<body>
+	<div
+		class="container-fluid col-md-6 mt-5 bg-danger text-center text-white rounded p-3">
+
+		<div class="d-flex justify-content-center mb-3">
+			<img class="me-3" th:src="@{/images/icon.png}" width="60" height="50">
+			<h2 class="fw-bold mt-1">Quase lá …</h2>
+		</div>
+
+		<p>
+			Verifique seu e-mail (<strong>[[${email}]]</strong>) para confirmar
+			sua conta.
+		<p />
+
+		<hr>
+
+		<p>
+			Se <strong>[[${email}]]</strong> não for o seu endereço de e-mail,
+			<a class="link-primary" href="#" th:href="@{/join?register}">volte</a>
+			e insira o correto.
+		</p>
+
+		<p>Se você não receber nosso e-mail em 5 minutos, verifique sua
+			pasta de spam.</p>
+
+		<p>Às vezes demora um pouco mais, seja paciente! Verifique
+			novamente suas pastas de spam e lixo!</p>
+	</div>
+</body>
+</html>

@@ -40,9 +40,7 @@ public class SignupController {
 		}
 		userService.register(user);
 		redirectAttributes.addFlashAttribute("email", user.getEmail());
-		redirectAttributes.addFlashAttribute("successMessage",
-				"Sua conta foi criada com sucesso! Faça o login e comece seus estudos agora mesmo!");
-		return "redirect:/join";
+		return "redirect:/account";
 	}
 
 }
