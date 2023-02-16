@@ -9,7 +9,7 @@ git clone https://github.com/guto-alves/fatecando-web.git
 cd fatecando-web
 mvnw spring-boot:run -Dspring-boot.run.profiles=dev
 ```
-You can then access Fatecando here: http://localhost:8080
+You can then access Fatecando at http://localhost:8080
 
 <img width="1042" alt="everyone-screenshot" src="https://user-images.githubusercontent.com/48946749/140944337-07f98804-6fc6-4671-8f2a-9673247f6dd8.png">
 
